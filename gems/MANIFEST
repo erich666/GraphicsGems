@@ -1,0 +1,79 @@
+   File Name		Archive #	Description
+-----------------------------------------------------------
+ 2DClip                     1	2D Clipping: A Vector-Based Approach
+ 2DClip/Makefile            1	Makefile	
+ 2DClip/bio.c               2	Basic operations
+ 2DClip/box.h               1	BOX definition
+ 2DClip/clip.c              2	Clipping routines
+ 2DClip/cross.c             4	Intersection calculation	
+ 2DClip/line.h              1	Major definitions	
+ AALines                    1	Rendering Anti-Aliased Lines
+ AALines/00README           1	Information about AALines Gem
+ AALines/AALines.c          4	Code to render an anti-aliased line
+ AALines/AALines.h          1	Symbols & globals
+ AALines/AAMain.c           1	Calling routine
+ AALines/AATables.c         4	Initialization of tables and frame buffer
+ AALines/FastMatMul.c       5	Fast routines to multiply 4x4 matrices
+ AALines/LongConst.h        1	High-precision constants
+ AALines/Makefile           1	Makefile
+ AALines/utah.c             3	Interface to Utah Raster Toolkit
+ AALines/utah.h             1	Declarations for URT interface
+ AAPolyScan.c               4	Fast Anti_aliasing Polygon Scan Conversion	
+ Albers.c                   3	Albers Equal-Area Conic Map Projection
+ BinRec.c                   1	Recording Animation in Binary Order	
+ BoundSphere.c              3	An Efficient Bounding Sphere	
+ BoxSphere.c                2	Box-Sphere Intersection Checking
+ CircleRect.c               1	Fast Circle-Rectangle Intersection Checking
+ ConcaveScan.c              4	Concave Polygon Scan Conversion
+ DigitalLine.c              1	Digital Line Drawing
+ Dissolve.c                 3	A Digital "Dissolve" Effect
+ DoubleLine.c               3	Symmetric Double Step Line Algorithm
+ Errata.GraphicsGems        *   Known errata for _Graphics Gems_ book
+ FastJitter.c               1	Efficient Generation of Sampling Jitter
+ FitCurves.c                5	Automatically Fit Digitized Curves
+ FixedTrig.c                1	Fixed-Point Trig with CORDIC Iterations
+ Forms.c                    4	Forms, Vectors, and Transformations
+ Gems.TOC                       Table of Contents of all books in Gems series
+ GGVecLib.c                 5	2D and 3D Vector C Library	
+ GraphicsGems.h             3	Graphics Gems header file	
+ HSLtoRGB.c                 1	A Fast HSL-to-RGB Transform
+ Hash3D.c                   1	3D Grid Hashing Function
+ HypotApprox.c              1	A Fast Approximation to the Hypotenuse	
+ Interleave.c               4	Bit Interleaving for Quad- or Octrees
+ Label.c                    2	Nice Numbers for Graph Labels
+ LineEdge.c                 3	Fast Line-Edge Intersections on a Uniform Grid
+ MANIFEST                   1	This shipping list
+ Makefile                   2	Makefile for the whole shebang
+ MatrixInvert.c             3	Matrix Inversion	
+ MatrixOrtho.c              1	Matrix Orthogonalization
+ MatrixPost.c               2	Efficient Post-Concatenation of Trans. Matrices	
+ Median.c                   2	Median Finding on a 3x3 Grid
+ NearestPoint.c             5	Nearest-Point-On-Curve and Bezier Root-Finder
+ OrderDither.c              2	Ordered Dithering
+ PixelInteger.c             1	Proper Treatment of Pixels As Integers
+ PntOnLine.c                2	A Fast 2D Point-On-Line Test
+ PolyScan                   1	Convex Polygon Scan Conversion & Clipping
+ PolyScan/Makefile          1	Makefile
+ PolyScan/fancytest.c       2	Phong-shading a Texture mapping test
+ PolyScan/poly.c            2	Simple utilities for polygon data structure	
+ PolyScan/poly.h            2	Definitions for polygon package
+ PolyScan/poly_clip.c       3	Homogeneous 3D polygon clipper
+ PolyScan/poly_scan.c       3	Convex polygon point-sampled scan conversion
+ PolyScan/scantest.c        2	Gouraud shading and Z-buffer demo	
+ Quaternions.c              2	Using Quaternions for Coding 3D Transformations	
+ README                     1	General information
+ RGBTo4Bits.c               1	Mapping RGB Triples Onto Four Bits	
+ RayBox.c                   1	Fast Ray-Box Intersection
+ RayPolygon.c               1	An Efficient Ray-Polygon Intersection
+ Roots3And4.c               3	Cubic and Quartic Roots
+ SeedFill.c                 2	A Seed Fill Algorithm
+ SquareRoot.c               2	A High-Speed, Low-Precision Square Root
+ Sturm                      1	Using Sturm Sequences to Bracket Real Roots
+ Sturm/Makefile             1	Makefile
+ Sturm/main.c               2	Sample driver program
+ Sturm/solve.h              1	Useful constants and types
+ Sturm/sturm.c              4	Functions to build and evaluate Sturm sequence
+ Sturm/util.c               1	Root polishing and evaluating utilities
+ TransBox.c                 1	Transforming Axis-Aligned Bounding Boxes
+ TriPoints.c                2	Generating Random Points in Triangles
+ ViewTrans.c                1	3D Viewing and Rotation using Orthonormal Bases

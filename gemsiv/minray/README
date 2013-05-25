@@ -1,0 +1,19 @@
+C code from the article
+"A Minimal Ray Tracer"
+by Paul S. Heckbert, ph@cs.cmu.edu
+in "Graphics Gems IV", Academic Press, 1994
+
+files:
+    README		- this file
+    minray.c		- "readable" minimal ray tracer
+    minray.card.c	- minimal ray tracer for business card
+    ray.h		- header file for test scene
+    minray.ps		- John Hartman's postscript ray tracer
+			    (on UNIX, run "gs" or "lpr" on it)
+
+    minray.post		- messages posted to comp.graphics announcing contest
+			    and results.  Contains three shell archives of
+			    all the contest entries.
+
+Note that there may be some tricks used in this code that are not
+portable to your machine!

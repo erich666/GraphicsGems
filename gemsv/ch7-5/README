@@ -1,0 +1,53 @@
+	This program is an implementation of a fast polygon
+triangulation algorithm based on the paper "A simple and fast
+incremental randomized algorithm for computing trapezoidal
+decompositions and for triangulating polygons" by Raimund Seidel.
+
+	The input is specified as a list of points (x, y). If the
+polygon has n distinct vertices (the n+1 th vertex being the same as
+the 1st vertex), then the file should contain only the n distinct
+vertices in ANTI-CLOCKWISE order. Also, the polygon should be simple
+(i.e. non self-intersecting) with NO HOLES. A sample data file is
+included in the package (Notice the no point is repeated).
+
+	Triangulation should produce (n - 2) triangles as the output.
+(i.e. no additional vertices are introduced). The result is available
+in the array triangles[][3], where each of triangles[0] to
+triangles[n-3] contain the 3 vertices forming the triangle (the
+vertices are numbered 1..n accoring to the input). The vertices of
+each triangle are output in anti-clockwise order.
+	
+	Use gmake to create the executable. (There sould not be
+any compilation problem. If log2() is not defined in your math
+library, you will have to supply the definition)
+
+	
+USAGE:
+	triangulate <filename>
+
+Bibliography:
+
+(Seidel 1991) R. Seidel. A simple and fast incremental randomized
+algorithm for computing trapezoidal decompositions for triangulating
+polygons. Computational Geometry: Theory and applications,
+1(1991):51-64. 
+
+(Fournier et al. 84) A. Fournier and D.Y. Montuno, Triangulating
+simple polygons and equivalent problems, ACM Trans. on Graphics 3
+(1984) 153-174.
+
+Implementation report: Narkhede A. and Manocha D., Fast polygon
+ triangulation algorithm based on Seidel's Algorithm, UNC-CH, 1994.
+
+-------------------------------------------------------------------
+
+This code is in the public domain. Specifically, we give to the public
+domain all rights for future licensing of the source code, all resale
+rights, and all publishing rights.
+
+UNC-CH GIVES NO WARRANTY, EXPRESSED OR IMPLIED, FOR THE SOFTWARE
+AND/OR DOCUMENTATION PROVIDED, INCLUDING, WITHOUT LIMITATION, WARRANTY
+OF MERCHANTABILITY AND WARRANTY OF FITNESS FOR A PARTICULAR PURPOSE.
+
+
+				- Atul Narkhede (narkhede@cs.unc.edu)

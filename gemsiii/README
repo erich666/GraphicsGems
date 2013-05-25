@@ -1,0 +1,179 @@
+
+    C Code From Graphics Gems III, Academic Press, Inc.
+    ==================================================
+
+
+    This is a list of the files and directories containing the C code for Graphics Gems III.  
+    They are listed in order of their appearance in the book.  Beside each file name is the 
+    Gem number, author's name, and Gem title to help you find what you're looking for.  
+    Unfortunately, not all of the code listed in the appendix of the book is here (for various 
+    reasons).  The missing ones will be added as they turn up.  Changes will be listed at the
+    bottom of this file.
+
+
+
+    File or        	Gem
+    Directory      	Number   Author and Title of Gem
+    ---------      	------   -----------------------
+
+I. Image Processing
+
+    fastBitmap.c	I.1	Tomas Moller, "Fast Bitmap Stretching"	(doesn't compile)
+	comments: ANSI C
+
+    filter.c		I.2	Dale Schumacher, "General Filtered Image Rescaling"
+
+    bitmap.c		I.3	Dale Schumacher, "Optimization of Bitmap Scaling Operations"
+
+    rgbvary.c		I.4	Bragg, "A Simple Color Quantization Pre-processor"
+	comments: ANSI C
+
+    contour.c		I.6	Tim Feldman, "Generating Iso-Contours from a Pixmap"
+
+    scallops8.c		I.9	Eric Furman, "A Fast Boundary Generator for Composited Regions"
+
+II. Numerical & Programming Techniques
+
+    sqrt.c		II.1	Steve Hill, "IEEE Fast Square Root"
+
+    alloc/		II.2	Steve Hill, "A Simple Fast Memory Allocator"
+    alloc.c	
+    alloc.h
+
+    3d.c		II.3	Steven Hanson, "The Rolling Ball"	
+    defs.h
+
+    interval.C		II.4	Jon Rokne, "Interval Arithmetic"
+	comments: C++
+
+    cyclic.c		II.5	Alan Paeth, "Fast Generation of Cyclic Sequences"
+	comments: macros only, no procedures 
+
+    ndline.c		II.9	Badouel / Wuethrich, "Face Connected Line Segment Generation in an N-dimensional Space"
+
+III. Modeling and Transformations
+
+    quatspin.c		III.1	Jack Morrison, "Quaternion Interpolation with Extra Spin"
+
+    rand_rotation.c 	III.4	James Arvo, "Fast Random Rotation Matrices"
+	comments: ANSI C
+
+    urot.c		III.6	Ken Shoemake, "Uniform Random Rotations"
+	comments: ANSI C
+
+    bzinter.c 		III.7   Gershon Elber, "Interpolation using Bezier Curves"
+
+    sqfinal.c		III.8	Alan Barr, "Physically Based Superquadrics"
+
+IV. 2D Geometry and Algorithms
+
+    parelarc.c		IV.1	VanAken / Simar, "A Parametric Elliptical Arc Algorithm"
+
+    con2d.c		IV.2	Claudio Rosato, "A Simple Connection Algorithm for 2D Drawing"
+
+    circlexc.c		IV.3     Srinivasen, "A Fast Circle Clipping Algorithm"
+	comments: ANSI C
+
+    Polyintr.c		IV.4	Shaffer, "Exact Computation of Cascaded 2D Intersections"
+	comments: ANSI C
+
+    fillet.c		IV.5	Robert Miller, "Joining two Lines with a Circular Arc Fillet"
+
+    insectc.c		IV.6	Franklin Antonio, "Faster Line Segment Intersection"
+
+V. 3D Geometry and Algorithms
+
+    partition3d		V.2	Chin, "Partitioning a 3D Convex Polygon with an Arbitrary Plane"
+    main.c
+    partition.c
+    partition.h
+
+    pt2plane.c		V.3	Primos Georgiades, "Signed Distance from Point to Plane"
+	comments: ANSI C
+
+    planeSets.c		V.4	David Salesin, Filippo Tampieri,
+	"Grouping Nearly Coplanar Polygons into Coplanar Sets"
+
+    newell.c		V.5	Filippo Tampieri, "Newell's Method for Computing the Plane Equation of a Polygon"
+
+    pl2plane.c		V.6	Primos Georgiades, "Plane to Plane Intersection"
+	comments: ANSI C
+
+    trianglecube.c	V.7	Douglas Voorhies, "Triangle-cube Intersection"
+	comments: ANSI C
+
+    exttest/		V.8	Len Wanger, Mike Fusco, "Fast N-Dimensional Extent Overlap Testing"
+    exthit.C
+    exthit.h
+    ehtest1.C
+	comments: C++
+
+    simplex/		V.9	Moore, "Subdividing Simplices"
+    recur.C
+    symm.C
+	comments: C++
+	
+     bezierTri.C	V.11	Dani Lischinski, "Converting Bezier Triangles into Rectangular Patches"
+	comments: C++
+
+VI. Ray Tracing & Radiosity
+
+    bsp.c		VI.1	Sung, "Ray Tracing with the BSP Tree"
+
+    intqdr.c		VI.2	Joseph Cychosz, "Intersecting a Ray with a Quadric Surface"
+    intell.c
+
+    panorama.c		VI.4	Ken Musgrave, "A Panoramic Virtual Screen for Ray Tracing" (doesn't compile)
+
+    bounding_volumes.c	VI.5	Ben Trumbore, "Rectangular Bounding Volumes for Popular Primitives"
+
+    luminaire/		VI.7	Changyaw Wang, "Physically Correct Direct Lighting for Distribution Ray Tracing" 
+    geometry_object.C
+    geometry_object.h
+    sphere_luminaire.C
+    sphere_luminaire.h
+    triangle_luminaire.C
+    triangle_luminaire.h
+    utility.h
+    special_instruction
+	comments: C++
+
+    hemis.c		VI.8	Buming Bian, "Hemisphere Projection of a Triangle"
+
+    forfac.c		VI.10	Koehn / Pavicic, "Delta Form Factor Calculation for the Cubic Tetrahedral Algorithm"
+
+    accForm.c 		VI.11	Filippo Tampieri, "Accurate Form Factor Computation"
+
+VII. Rendering
+
+    zdepth.c		VII.1	Andrew Woo, "The Shadow Depth Map Revisited" 
+
+    fastLinear.c	VII.2	Russell Cheng, "Fast Linear Color Rendering"
+
+    edgeCalc.c		VII.3	Russell Cheng, "Edge and Bitmask Calculations for Anti-aliasing"
+
+    fastSpan.c		VII.4	Thom Grace, "Fast Span Conversion: unrolling short loops"
+	comments: ANSI C
+
+    PIR.c		VII.5	Steve Hollasch, "Progressive Image Refinement via Gridded Sampling"
+
+    accurate_scan/	VII.6	Kurt Fleischer
+	"Accurate Polygon scan Conversion using half-open Intervals" 	
+    makefile
+    dblfixpoint.c
+    exhaust.c
+    fixpoint.c
+    fixpoint.h
+    test.c
+    tri.c
+
+    motblur.c		VII.9	John Snyder, Ronen Barzel, "Motion Blur on Graphics Workstations"
+
+
+
+    Changes
+    -------------------------------------
+
+     5/26/93  Errata changes [by Eric Haines]
+     5/26/93  Added rgbvaryW.c, integer math version of rgbvary.c
+     8/25/93  Errata changes (SGN, ROUND, FLOOR, CEILING) [by Eric Haines]

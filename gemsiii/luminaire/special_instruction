@@ -1,0 +1,14 @@
+// ******************************************************************
+//
+// The following C++ code computes a sample point and its probability 
+// on the spherical or triangular luminaire according to the solid 
+// angle from the view point.  These are the center part of the direct 
+// lighting computation via Monte Carlo integration.
+//
+// The function hit() is assumed to exist. It returns the intersection 
+// point of a ray and a luminaire.
+//  
+// Use the command, CC -c *.C -lm, to compile (not link).  The code 
+// needs to be combined with a ray tracer to complete. 
+// ******************************************************************
+

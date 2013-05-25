@@ -1,0 +1,5 @@
+NOTE: These routines borrow the include files found in
+      ../ch7-7/mactbox/tool.h
+      ../ch7-7/mactbox/real.h
+      ../ch7-7/mactbox/vec2.h
+      ../ch7-7/mactbox/vec3.h

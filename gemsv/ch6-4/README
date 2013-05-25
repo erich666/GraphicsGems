@@ -1,0 +1,42 @@
+This directory contains the files necessary to vectorize a 2D shape.
+
+vectorize.C        /* main routine             */
+test.C             /* interface for the prog   */
+pt2D.h             /* a header                 */
+pt2D.C             /* a 2D point package       */
+chainCode.h        /* a header                 */
+chainCode.C        /* a chain code class       */
+Makefile           /* the makefile             */
+bitmap_1           /* a test file              */
+bitmap_2           /* another test file        */
+bitmap_3           /* a third test file        */
+
+The program is written in C++. I used gcc2.1 to compile it.
+To run the demo, simply type:
+
+>> make
+>> vectorize some_file
+
+
+
+You can view the bitmap files by typing:
+>> cat some_file
+
+since the files are encoded in text. The program will display the results
+and save them in '.vec' file. You can get more explanations by simply
+typing 'vectorize' without arguments. As you will notice, the file does not
+use GraphicsGems.m. This is because the programs needs 2D integer operations
+and GraphicsGems.m only provides 2D floating point operations through the
+Point2 type.
+
+Only the 5 files:
+vectorize.C
+pt2D.h
+pt2D.C
+chainCode.h
+chainCode.C
+
+are meant to make it for the book and the disk accompanying it.
+
+
+JFD.

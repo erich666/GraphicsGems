@@ -1,0 +1,587 @@
+Errata to _Graphics Gems_, first edition, edited by Andrew Glassner
+Academic Press 1990.  Code available online at http://www.graphicsgems.org/
+
+compiled by Eric Haines (erich@acm.org) from author and reader contributions
+
+version 1.32
+date:  9/11/2008
+
+-----
+
+Errors in the text:
+
+p. 3, bottom:  The equation "N . P + c = 0" is better expressed as
+    "N . P - c = 0" in order to match Figure 1a. [also see p. 9 errata]
+
+p. 5, V2 Perpendicular:  change "N <- (-Vx, Vy)" to "N <- (-Vy, Vx)"
+
+p. 5, V2 Reflect:  change "N <- (-Vy, -Vx)" to "N <- (-Vx, -Vy)"
+
+p. 6:  change P1 and P2 lines to
+    P1 <- (( -b+sqrt(d) ) / 2a) * lv + lu
+    P2 <- (( -b-sqrt(d) ) / 2a) * lv + lu
+    i.e. the value computed is multiplied by the direction vector and the
+    line's origin is added to this new vector to get the intersection point.
+
+p. 9-10, starting at bottom:  If the equation on p. 3 is expressed as
+    "N . P - c = 0", then change all "+ c" references to "- c" and "l-sub-c"
+    to "- l-sub-c".
+
+p. 10, for "if not l-normalized", the operation in the next line should divide
+    q by "( l-sub-n dot l-sub-n)", not "Length( l-sub-n )".
+
+p. 11, bottom: change the lower bound of the sum (sigma) from i=1 to i=0.
+
+p. 16, Product Relations. In the right hand parts of the equations the cosine
+    and sine functions should be applied only to the numerator, then the
+    division by 2 is done. Specifically:
+
+        sin(a)*sin(b) = cos(a-b)/2 - cos(a+b)/2
+        cos(a)*cos(b) = cos(a-b)/2 + cos(a+b)/2
+        sin(a)*cos(b) = sin(a+b)/2 + sin(a-b)/2
+
+p. 105, last sentence of first paragraph:  "ajacent" to "adjacent".
+
+p. 216, caption for figure 2:  "54" should read "45" to be consistent with
+    the figure (error in two places in caption).
+
+p. 224, the Bit Width 23 mask is listed as 0x00400000, it should be
+    0x00420000.
+
+p. 282, 5 and 7 lines from bottom:  should read
+    "then PUSH(dadRx + 1, rx, pushlx, pushrx, y-dir, -dir )"
+    and
+    "then PUSH(lx, dadLx-1, pushlx, pushrx, y-dir, -dir )"
+    i.e. the final "dir" should be "-dir".
+
+p. 283, 3 lines from bottom:  add an "end" above the "else begin".
+
+p. 284, 12 lines down:  move "x <- x + 1;" to after the next "end" statement
+    (move it down only one line).
+
+p. 299, bottom: P1 and P2 as shown are actually the distances along the line
+    from the line's origin (l.sub.U). Change the P1 and P2 lines to
+
+    t1 = (-b + sqrt(d)) / 2a
+    t2 = (-b - sqrt(d)) / 2a
+
+    P1 <- l.sub.U + t1 * l.sub.V
+    P2 <- l.sub.U + t2 * l.sub.V
+
+p. 365, last line:  "Kajia" to "Kajiya".
+
+p. 375, "revlect v" to "reflect v".
+
+p. 395, first paragraph:  change "discussed by Haines (1989)" to "discussed by
+    Haines in Glassner (1989)".
+
+p. 406, last equation: if q is negative, the same signs should be used for the
+    square root terms, i.e.
+
+        y^2 +- y sqrt(2z - p) + z +- sqrt(z^2 - r) = 0
+
+p. 427, equation: the y/x was flipped, and the x not multiplied through. The
+    right hand side should read:
+
+                x + 1/2 x [y/x]^2 - 1/8 x [y/x]^4 + O x [y/x]^6
+
+    [from Ben St. John, 8/11/2004]
+
+p. 448, last sentence of second paragraph:  change "and now nearly as simple"
+    to "and not nearly as simple".
+
+p. 463, second to last line:  change "then alpha <- alpha + pi/2" to "then
+    alpha <- pi - alpha".
+
+p. 479, Table 1: the number of Multiplies for rotation should be 16, not 12.
+
+p. 495, equation 5:  this should have an equal sign (=) before the
+    plus-or-minus (+/-).
+
+p. 499, middle of page:  change "and i,j,K" to "and i,j,k".
+
+p. 503, last sentence:  change "Let P' = Rot_(alpha, N) ..." to "Let P' =
+    Rot_(theta, N) ...".
+
+p. 516, last paragraph:  a reader notes an additional reference which
+    predates Berger and Salmon & Slater, namely "The Viewing Transformation,"
+    Technical Memo. no. 84, Alvy Ray Smith, Computer Graphics Project,
+    Lucasfilm, June 24, 1983 (rev. May 4, 1984).
+
+p. 602, second paragraph:  the matrix Tij should be:
+    [ 1  0  0  0  ]
+    [ 0 1/2 0  0  ]
+    [ 0  0 1/4 0  ]
+    [ 0  0  0 1/8 ]
+
+p. 610:  the binomial "( n-i [over] j )" should be "( n-1 [over] j )".  This
+    error appears on the fifth line of the long derivation and within the
+    Zi,j definition.
+
+p. 614:  the equation "Bi,n(t) = (1-t)Bi-1,n-1 + tBi-1,n-1(t)" should be
+    "Bi,n(t) = (1-t)Bi,n-1(t) + tBi-1,n-1(t)"; the first right-hand side
+    term had an incorrect subscript and was missing a "(t)".
+
+p. 809:  the author of "Approximation of Sweep Surfaces by Tensor Product
+    B-Splines" is M. (not J.) Bloomenthal.  The author is correctly
+    attributed in the text (page 569).
+
+p. 814: 5th line from bottom. "Knuth 1981" should read "Knuth 1981b" and
+    "Vol. 2" should read "Vol. 1".  The reference above this should be
+    "Knuth 1981a".
+
+p. 820, 9th line from bottom:  "D.P. Greenburg" should be "D.P. Greenberg".
+
+-----
+
+The following are errors in the code listings (corrected in the online code at
+http://www.graphicsgems.org/).
+
+Serious errors (ones your compiler cannot or may not catch):
+
+p. 630: Delete FLOOR and CEILING macros (they're more like truncations).
+    Change ROUND macro to (i.e. add parentheses around "a"):
+    #define ROUND(a)    ((a)>0 ? (int)((a)+0.5) : -(int)(0.5-(a)))
+    Change SGN macro to (i.e. change positive condition result to "1"):
+    #define SGN(a)        (((a)<0) ? -1 : 1)
+
+p. 632:  procedure declarations for routines in the "2D and 2D Vector C
+     Library" (next pages) are missing from "GraphicsGems.h", e.g.
+        
+        double V2SquaredLength() ;
+        double V2Length() ;
+        Vector2 *V2Negate() ;
+        ...
+
+p. 638, third line from bottom:  in V3Combine change last "result->y" to
+    "result->z"
+
+p. 640:  V3MulPointByMatrix() does not work.  A separate local Point3 (e.g.
+    "Point3 q ;") should be used in place of "p" for assignment and then
+    passed back.
+
+p. 649, top:  add "#include <math.h>"
+
+p. 655, top:  add the code:
+        if ((px == qx) && (py == qy))
+            if ((tx == px) && (ty == py)) return 2;
+            else return 0;
+    in order to test for the special case where the line endpoints are
+    the same.
+
+p. 656, line 23: change "return ((R->min.x * R->min.x) < Rad2);" to
+    "return ((R->min.x * R->min.x + R->max.y * R->max.y) < Rad2);"
+p. 656, line 25: change 
+    "return ((R->min.x * R->min.x + R->min.y + R->min.y) < Rad2);" to
+    "return ((R->min.x * R->min.x + R->min.y * R->min.y) < Rad2);"
+    (thanks to Ben Dawson)
+
+p. 662, line 10:  add "#include <math.h>"
+p. 665, line 1:  change "FLOOR(...)" to "(floor((double)(...))".
+
+p. 663, line 45:  change first "+" to "="; should read
+              "VnextLeft = (Vleft=VnextLeft) + 1;"
+
+p. 667, line 6:  change "POLY_NMAX 8" to "POLY_NMAX 10" (for triangles and
+    quadrilaterals).  Six clipping planes used on convex polygons gives
+    +6 potential extra vertices generated.
+
+p. 670-673, throughout:  change "int mask" declarations to "unsigned long
+    mask" declarations.  This avoids an infinite loop occuring when the
+    highest bit is set.
+
+p. 676, line 11:  add the line "up = (double *)u;"
+
+p. 671, line 1:  add at top of page the following test (or make sure the
+    Poly_vert structure has <= 32 doubles at compilation time):
+
+    if (sizeof(Poly_vert)/sizeof(double) > 32) {
+    fprintf(stderr, "Poly_vert structure too big; must be <=32 doubles\n");
+    exit(1);
+    }
+
+p. 687, line 8:  Identical points cause two points to be drawn.  Between the
+    first two plot() commands, add the line:
+
+    if ( pixels_left < 0 ) return ;
+
+p. 714, line 20:  the last "1" in "if (i + 1 < l * 1)" should be an "l"
+
+p. 716, line 27:  missing "/" at end of comment (if not fixed, code compiles
+          but is wrong)
+
+p. 720, lines 3 and 6 from bottom:  change "m+1>>1" to "(m+1)>>1" to establish
+          correct evaluation order.
+
+p. 737, lines 19-24, from "if ((quadrant..." to "}", should read (and note
+    corrected indentations on "else" statement):
+
+                        if (coord[i] < minB[i] || coord[i] > maxB[i])
+                                return (FALSE);
+                } else {
+                        coord[i] = candidatePlane[i];
+                }
+
+p. 742, lines 18-24 should read:
+
+            coeffs[ 0 ] = z - u;
+            coeffs[ 1 ] = q < 0 ? -v : v;
+            coeffs[ 2 ] = 1;
+
+            num = SolveQuadric(coeffs, s);
+
+            coeffs[ 0 ]= z + u;
+            coeffs[ 1 ] = q < 0 ? v : -v;
+            coeffs[ 2 ] = 1;
+
+        The sign of "q" affects the sign of coeffs[1].
+
+p. 744, line 6 reads:
+
+        double    coef[MAX_ORDER];
+
+    and should read:
+
+        double    coef[MAX_ORDER+1];
+
+    (thanks to Chaok Seok)
+
+p. 745, throughout:  delete references to "lx", which is set but not used
+
+p. 748, line 22:  change "negetive" to "negative"
+
+p. 753, line 35:  change "int n1, n2," to "int n1=0, n2=0," so that first
+    fprintf() error message has defined values
+
+p. 756, line 15:  "unsigned int *fi=&f;" to
+    "unsigned int *fi = (unsigned int *) &f;" for type
+    consistency, and some compilers think "=&" means "&="
+
+p. 766, top:  add '#include "GraphicsGems.h"' and '#include <math.h>'
+    line 25:  change "det = det4x4( out );" to "det = det4x4( in );"
+    throughout:  change "matrix4" to "Matrix4"
+
+p. 774, line 5:  change "theta," to "theta = 0,"
+
+pp. 793-794:
+    There seem to be errors in the ControlPolygonFlatEnough function in the
+    Graphics Gems book and the repository (NearestPoint.c). This function
+    is briefly described on p. 413 of the text, and appears on pages 793-794.
+    I see two main problems with it.
+
+    The idea is to find an upper bound for the error of approximating the x
+    intercept of the Bezier curve by the x intercept of the line through the
+    first and last control points. It is claimed on p. 413 that this error is
+    bounded by half of the difference between the intercepts of the bounding
+    box. I don't see why that should be true. The line joining the first and
+    last control points can be on one side of the bounding box, and the actual
+    curve can be near the opposite side, so the bound should be the difference
+    of the bounding box intercepts, not half of it.
+
+    Second, we come to the implementation. The values distance[i] computed in
+    the first loop are not actual distances, but squares of distances. I
+    realize that minimizing or maximizing the squares is equivalent to
+    minimizing or maximizing the distances.  But when the code claims that
+    one of the sides of the bounding box has equation
+    a * x + b * y + c + max_distance_above, where max_distance_above is one of
+    those squared distances, that makes no sense to me.
+
+    I have appended my version of the function. If you apply my code to the
+    cubic Bezier curve used to test NearestPoint.c,
+
+     static Point2 bezCurve[4] = {    /  A cubic Bezier curve    /
+        { 0.0, 0.0 },
+        { 1.0, 2.0 },
+        { 3.0, 3.0 },
+        { 4.0, 2.0 },
+        };
+
+    my code computes left_intercept = -3.0 and right_intercept = 0.0, which you
+    can verify by sketching a graph. The original code computes
+    left_intercept = 0.0 and right_intercept = 0.9. (from James Walker,
+    jw@jwwalker.com, 9/10/2008)
+    
+    Revised code:
+    static int ControlPolygonFlatEnough(V, degree)
+        Point2    *V;        /* Control points    */
+        int     degree;        /* Degree of polynomial    */
+    {
+        int     i;        /* Index variable        */
+        double  value;
+        double  max_distance_above;
+        double  max_distance_below;
+        double  error;        /* Precision of root        */
+        double  intercept_1,
+                intercept_2,
+                left_intercept,
+                right_intercept;
+        double  a, b, c;    /* Coefficients of implicit    */
+                /* eqn for line from V[0]-V[deg]*/
+        double  det, dInv;
+        double  a1, b1, c1, a2, b2, c2;
+
+        /* Derive the implicit equation for line connecting first *'
+        /*  and last control points */
+        a = V[0].y - V[degree].y;
+        b = V[degree].x - V[0].x;
+        c = V[0].x * V[degree].y - V[degree].x * V[0].y;
+
+        max_distance_above = max_distance_below = 0.0;
+        
+        for (i = 1; i < degree; i++)
+        {
+            value = a * V[i].x + b * V[i].y + c;
+           
+            if (value > max_distance_above)
+            {
+                max_distance_above = value;
+            }
+            else if (value < max_distance_below)
+            {
+                max_distance_below = value;
+            }
+        }
+
+        /*  Implicit equation for zero line */
+        a1 = 0.0;
+        b1 = 1.0;
+        c1 = 0.0;
+
+        /*  Implicit equation for "above" line */
+        a2 = a;
+        b2 = b;
+        c2 = c - max_distance_above;
+
+        det = a1 * b2 - a2 * b1;
+        dInv = 1.0/det;
+
+        intercept_1 = (b1 * c2 - b2 * c1) * dInv;
+
+        /*  Implicit equation for "below" line */
+        a2 = a;
+        b2 = b;
+        c2 = c - max_distance_below;
+
+        det = a1 * b2 - a2 * b1;
+        dInv = 1.0/det;
+
+        intercept_2 = (b1 * c2 - b2 * c1) * dInv;
+
+        /* Compute intercepts of bounding box    */
+        left_intercept = MIN(intercept_1, intercept_2);
+        right_intercept = MAX(intercept_1, intercept_2);
+
+        error = right_intercept - left_intercept;
+
+        return (error < EPSILON)? 1 : 0;
+    }
+
+p. 799, line 32: add between first "DrawBezierCurve(...);" call and "return;":
+        free((void *)bezCurve);
+
+p. 799, bottom and p. 800, line 11:  add this pair of lines between
+    "DrawBezierCurve(...);" and "return;":
+        free((void *)u);
+        free((void *)bezCurve);
+    Also, see errata note at end of this file.
+
+p. 800, line 5:  an additional:
+    free((void *)bezCurve);
+    must be done before assigning bezCurve = GenerateBezier, to avoid a leak.
+    Also:
+    free((void *)uPrime);
+    must be added to the free list in the next correction.
+    (thanks to Wolfram Esser)
+
+    line 19:  add this pair of lines before "tHatCenter = ...":
+        free((void *)u);
+        free((void *)bezCurve);
+
+p. 801, 9 from the bottom: change
+        det_C0_X  = C[0][0] * X[1]    - C[0][1] * X[0];
+    to:
+        det_C0_X  = C[0][0] * X[1]    - C[1][0] * X[0];
+    Also in this code, it is better to set alpha_l and alpha_r to 0 if
+    the det_C0_C1 determinant is 0, to avoiding dividing by 0 when
+    C[0][0]*C[1][1] is 0 in the corrective code. Correction has been
+    made to the code itself. (thanks to Steve Anderson)
+
+p. 802, line 2: Change " < 0.0" to " < 1.0e-6" in the alpha tests.  Otherwise
+    you get coincident control points that lead to divide by zero in any
+    subsequent NewtonRaphsonRootFind() call. Further correction from
+    Steve Anderson of scaling the alpha_l and alpha_r < 1.0e-6 tests by
+    the distance between the first and last points. See code for corrections.
+
+
+p. 803, line 5 from bottom: add
+    if (denominator == 0.0f) return u;
+    before uPrime is computed, to avoid division by zero.
+    (thanks to Steve Anderson)
+
+
+Syntax errors (ones your compiler or lint will catch):
+
+p. 633-642, throughout:  replace "};" with "}" to make lint happy
+p. 640, gcd():  the variable "k" is set but not used - remove it
+
+p. 649, line 31:  change "LengthVector3" to "V3Length"
+p. 650, line 1:  bad end-of comment; delete "/"
+
+p. 651, throughout:  Can't use "const" as a variable name, as it is a reserved
+             word in ANSI C.  Use "liconst" instead.
+
+p. 657, 659:  make "nicenum" declarations match, i.e. use either "double
+        nicenum()" or "static double nicenum()" for both occurrences
+p. 659:  change "exp" to "expv", since "exp()" is a math library function.
+
+p. 660, line 11:  header missing end of comment "*/"
+
+p. 662, line 13:  change "SYBYRES" to "SUBYRES"
+        line 16:  bad space after "MODRES"
+        line 42:  change "XRmax" to "xRmax"
+p. 665, line 15:  missing semicolon after "int area"
+        line 27:  change "O" to "0" in "if (partialArea>O)"
+p. 666, line 13:  change "O" to "0" in "rightMask = O;"
+
+p. 670, top:  add to make lint happy
+        static scanline();
+        static incrementalize_y();
+        static incrementalize_x();
+        static increment();
+p. 671, line 35:  missing "{" at end of "while (y<ly && y<ry)"
+p. 671-2, throughout:  add "(double *)" castings to all "incrementalize*"
+        calls to make lint happy
+p. 676, line 8:  change "if (tu<=0. ^ tv<=0.) {" to
+        "if ( (tu<=0.) ^ (tv<=0.) ) {" to avoid precedence confusion
+    end:  change "void pixelproc();" to "static void pixelproc();"
+
+p. 681, throughout:  "y0" and "y1" are Bessel functions in the math library,
+        so lint complains; ignore complaint or rename
+
+p. 684:  change "delete" to "cdelete" and "insert" to "cinsert", since these
+        routine names are already used by dbm database manager
+
+p. 687, near end:  change "+ =" to "+="
+
+p. 696, line 8:  add '#include "GraphicsGems.h"'
+p. 700, line 5:  add '#include "GraphicsGems.h"'
+p. 702-706:  change "max" to "MAX", "min" to "MIN"
+p. 705, line 18:  delete "*sp", as it is not used
+p. 706, end:  add '#include "GraphicsGems.h"'
+p. 707, in clip:  delete "*sp", as it is not used
+p. 709, line 23:  missing semicolon at end of "up = (up) ? FALSE : TRUE"
+p. 710, top:  change "max" to "MAX", "min" to "MIN"
+
+p. 713, line 26:  change ":" to ";" in "char **argv:"
+
+p. 715, top:  pseudo-code at head of file (to advance from one element to the
+            next) should be commented out.
+        line 14:  missing declaration "int randmasks[32];"
+    throughout:  three calls to "bitwidth()" need to cast argument to
+        "(unsigned int)" to make lint happy
+
+p. 719:  add "#include <string.h>" (or strings.h)
+
+p. 727, line 11:  remove ")" in "static double bigC,..." line
+p. 728, lines 21-23:  change "cal_q_msq" to "calc_q_msq"
+    lines 23,42:  change "NULL" to "(double *)NULL" to make lint happy
+        line 26:  change "con_const" to "cone_const" in
+              "bigC = m1sq + con_const * q1"
+    last line:  add a "}" to end albers_project procedure
+
+p. 730:  missing inclusion of GraphicsGems.h.
+
+p. 734, line 4:  change "exit();" to "exit(1);"
+
+p. 736, line 20:  change "O" to "0" in "for (i=O;"
+
+p. 739, line 12:  change "else if (D > 0)" to "else", since at this point
+        D must be greater than 0; makes lint happy
+
+p. 757, line 4:  change "{" to "[" in "sqrttab{"
+    line 14:  change "= &n" to "= (unsigned int *)&n"
+    line 21:  change "*num & = 0x7fffff:" to "*num &= 0x7fffff;" to fit
+          ANSI C, and to fix error of ":" at end of line.
+    line 22:  change "| =" to "|="
+    line 27:  change ":" to ";"
+
+p. 765, line 20,22:  change "Matrix" to "Matrix4"
+
+p. 766, line 29:  change "exit();" to "exit(1);"
+
+p. 774, line 2:  missing ";" at end of "long *argx, *argy"
+
+p. 775:  P, Q, and M need to be declared as externs
+
+p. 780, line 18:  bad start of comment for "/ re-parameterization"
+
+p. 785, line 1:  bad start-of-comment
+
+p. 789, lines 7,25:  change both "NULL" to "(Point2 *)NULL" to make lint happy
+        in ConvertToBezierForm:  "t" is not used, can be deleted
+p. 791, line 24:  remove "break;" after "return 0;"; unnecessary
+
+p. 795, ComputeXIntercept:  "T" and "Y" do not have to be computed, since
+        the result "Y" is not returned.  Note that there are many
+        operations in this routine that are unnecessary (e.g. "0.0 - 0.0").
+
+p. 797-807, throughout:  change "V2ScaleII" to "V2ScaleIII" and "Bezier" to
+    "BezierII" in order to avoid name collisions with the code on pages
+    787-796 (i.e. the same subroutine names are used in both, but with
+    different argument types, etc).  Important only if you link in both
+    of these subroutine libraries.
+
+-----
+
+The following are typographical errors in the comments:
+
+p. 687, line 3:  "plottted" to "plotted"
+
+p. 701, line 26:  change "interscetion" to "intersection"
+
+p. 723, line 1:  "tight" is not used in the strict mathematical sense
+    that the sphere generated is optimal (i.e. no smaller sphere could be
+    found), but rather meaning "near optimal".
+
+p. 728, line 10:  "latitute" to "latitude"
+p. 729, line 8:  "degress" to "degrees"
+
+p. 724, line 38:  "seperated" to "separated"
+p. 725, lines 7-9:  "componant" to "component"
+
+p. 730, line 17:  "minium" to "minimum"
+
+p. 752, line 2:  "positve" to "positive"
+
+p. 760, line 5:  "interger" to "integer"
+p. 761, line 4:  "preceed" to "precede"
+
+p. 766, throughout (5 times):  "determinent" to "determinant"
+
+p. 781, lines 7,23:  "demoninator" to "denominator"
+
+-----
+
+Addenda:  There is additional code for Kelvin Thompson's "Rendering
+Anti-Aliased Lines" gem in the online distribution of the code.
+
+-----
+
+Concerning page 799, Philip Schneider's Bezier code:
+
+If you are operating in a dimensional system such that the desired error in
+the fitting process is a fraction (e.g., 0.01 inches) rather than a whole
+number (e.g., 2.0 pixels), then the line on page 799 reading
+
+iterationError = error * error;
+
+should be changed to
+
+iterationError = ERRFACTOR * error;
+
+where ERRFACTOR is #defined to some implementation-dependent value such as
+4.0.  If this is not done, then reparameterization will never occur.  The
+result is not an erroneous curve, but a suboptimal one; the algorithm will
+always subdivide when the initial fit is too "loose."
+
+(from Earl Boebert, boebert@SCTC.COM)

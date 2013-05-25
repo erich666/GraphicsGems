@@ -1,0 +1,10 @@
+ANSI C code from the article
+"Point in Polygon Strategies"
+by Eric Haines, erich@eye.com
+in "Graphics Gems IV", Academic Press, 1994
+
+files:
+	Makefile - makefile for code
+	ptinpoly.h ptinpoly.c p_test.c - the distribution code
+	statrun.tst - the basic set of tests run for the book
+	table.awk - an awk processor for the output files from statrun.tst

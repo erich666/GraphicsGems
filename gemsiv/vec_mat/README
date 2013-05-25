@@ -1,0 +1,7 @@
+C++ code from the article
+"C++ Vector and Matrix Algebra Routines"
+by Jean-Francois Doue, h058@frhec1.hec.fr
+in "Graphics Gems IV", Academic Press, 1994
+
+algebra3.[CH]	- the subroutine library
+ray/		- subdirectory containing a ray caster built on this library

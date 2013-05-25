@@ -1,0 +1,21 @@
+C code from the article
+"Multi-Jittered Sampling"
+by Kenneth Chiu, Peter Shirley, and Changyaw Wang,
+  (chiuk@cs.indiana.edu, shirley@iuvax.cs.indiana.edu,
+   and wangc@iuvax.cs.indiana.edu)
+in "Graphics Gems IV", Academic Press, 1994
+
+files:
+    multi.c - source file
+    Makefile - make file; creates executable called "multi"
+    test.c  - test program that performs consistency checks on
+	the generated sampling pattern
+
+The makefile uses 'gcc' as the compiler, but any ANSI compatible compiler
+should do.
+
+To run the test program, give it three arguments.  The first two are
+'m' and 'n' (as described in the gem), and the last one is a seed
+to the random number generator.
+
+Kenneth Chiu

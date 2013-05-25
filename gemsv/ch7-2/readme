@@ -1,0 +1,190 @@
+		EFFICIENT INTERSECTION TESTING OF
+		GENERAL  POLYGONS  AND  POLYHEDRA
+		AGAINST AN  AXIALLY-ALIGNED  CUBE
+
+                Authors:
+                        Don Hatch - hatch@hadron.org
+                        Melinda (Daniel) Green - melinda@superliminal.com
+                January 1994
+
+
+Published routines:
+
+        polygon_intersects_cube
+        fast_polygon_intersects_cube
+        trivial_vertex_tests
+        segment_intersects_cube
+        polygon_contains_point_3d
+
+
+BACKGROUND
+
+In Graphics Gems III, Douglas Voorhies gives  an algorithm  that  tests
+whether  a  given  triangle intersects the axially-aligned cube of edge
+length 1 centered at the origin.  The algorithm presented here  extends
+that work in several ways.  The most important difference is that it is
+generalized to handle arbitrary polygons which may be  convex,  concave
+or  self-intersecting.   The  implementation  is also more efficient in
+several places and fixes bugs in the original implementation which  can
+generate  both  false  positive  and  false  negative results.  The new
+efficiency and robustness come mostly from  completely  rewritten  core
+routines.
+
+In Graphics  Gems IV, Ned  Greene describes an efficient  algorithm for
+testing convex polyhedra against axially aligned boxes.  That algorithm
+works by attempting to find a plane separating the two figures.  Greene
+mentions  that the  intuitive approach  is inefficient  because of  the
+number of possible intersection  calculations.  (The intuitive approach
+contains an intersection test of each polygon edge with each cube face,
+followed by intersecting each cube diagonal with the polygon body). Our
+approach  is  something  of  a  hybrid.   It  contains  only  a  single
+intersection  calculation  which is  rarely  performed  because of  the
+trivial tests that precede it.  The rest of the calculations are of the
+same sort of fast inequality tests that Greene uses.
+
+
+DESCRIPTION
+
+Voorhies's original approach  is elegant and sound, and  we've kept the
+general approach  which proceeds from  cheap trivial accept  and reject
+tests through more  expensive edge and face  intersection tests.  We've
+also broken these individual tests  out into separate routines in order
+to allow  higher level routines to  be built on  top of them -  such as
+general polyhedra  and polygon  mesh tests -  without having  to suffer
+redundant tests on shared vertices or edges.
+
+The composite fast_polygon_intersects_cube routine  presented  here  is
+meant  to  replace  Voorhies'  triangle-cube  intersection routine.  It
+begins by calling the trivial_vertex_tests routine which is  almost  an
+exact  copy  of  the  trivial  point-plane  tests from the beginning of
+Voorhies'   implementation    and    only    calls    the    definitive
+polygon_intersects_cube routine when that fails.
+
+The main algorithmic  difference in our point-plane tests is  that in a
+number of places we avoid  testing against planes which cannot possibly
+give useful information.   For example, when a point is  found to be to
+the left of the left face plane of the cube, we don't need to also test
+whether it might be to the right of the right face plane.
+
+The trivial_vertex_tests routine can be  used to quickly test an entire
+set of vertices  for trivial reject or accept.  This  can be useful for
+testing polyhedra  or entire  polygon meshes.  Useful  applications for
+polyhedra  testing  include more  than  just  the faster  rendering  of
+polyhedra; another important use is in testing for trivial rejection of
+polyhedral bounding volumes (described more fully in the last section).
+
+Note that  when trivial_vertex_tests is  used to simultaneously  test a
+large set of  vertices against a set of bounding  planes it's sometimes
+possible for the function to stop testing vertices early when it can be
+determined that there are no planes left that all of the vertices might
+be outside of. For example, if at least one vertex has been found to be
+to the right  of the left face plane,  and at least one is  found to be
+below the top  face plane and likewise for the  other four face planes,
+then  there is  no  point  in classifying  all  the remaining  vertices
+because it's  impossible that as a  set they could all  lie outside any
+one of those planes.  We do  this by keeping a running "cumulative AND"
+mask  representing the  set  of cube  face planes  which  still have  a
+possibility  of trivially  rejecting  the entire  figure while  looping
+through all the vertices.  We do the same when testing against the sets
+of bevel  and corner planes (i.e.   the 12 planes adjacent  to the cube
+edges and the 8 planes adjacent to the corners).
+
+[NB: A  graphic here showing these  three sets of planes  would be very
+useful  here  especially because  one  was  not included  in  Voorhies'
+paper.]
+
+As  stated previously,  when trivial_vertex_tests  fails to  classify a
+given polygon,  fast_polygon_intersects_cube then calls  the definitive
+polygon_intersects_cube routine.   Just like  in Voorhies'  version the
+general algorithm is:
+
+    1. If any edge intersects the cube, return true.
+    2. If the polygon interior intersects the cube, return true.
+    3. Return false.
+
+Our implementation,  however, is  very different.   In the  first step,
+testing whether  a line  segment intersects the  cube is  equivalent to
+testing  whether the  origin  is  contained in  the  solid obtained  by
+dragging a unit cube from (being  centered at)  one segment endpoint to
+the other.  This  solid is a warped rhombic dodecahedron.   The code to
+implement this consists of 12  sidedness tests, which is more efficient
+and  less error-prone  than the  original six  line-plane intersections
+plus six point-within-polygon tests.
+
+[NB: a graphic might be useful here but it may be difficult to generate
+one that's any clearer than the above textual description.]
+
+In the second step, since we know no  vertex  or  edge  intersects  the
+cube,  this  amounts  to testing whether any of the four cube diagonals
+intersects  the  interior  of  the  polygon.   (This  is  the  same  as
+Voorhies'  test).   The  difference  in  our  implementation is that we
+recognize that we really only need to test against  the  diagonal  that
+comes  closest  to  being perpendicular to the plane of the polygon; if
+the polygon intersects any of the cube  diagonals,  it  will  intersect
+that  one.   Finding  that  diagonal  is  trivial,  so this part of our
+implementation is roughly four times as fast as the original.
+
+The last part of the second step is a test to see whether  the  polygon
+contains  the  point  which  is the intersection of the polygon's plane
+with the chosen diagonal.  We provide the polygon_contains_point_3d for
+that  purpose, and are publishing it because it may be useful for other
+purposes.
+
+
+VECTOR MATH MACRO LIBRARY
+
+Another way we squeeze performance out of our implementation is through
+the  use  of the  linear  algebra  library  "vec.h".  This  library  is
+implemented purely  as a set of  C macros, thereby avoiding  a function
+call  for every  operation.  Another  big  advantage of  using a  macro
+implementation is that  it is completely type  independent.  The source
+and destination types of vectors and matrices may be any types that can
+be indexed into and are assignment compatible. All integer and floating
+point types  may be  freely mixed;  in addition,  any C++  classes that
+support arithmetic operations may be used.
+
+The  vec.h  header  file  is automatically  generated  by  the  program
+vec_h.c.  This  program takes a  single integer argument and  outputs a
+vec.h file containing macros that handle vectors and matrices up to the
+dimension specified.   The library includes  N-dimensional determinants
+and cross products in addition to the simpler operations.
+
+
+POLYHEDRON-CUBE INTERSECTION TESTING
+
+When used to test polyhedra, remember that the routines included in our
+module only test for intersections with points, edges and surfaces, not
+volumes.  If  no such  intersection is reported,  the caller  should be
+aware that the  volume of the polyhedra could still  contain the entire
+unit box.   That condition would  then need to  be checked for  with an
+additional point-within-polyhedron test.  The origin would be a natural
+point to check  in such a test.  Below is  C-like pseudo-code that puts
+all  the   pieces  together   for  a  fast,   complete  polyhedron-cube
+intersection test.
+
+    switch(trivial_vertex_tests(verts))
+    {
+        case  1: return true  /* trivial accept */
+        case  0: return false /* trivial reject */
+        case -1: for each edge
+                     if(segment_intersects_cube(edge))
+                         return true
+                 for each face
+		     if(fast_polygon_intersects_cube(..., true, true))
+                         return true
+                 return polyhedra_contains_point(polyhedra, origin)
+    }
+
+It's  useful to  notice that  when a  box is  used as  a modeling-space
+bounding polyhedron, testing its intersection against a view volume can
+often be performed  in either direction.  In other words,  not only can
+the box  be transformed  by the viewing  transformation that  takes the
+view volume to  the unit cube and  then tested there, but  the the view
+volume can  also be  transformed by the  transformation that  takes the
+bounding box to be the unit cube  and the test performed there.  In the
+latter case it is the world-space  truncated pyramid of the view volume
+that becomes the polyhedron being tested.
+
+[Note that our implementation contains "const" arguments which may need
+to be removed for those old compilers that do not understand const.]
+

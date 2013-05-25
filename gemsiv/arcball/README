@@ -1,0 +1,7 @@
+ANSI C code from the article
+"Arcball Rotation Control"
+by Ken Shoemake, shoemake@graphics.cis.upenn.edu
+in "Graphics Gems IV", Academic Press, 1994
+
+"Demo.c" is an interactive SGI program for Arcball.
+Much of the rest of the code is portable to other machines.

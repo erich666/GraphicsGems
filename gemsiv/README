@@ -1,0 +1,163 @@
+This directory contains the C and C++ code from the book
+"Graphics Gems IV", edited by Paul Heckbert, Academic Press, 1994.
+
+Comments in the source file or subdirectory's README file tell you
+if the code is old C, ANSI C, or C++.
+
+
+		    CONTENTS:
+
+file or		book	chapter title and author
+directory      chapter
+------------------------------------------------------------
+
+		I	Polygons and Polyhedra
+
+centroid.c	I.1	Centroid of a Polygon
+			Gerard Bashein and Paul R. Detmer
+
+convex_test/	I.2	Testing the Convexity of a Polygon
+			Peter Schorn and Frederick Fisher
+
+ptpoly_weiler/	I.3	An Incremental Angle Point in Polygon Test
+			Kevin Weiler
+
+ptpoly_haines/	I.4	Point in Polygon Strategies
+			Eric Haines
+
+delaunay/	I.5	Incremental Delaunay Triangulation
+			Dani Lischinski
+
+vert_norm/	I.6	Building Vertex Normals from an Unstructured Polygon
+			    List
+			Andrew Glassner
+
+collide.c	I.8	Fast Collision Detection of Moving Convex Polyhedra
+			Rich Rabbitz
+------------------------------------------------------------
+
+		II	Geometry
+
+dist_fast.c	II.2	Fast Linear Approximations of Euclidean Distance in
+			    Higher Dimensions
+			Yoshikazu Ohashi
+
+outcode/	II.3	Direct Outcode Calculation for Faster Clip Testing
+			Walt Donovan and Tim Van Hook
+
+sph_poly.c	II.4	Computing the Area of a Spherical Polygon
+			Robert D. Miller
+------------------------------------------------------------
+
+		III	Transformations
+
+arcball/	III.1	Arcball Rotation Control
+			Ken Shoemake
+
+inv_fast.c	III.3	Fast Inversion of Length- and Angle-Preserving Matrices
+			Kevin Wu
+
+polar_decomp/	III.4	Polar Matrix Decomposition
+			Ken Shoemake
+
+euler_angle/	III.5	Euler Angle Conversion
+			Ken Shoemake
+------------------------------------------------------------
+
+		IV	Curves and Surfaces
+
+data_smooth/	IV.1	Smoothing and Interpolation with Finite Differences
+			Paul H. C. Eilers
+
+curve_isect/	IV.4	Intersecting Parametric Cubic Curves by Midpoint
+			    Subdivision
+			R. Victor Klassen
+
+patch_conv.C	IV.5	Converting Rectangular Patches into Bezier Triangles
+			Dani Lischinski
+
+nurb_polyg/	IV.6	Tessellation of NURB Surfaces
+			John W. Peterson
+
+implicit.c	IV.8	An Implicit Surface Polygonizer
+			Jules Bloomenthal
+------------------------------------------------------------
+
+		V	Ray Tracing
+
+ray_cyl.c	V.2	Intersecting a Ray with a Cylinder
+			Joseph M. Cychosz and Warren N. Waggenspack, Jr.
+
+vox_traverse.c	V.3	Voxel Traversal along a 3D Line
+			Daniel Cohen
+
+multi_jitter/	V.4	Multi-Jittered Sampling
+			Kenneth Chiu, Peter Shirley, and Changyaw Wang
+
+minray/		V.5	A Minimal Ray Tracer
+			Paul S. Heckbert
+------------------------------------------------------------
+
+		VII	Frame Buffer Techniques
+
+dyn_range/	VII.3	High Dynamic Range Pixels
+			Christophe Schlick
+------------------------------------------------------------
+
+		VIII	Image Processing
+
+emboss.c	VIII.1	Fast Embossing Effects on Raster Image Data
+			John Schlag
+
+coons_warp.c	VIII.2	Bilinear Coons Patch Image Warping
+			Paul S. Heckbert
+
+convolve.c	VIII.3	Fast Convolution with Packed Lookup Tables
+			George Wolberg and Henry Massalin
+
+thin_image.c	VIII.4	Efficient Binary Image Thinning using Neighborhood Maps
+			Joseph M. Cychosz
+
+clahe.c		VIII.5	Contrast Limited Adaptive Histogram Equalization
+			Karel Zuiderveld
+
+mrsfoley.im	VIII.6	Ideal Tiles for Shading and Halftoning
+			Alan Wm Paeth
+------------------------------------------------------------
+
+		IX	Graphic Design
+
+graph_layout/	IX.2	Dynamic Layout Algorithm to Display General Graphs
+			Laszlo Szirmay-Kalos
+------------------------------------------------------------
+
+		X	Utilities
+
+trilerp.c	X.1	Tri-linear Interpolation
+			Steve Hill
+
+interp_fast.c	X.2	Faster Linear Interpolation
+			Steven Eker
+
+vec_mat/	X.3	C++ Vector and Matrix Algebra Routines
+			Jean-Francois Doue
+			    (there's a ray caster in the subdirectory "ray")
+
+GraphicsGems.c	X.4	C Header File and Vector Library
+GraphicsGems.h		Andrew Glassner and Eric Haines
+------------------------------------------------------------
+
+This code is available on the Internet by anonymous FTP from princeton.edu
+(128.112.128.1) in the directory pub/Graphics/GraphicsGems/GemsIV.
+These FTP versions are updated periodically with bug fixes.
+
+If you have corrections to this code, email to ph@cs.cmu.edu .
+
+Paul Heckbert, 3/15/94
+------------------------------------------------------------
+
+History:
+
+5/16/94 - lint fixes made to many pieces of code; mostly cosmetic (Eric Haines)
+
+8/18/94 - in README, fixed FTP path & added bug email addr. (Paul Heckbert)

@@ -1,0 +1,9 @@
+ANSI C code from the article
+"Smoothing and Interpolation with Finite Differences"
+by Paul H. C. Eilers, paul@dcmr.nl
+in "Graphics Gems IV", Academic Press, 1994
+
+files:
+    smooth1.c: Smoothing and interpolation with first differences.
+    smooth2.c: Smoothing and interpolation with second differences.
+    smooth3.c: Smoothing and interpolation with any difference equation.

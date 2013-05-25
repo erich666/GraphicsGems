@@ -1,0 +1,299 @@
+%!
+% Copyright (c) 1988  John H. Hartman and Paul Heckbert
+%
+% This source may be copied, distributed, altered or used, but not sold for 
+% profit or incorporated into a product except under licence from the authors.
+% This notice should remain in the source unaltered.
+%   John H. Hartman jhh@sprite.berkeley.edu
+%   Paul Heckbert   ph@cs.cmu.edu
+%   (addresses as of March 1994)
+
+%    This is a PostScript ray tracer. It is not a toy - don't let the kids 
+%  play with it. Features include: shadows, recursive specular reflection
+%  and refraction, and colored surfaces and lights (bet you can't tell!).
+%  To use this thing just send it to your favorite Postscript printer.
+%  Then take a long nap/walk/coffee break/vacation. Running time for
+%  a recursive depth of 3 and a size of 16x16 is about 1000 seconds
+%  (roughly 20 minutes) or 4 seconds/pixel. 
+%    There are a few parameters at the beginning of the file that you can
+%  change.  The rest of the code is pretty indecipherable. It is translated
+%  from a C program written by Paul Heckbert, Darwyn Peachey, and Joe Cychosz
+%  for the Minimal Ray Tracing Programming Contest in comp.graphics in
+%  May 1987.  Some changes have been made to improve the running time.
+%  Don't even bother trying to figure out how this works if you are looking
+%  for a good example of a ray tracer.
+%
+/starttime usertime def
+/DEPTH 3 def   % recursion depth
+/SIZE 16 def   % image resolution
+/TIMEOUT SIZE dup mul 10 mul cvi 120 add def  % approximately 10 sec/pixel
+/NUM_SPHERES 5 def
+/AOV 25.0 def    % angle of view
+/AMB [0.02 0.02 0.02] def  % ambient light
+% list of spheres/lights in scene
+%            x    y    z     r   g   b   rad  kd   ks  kt   kl  ir
+/SPHERES [[[ 0.0  6.0  0.5] [1.0 1.0 1.0] 0.9 0.05 0.2 0.85 0.0  1.7]
+          [[-1.0 8.0 -0.5] [1.0 0.5 0.2] 1.0 0.7  0.3 0.0  0.05  1.2]
+          [[ 1.0 8.0 -0.5] [0.1 0.8 0.8] 1.0 0.3  0.7 0.0  0.0   1.2]
+	  [[ 3.0 -6.0 15.0] [1.0 0.8 1.0] 7.0 0.0  0.0 0.0  0.6  1.5]
+	  [[-3.0 -3.0 12.0] [0.8 1.0 1.0] 5.0 0.0  0.0 0.0  0.5  1.5]
+	 ] def
+
+statusdict begin
+TIMEOUT setjobtimeout
+/waittimeout TIMEOUT def
+end
+/initpage {
+   /Courier findfont
+   10 scalefont setfont
+} def
+
+/X 0 def
+/Y 1 def
+/Z 2 def
+/TOL 5e-4 def
+/BLACK [0.0 0.0 0.0] def
+/WHITE [1.0 1.0 1.0] def
+/U 0.0 def
+/B 0.0 def
+% index of fields in sphere array
+/cen 0 def
+/col 1 def
+/rad 2 def
+/kd 3 def
+/ks 4 def
+/kt 5 def
+/kl 6 def
+/ir 7 def
+/NEG_SIZE SIZE neg def
+/MATRIX [SIZE 0 0 NEG_SIZE 0 SIZE] def
+/vec {3 array} def
+/VU vec def
+/vunit_a 0.0 def
+
+% dot product, two arrays of three reals
+/vdot {
+   aload pop 
+   4 -1 roll
+   aload pop 
+   4 -1 roll mul
+   2 -1 roll 4 -1 roll mul add
+   3 -2 roll mul add
+} def
+
+% vcomb, sa, a, sb, b  returns new array of sa*a + sb*b
+
+/vcomb {  
+   aload pop
+   4 -1 roll dup dup
+   5 1 roll 3 1 roll mul
+   5 1 roll mul
+   4 1 roll mul 3 1 roll 
+   5 -2 roll aload pop
+   4 -1 roll dup dup
+   5 1 roll 3 1 roll mul
+   5 1 roll mul
+   4 1 roll mul 3 1 roll 
+   4 -1 roll add 5 1 roll 
+   3 -1 roll add 4 1 roll
+   add 3 1 roll
+   vec astore 
+} def
+
+/vsub {
+   aload pop
+   4 -1 roll aload pop
+   4 -1 roll sub 5 1 roll 
+   3 -1 roll sub 4 1 roll
+   exch sub 3 1 roll
+   vec astore 
+} def
+
+/smul {
+   aload pop
+   4 -1 roll dup dup
+   5 1 roll 3 1 roll mul
+   5 1 roll mul
+   4 1 roll mul 3 1 roll 
+   vec astore
+} def
+
+/vunit {
+   /vunit_a exch store
+   1.0 vunit_a dup vdot sqrt div vunit_a smul
+} def
+
+/grayscale {
+   % convert to ntsc, then to grayscale
+   0.11 mul exch
+   0.59 mul add exch
+   0.30 mul add
+   255.0 mul
+   % dither by adding random number between 0 and 8
+   rand 268435456 div add	% 2^31/(256/32)
+   cvi
+   dup 255 gt {pop 255} if
+} def
+
+
+/intersect { % returns best, tmin, rootp
+   7 dict begin
+   /d exch def
+   /p exch def
+   /best -1 def
+   /tmin 1e30 def
+   /rootp 0 def
+   0 1 NUM_SPHERES 1 sub {
+      /i exch def
+      /sphere SPHERES i get def
+      /VU sphere cen get p vsub store
+      /B d VU vdot store
+      /U B dup mul VU dup vdot sub sphere rad get dup mul add store
+      U 0.0 gt
+      {
+	 /U B U sqrt sub store
+	 U TOL lt 
+	 {
+	    /U 2.0 B mul U sub store
+	    /B 1.0 store
+	 }
+	 { /B -1.0 store } 
+	 ifelse
+	 U TOL ge 
+	 U tmin lt and
+	 {
+	    /best i store
+	    /tmin U store
+	    /rootp B store
+	 }
+	 if
+      }
+      if
+   } for
+   best tmin rootp
+   end
+} def
+
+/trace {
+   13 dict begin
+   /d exch def
+   /p exch def
+   /level exch def
+   /saveobj save def
+   /color AMB vec copy def
+   /level level 1 sub store
+   p d intersect
+   /root exch def
+   /v exch def
+   /s exch def
+   -1 s ne
+   {
+      /sphere SPHERES s get def
+      /p 1.0 p v d vcomb store
+      /n
+      sphere cen get p 
+      root 0.0 lt { exch } if 
+      vsub vunit def
+      sphere kd get 0.0 gt
+      {
+	 0 1 NUM_SPHERES 1 sub
+	 {
+	    /i exch def
+	    /light SPHERES i get def
+	    light kl get 0.0 gt
+	    {
+	       /VU light cen get p vsub vunit store
+	       /v light kl get 
+	       n VU vdot 
+	       mul store
+	       v 0.0 gt
+	       p VU intersect
+	       /B exch store
+	       /nd exch def
+	       i eq
+	       and
+		  { /color 1.0 color v light col get vcomb def } 
+	       if
+	    } if
+	 } for
+      } if
+      color aload pop
+      sphere col get aload vec copy /VU exch store 
+      4 -1 roll mul
+      5 1 roll
+      3 -1 roll mul
+      4 1 roll
+      mul
+      3 1 roll
+      color astore pop
+      /nd d n vdot neg store
+      /color 
+      sphere ks get
+      sphere kd get color sphere kl get VU vcomb
+      0 level eq
+	 { BLACK vec copy}
+	 { level p 1.0 d 2 nd mul n vcomb trace vec astore }
+      ifelse
+      1.0 3 -1 roll vcomb store
+      root 0.0 gt
+	 { /v sphere ir get store }
+	 { /v 1.0 sphere ir get div store }
+      ifelse
+      /U 1 v dup mul 1 nd dup mul sub mul sub store
+      U 0.0 gt
+      {
+	 /color 
+	 1.0 color sphere kt get
+	 0 level eq
+	    { BLACK vec copy}
+	    { level p v d v nd mul U sqrt sub n vcomb trace vec astore }
+	 ifelse
+	 vcomb store
+      } if
+   } if
+   color aload pop
+   saveobj restore
+   end
+} def
+
+/main {
+   initpage
+   /data SIZE dup mul string def
+   /half SIZE 0.5 mul def
+   /i 0 def
+   /dy half AOV cvr 0.5 mul dup cos exch sin div mul def
+   /temp vec def
+   0 1 SIZE 1 sub
+   {
+      /y exch def
+      0 1 SIZE 1 sub
+      {
+	 /x exch def
+         data i
+	 /saveobj save def
+	 VU X x cvr half sub put 
+	 VU Y  dy put
+	 VU Z half y cvr sub put
+	 DEPTH BLACK VU vunit trace 
+         grayscale 
+	 saveobj restore
+      	 put
+     /i i 1 add store
+      } for
+   } for
+   gsave
+   100 300 translate 400 400 scale SIZE SIZE 8 MATRIX {data} image
+   grestore
+   100 200 moveto
+   (Statistics: ) show
+   100 190 moveto
+   (Size: ) show SIZE 10 string cvs show
+   100 180 moveto
+   (Depth: ) show DEPTH 3 string cvs show
+   100 170 moveto
+   (Running time: ) show usertime starttime sub 1000 div 20 string cvs show
+   showpage 
+} def
+/main load bind
+main
+stop

@@ -1,0 +1,24 @@
+
+
+The source is Copyright (c) 1990-1991 by Apple Computer, Inc. You may not use 
+it in anything for which you charge money, beyond reasonable fees to cover 
+duplication and handling. If you give your software away, feel free to use 
+this source.
+
+The source is the implementation of a gem, "Implementing Progressive Radiosity
+with User-Provided Polygon Display Routines," that I wrote for Graphics Gems II.
+A hard copy of the source can be found in Appendix II of Graphics Gems II.
+The source included here is a newer version than the one in the book 
+and should replace it. For more details on the source and radiosity methods, 
+please refer to the book.
+
+No warranties expressed, implied, or even hinted at.
+
+The source is written in ANSI C and is C++ friendly (you can include the
+.h files in C++ programs). 
+
+Please send bug reports and/or enhancements to the author "chense@apple.com".
+I would also like to hear any system that you have ported the source to.
+However, please don't ask me for technical support on the source.
+
+

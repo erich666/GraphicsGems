@@ -1,0 +1,261 @@
+From uupsi!psinntp!rpi!zaphod.mps.ohio-state.edu!swrinde!cs.utexas.edu!asuvax!ennews!enuxha.eas.asu.edu!hollasch Fri Aug 30 12:17:10 EDT 1991
+Path: eye!uupsi!psinntp!rpi!zaphod.mps.ohio-state.edu!swrinde!cs.utexas.edu!asuvax!ennews!enuxha.eas.asu.edu!hollasch
+>From: hollasch@enuxha.eas.asu.edu (Steve Hollasch)
+Newsgroups: comp.graphics
+Subject: Re: contents Graphics Gems II
+Summary: Here it is
+Message-ID: <1991Aug28.203807.23624@ennews.eas.asu.edu>
+Date: 28 Aug 91 20:38:07 GMT
+References: <1991Aug28.160122.9841@cv.ruu.nl>
+Sender: usenet@ennews.eas.asu.edu (Usenet)
+Reply-To: hollasch@enuxha.eas.asu.edu (Steve Hollasch)
+Followup-To: comp.graphics
+Organization: Arizona State University
+Lines: 243
+Nntp-Posting-Host: enuxha.eas.asu.edu
+
+koen@cv.ruu.nl (Koen Vincken) writes:
+|Could someone post (or mail me) the contents of Graphics Gems II?
+|The book is still not available here, and I'm curious about the subjects
+|contained in Gems II (just titles should be sufficient).
+
+    Well, I figured that a lot of people would probably be interested in
+this, so I went ahead and typed it in.  You folks had BETTER appreciate
+this!  =^)
+
+    By the way, the dates for Graphics Gems III are as follows:
+
+    01-Oct-91:  Submit first draft of gem and C code.
+    01-Nov-91:  Notification of acceptance and need for revision.
+    01-Dec-91:  Submit final manuscript, figures and C code.
+       Mar-92:  Review page proofs.
+    24-Jul-92:  Publication
+    27-Jul-92:  Celebration at SIGGRAPH '92.
+
+    For further information (and an author's packet), you can send
+e-mail to Jenifer Swetland at cdp!jswetland@labrea.stanford.edu.
+
+    The table of contents for Graphics Gems II follows my signature.
+
+______________________________________________________________________________
+Steve Hollasch                /      Arizona State University (Tempe, Arizona)
+hollasch@enuxha.eas.asu.edu  /  uunet!mimsy!oddjob!noao!asuvax!enuxha!hollasch
+
+
+                              Graphics Gems II
+                                 edited by
+                                 James Arvo
+
+                 Copyright (c) 1991 by Academic Press, Inc.
+                             ISBN 0-12-064480-0
+
+
+                    T A B L E   O F   C O N T E N T S
+
+-----
+
+Foreword By Andrew Glassner
+Preface
+Mathematical Notation
+Pseudo-Code
+Contributors
+
+-----
+
+I    2D GEOMETRY AND ALGORITHMS
+
+Introduction
+
+1. The Area of a Simple Polygon
+2. Intersection of Line Segments
+3. Distance from a Point to a Line
+4. An Easy Bounding Circle
+5. The Smallest Circle Containing the Intersection of Two Circles
+6. Appolonius's 10th Problem
+7. A Peano Curve Generation Algorithm
+8. Space-Filling Curves and a Measure of Coherence
+9. Scanline Coherent Shape Algebra
+
+-----
+
+II    IMAGE PROCESSING
+
+Introduction
+
+1. Image Smoothing and Sharpening by Discrete Convolution
+2. A Comparison of Digital Halftoning Techniques
+3. Color Dithering
+4. Fast Anamorphic Image Scaling
+5. Real Pixels
+6. A Fast 90-Degree Bitmap Rotator
+7. Rotation of Run-Length Encoded Image Data
+8. Adaptive Run-Length Encoding
+9. Image File Compression Made Easy
+10. An Optimal Filter for Image Reconstruction
+11. Noise Thresholding in Edge Images
+12. Computing the Area, the Circumference, and the Genus of
+    a Binary Digital Image
+
+-----
+
+III    FRAME BUFFER TECHNIQUES
+
+1. Efficient Inverse Color Map Computation
+2. Efficient Statistical Computations for Optimal Color Quantization
+3. A Random Color Map Animation Algorithm
+4. A Fast Approach to PHIGS PLUS Pseudo Color Mapping
+5. Mapping RGB Triples onto 16 Distinct Values
+6. Television Color Encoding and "Hot" Broadcast Colors
+7. An Inexpensive Method of Setting the Monitor White Point
+8. Some Tips for Making Color Hardcopy
+
+-----
+
+IV    3D GEOMETRY AND ALGORITHMS
+
+Introduction
+
+1. Area of Planar Polygons and Volume of Polyhedra
+2. Getting Around on a Sphere
+3. Exact Dihedral Metrics for Common Polyhedra
+4. A Simple Viewing Geometry
+5. View Correlation
+6. Maintaining Winged-Edge Models
+7. Quadtree/Octree-to-Boundary Conversion
+8. Three-Dimensional Homogeneous Clipping of Triangle Strips
+9. InterPhong Shading
+
+-----
+
+V    RAY TRACING
+
+Introduction
+
+1. Fast Ray-Convex Polyhedron Intersection
+2. Intersecting a Ray with an Elliptical Torus
+3. Ray-Triangle Intersection Using Binary Recursive Subdivision
+4. Improved Ray Tagging for Voxel-Based Ray Tracing
+5. Efficiency Improvements for Hierarchy Traversal in Ray Tracing
+6. A Recursive Shadow Voxel Cache for Ray Tracing
+7. Avoiding Incorrect Shadow Intersections for Ray Tracing
+8. A Body Color Model:  Absorption of Light through
+   Translucent Media
+9. More Shadow Attenuation in Ray Tracing Transparent or
+   Translucent Objects
+
+-----
+
+VI    RADIOSITY
+
+Introduction
+
+1. Implementing Progressive Radiosity with User-Provided Polygon
+   Display Routines
+2. A Cubic Tetrahedral Adaptation of the Hemi-Cube Algorithm
+3. Fast Vertex Radiosity Update
+4. Radiosity via Ray Tracing
+5. Detection of Shadow Boundaries for Adaptive Meshing in Radiosity
+
+-----
+
+VII    MATRIX TECHNIQUES
+
+Introduction
+
+1. Decomposing a Matrix into Simple Transformations
+2. Recovering the Data from the Transformation Matrix
+3. Transformations as Exponentials
+4. More Matrices and Transformations:  Shear and Pseudo-Perspective
+5. Fast Matrix Inversion
+6. Quaternions and 4x4 Matrices
+7. Random Rotation Matrices
+8. Classifying Small Sparse Matrices
+
+-----
+
+VIII    NUMERICAL AND PROGRAMMING TECHNIQUES
+
+Introduction
+
+1. Bit Picking
+2. Faster Fourier Transform
+3. Of Integers, Fields and Bit Counting
+4. Using Geometric Constructions to Interpolate Orientation with
+   Quaternions
+5. A Half-Angle Identity for Digital Computation:
+   The Joys of the Halved Tangent
+6. An Integer Square Root Algorithm
+7. Fast Approximation to the Arctangent
+8. Fast Sign of Cross Product Calculation
+9. Interval Sampling
+10. A Recursive Implementation of the Perlin Noise Function
+
+-----
+
+IX    CURVES AND SURFACES
+
+Introduction
+                                   ,
+1. Least-Squares Approximation to Bezier Curves and Surfaces
+2. Beyond Bezier Curves
+3. A Simple Formulation for Curve Interpolation with Variable Control Point
+   Approximation
+4. Symmetric Evaluation of Polynomials
+5. Menelaus's Theorem              ,
+6. Geometrically Continuous Cubic Bezier Curves
+7. A Good Straigh-Line Approximation of a Circular Arc
+8. Great Circle Plotting
+9. Fast Anti-Aliased Circle Generation
+
+
+-----
+
+C    APPENDIX I:  C UTILITIES
+
+Graphics Gems C Header File
+2D and 3D Vector C Library -- Corrected and Indexed
+Useful C Macros for Vector Operations
+
+-----
+
+C    APPENDIX II:  C IMPLEMENTATIONS
+
+I.2       Intersection of Line Segments
+I.7       A Peano Curve Generation Algorithm
+I.8       Space-Filling Curves and a Measure of Coherence
+I.9       Scanline Coherent Shape Algebra
+II.2      A Comparison of Digital Halftoning Techniques
+II.3      Color Dithering
+II.6      A Fast 90-Degree Bitmap Rotator
+II.7      Rotation of Run-Length Encoded Image Data
+II.12     Computing the Area, the Circumference, and the Genus of
+          a Binary Digital Image
+III.1     Efficient Inverse Color Map Computation
+III.3     A Random Color Map Animation Algorithm
+III.6     Television Color Encoding and "Hot" Broadcast Colors
+IV.5      View Correlation
+IV.8      Three-Dimensional Homogeneous Clipping of Triangle Strips
+IV.9      InterPhong Shading
+V.1       Fast Ray-Convex Polyhedron Intersection
+V.2       Intersecting a Ray with an Elliptical Torus
+V.6       A Recursive Shadow Voxel Cache for Ray Tracing
+VI.1      Implementing Progressive Radiosity with User-Provided
+          Polygon Display Routines
+VI.3      Fast Vertex Radiosity Update
+VII.1     Decomposing a Matrix into Simple Transformations
+VII.5     Fast Matrix Inversion
+VII.7     Random Rotation Matrices
+VII.8     Classifying Small Sparse Matrices
+VIII.3    Of Integers, Fields and Bit Counting
+VIII.6    An Integer Square Root Algorithm
+VIII.8    Fast Sign of Cross Product Calculation
+VIII.10   A Recursive Implementation of the Perlin Noise Function
+IX.7      A Good Straight-Line Approximation of a Circular Arc
+
+-----
+
+References
+
+Index
+
+

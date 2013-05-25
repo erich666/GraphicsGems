@@ -1,0 +1,687 @@
+Graphics Gems vol. 1-5
+Master Table of Contents
+(ver 1.1; June 22, 2000)
+
+Derived from source material created by
+David Kirk, Paul Heckbert and Alan Paeth
+Notes: some titles have been truncated;
+       page numbers must be rechecked.
+
+===========================================
+Graphics Gems I (Andrew Glassner, Editor)
+===========================================
+Vol Txt Code   Auth Title
+
+1 Preface
+1 Introduction
+1 Mathematical Notation
+1 Pseudo-Code
+1 Contributors
+
+1 I. 2D Geometry
+1   3      Glassner	Useful 2D Geometry
+1  12      		Trigonometry Summary
+1  13      Glassner	Useful Trigonometry
+1  18      Paeth	Trigonometric Functions at Select Points
+1  20      Goldman	Triangles
+1  24 649  Turk		Generating Random Points in Triangles
+1  29 651  Shapira	Fast Line-Edge Intersections on a Uniform Grid
+1  37      		Anti-Aliasing Summary
+1  38      Thompson	Area of Intersection: Circle and a Half-Plane
+1  40      Thompson	Area of Intersection: Circle and a Thick Line
+1  43      Thompson	Area of Intersection: Two Circles
+1  47      Thompson	Vertical Distance from a Point to a Line
+1  49 654  Paeth	A Fast 2D Point-on-line Test
+1  51 656  Shaffer	Fast Circle-Rectangle Intersection Checking
+
+1 II. 2D Rendering
+1  57      Paeth	Circles of Integral Radius on Integer Lattices
+1  61 657  Heckbert	Nice Numbers for Graph Labels
+1  64 660  Cychosz	Efficient Gen. of Sampling Jitter Using Look-up Tables
+1  75      		Scan Conversion Summary
+1  76 662  Morrison	Fast Anti-Aliasing Polygon Scan Conversion
+1  84 667  Heckbert	Generic Convex Polygon Scan Conversion and Clipping
+1  87 681  Heckbert	Concave Polygon Scan Conversion
+1  92      Wallis	Fast Scan Conversion of Arbitrary Polygons
+1  98      		Line-Drawing Summary
+1  99 685  Heckbert	Digital Line Drawing
+1 101 686  Wyvill	Symmetric Double Step Line Algorithm
+1 105 690  Thompson	Rendering Anti-Aliased Lines
+1 107      Ritter	An Algorithm for Filling in 2D Wide Line Bevel Joints
+1 114      Wallis	Rendering Fat Lines on a Raster Grid
+1 121 694  Spoelder,Ullings	Two-Dimensional Clipping: Vector-Based Approach
+1 129      G.Lee,Penk,Wallis	Periodic Tilings of the Plane on a Raster Grid
+
+1 III. Image Processing
+1 143      		Anti-Aliasing Filters Summary
+1 144      Pavicic	Anti-Aliasing Filters that Minimize "Bumpy" Sampling
+1 147      Turkowski	Filters for Common Resampling Tasks
+1 166      Olsen	Smoothing Enlarged Monochrome Images
+1 171 711  Paeth	Median Finding on a 3-by-3 Grid
+1 176 713  Hawley	Ordered Dithering
+1 179      Paeth	A Fast Algorithm for General Raster Rotation
+1 196      Schumacher	Useful 1-to-1 Pixel Transforms
+1 210      Thompson	Alpha Blending
+
+1 IV. Frame Buffer Techniques
+1 215      Glassner	Frame Buffers and Color Maps
+1 219      Paeth	Reading a Write-Only Write Mask
+1 221 715  Morton	A Digital "Dissolve" Effect
+1 233 718  Paeth	Mapping RGB Triples onto Four Bits
+1 246      Heckbert	What Are the Coordinates of a Pixel?
+1 249 719  Paeth	Proper Treatment of Pixels as Integers
+1 257      Glassner	Normal Coding
+1 265 720  Heckbert	Recording Animation for Progressive Temporal Refinement
+1 270      Schumacher	1-to-1 Pixel xforms through Color-Map Manipulation
+1 275 721  Heckbert	A Seed Fill Algorithm
+1 278      Fishkin	Filling a Region in a Frame Buffer
+1 285      Wallace	Precalculating for Fast Fills, Circles, and lines
+1 287      Gervautz,Purgathofer	Color Quantization by Octree Quantization
+
+1 V. 3D Geometry
+1 297      Glassner	Useful 3D Geometry
+1 301 723  Ritter	An Efficient Bounding Sphere
+1 304      Goldman	Intersection of Two Lines in Three-Space
+1 305      Goldman	Intersection of Three Planes
+1 306      		Mapping Summary
+1 307      Paeth	Digital Cartography for Computer Graphics
+1 321 726  Bame		Albers Equal-Area Conic Map Projection
+1 326      		Boxes and Spheres Summary
+1 327      Montani,Scopigno	Spheres-to-Voxels Conversion
+1 335 730  Arvo		A Simple Method for Box-Sphere Intersection Testing
+
+1 VI. 3D Rendering
+1 343 733  Wyvill	3D Grid Hashing Function
+1 346      Hultquist	Backface Culling
+1 348      M.Lee	Fast Dot Products for Shading
+1 361      Thompson	Scanline Depth Gradient of a Z-Buffered Triangle
+1 364      Glassner	Simulating Fog and Haze
+1 366      Glassner	Interpretation of Texture Map Indices
+1 376      Glassner	Multidimensional Sum Tables
+
+1 VII. Ray Tracing
+1 385      Ritter	A Simple Ray Rejection Test
+1 387      Ray-Object	Intersection Summary
+1 388      Hultquist	Intersection of a Ray with a Sphere
+1 390 735  Badouel	An Efficient Ray-Polygon Intersection
+1 394      A.Woo	Fast Ray-Polygon Intersection
+1 395 736  A.Woo	Fast Ray-Box Intersection
+1 397      Pearce	Shadow Attenuation for Ray Tracing Transparent Objects
+
+1 VIII. Numerical and Programming Techniques
+1 403      		Root Finding Summary
+1 404 738  Schwarze	Cubic and Quartic Roots
+1 408 787  Schneider	A Bezier Curve-Based Root-Finder
+1 416 743  Hook,McAree	Using Sturm Sequences to Bracket Roots of Polynomials
+1 423      		Distance Measures Summary
+1 424 756  Lalonde,Dawson	A High-Speed, Low Precision Square Root
+1 427 758  Paeth	A Fast Approximation to the Hypotenuse
+1 432      Ritter	A Fast Approximation to 3D Euclidean Distance
+1 434      Thompson	Full-Precision Constants
+1 435      Thompson	Converting Between Bits and Digits
+1 436      Wyvill	Storage-free Swapping
+1 438      Glassner	Generating Random Integers
+1 440      Ritter	Fast 2D-3D Rotation
+1 442      Shoemake	Bit Patterns for Encoding Angles
+1 443 759  Shaffer	Bit Interleaving for Quad- or Octrees
+1 448 763  Fishkin	A Fast HSL-to-RGB Transform
+
+1 IX. Matrix Techniques
+1 453      Thompson	Matrix Identities
+1 455      		Rotation Matrix Methods Summary
+1 456      Thompson	Transforming Axes
+1 460      Thompson	Fast Matrix Multiplication
+1 462      Hultquist	A Virtual Trackball
+1 464 765  Raible	Matrix Orthogonalization
+1 465      Pique	Rotation Tools
+1 470 766  Carling	Matrix Inversion
+1 472      Goldman	Matrices and Transformations
+1 476 770  Cychosz	Efficient Post-Concatenation of Transformation Matrices
+
+1 X. Modeling and Transformations
+1 485      Greene	Transformation Identities
+1 494 773  Turkowski	Fixed-Point Trigonometry with CORDIC Iterations
+1 498 775  Maillot	Using Quaternions for Coding 3D Transformations
+1 516 778  Cunningham	3D Viewing and Rotation Using Orthonormal Bases
+1 522      Turkowski	The Use of Coordinate Frames in Computer Graphics
+1 533 780  Wallis	Forms, Vectors, and Transforms
+1 539      Turkowski	Properties of Surface-Normal Transformations
+1 548 785  Arvo		Transforming Axis-Aligned Bounding Boxes
+1 551      		Constructing Shapes Summary
+1 552      Hall		Defining Surfaces from Sampled Data
+1 558      Hall		Defining Surfaces from Contour Data
+1 562      Glassner	Computing Surface Normals for 3D Models
+1 567      Bloomenthal	Calculation of Reference Frames along a Space Curve
+
+1 XI. Curves and Surfaces
+1 575      Glassner	Planar Cubic Curves
+1 579      Rasala	Explicit Cubic Spline Interpolation Formulas
+1 585      Gomez	Fast Spline Drawing
+1 587      Goldman	Some Properties of Bezier Curves
+1 594      Wallis	Tutorial on Forward Differencing
+1 604      Goldman	Integration of Bernstein Basis Functions
+1 607 787  Schneider	Solving the Nearest-Point-on-Curve Problem
+1 612 797  Schneider	An Algorithm for Automatically Fitting Digitized Curves
+
+1 Appendix I: C Utilities
+1 629      Graphics Gems C Header File
+1 633      2D and 3D Vector C Library
+1 643      Memory Allocation in C
+1 644      Two Useful C Macros
+1 645      How to Build Circular Structures in C
+1 646      How to Use C Register Variables to Point to 2D Arrays
+
+1 Appendix II: C Implementations
+1 647      code starts
+
+1 808      References
+1 822      Index
+1 833      last page
+
+===========================================
+Graphics Gems II (James Arvo, Editor)
+===========================================
+
+2 Foreword
+2 Preface
+2 Mathematical Notation
+2 Pseudo-Code
+2 Contributors
+
+2 I. 2D Geometry and Algorithms
+2 3        		Introduction
+2 5        Rokne	The Area of a Simple Polygon
+2 7 473    Prasad	Intersection of Line Segments
+2 10       Morrison	Distance from a Point to a Line
+2 14       Rokne	An Easy Bounding Circle
+2 17       Rokne	The Smallest Circle Containing Two Circles
+2 19       Rokne	Appolonius' 10th Problem
+2 25 477   Musgrave	A Peano Curve Generation Algorithm
+2 26 485   Voorhies	Space-Filling Curves and a Measure of Coherence
+2 31 487   Steinhart	Scanline Coherent Shape Algebra
+
+2 II. Image Processing
+2 49       Schumacher	Image Smoothing and Sharpening by Discrete Convolution
+2 57 502   Schumacher	A Comparison of Digital Halftoning Techniques
+2 72 509   Thomas,Bogart	Color Dithering
+2 78       Schumacher	Fast Anamorphic Image Scaling
+2 80       Ward		Real Pixels
+2 84 514   Yap		A Fast 90-Degree Bitmap Rotator
+2 86 516   Holt		Rotation of Run-Length Encoded Image Data
+2 89       Glassner	Adaptive Run-Length Encoding
+2 93       Paeth	Image File Compression Made Easy
+2 101      Max		An Optimal Filter for Image Reconstruction
+2 105      Schlag	Noise Thresholding in Edge Images
+2 107 525  Bieri,Kohler	Area, Circumference, and Genus of a Binary Digital Image
+
+2 III. Frame Buffer Techniques
+2 115      		Introduction
+2 116 528  Thomas	Efficient Inverse Color Map Computation
+2 126      X.Wu		Statistical Computations for Optimal Color Quantization
+2 134 536  Musgrave	A Random Color Map Animation Algorithm
+2 138      Hall,Lindgren	A Fast Approach to PHIGS PLUS Pseudo Color
+2 143      Paeth	Mapping RGB Triples onto 16 Distinct Values
+2 147 542  Martindale,Paeth	Television Color Encoding and "Hot" Colors
+2 159      Meyer	An Inexpensive Method of Setting the Monitor White Point
+2 163      Musgrave	Some Tips for Making Color Hardcopy
+
+2 IV. 3D Geometry and Algorithms
+2 169      		Introduction
+2 170      Goldman	Area of Planar Polygons and Volume of Polyhedra
+2 172      Shaffer	Getting Around on a Sphere
+2 174      Paeth	Exact Dihedral Metrics for Common Polyhedra
+2 179      Glassner	A Simple Viewing Geometry
+2 181 550  Bogart	View Correlation
+2 191      Glassner	Maintaining Winged-Edge Models
+2 202      Montani,Scopigno	Quadtree/Octree-to-Boundary Conversion
+2 219 563  Maillot	3-D Homogeneous Clipping of Triangle Strips
+2 232 571  Thalmann,Thalmann,Minh	InterPhong Shading
+
+2 V. Ray Tracing
+2 245      		Introduction
+2 247 575  Haines	Fast Ray-Convex Polyhedron Intersection
+2 251 577  Cychosz	Intersecting a Ray with an Elliptical Torus
+2 257      Voorhies,Kirk	Ray-Triangle Intersection Using Binary Subdiv.
+2 264      Kirk,Arvo	Improved Ray Tagging for Voxel-Based Ray Tracing
+2 267      Haines	Efficient Hierarchy Traversal in Ray Tracing
+2 273 581  Pearce	A Recursive Shadow Voxel Cache for Ray Tracing
+2 275      Pearce	Avoiding Incorrect Shadow Intersections for Ray Tracing
+2 277      Lee,Uselton	A Body Color Model: Absorption through Translucent Media
+2 283      Lee,Uselton	More Shadow Attenuation for Ray Tracing Translucent Objs
+
+2 VI. Radiosity
+2 293      		Introduction
+2 295 583  Chen	Progressive Radiosity with Provided Polygon Display Routines
+2 299      Beran-Koehn,Pavicic	A Cubic Tetrahedral Hemi-Cube Algorithm
+2 303 598  Tampieri	Fast Vertex Radiosity Update
+2 306      Shirley	Radiosity via Ray Tracing
+2 311      Sillion	Shadow Boundaries for Adaptive Meshing in Radiosity
+
+2 VII. Matrix Techniques
+2 319      Introduction
+2 320 599  Thomas	Decomposing a Matrix into Simple Transformations
+2 324      Goldman	Recovering the Data from the Transformation Matrix
+2 332      Goldman	Transformations as Exponentials
+2 338      Goldman	Matrices and Transforms: Shear and Pseudo-Perspective
+2 342 603  K.Wu		Fast Matrix Inversion
+2 351      Shoemake	Quaternions and 4x4 Matrices
+2 355 606  Arvo		Random Rotation Matrices
+2 357 608  Arvo		Classifying Small Sparse Matrices
+
+2 VIII. Numerical and Programming Techniques
+2 365      		Introduction
+2 366      Shoemake	Bit Picking
+2 368      Shoemake	Faster Fourier Transform
+2 371 610  Paeth,Schilling	Of Integers, Fields, and Bit Counting
+2 377      Schlag	Geometric ... Interpolate Orientation with Quaternions
+2 381      Paeth	The Joys of the Halved Tangent
+2 387 612  Musial	An Integer Square Root Algorithm
+2 389      Capelli	Fast Approximation to the Arctangent
+2 392 613  Ritter	Fast Sign of Cross Product Calculation
+2 394      Shoemake	Interval Sampling
+2 396 615  Ward		A Recursive Implementation of the Perlin Noise Function
+
+2 IX. Curves and Surfaces
+2 405      		Introduction
+2 406      Moore,Warren	Least-Squares Approx. to Bezier Curves and Surfaces
+2 412      Shoemake	Beyond Bezier Curves
+2 417      Schlag	Curve Interpolation with Variable Control Point Approx.
+2 420      Lindgren	Symmetric Evaluation of Polynomials
+2 424      Seidel	Menelaus's Theorem
+2 428      Seidel	Geometrically Continuous Cubic Bezier Curves
+2 435 617  Musial	A Good Straight-Line Approximation of a Circular Arc
+2 440      Paeth	Great Circle Plotting
+2 446      X.Wu		Fast Anti-Aliased Circle Generation
+
+2 Appendix I: C Utilities
+2 455      		Graphics Gems C Header File
+2 458      		2D and 3D Vector C Library -- Corrected and Indexed
+2 467      Hollasch	Useful C Macros for Vector Operations
+
+2 Appendix II: C Implementations
+2 473      code starts
+
+2 621      References
+2 635      Index
+2 643      last page
+
+===========================================
+Graphics Gems III (David Kirk, Editor)
+===========================================
+
+3 Foreword
+3 Preface
+3 Mathematical Notation
+3 Pseudo-Code
+3 Contributors
+
+3 I. Image Processing
+3 4 411    Moller	fast bitmap stretching
+3 8 414    Schumacher	general filtered image rescaling
+3 17 425   Schumacher	optimization of bitmap scaling operations
+3 20 429   Bragg	a simple color reduction filter
+3 23       Moore,Warren	compact isocontours from sampled data
+3 29 432   Feldman	generating iso-value contours from a pixmap
+3 34       Salesin,Barzel	compositing black and white bitmaps
+3 36       Scofield	2-1/2-d depth of field simulation for computer animation 
+3 39 441   Furman	a fast boundary generator for composited regions
+
+3 II. Numerical & Programming Techniques
+3 47       		Introduction
+3 48 446   Hill		IEEE fast square root
+3 49 448   Hill		A simple fast memory allocator
+3 51 452   Hanson	the rolling ball
+3 61 454   Rokne	interval arithmetic
+3 67 458   Paeth	fast generation of cyclic sequences
+3 77       Paeth	a generic pixel selection mechanism
+3 80       Shirley	nonuniform random point sets
+3 84       Goldman	cross product in 4-dimensions and beyond
+3 89 460   Badouel,Wuthrich	face connected line segment generation in n-d
+
+3 III. Modeling and Transformations
+3 95       		Introduction
+3 96 461   Morrison	quaternion interpolation with extra spins
+3 98       Goldman	decomposing projective transformations
+3 108      Goldman	decomposing linear and affine transformations
+3 117 463  Arvo		fast random rotation matrices
+3 121      Dana		issues and techniques for keyframing transformations
+3 124 465  Shoemake	uniform random rotations
+3 133 468  Elber	interpolation using bezier curves
+3 137 472  Barr		physically based superquadrics
+
+3 IV. 2D Geometry and Algorithms
+3 163      		Introduction
+3 164 478  VanAken,Simar	a parametric elliptical arc algorithm
+3 173 480  Rosati	a simple connection algorithm for 2d drawing
+3 182 487  Srinivasan	a fast circle clipping algorithm
+3 188 491  Shaffer,Feustel	exact computation of 2d intersections
+3 193 496  Miller	joining two lines with a circular arc fillet
+3 199 500  Antonio	faster line segment intersection
+3 203      Sevici	the problem of apollonius and other related problems
+
+3 V. 3D Geometry and Algorithms
+3 213      		Introduction
+3 215      Lopez-Lopez	triangles revisited
+3 219 502  Chin		partitioning a 3d convex polygon with an arbitrary plane
+3 223 511  Georgiades	signed distance from point to plane
+3 225 512  Salesin,Tampieri	grouping coplanar polygons into coplanar sets
+3 231 517  Tampieri	newell's method for the plane equation of a polygon
+3 233 519  Georgiades	plane to plane intersection
+3 236 521  Voorhies	triangle-cube intersection
+3 240 527  Wanger,Fusco	fast n-dimensional extent overlap testing
+3 244 534  Moore	subdividing simplices
+3 250      Moore	understanding simploids
+3 256 536  Lischinski	converting bezier triangles into rectangular patches
+3 262      Lindgren,Sanchez,Hall    curve tessellation criteria thru sampling
+
+3 VI. Ray Tracing & Radiosity
+3 269      		Introduction
+3 271 538  Sung,Shirley	ray tracing with the BSP tree
+3 275 547  Cychosz,Waggenspack	intersecting a ray with a quadric surface
+3 284      Cychosz	... eliminate ray-object intersection calculations
+3 288 551  Musgrave	a panoramic virtual screen for ray tracing
+3 295 555  Trumbore	rectangular bounding volumes for popular primitives
+3 301      X.Wu		a linear time simple bounding volume algorithm
+3 307 562  Wang		correct direct lighting for distribution ray tracing
+3 314 569  Bian		Hemispherical Projection of a triangle
+3 318      Max,Allison	linear rad approx using vertex-to-vertex form factors
+3 324 575  Beran-Koehn,Pavicic	delta form factor for cubic tetrahedral alg.
+3 329 577  Tampieri	accurate form factor computation
+
+3 VII. Rendering
+3 337      		Introduction
+3 338 582  Woo		the shadow depth map revisited
+3 343 583  Cheng	fast linear color rendering
+3 349 586  Cheng	edge and bitmask calculations for antialiasing
+3 355 594  Grace	fast span conversion: unrolling short loops
+3 358 597  Hollasch	progressive image refinement via gridded sampling
+3 362 599  Fleischer,Salesin	poly. scan conversion using half-open intervals
+3 366      Glassner	darklights
+3 369      Glassner	anti-aliasing in triangular pixels
+3 374 606  Snyder,Barzel,Gabriel	motion blur on graphics workstations
+3 383      Arvo,Scofield	shader cache: a rendering pipeline accelerator 
+
+3 C Utilities
+3 393      Glassner	Graphics Gems C Header File
+3 396      Glassner	2-D and 3-D Vector C Library -- Corrected and Indexed
+3 405      Hollasch	Useful C Macros for Vector Operations
+
+3 Appendix: C Implementations
+3 411      code starts
+
+3 611      References
+3 625      Index
+3 631      last page
+
+===========================================
+Graphics Gems IV (Paul Heckbert, Editor)
+===========================================
+
+Below is the table of contents for "Graphics Gems IV".  This table also
+serves as an index to the code in the FTP collection.  Note that every
+article has text that appears in the book but not in the FTP archive,
+and some articles contain no C or C++ code.
+
+file or		book	chapter title and author
+directory      chapter
+------------------------------------------------------------
+
+		I	POLYGONS AND POLYHEDRA
+
+centroid.c	I.1	Centroid of a Polygon
+			Gerard Bashein and Paul R. Detmer
+
+convex_test/	I.2	Testing the Convexity of a Polygon
+			Peter Schorn and Frederick Fisher
+
+ptpoly_weiler/	I.3	An Incremental Angle Point in Polygon Test
+			Kevin Weiler
+
+ptpoly_haines/	I.4	Point in Polygon Strategies
+			Eric Haines
+
+delaunay/	I.5	Incremental Delaunay Triangulation
+			Dani Lischinski
+
+vert_norm/	I.6	Building Vertex Normals from an Unstructured Polygon
+			List
+			Andrew Glassner
+
+		I.7	Detecting Intersection of a Rectangular Solid and a
+			Convex Polyhedron
+			Ned Greene
+
+collide.c	I.8	Fast Collision Detection of Moving Convex Polyhedra
+			Rich Rabbitz
+------------------------------------------------------------
+
+		II	GEOMETRY
+
+		II.1	Distance to an Ellipsoid
+			John C. Hart
+
+dist_fast.c	II.2	Fast Linear Approximations of Euclidean Distance in
+			Higher Dimensions
+			Yoshikazu Ohashi
+
+outcode/	II.3	Direct Outcode Calculation for Faster Clip Testing
+			Walt Donovan and Tim Van Hook
+
+sph_poly.c	II.4	Computing the Area of a Spherical Polygon
+			Robert D. Miller
+
+		II.5	The Pleasures of `Perp Dot' Products
+			F. S. Hill, Jr.
+
+		II.6	Geometry for N-Dimensional Graphics
+			Andrew J. Hanson
+------------------------------------------------------------
+
+		III	TRANSFORMATIONS
+
+arcball/	III.1	Arcball Rotation Control
+			Ken Shoemake
+
+		III.2	Efficient Eigenvalues for Visualization
+			Robert L. Cromwell
+
+inv_fast.c	III.3	Fast Inversion of Length- and Angle-Preserving Matrices
+			Kevin Wu
+
+polar_decomp/	III.4	Polar Matrix Decomposition
+			Ken Shoemake
+
+euler_angle/	III.5	Euler Angle Conversion
+			Ken Shoemake
+
+		III.6	Fiber Bundle Twist Reduction
+			Ken Shoemake
+------------------------------------------------------------
+
+		IV	CURVES AND SURFACES
+
+data_smooth/	IV.1	Smoothing and Interpolation with Finite Differences
+			Paul H. C. Eilers
+
+		IV.2	Knot Insertion using Forward Differences
+			Phillip Barry and Ron Goldman
+
+		IV.3	Converting a Rational Curve to a Standard Rational
+			Bernstein-Bezier Representation
+			Chandrajit Bajaj and Guoliang Xu
+
+curve_isect/	IV.4	Intersecting Parametric Cubic Curves by Midpoint
+			Subdivision
+			R. Victor Klassen
+
+patch_conv.C	IV.5	Converting Rectangular Patches into Bezier Triangles
+			Dani Lischinski
+
+nurb_polyg/	IV.6	Tessellation of NURB Surfaces
+			John W. Peterson
+
+		IV.7	Equations of Cylinders and Cones
+			Ching-Kuang Shene
+
+implicit.c	IV.8	An Implicit Surface Polygonizer
+			Jules Bloomenthal
+------------------------------------------------------------
+
+		V	RAY TRACING
+
+		V.1	Computing the Intersection of a Line and a Cylinder
+			Ching-Kuang Shene
+
+ray_cyl.c	V.2	Intersecting a Ray with a Cylinder
+			Joseph M. Cychosz and Warren N. Waggenspack, Jr.
+
+vox_traverse.c	V.3	Voxel Traversal along a 3D Line
+			Daniel Cohen
+
+multi_jitter/	V.4	Multi-Jittered Sampling
+			Kenneth Chiu, Peter Shirley, and Changyaw Wang
+
+minray/		V.5	A Minimal Ray Tracer
+			Paul S. Heckbert
+------------------------------------------------------------
+
+		VI	SHADING
+
+		VI.1	A Fast Alternative to Phong's Specular Model
+			Christophe Schlick
+
+		VI.2	R.E versus N.H Specular Highlights
+			Frederick Fisher and Andrew Woo
+
+		VI.3	Fast Alternatives to Perlin's Bias and Gain Functions
+			Christophe Schlick
+
+		VI.4	Fence Shading
+			Uwe Behrens
+------------------------------------------------------------
+
+		VII	FRAME BUFFER TECHNIQUES
+
+		VII.1	XOR-Drawing with Guaranteed Contrast
+			Manfred Kopp and Michael Gervautz
+
+		VII.2	A Contrast-Based Scalefactor for Luminance Display
+			Greg Ward
+
+dyn_range/	VII.3	High Dynamic Range Pixels
+			Christophe Schlick
+------------------------------------------------------------
+
+		VIII	IMAGE PROCESSING
+
+emboss.c	VIII.1	Fast Embossing Effects on Raster Image Data
+			John Schlag
+
+coons_warp.c	VIII.2	Bilinear Coons Patch Image Warping
+			Paul S. Heckbert
+
+convolve.c	VIII.3	Fast Convolution with Packed Lookup Tables
+			George Wolberg and Henry Massalin
+
+thin_image.c	VIII.4	Efficient Binary Image Thinning using Neighborhood Maps
+			Joseph M. Cychosz
+
+clahe.c		VIII.5	Contrast Limited Adaptive Histogram Equalization
+			Karel Zuiderveld
+
+mrsfoley.im	VIII.6	Ideal Tiles for Shading and Halftoning
+			Alan Wm Paeth
+------------------------------------------------------------
+
+		IX	GRAPHIC DESIGN
+
+		IX.1	Placing Text Labels on Maps and Diagrams
+			Jon Christensen, Joe Marks, and Stuart Shieber
+
+graph_layout/	IX.2	Dynamic Layout Algorithm to Display General Graphs
+			Laszlo Szirmay-Kalos
+------------------------------------------------------------
+
+		X	UTILITIES
+
+trilerp.c	X.1	Tri-linear Interpolation
+			Steve Hill
+
+interp_fast.c	X.2	Faster Linear Interpolation
+			Steven Eker
+
+vec_mat/	X.3	C++ Vector and Matrix Algebra Routines
+			Jean-Francois Doue
+
+GraphicsGems.c	X.4	C Header File and Vector Library
+GraphicsGems.h		Andrew Glassner and Eric Haines
+
+===========================================
+Graphics Gems V (Alan Paeth, Editor)
+===========================================
+
+ Pg Author(s)	  Title
+
+ -- (Glassner)    (Forward)
+ -- (Paeth)       (Preface/Afterword)
+
+  1 I.   Algebra and Arithmetic
+  3 Herbison-Evans Solving Quartics and Cubics for Graphics
+ 16 Turkowski     Computing the Inverse Square Root
+ 22 Turkowski     Fixed Point Square Root
+ 25 Shoemake      Rational Approximation
+
+ 33 II.  Computational Geometry
+ 35 Van Gelder    Efficient Computation of Polygon Area and Polyhedron Volume
+ 42 Carvalho/Cavalcanti Point in Polyhedron Testing using Spherical Polygons
+ 50 Glassner      Clipping a Concave Polygon
+ 55 Hanson        Rotations for N-dimensional Graphics
+ 65 Buckley       Parallelohedra and Uniform Color Quantization
+ 72 Hill          Matrix-based Ellipse Geometry
+ 78 Paeth         Distance Approximations and Bounding Polyhedra
+
+ 89 III. Modeling and Transformation
+ 91 Alciatore/Miranda The Best Least-Squares Line Fit
+ 98 Hill/Roberts  Surface Models and the Resolution of n-Dim. Cell Ambiguity
+107 Arata         Tri-cubic Interpolation
+111 Miller        Transforming Coordinates from One Coordinate Plane to Another
+121 Chin          A Walk Through BSP Trees
+139 Blanc         Generic Implementation of Axial Deformation Techniques
+
+147 IV.  Curves and Surfaces
+149 Goldman       Identities for the Univariate, Bivariate Bernstein Basis Fcns
+163 Goldman       Identities for the B-Spline Basis Functions
+168 Turkowski     Circular Arc Subdivision
+173 de Figueiredo Adaptive Sampling of Parametric Curves
+179 Ahn           Fast Generation of Ellipsoids
+191 Bajaj/Xu      Sparse Smooth Connection between Bezier/B-Spline Curves
+199 Gravesen      The Length of Bezier Curves
+206 Miller        Quick and Simple Bezier Curve Drawing
+210 Shoemake      Linear Form Curves
+
+225 V.   Ray Tracing and Radiosity
+227 Shene         Computing the Intersection of a Line and a Cone
+232 Schlick/Subrenat Ray Intersection of Tessellated Surfaces: Quad vs Triangle
+242 Moller        Faster Raytracing using Scanline Rejection
+258 Leipelt       Ray Tracing a Swept Sphere
+268 Marton        Acceleration of Ray Tracing via Voronoi-diagrams
+285 Zimmerman     Direct Lighting Models for Ray Tracing with Cylindrical Lamps
+290 Feda          Improving Intermediate Radiosity using Directional Light
+
+295 VI.  Halftoning and Image Processing
+297 Purgathofer/Tobler/Geiler Improved Threshold Matrices for Ordered Dithering
+302 Wong/Hsu      Halftoning with Selective Precipitation & Adaptive Clustering
+314 Eker          Faster Pixel-Perfect Line Clipping
+323 Doue/Rubio    Efficient and Robust 2D Shape Vectorization
+338 Hsu/Lee       Reversable Straight Line Edge Reconstruction
+355 Sharma        Priority-based Adaptive Image Refinement
+359 Cross         Sampling Patterns Optimized for Uniform Distribution of Edges
+
+365 VII. Utilities
+367 Schlick       Wave Generators for Computer Graphics
+375 Green/Hatch   Fast Polygon-Cube Intersection Testing
+380 Bouma/Vanecek Velocity-based Collision Detection
+386 Vanecek       Spatial Partitioning of a Polygon by a Plane
+394 Narkhede/Manocha Fast Polygon Triangulation based on Seidel's Algorithm
+398 Karinthi      Accurate Z-buffer Rendering
+400 Paeth (et al) A Survey of Graphics Libraries

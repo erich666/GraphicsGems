@@ -1,0 +1,34 @@
+This group of files is a simple demonstration of an anti-aliased line
+renderer from _Graphics_Gems_.  Files in the release are:
+
+  00README -- This information file.
+
+  Makefile -- Makefile for creating the demo executable.
+
+  AALines.h -- Include file for demo source files.
+
+  AALines.c -- Rendering code from _Graphics_Gems_ pages 690-693.
+
+  AATables.c -- Initialization code for frame buffer and lookup tables.
+
+  AAMain.c -- Calling routine for the renderer.
+
+  utah.h -- Include file for friendly Utah RLE front end.
+
+  utah.c -- Source for friendly Utah RLE front end.
+
+As it is written, the program dumps its frame buffer to a Utah RLE
+file.  You need to obtain the Utah RLE library from another source;
+try the following FTP sites:
+
+        cs.utah.edu (128.110.4.21)
+        weedeater.math.yale.edu (130.132.23.17)
+        freebie.engin.umich.edu (35.2.68.23)
+
+It should be fairly easy to dump the frame buffer to another type
+of file, or straight to a display device.  See AAMain.c.
+
+Have fun.
+
+    -- Kelvin Thompson, 18 August 1990
+       kelvin@cs.utexas.edu

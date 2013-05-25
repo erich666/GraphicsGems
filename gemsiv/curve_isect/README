@@ -1,0 +1,12 @@
+C++ code from the article
+"Intersecting Parametric Cubic Curves by Midpoint Subdivision"
+by R. Victor Klassen, klassen.wbst128@xerox.com
+in "Graphics Gems IV", Academic Press, 1994
+
+files:
+    Bezier.cc	- C++ source for cubic Bezier curve intersection
+    Bezier.h	- header file for "
+    makefile
+    test.cc	- test program that prints out Postscript of curve intersection
+    testout.ps	- color Postscript output of test program
+    vector.h	- floating point vector library

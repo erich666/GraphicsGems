@@ -1,0 +1,10 @@
+C code from the article
+"High Dynamic Range Pixels"
+by Christophe Schlick, schlick@labri.u-bordeaux.fr
+in "Graphics Gems IV", Academic Press, 1994
+
+files:
+    Makefile
+    hdp.c	- C source file
+    hdp.h	- header file
+    test_hdp.c	- test program

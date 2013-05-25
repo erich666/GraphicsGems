@@ -1,0 +1,16 @@
+mkdir $1
+cp defines.h 	$1/defines.h
+cp layout.C 	$1/layout.cpp
+cp fileio.C 	$1/fileio.cpp
+cp graph.C 	$1/graph.cpp
+cp mswindow.C 	$1/mswindow.cpp
+cp fileio.hxx  	$1/fileio.hxx
+cp graph.hxx   	$1/graph.hxx
+cp vector.C   	$1/vector.cpp
+cp mswindow.hxx	$1/mswindow.hxx
+cp vector.hxx  	$1/vector.hxx
+cp g.dat	$1/g.dat
+cp g20.dat	$1/g20.dat
+cp README	$1/README
+cp graph.mak	$1/graph.mak
+echo "files are generated in directory:" $1

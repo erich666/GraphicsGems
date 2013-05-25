@@ -1,0 +1,195 @@
+Neutral File Format
+
+Presently the following entities are supported by the modified NFF:
+
+A simple perspective frustum
+
+A background color description
+
+A positional (vs. directional) light source description
+
+A surface properties description
+
+Triangle descriptions
+
+NFF files contain lines of text. For each entity, the first field
+defines its type. The rest of the line and possibly other lines
+contain further information about the entity.
+
+Entities include:
+
+"v" - viewing vectors and angles
+
+"b" - background color
+
+"l" - positional diffuse light location
+
+"s" - positional specular light location
+
+"f" - object material properties
+
+"pp" - triangular patch primitive
+
+These are explained below.
+
+Viewpoint location 
+
+Template:
+
+"v"
+
+"from" Fx Fy Fz
+
+"at" Ax Ay Az
+
+"up" Ux Uy Uz
+
+"angle" angle
+
+"hither" hither
+
+"yon" yon
+
+"resolution" xres yres
+
+Type Specification:
+
+v
+
+from float float float
+
+at float float float
+
+up float float float
+
+angle float
+
+hither float
+
+yon float
+
+resolution integer integer
+
+Description:
+
+From: the eye location in XYZ.
+
+At: a position to be at the center of the image, in XYZ world
+coordinates. A.k.a. "lookat".
+
+Up: a vector defining which direction is up, as an XYZ vector.
+
+Angle: in degrees, defined as from the center of top pixel row to
+bottom pixel row and left column to right column.
+
+Hither: distance of the hither plane from the eye.
+
+Yon: distance of the yon plane from the eye.
+
+Resolution: in pixels, in x and in y (currently ignored).
+
+Note that no assumptions are made about normalizing the data (e.g. the
+from-at distance does not have to be 1). Also, vectors are not
+required to be perpendicular to each other.
+
+For all databases, the aspect ratio is 1.0.
+
+A view entity must be defined before any objects are defined.
+
+Background color
+
+Template:
+
+"b" R G B
+
+Type Specification:
+
+b float float float
+
+Description:
+
+Background color is given R,G and B values between 0 and 1.	
+
+Positional Diffuse light
+
+Template:
+
+"l" X Y Z IpR IpG IpB
+
+Type Specification:
+
+l float float float float float float
+
+Description:
+
+A diffuse light is defined by its XYZ position. All light entities
+must be defined before any objects are defined. Light source position
+and its Red, Green and Blue components, in the range 0.0 to 1.0 are
+specified. Up to NUM_LIGHT_SOURCES light sources can be specified.
+
+Positional Specular light
+
+Template:
+
+"s" X Y Z IpR IpG IpB ks n
+
+Type Specification:
+
+l float float float float float float float integer
+
+Description:
+
+A specular light is defined by its XYZ position. All light entities
+must be defined before any objects are defined. Light source position
+and its Red, Green and Blue components, in the range 0.0 to 1.0 are
+specified. At most one specular light source can be specified. The
+specular reflection coefficient (ks) in the range 0.0 to 1.0 and the
+specular exponent (n) are also specified.
+
+Fill color and shading parameters
+
+Template:
+
+"f" OdR OdG OdB Kd Ka c1 c2 
+
+Format:
+
+f float float float float float float float float
+
+Description:
+
+OdR, OdG and OdB specify the object's diffuse color (RGB triple) in
+the range 0.0 to 1.0. Kd is the diffuse reflection coefficient, Ka the
+ambient reflection coefficient, c1 and c2 are the parameters for the
+attenuation function fatt(d) = 1/(1 + c1*d + c2 * d * d) used for the
+light source where "d" is the distance of a point from the light
+source (See the textbook by Foley, van Dam, Feiner, Hughes and
+Phillips, Chapter 14). Usually, 0 <= Kd <= 1 and 0 <= Ka <= 1, and Kd
+and Ka are independent.
+
+Triangular patch 
+
+Template:
+
+"pp" total_vertices
+
+vert1.x vert1.y vert1.z norm1.x norm1.y norm1.z
+
+[etc. for total_vertices vertices]
+
+Format:
+
+pp integer
+
+[float float float float float float] <-- for total_vertices vertices
+
+Description:
+
+All objects are considered one-sided. A patch is defined by a set of
+vertices and their normals. With these databases, a patch is defined
+to have all points coplanar. A patch has only one side, with the order
+of the vertices being counterclockwise as you face the patch
+(right-handed coordinate system). The first two edges must form a
+non-zero convex angle, so that the normal and side visibility can be
+determined. Note that, since only triangular patches are supported
+total_vertices shown must always be 3.

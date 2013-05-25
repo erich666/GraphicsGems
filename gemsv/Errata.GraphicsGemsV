@@ -1,0 +1,215 @@
+Errata to _Graphics Gems V_, first edition, edited by Alan Paeth
+(awpaeth@okanagan.bc.ca), Academic Press 1995.  Code available online in
+http://www.graphicsgems.org/
+
+compiled by Eric Haines (erich@acm.org) from author and reader contributions
+
+version 1.13
+date:  9/11/2009
+
+-----
+
+Errors in the text:
+
+The following proof changes might not appear in the book's 1st printing but
+are correct on the floppy disk and FTP mirror versions:
+
+p. 44, Girard's formula is listed as "A+B+C-2PI" should be "A+B+C-PI".
+        The same mistake occurs in equation (1) on the same page,
+        "2(n-2)PI" should be "(n-2)PI".
+
+p. 76, (b) Parallel Lines: it says the quadratic equation will either have
+        coefficients of A, D, and F or coefficients of B, E and F. However,
+        if you multiply out [x y 1] M [x y 1]' where M is either of the two
+        matrices listed under Eqn 20, you get coefficients of A, 2*D, and F
+        or B, 2*E, and F. (See related error in code, below.) [thanks to
+        Sarah Edwards]
+
+p. 85, bottom (code line) now reads:
+
+                 ...    if ((t = a - b) < 0) {a -= t; b += t; } }
+
+                                 ^   ^          ^       ^
+      ('a','b' and '+','-' were transposed)
+
+p. 86, top (code):
+        ...  + 16*d)/ ...
+               ^^ replaces the ' 4' presently there
+
+p. 153: formulas (ix) a and b are correct, but they would be better if they
+    were written as:
+
+    (a) B_k^n(t) = Sigma (-1)^j-k Binomial(j,k) Binomial(n,j) t^j
+
+    (b) Similarly, replace Binomial(n,i,j) Binomial(n-i-j, k-i, l-j) by
+        Binomial(k,i) Binomial(l,j) Binomial(n,k,l)
+
+p. 323: no cedilla in "Francois" in author's name (cp. p 405, bottom)
+
+p. 327: Figure 5b has an expansion of 3 vertical lines. In 5a these are 5
+        pixels high, in Figure 5b they incorrectly expand to 21 pixels high;
+        these should be 20 pixels high.
+
+p. 394: Atul Narkhede's email address is now atul@yamuna.asd.sgi.com
+
+p. 382 on: Daniel Green is now Melinda Green, melinda@superliminal.com; Don
+        Hatch's email address is now hatch@hadron.org
+
+-----
+
+The following are errors in the book's code listings (corrected in the online
+code at http://www.graphicsgems.org/).  Note that some of the
+code listings online are different in minor and major ways from the code in
+the book.
+
+
+Serious errors (ones your compiler cannot or may not catch):
+
+ch1-4/rat.c - page 29, line 42, change
+
+    carry = t3&0xFFFF; lohi = (t3<<16)&0xFFFF;
+        to
+    carry = (t3>>16)&0xFFFF; lohi = t3&0xFFFF;
+
+ch1-4/rat.c - page 31, line 11, change
+
+        ck = ck<<n + num/ak1;
+        to
+        ck = (ck<<n) + (num/ak1);
+
+ch2-6/conmat.c - line 397, "if (d <= 0.0)" should be "if (d < 0.0)"
+        lines 502-503, P2.X gets set twice; the second time should be
+        setting P2.Y.
+        Line 524 should be PolyCoef[1] = 2*TempConic.D;
+        Line 544 should be PolyCoef[1] = 2*TempConic.E;
+        (see related text fixes earlier.)
+        [thanks to Sarah Edwards for all conmat.c fixes]
+
+ch3-4/xcoord.c - page 118, line 15, change
+
+        sumxy += pt[k].y*zeta[k];
+        to:
+        sumdy += pt[k].y*zeta[k];
+        [thanks to Urs Eisenmann]
+
+ch3-4/xcoord.c - page 120, at top, in SecondOrderLeastSquares, old code:
+
+        for(k =0; k < npoints; k++) {
+            sumd   += eta[k];
+            sumdx  += pt[k].x *eta[k];
+            sumdx2 += px2 *eta[k];	<-- px2 computation missing!
+            sumdy  += pt[k].y *eta[k];
+            sumdy2 += py2 *zeta[k];	<-- py2 computation missing & should be eta!
+            sumdxy += pt[k].x *pt[k].y *eta[k];
+            }
+
+	to:
+
+        for(k =0; k < npoints; k++) {
+            px2 = SQR(pt[k].x);
+            py2 = SQR(pt[k].y);
+            sumd   += eta[k];
+            sumdx  += pt[k].x *eta[k];
+            sumdx2 += px2 *eta[k];
+            sumdy  += pt[k].y *eta[k];
+            sumdy2 += py2 *eta[k];
+            sumdxy += pt[k].x *pt[k].y *eta[k];
+        }
+        [thanks to Philip Oberhammer]
+
+ch3-6/axd.* - these files have been reworked to correctly match the macro
+        library that they use. See the online version.
+
+ch4-8/qbezier.c - line 76, change "if (k = 0)" to "if (k == 0)".
+
+ch6-4/chainCode.C - line 70, add "int trueLength = strlen(code);" and
+        change all "length" to "trueLength" in postProcess(). The old code loops
+        through the whole allocated string instead of just the part with data.
+
+ch7-1/wave.c - remove the definition "double a" from each of the routines
+        Rwave, Twave, and Swave.  The variable "a" is passed in and so should
+        not be defined here.
+
+        The wave.c code was found to have numerous errors by George Ogata.
+        Rather than list all the fixes here, simply see the new file in the
+        archive. George included an OpenGL test program for using this function,
+        which can be put at the end of wave.c for testing.
+
+#include "gl.h"
+#include "glut.h"
+#include <stdlib.h>
+
+#define XMIN  0.0f
+#define XMAX 20.0f
+#define NUM_SAMPLES 1000
+
+// arguments to the wave functions -- play with these
+#define s 0.0f
+#define f 1.0f
+#define a 1.0f
+
+void draw(void) {
+  float t = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
+  glClear(GL_COLOR_BUFFER_BIT);
+  glPushMatrix(); {
+    glTranslatef(-1, 0, 0);
+    glScalef(2/(XMAX-XMIN), 0.4, 1);
+    //
+    glTranslatef(0, 1, 0);
+    glBegin(GL_LINE_STRIP);
+    for (float x = XMIN; x < XMAX; x += (XMAX-XMIN)/NUM_SAMPLES)
+      glVertex2f(x, Rwave(x+t*5, s, f, a));
+    glEnd();
+    //
+    glTranslatef(0, -1.5, 0);
+    glBegin(GL_LINE_STRIP);
+    for (float x = XMIN; x < XMAX; x += (XMAX-XMIN)/NUM_SAMPLES)
+      glVertex2f(x, Twave(x+t*5, s, f, a));
+    glEnd();
+    //
+    glTranslatef(0, -1.5, 0);
+    glBegin(GL_LINE_STRIP);
+    for (float x = XMIN; x < XMAX; x += (XMAX-XMIN)/NUM_SAMPLES)
+      glVertex2f(x, Swave(x+t*5, s, f, a));
+    glEnd();
+    //
+  } glPopMatrix();
+  glutSwapBuffers();
+}
+
+void quit(unsigned char key, int x, int y) {
+  exit(0);
+}
+
+int main(int argc, char **argv) {
+  glutInit(&argc, argv);
+  glutInitWindowSize(800, 600);
+  glutInitDisplayMode(GLUT_DOUBLE);
+  glutCreateWindow("");
+  glutIdleFunc(draw);
+  glutKeyboardFunc(quit);
+  glutMainLoop();
+  return 0;
+}
+
+ch7-5/misc.c - if you do not have the log2() function in your compiler, use:
+        #define log2(x) (log((double)x)/log(2.0))
+
+-----
+
+Syntax errors (ones that are not usually harmful, or are easily caught):
+
+There are various "lint" type errors in the text's and diskette's code which
+have been cleaned up in the FTP distribution.  The only serious changes were
+to the axd.c code in ch3-6, as the code was out of sync with the macros it
+used from ch7-7/mactbox.  The corrected code is in the FTP distribution.
+
+-----
+
+The following are typographical errors in the comments:
+
+[none so far]
+
+-----
+
+END

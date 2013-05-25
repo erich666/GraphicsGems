@@ -1,0 +1,335 @@
+Errata to _Graphics Gems III_, first edition, edited by David Kirk
+(dk@egg.gg.caltech.edu), Academic Press 1992.  Code available online in
+http://www.graphicsgems.org/
+
+compiled by Eric Haines (erich@acm.org) from author and reader contributions
+
+version 1.23
+date:  9/11/2009
+
+-----
+
+Errors in the text:
+
+p. 67, equation 2.2 at bottom: should read "a := c - a;"
+
+p. 201, just before "Timing Measurements" section: "corresponds to collinear
+        line segments" should read "corresponds to parallel or collinear line
+        segments".
+
+p. 204, middle of page: the y-component of the center should be negative, so
+        that it matches the equation two lines further down.
+
+p. 234, final two equations need minus signs in the denominators:
+
+    P[u] = M[v]*Jd - N[v]*Id
+           ---------------------
+           M[u]*N[v] - M[v]*N[u]
+
+    P[v] = N[u]*Id - M[u]*Jd
+           ---------------------
+           M[u]*N[v] - M[v]*N[u]
+
+p. 273, next to last line: change
+        return [RayTreeIntersect( Ray, near, dist, max )]  /* test far side*/
+        to
+        return [RayTreeIntersect( Ray, far, dist, max )]  /* test far side*/
+        i.e. "near" to "far". (from Ruben Garcia)
+
+p. 285, third paragraph, first sentence:  change "with the complement of the
+        residency mask" to "with the residency mask".
+
+-----
+
+The following are errors in the code listings (corrected in the online code at
+http://www.graphicsgems.org).  Note that many of the code
+listings online are different in minor and major ways from the code in the
+book (see Addenda, at the end, for new code not in the book).
+
+
+Serious errors (ones your compiler cannot or may not catch):
+
+p. 330, Equation (4):  put a minus sign just before the 1/2pi term.
+
+p. 394: Delete FLOOR and CEILING macros (they're more like truncations).
+        Change ROUND macro to (i.e. add parentheses around "a"):
+        #define ROUND(a)        ((a)>0 ? (int)((a)+0.5) : -(int)(0.5-(a)))
+        Change SGN macro to (i.e. change positive condition result to "1"):
+        #define SGN(a)                (((a)<0) ? -1 : 1)
+
+p. 401, line 9:  in V3Combine change last "result->y" to "result->z".
+
+p. 422, third from last line:  change "tmp->xsize" to "dst->ysize".
+
+p. 425-427:  bitbuf is used before being set; initialized bitbuf = 0 before
+        use in the three scale_bitmap_* routines.
+
+p. 430, line 8:  change "uranx" to "urany" in the "jittery" macro.
+
+p. 438, after line 18, "dir = neighbor(...", add the following test:
+
+        /*** maybe done with contour ***/
+
+        if ( (x == start_x) && (y == start_y) && (chain != NULL) )
+                if (dir == chain->dir)
+                        return(1);
+
+        and the code 20 lines later labelled "maybe done with contour"
+        should be deleted (3 lines).
+
+p. 474: the variable "rho" is not used, delete it.
+p. 477, next to last two lines:  call sq_ellipsoid_tensor with five "1."'s and
+        sq_toroid_tensor with six "1."'s.
+
+p. 482, 5th line from bottom: "Shape6R" should be "Shape6P".
+
+p. 498, lines 53-54:  put "&" in front of a1,b1,c1 and a2,b2,c2.
+p. 498, next to last line: comment should end with "*/" instead of "/*". (from Brian Koetting)
+p. 499, lines 27-28:  put "&" in front of xa,ya and xb,yb.
+
+p. 500-1: change COLLINEAR to PARALLEL (i.e. when f==0, all we can conclude is
+        that the two lines are parallel).
+p. 520, line 17: change
+                invdet = 1.0 / xdir->y;
+        to
+                invdet = -1.0 / xdir->y;
+        If you solve the equations below this line you will notice that the
+        denominator is:
+            pl1.x * pl2.z - pl1.z * pl2.x = - xdir.y
+        (from Rune Torkildsen)
+
+p. 521: Numerical instability can result during point-triangle intersection.
+        A better SIGN3 macro is:
+                #define EPS 10e-5
+                #define SIGN3( A ) \
+                  (((A).x < EPS) ? 4 : 0 | ((A).x > -EPS) ? 32 : 0 | \
+                   ((A).y < EPS) ? 2 : 0 | ((A).y > -EPS) ? 16 : 0 | \
+                   ((A).z < EPS) ? 1 : 0 | ((A).z > -EPS) ? 8 : 0)
+        and the point_triangle_intersection test (p. 526) changes to:
+           return ((sign12 & sign23 & sign31) == 0) ? OUTSIDE : INSIDE;
+           [addition of parentheses thanks to Martin Roth]
+
+p. 523, line 29-45: rewritten to avoid division by zero when triangle is
+        parallel to the diagonals of the cube.
+
+        d = norm.x * t.v1.x + norm.y * t.v1.y + norm.z * t.v1.z;
+
+        /* if one of the diagonals is parallel to the plane, the other will intersect the plane */
+        if(fabs(denom=(norm.x + norm.y + norm.z))>EPS)
+        /* skip parallel diagonals to the plane; division by 0 can occur */
+        {
+           hitpp.x = hitpp.y = hitpp.z = d / denom;
+           if (fabs(hitpp.x) <= 0.5)
+              if (point_triangle_intersection(hitpp,t) == INSIDE) return(INSIDE);
+        }
+        if(fabs(denom=(norm.x + norm.y - norm.z))>EPS)
+        {
+           hitpn.z = -(hitpn.x = hitpn.y = d / denom);
+           if (fabs(hitpn.x) <= 0.5)
+              if (point_triangle_intersection(hitpn,t) == INSIDE) return(INSIDE);
+        }       
+        if(fabs(denom=(norm.x - norm.y + norm.z))>EPS)
+        {       
+           hitnp.y = -(hitnp.x = hitnp.z = d / denom);
+           if (fabs(hitnp.x) <= 0.5)
+              if (point_triangle_intersection(hitnp,t) == INSIDE) return(INSIDE);
+        }
+        if(fabs(denom=(norm.x - norm.y - norm.z))>EPS)
+        {
+           hitnn.y = hitnn.z = -(hitnn.x = d / denom);
+           if (fabs(hitnn.x) <= 0.5)
+              if (point_triangle_intersection(hitnn,t) == INSIDE) return(INSIDE);
+        }
+        [fix thanks to Robert Krupinski]
+
+
+p. 525: change calls to check_point. The third argument to each call should
+        switch p1 and p2. For example, the first correction should be:
+                if (check_point(p1,p2,( .5-p1.x)/(p2.x-p1.x),0x3e) == INSIDE)
+                          return(INSIDE);
+
+p. 547, beginning:  add line "#include <math.h>"
+
+p. 548, line 15 from the bottom: change
+		k2 = raycos.x * (raycos.x*qa + raycos.y*qb) +
+			 raycos.y * (raycos.y*qe + raycos.z*qf) +
+			 raycos.z * (raycos.z*qh + raycos.z*qc);
+			 
+			 to
+			 
+		k2 = raycos.x * (raycos.x*qa + raycos.y*qb) +
+			 raycos.y * (raycos.y*qe + raycos.z*qf) +
+			 raycos.z * (raycos.z*qh + raycos.x*qc);
+			 
+		That is, change the last raycos.z to raycos.x. (from Scott Pendergrass)
+
+
+p. 570, line 49:  change to "major = V3New(0.0, 0.0, 1.0);"
+
+p. 580, line 19:  change "f+= acos(VDOT(s, t)) * VDOT(sxt, Ns);" to
+        "f-= acos(VDOT(s, t)) * VDOT(sxt, Nr);", i.e. "Ns" becomes "Nr".
+        "Ns" can be removed from the list of calling parameters for
+        "computeUnoccludedFormFactor()".
+
+p. 606, beginning:  add "#include <string.h>"
+
+-----
+
+Syntax errors (ones that are not usually harmful, or are easily caught):
+
+p. 396-404, throughout:  replace "};" with "}" to make lint happy
+p. 402, gcd():  the variable "k" is set but not used - remove it
+
+p. 411, top:  for ANSI compatibility, add procedure declarations:
+        void RectStretch(long xs1,long ys1,long xs2,long ys2,long xd1,long yd1,
+                long xd2,long yd2) ;
+        void Stretch(long x1,long x2,long y1,long y2,long yr,long yw) ;
+        void CircleStretch(long SBMINX,long SBMAXX,long xc,long yc,long r) ;
+        void Stretch2Lines(long x1,long x2,long y1,long y2,long yr1,long yw1,
+                long yr2,long yw2) ;
+
+p. 411-413:  cast expressions inside "abs()" calls to type "(int)".
+
+p. 414-424:  replace "ceiling" with "ceil" (on some machines)
+p. 416, lines 18-19:  remove "char *p;" and "int width, height;" declarations;
+        unused.
+p. 420-421:  replace "(*filter)" with "(*filterf)" to avoid redeclaration of
+        "filter".
+p. 423, line 23:  remove "register char *p;" declaration; unused.
+
+p. 425, line 33 and p. 426, line 51:  remove declaration of "i", as it is
+        unused.
+
+p. 427, line 29:  remove declarations for "*p" and "*q"; unused.
+
+p. 428, line 35:  remove declarations for "i" and "j"; unused.
+
+p. 441, line 37:  remove "nx" declaration; unused.
+p. 443, line 2:  remove "xl, xr, yt, yb" declarations; unused.
+p. 443, lines 3-4:  remove "k" and "ptb" declarations; unused.
+
+p. 464, lines 2-3:  There is a mismatch between the article and the code: the
+        article uses cos and sin for computing Vx and Vy, the code uses sin
+        and cos. Since we're computing a random direction, this does not
+        matter in practice. (found by Lidio Meireles)
+
+p. 472, line 19:  remove "result" declaration; unused.
+p. 474, lines 17-18:  remove "iworld" and "R" declarations; unused.
+p. 477, line 32:  remove "x" declaration; unused.
+p. 476-477:  note that sqellipsoidposn() and sqtoroidposn() are not
+        particularly useful in their current forms; they do not return any
+        values, e.g. x,y,z are computed but not returned.
+
+p. 489, line 50:  cast "intsct" to "(void *)" to make lint happy.
+
+p. 496, line 10:  remove global "r, p1, p2, p3, p4" declarations.
+p. 496, line 10 and p. 499, throughout:  change "v1" to "gv1" and "v1" to
+        "gv2".
+p. 497, line 31:  remove "xt" and "yt" declarations; unused.
+p. 498, line 27:  remove "t" and "u" declarations; unused.
+
+p. 500, line 25:  remove "temp" declaration; unused.
+p. 500, line 26:  remove "x3lo,x3hi" and "y3lo,y3hi" declarations; unused.
+
+p. 513, line 17:  add the declarations for the static routines:
+        static void computePlaneEq() ;
+        static Node *insertPlaneEq() ;
+        static int comparePlaneEqs() ;
+
+p. 522, line 5:  remove "vect23, vect31" declarations; unused.
+
+p. 543, line 45:  change "malloc" to "(StackPtr)malloc"
+p. 544, line 54:  change "malloc" to "(BinNodePtr)malloc"
+p. 546, line 17:  change "malloc" to "(BinNodePtr)malloc"
+
+p. 551-554:  Note that this code uses definitions and subroutines that are
+        found in Rayshade.  Most are easy enough to understand and code (or
+        use Steve Hollasch's vector macros on pages 405-407).
+
+p. 559, line 22:  remove "tmp" declaration; unused.
+
+p. 570, line 9:  remove "j" declaration; unused.
+p. 572, line 18:  remove "a, b, c" and "x1, y1, z1" declarations; unused (i.e.
+        replace line with "double d;".
+p. 573, lines 15 and 28:  remove "i" declarations; unused.
+
+p. 577, line 12:  add the declarations for the static routines:
+        static float computeFormFactor() ;
+        static float computeUnoccludedFormFactor() ;
+        static void splitQuad() ;
+        static float quadArea() ;
+
+p. 579, last line:  remove "j" declaration, as "j" is not used.
+
+p. 607, line 40:  change to "memset((void *)acc, ..." to make lint happy.
+
+-----
+
+The following are typographical errors in the comments:
+
+p. 429, line 24:  change "varables" to "variables"
+
+p. 431, line 7:  change "Cyshosz" to "Cychosz"
+
+p. 443, line 54:  change "seqment" to "segment"
+
+p. 454, line 3:  change "architechture" to "architecture"
+
+p. 458, line 21:  change "consistancy" to "consistency"
+
+p. 484, line 46:  change "Inplementation" to "Implementation"
+
+p. 493, lines 20 and 23:  change "subsegements" to "subsegments"
+
+p. 539, line 18:  change "upto" to "up to"
+
+p. 550, line 6:  change "parrallel" to "parallel"
+
+p. 556, line 48:  change "miminum" to "minimum"
+
+p. 572, line 7:  change "homogenous" to "homogeneous"
+
+p. 578, line 15:  change "visiblity" to "visibility"
+
+p. 606, line 32:  change "initialzed" to "initialized"
+
+-----
+
+Addenda:
+
+There is test software (not in the text) for the "Fast n-Dimensional Extent
+Overlap Testing" (exthit), "Accurate Polygon Scan Conversion Using Half-Open
+Intervals" (accurate_scan), and "Partitioning a 3-D Convex Polygon with an
+Arbitrary Plane" (partition3d).
+
+There is C code for Badouel and Wurthrich's Gem II.9 (ndline.c) in the code
+distribution (but not in the text).
+
+There is more explanatory C code for Woo's Gem VII.1 in the code distribution.
+
+There is an improved rgbvary.c included in the code distribution for Microsoft
+Windows named rgbvaryW.c.  On PC's this code takes up less space and is 8
+times faster.  It looks straightforward to regroove VaryDIB24() to other
+bitmap architectures.
+
+Here is a little additional explanation to the "Use of Residency Masks..."
+gem on p. 284-287 from Joe Cychosz (note errata correction above):
+
+        The process goes something like this:
+
+        ray_mask = 0
+
+        foreach (cell the ray passes through) {
+            foreach (object in the cell) {
+                if  (ray_mask & object_mask == 0) {
+                    compute the ray-object intersection
+                }
+            }
+            update ray_mask marking for cell
+        }
+
+        The important thing here is to mark the cell after it is processed.
+
+The filter.c file is updated as the filter_rcg.c by Ray Gardener. This new
+version of filter.c is faster, and also includes Targa file I/O for testing
+purposes.

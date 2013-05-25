@@ -1,0 +1,121 @@
+
+    C Code From Graphics Gems II, Academic Press, Inc.
+    ==================================================
+
+
+    This is a list of the files and directories containing the C code for Graphics Gems II.  
+    They are listed in order of their appearance in the book.  Beside each file name is the 
+    Gem number, author's name, and Gem title to help you find what you're looking for.  
+    Unfortunately, not all of the code listed in the appendix of the book is here (for various 
+    reasons).  The missing ones will be added as they turn up.  Changes will be listed at the
+    bottom of this file.
+
+
+
+    File or        Gem
+    Directory      Number   Author and Title of Gem
+    ---------      ------   -----------------------
+
+    xlines.c       I.2      Mukesh Prasad, "Intersection of Line Segments"
+
+    Peano/         I.7      Ken Musgrave, "A Peano Curve Generation Algorithm"
+    Makefile   
+    main.c
+    mapply.c
+    peano.c
+    types.h
+
+    Hilbert.c      I.8      Douglas Voorhies, "Space-Filling Curves and a Measure of Coherence"
+
+    dither/        II.3     Spencer W. Thomas and Rod G. Bogart, "Color Dithering"
+    dither.3
+    dither.c
+
+    RealPixels/    II.5     Greg Ward, "Real Pixels"
+    color.c     
+    color.h     
+    colrops.c   
+    header.c    
+    rasterfile.h
+    ra_pr24.c
+    resolu.c
+
+    rotate8x8.c    II.6     Sue-Ken Yap, "A fast 90-Degree Bitmap Rotator"
+
+    inv_cmap/      III.1    Spencer W. Thomas, "Efficient Inverse Color Map Computation"
+    inv_cmap.3
+    inv_cmap.c
+
+    quantizer.c    III.2    Xiaolin Wu, "Efficient Statistical Computations for Optimal Color Quantization"
+
+    ran_ramp.c     III.3    Ken Musgrave, "A Random Color Map Animation Algorithm"
+
+    hot.c          III.6    Dave Martindale and Alan Paeth, "Television Color Encoding and 'Hot' Broadcast Colors"
+
+    viewcorr/      IV.5     Rod G. Bogart, "View Correlation"
+    matrix.c
+    matrix.h
+    viewcorr.c
+    viewcorr.h
+    viewfind.c
+
+    InterPhong.c   IV.9     Nadia Magnenat Thalmann and Daniel Thanmann, "InterPhong Shading"
+
+    RayCPhdron.c   V.1      Eric Haines, "Fast Ray-Convex Polyhedron Intersection"
+
+    intersect/     V.2      Joseph M. Cychosz, "Intersecting a Ray with an Elliptical Torus"
+    inttor.c            
+    intsph.c           
+
+    VoxelCache.c   V.6      Andrew Pearce, "A Recursive Voxel Cache for Ray Tracing"
+
+    radiosity/     VI.1     Eric Chen, "Implementing Progressive Radiosity 
+    README                              with User-Provided Polygon Display Routines"
+    draw.c   
+    rad.c     
+    rad.h    
+    room.c
+
+    FastUpdate.c   VI.3     Filippo Tampieri, "Fast Vertex Radiosity Update"
+
+    inverse.c      VII.5    Kevin Wu, "Fast Matrix Inversion"
+
+    rotate.c       VII.7    James Arvo, "Random Rotation Matrices"
+
+    sparse.c       VII.8    James Arvo, "Classifying Small Sparse Matrices"
+
+    BitCounting/   VIII.3   Alan W. Paeth and David Schilling, "Of Integers, Fields, and Bit Counting"
+    bit32.c     
+    test.c
+
+    noise3.c       VIII.10  Greg Ward, "A Recursive Implementation of the Perlin Noise Function"
+
+
+
+    Additional header files and utilities
+    -------------------------------------
+
+    GraphicsGems.h     Andrew Glassner
+
+    GGVecLib.c         Andrew Glassner
+
+    vector.h           Steve Hollasch, "Useful C Macros for Vector Operations"
+
+    c_format.c         Dale Schumacher, "A PostScript typesetting program for C source code"
+
+
+
+    Changes
+    -------------------------------------
+
+    10/02/91  Added ran_ramp.c, rotate8x8.c, inverse.c, VoxelCache.c, and Peano directory.
+    10/09/91  Added dither and inv_cmap directories.
+    11/05/91  Updated quantizer.c and sparse.c
+     5/26/93  Errata changes [by Eric Haines]
+     5/26/93  Added unmatrix.c     VII.1    Spencer Thomas, "Decomposing a Matrix into Simple Transformations"
+     8/25/93  Errata changes (SGN, ROUND, FLOOR, CEILING) [by Eric Haines]
+
+
+
+
+

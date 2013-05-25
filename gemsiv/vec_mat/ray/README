@@ -1,0 +1,158 @@
+C++ code augmenting the article
+"C++ Vector and Matrix Algebra Routines"
+by Jean-Francois Doue, h058@frhec1.hec.fr
+in "Graphics Gems IV", Academic Press, 1994
+
+
+This directory contains a very basic ray-tracer, programmed to
+demonstrate the advantage of using a C++ vector and matrix library
+called algebra3. The library makes programs easier to write and to
+debug.
+
+This document briefly discusses the class hierarchy of the program and
+the format of the description files which must be passed to it. An
+appendix lists all the files in this directory and describes them
+briefly.
+
+CLASS HIERARCHY
+---------------
+
+         |---> Camera
+         |
+Object3D ----> Primitive ----> Sphere
+         |               |
+         |               |
+         |               ----> Polyhedron
+         ----> Light
+
+Scene3D
+
+The main program just creates a new Scene3D (a collection of
+Object3Ds), parses it from a text description, and invokes the
+Scene3D::rayTrace method. The Scene3D returns an array of 24 bits
+pixels. It is up to the reader change the code so as to save the image
+in a format appropriate to his/her machine (the program can compute the
+images, but does not display them).
+
+The ray-tracer is voluntarily very basic: it is only capable of
+rendering spheres and concave polyhedrons, lit by point lights. It uses
+Phong's reflection model, but is not recursive, does not do shadows,
+light attenuation, textures, etc ...  What should be of interest about
+the program is the way it is written, not what it is capable of.
+
+FORMAT
+------
+
+3D scenes can be parsed from text representation. The text
+representation is simply a list (in any order) of 3D objects (camera,
+sphere, polyhedron and light). The parsing method is very crude and
+does not check the accuracy of the description file thoroughly. The
+exact syntax for each possible type of 3D objects is:
+
+Camera:
+ ______________________________________________________________
+|                              |                               |
+| text file                    | comments                      |
+|______________________________|_______________________________|
+|                              |                               |
+|   camera                     | - keyword;                    |
+|   | 0.0 0.5 4.0 |            | - position of the camera;     |
+|   | 1.0   0.0   0.0   0.0 |  | - orientation of the camera;  |
+|   | 0.0   1.0   0.0   0.0 |  |                               |
+|   | 0.0   0.0   1.0   0.0 |  |                               |
+|   | 0.0   0.0   0.0   1.0 |  |                               |
+|   | 60.0 60.0 |              | - field of view (in degrees); |
+|______________________________|_______________________________|
+
+Sphere:
+ ______________________________________________________________
+|                              |                               |
+|   text file                  | comments                      |
+|______________________________|_______________________________|
+|                              |                               |
+|   sphere                     | - keyword;                    |
+|   | 0.0 0.5 4.0 |            | - position of the sphere;     |
+|   | 1.0   0.0   0.0   0.0 |  | - orientation of the sphere;  |
+|   | 0.0   1.0   0.0   0.0 |  |                               |
+|   | 0.0   0.0   1.0   0.0 |  |                               |
+|   | 0.0   0.0   0.0   1.0 |  |                               |
+|   | 0.9 1.0 1.0 |            | - color of the sphere;        |
+|   | 0.1 0.48 0.7 20.0 |      | - phong coefficients;         |
+|   2.0                        | - radius;                     |
+|______________________________|_______________________________|
+
+Polyhedron:
+ ______________________________________________________________
+|                              |                               |
+| text file                    | comments                      |
+|______________________________|_______________________________|
+|                              |                               |
+|   polyhedron                 | - keyword;                    |
+|   | 0.0 0.5 4.0 |            | - position of the polyhedron; |
+|   | 1.0   0.0   0.0   0.0 |  | - orientation of the          |
+|   | 0.0   1.0   0.0   0.0 |  |   polyhedron;                 |
+|   | 0.0   0.0   1.0   0.0 |  |                               |
+|   | 0.0   0.0   0.0   1.0 |  |                               |
+|   | 0.9 1.0 1.0 |            | - color of the polyhedron;    |
+|   | 0.1 0.48 0.7 20.0 |      | - phong coefficients;         |
+|   10                         | - number of vertices;         |
+|   | -1.0 -1.0 -1.0 |         | - first vertex;               |
+|   |  1.0 -1.0 -1.0 |         | - second vertex;              |
+|       .......                |                               |
+|   |  0.0  1.8  1.0 |         | - last vertex;                |
+|   7                          | - number of facets;           |
+|   5 0 3 8 2 1                | - first facet (number of      |
+|                              |   vertices followed by the    |
+|                              |   index of each vertex in the |
+|                              |   facet);                     |
+|   5 4 5 6 9 7                | - second facet;               |
+|       .......                |                               |
+|   4 0 4 7 3                  | - last facet;                 |
+|______________________________|_______________________________|
+
+Light:
+ ______________________________________________________________
+|                              |                               |
+|   text file                  | comments                      |
+|______________________________|_______________________________|
+|                              |                               |
+|   light                      | - keyword;                    |
+|   | 0.0 0.5 4.0 |            | - position of the light;      |
+|   | 1.0   0.0   0.0   0.0 |  | - orientation of the light;   |
+|   | 0.0   1.0   0.0   0.0 |  |                               |
+|   | 0.0   0.0   1.0   0.0 |  |                               |
+|   | 0.0   0.0   0.0   1.0 |  |                               |
+|   | 0.9 1.0 1.0 |            | - color of the light;         |
+|______________________________|_______________________________|
+
+Comment lines (starting with the '%' sign) can be inserted in the text
+(between 3D objects only, not within the description of a 3D object
+!!!).
+
+
+APPENDIX
+--------
+
+Camera.c        // Implementation of the camera class
+Camera.h        // Interface of the camera class
+Light.c         // Implementation of the point light class
+Light.h         // Interface of the point light class
+Makefile        // Unix makefile
+Object3D.c      // Implementation of the 3D object class
+Object3D.h      // Interface of the 3D object class
+Polyhedron.c    // Implementation of the concave polyhedron class
+Polyhedron.h    // Interface of the concave polyhedron class
+Primitive.c     // Implementation of the primitive class
+Primitive.h     // Interface of the primitive class
+README          // This file
+Scene3D.c       // Implementation of the 3D scene class
+Scene3D.h       // Interface of the 3D scene class
+Sphere.c        // Implementation of the sphere class
+Sphere.h        // Interface of the sphere class
+algebra3.c      // The vector and matrix library
+algebra3.h      // Include file of the vector and matrix library
+main.c          // Main program
+example.tiff    // A sample picture rendered with the program
+example.data    // The script to render example.tiff
+solver.c        // Math utilities by Jochen Schwarze (see Graphics Gems 1 for
+solver.h        // more details)

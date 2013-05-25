@@ -1,0 +1,271 @@
+Errata to _Graphics Gems II_, first edition, edited by Jim Arvo
+(arvo@cs.caltech.edu), Academic Press 1991.  Code available online at
+http://www.graphicsgems.org/
+
+compiled by Eric Haines (erich@acm.org) from author and reader contributions
+
+version 1.16
+date:  9/10/08
+
+-----
+
+Errors in the text:
+
+p. xxix, middle of page:  change "Rod G. Bogart (72)" to
+        "Rod G. Bogart (72, 181)".
+
+p. 5, last line:  change area of "7.5" to "5.5". (thanks to Nigel Stewart)
+
+p. 84, line 1:  change "clockwise" to "counterclockwise".
+p. 85, line 1:  change "counterclockwise" to "clockwise".
+
+p. 194, line 4:  change "nil <- 0" to "int <- 0".
+
+p. 194, figure 3:  change "a2.aF" to "e2.aF" and "a2.bF" to "e2.bF".
+
+p. 249, last sentence:  change "less than 0, then" to "less than tnear, then".
+
+p. 323, first line: R2,1 is better as -R3,2. The reasoning: Given the 3x3
+        rotation matrix, R, as first stated on page 322, consider the case
+        where cos(beta) == 0. Rather than reducing the matrix at this point,
+        skip ahead to Thomas' next step and arbitrarily set gamma = 0.  This
+        gives us the knowledge that sin(gamma) == 0 and cos(gamma) == 1.
+        Plugging these three facts into the matrix R, we arrive at the following
+        matrix:
+
+        0                               0                -sin(beta)
+        sin(alpha)sin(beta)         cos(alpha)                0
+        cos(alpha)sin(beta)        -sin(alpha)                0
+ 
+        When sin(beta) == 1, it is acceptable to use R(2,1) and R(2,2) as Thomas
+        indicates.  However, when sin(beta) == -1, the result is not correct.
+        The best choice seems to be to use -R(3,2) and R(2,2) to derive our value
+        for alpha.
+
+        The test case which prompted my investigation into this was a rotation
+        described as euler XYZ angles (90,-90,0), which produces the following
+        rotation matrix:
+            0        0        1
+           -1        0        0
+            0       -1        0
+        Using our code which was derived from the Graphics Gems II source, this
+        produces a decomposed rotation value of (-90,-90,0) instead of the
+        expected (90,-90,0).  Under my modifications above, it reports the
+        correct value. [Explanation from Joe Herdman]
+
+p. 340, Shear matrix:  change "-(Q.v)w" to "-tan(phi)(Q.v)w".
+
+p. 420, line 10:  "Berstein" should read "Bernstein".
+
+p. 448, flowchart:  change the box with "D(r,j) > T?" to "D(r,j) < T?".
+    [Thanks to Achim Mueller]
+
+p. 450, second line of equation set (3): the "floor" operator should be a
+        ceiling operator, to match equation set (1).
+
+-----
+
+The following are errors in the code listings (corrected in the online code at
+http://www.graphicsgems.org/).  Note that many of the code listings online are
+different in minor and major ways from the code in the book (see Addenda, at
+the end, for new code not in the book).
+
+
+Serious errors (ones your compiler cannot or may not catch):
+
+p. 456: Delete FLOOR and CEILING macros (they're more like truncations).
+    Change ROUND macro to (i.e. add parentheses around "a"):
+    #define ROUND(a)    ((a)>0 ? (int)((a)+0.5) : -(int)(0.5-(a)))
+    Change SGN macro to (i.e. change positive condition result to "1"):
+    #define SGN(a)        (((a)<0) ? -1 : 1)
+
+p. 463, line 9:  in V3Combine change last "result->y" to "result->z".
+p. 571, line 16:  add missing macros:
+    #define Trunc(v)        ((int)floor(v))
+
+    /* normalize vector, return in pn */
+    #define unity(v,pn)     { double len ; \
+            len = sqrt((v).x*(v).x+(v).y*(v).y+(v).z*(v).z) ; \
+            (pn)->x=(v).x/len; (pn)->y=(v).y/len; \
+            (pn)->z=(v).z/len; }
+
+p. 572, line 27:  change "struct epthbuf_el {" to "struct depthbuf_el {"
+p. 574, 4th line from bottom:  delete "break;" statement in order to move to
+    next pair of edges
+
+p. 576, line 28:  change "if ( t < 0.0 )" to "if ( t < tnear )"
+
+p. 591, line 7:  change "*fp ==1.0;" to "*fp = 1.0;"
+
+p. 599, bottom:  add lines:
+        typedef struct {
+            double x,y,z,w;
+        } Vector4;
+
+        Vector4 *V4MulPointByMatrix();
+p. 600, line 6:  add lines:
+        #include <math.h>
+        #include "GraphicsGems.h"
+        #include "unmatrix.h"
+p. 600, line 22:  change to "Matrix4 pmat, invpmat, tinvpmat;"
+p. 600, line 25:  change to "Point3 row[3], pdum3;"
+p. 600, line 29:  change
+            if ( pmat.element[3][3] != 0 )
+        to:
+            if ( locmat.element[3][3] == 0 )
+                 return 0;
+
+p. 600, line 39:  change "pmat.element[4][3] = 1;" to "pmat.element[3][3] = 1;"
+p. 601, line 4:  change:
+            psol = *V4MulPointByMatrix(&prhs, &invpmat, &vdum4);
+        to:
+            Transpose( &invpmat, &tinvpmat );
+            V4MulPointByMatrix(&prhs, &tinvpmat, &psol);
+p. 602, line 5:  change "&row[2])" to "&row[2], &pdum3)"
+p. 602, line 18: change "tran[U_ROTATEX] = atan2(row[1].x, row[1].y);" to
+         "tran[U_ROTATEX] = atan2(-row[2].x, row[1].y);"
+        [Thanks to Joe Herdman]
+
+
+p. 602, bottom:  add the subroutines:
+    /* transpose rotation portion of matrix a, return b */
+    Matrix4 *TransposeMatrix4(a, b)
+    Matrix4 *a, *b;
+    {
+    int i, j;
+    for (i=0; i<4; i++)
+        for (j=0; j<4; j++)
+        b->element[i][j] = a->element[j][i];
+    return(b);
+    }
+
+    /* multiply a hom. point by a matrix and return the transformed point */
+    Vector4 *V4MulPointByMatrix(pin, m, pout)
+    Vector4 *pin, *pout;
+    Matrix4 *m;
+    {
+    pout->x = (pin->x * m->element[0][0]) + (pin->y * m->element[1][0]) +
+        (pin->z * m->element[2][0]) + (pin->w * m->element[3][0]);
+    pout->y = (pin->x * m->element[0][1]) + (pin->y * m->element[1][1]) +
+        (pin->z * m->element[2][1]) + (pin->w * m->element[3][1]);
+    pout->z = (pin->x * m->element[0][2]) + (pin->y * m->element[1][2]) +
+        (pin->z * m->element[2][2]) + (pin->w * m->element[3][2]);
+    pout->w = (pin->x * m->element[0][3]) + (pin->y * m->element[1][3]) +
+        (pin->z * m->element[2][3]) + (pin->w * m->element[3][3]);
+    return(pout);
+    }
+
+p. 604, line 7 from bottom:  add code to check for singular matrix (near 0
+    determinant).  Add code:
+
+    /* Is the submatrix A singular? */
+    if ((det_1 == 0.0) || (ABS(det_1 / (pos - neg)) < PRECISION_LIMIT)) {
+
+        /* Matrix M has no inverse */
+        fprintf (stderr, "affine_matrix4_inverse: singular matrix\n");
+        return FALSE;
+    }
+
+-----
+
+Syntax errors (ones your compiler or lint will catch):
+
+p. 458-466, throughout:  replace "};" with "}" to make lint happy
+p. 464, gcd():  the variable "k" is set but not used - remove it
+
+p. 477, line 11 and p. 478, lines 15,18:  change "coord" to "gcoord" and
+        "last_coord" to "glast_coord" to avoid same name use for
+        global and local variables
+p. 477, line 20:  delete ", pos=0", since "pos" is not used in code.
+p. 483, v_convert code:  change "alpha" to "alph", since "alpha" is a global
+        defined in "types.h"
+
+p. 543, 547, 548:  comment out text after "#else" and "#endif" statements
+    (some compilers don't like this)
+
+p. 550, line 21:  change "int i, num_iterations = 0;" to
+        "int num_iterations = 0 ;", as "i" is not used
+p. 551, 2nd line from bottom:  delete line "Matrix3 *vm;", as "vm" is not used
+p. 559, line 14:  delete "int i;" declaration; "i" not used
+
+p. 573, line 15:  delete "static" declaration from shadepoly
+
+p. 581 throughout:  code is mostly for illustrative purposes; the RAY_REC,
+    LIGHT_REC, TRIANGLE_REC, cache, object, and voxel structures need
+    definition.  Add lines:
+        int i, hit ;
+        float shadow_percent ;
+
+p. 588, 7th line from bottom:  change "(j+0.5)" to "(dj+0.5)", or delete
+        "dj = (double)j;" from previous line (dj currently is not used)
+        2nd line from bottom:  change "(k+0.5)" to "(dk+0.5)", or delete
+        "dk = (double)k;" from previous line (dk currently is not used)
+p. 594, middle:  the "const" declarations before the TSpectra definitions
+    create assignment incompatibilities; replace with "static".
+p. 596, first line of InitParams:  change "int i, n=0;" to "int i;", since
+        "n" is not used.
+        
+p. 600, line 31:  change "if ( det4x4(pmat) == 0.0 )" to
+        "if ( det4x4(&pmat) == 0.0 )"
+        (thanks to Joerg Scheurich, aka MUFTI, 9/10/2008)
+
+-----
+
+The following are typographical errors in the comments:
+
+p. 461, line 19:  change "transpose matrix a," to "transpose rotation portion
+        of matrix a,"
+
+p. 473, line 28:  change "condititions:" to "conditions:"
+
+p. 514, line 2:  change "clockwise" to "counterclockwise"
+
+p. 576, line 30:  change "hit near face," to "hit far face,"
+
+p. 578, line 21:  change "coefficents" to "coefficients"
+
+p. 584, line 12:  change "nubmer" to "number"
+p. 588, line 5:  change "arrary" to "array"
+p. 590, line 10:  change "radom" to "random"
+p. 595, line 24:  change "quarilateral" to "quadrilateral"
+
+p. 610, line 2:  change "varients" to "variants"
+
+-----
+
+Addenda:
+
+Not include in the gem "Intersecting a Ray with an Elliptical Torus" is the
+following code which compensates for the order of the roots being transposed.
+It was not included since it would make the gem dependent on the behaviour of
+the root solver.  Insert after the call to SolveQuartic (middle of p. 579):
+
+/*    SolveQuartic returns root pairs in reversed order.        */
+    if  ( *nhits > 1 )
+        m = rhits[0]; u = rhits[1]; rhits[0] = u; rhits[1] = m;
+    if  ( *nhits > 3 )
+        m = rhits[2]; u = rhits[3]; rhits[2] = u; rhits[3] = m;
+
+Also, note that the torus intersector may not handle degenerate surfaces (e.g.
+where the major radius < minor radius, or major radius < 0) as desired.
+
+
+Xiaolin Wu's code for "Efficient Statistical Computations for Optimal Color
+Quantization" is available online in quantizer.c, though not in the book.  The
+code originally distributed has been modified slightly, with the global
+variable "m2" renamed to "gm2" to avoid confusion with the local "m2" in some
+routines. The Var() function has had a fix to it, the absolute value of the
+result is now returned.
+
+Code for Greg Ward's "Real Pixels" article is not in the book, but is included
+in the RealPixels subdirectory of the online code.
+
+The code provided in the online distribution for Greg Ward's "A Recursive
+Implementation of the Perlin Noise Function" (noise3.c) has a variety of
+functions available (e.g. fractal noise), more than the code in the text.
+
+Included in the distribution code is c_format, a PostScript typesetting program
+for C source code (v0.6) by Dale Schumacher.
+
+There is a tester provided for Alan Paeth and David Schilling's "Of Integers,
+Fields, and Bit Counting".

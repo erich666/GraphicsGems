@@ -1,0 +1,18 @@
+CC		= CC
+CCOPTIONS	= 
+CCINCLUDES	= $(STD_INCLUDES) -I/usr/include/CC -I.
+EXTRA_DEFINES   = 
+EXTRA_LIBRARIES =
+
+.SUFFIXES:	.C $(SUFFIXES)
+
+LIBNAME		= gm++
+
+SRCS		= gmMatrix3.C gmMatrix4.C 
+OBJS		= $(SRCS:.C=.o)
+
+.C.o:
+	$(CC) $(CDEBUGFLAGS) -c $(CCOPTIONS) $(EXTRA_DEFINES) $< $(CCINCLUDES)
+
+NormalLibraryTarget($(LIBNAME), $(OBJS))
+

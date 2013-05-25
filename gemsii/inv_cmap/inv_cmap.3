@@ -1,0 +1,60 @@
+.\" -*- Text -*-
+.\" Copyright (c) 1990, University of Michigan
+.\" Template man page.  
+.TH INV_CMAP 3 "Month DD, YYYY" 1
+.UC 4 
+.SH NAME
+inv_cmap \- efficiently compute an inverse colormap
+.SH SYNOPSIS
+.HP
+.B
+void inv_cmap( colors, colormap, bits, dist_buf, rgbmap )
+.LP
+.B
+int colors, bits;
+.br
+.B
+unsigned char *colormap[3], *rgbmap;
+.br
+.B
+unsigned long *dist_buf;
+.SH DESCRIPTION
+.I Inv_cmap
+computes an inverse colormap to translate an RGB color to the nearest
+color in the given \fIcolormap\fP.  The arguments are
+.TP
+.I colors
+The number of colors in the input colormap.  Must be \(le 256.
+.TP
+.I colormap
+The input colormap.  The \fIi\fPth color is (\fIColormap[0][i]\fP,
+\fIColormap[1][i]\fP, \fIColormap[2][i]\fP).
+.TP
+.I bits
+Controls the size and precision of the inverse colormap.  The
+resulting colormap will be a cube \fI2^bits\fP on a side, and will
+therefore contain \fI2^(3*bits)\fP entries.  RGB colors must be
+quantized to \fIbits\fP bits before using the inverse colormap.
+.TP
+.I dist_buf
+Temporary storage used by \fIinv_cmap\fP.  It should contain at least
+\fI2^(3*bits)\fP elements.
+.TP
+.I rgbmap
+The inverse colormap.  Should be allocated with at least
+\fI2^(3*bits)\fP elements.  After calling \fIinv_cmap\fP, an RGB color
+(r,g,b) can be mapped to its closest representative in \fIcolormap\fP
+by evaluating
+.br
+#define quantize(p) ((p)>>(8-bits))
+.br
+rgbmap[ (((quantize(r) << bits) | quantize(g)) << bits) | quantize(b) ]
+.PP
+Predicted performance is \fIO(2^(3*bits)*log(colors))\fP.  The
+measured performance is sublinear (but not as good as \fIlog\fP) in
+the number of input colors and also in the size of the output inverse
+colormap. (I.e., it goes up more slowly than \fI2^(3*bits)\fP.)
+.SH SEE ALSO
+.IR colorquant (3).
+.SH AUTHOR
+Spencer W. Thomas

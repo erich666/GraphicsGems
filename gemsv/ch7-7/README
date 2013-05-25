@@ -1,0 +1,6 @@
+Dir Name (dim)  Author(s)	   Desc (Gems vol.V, page 403)
+--------------------------------------------------------------
+libgm     3+	Scheepers & May	  "The compleat C++ graphics library"
+mactbox   3+	C. Schlick	  "Elegant macros are gentle on the eyes"
+vec-h     N+	D. Hatch	  "C/C++ macros to go in any dimension"
+GG4D      4+    S. Hill		  "The 4D tour de force (includes projections)"

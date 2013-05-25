@@ -1,0 +1,280 @@
+C++ code from the article
+"Dynamic Layout Algorithm to Display General Graphs"
+by Laszlo Szirmay-Kalos, szirmay@fsz.bme.hu
+in "Graphics Gems IV", Academic Press, 1994
+
+
+
+Installation of the Dynamic Layout Program ( graph )
+====================================================
+
+This program can be installed under UNIX/X-WINDOW or under
+MS-WINDOWS environment.
+
+To install under UNIX/X-WINDOWS use the make utility, 
+-----------------------------------------------------
+which generates the executable program called "graph" relying on the Makefile:
+
+		make -f Makefile
+
+Makefile supposes:
+
+	- gcc (gnu C++ compiler)
+	- XLib header files in /usr/include/X11R4
+	- XLib library in /usr/lib/X11R4
+
+If your system has the XLib header files and libraries in different
+locations please modify the INCLUDES and LDFLAGS flags in the
+Makefile.  Since the program has been written to meet the AT&T C++
+standard, even if you have a C++ compiler other than gcc, you can
+expect to compile the program without difficulties after modifying the
+CC and CFLAGS.  For the sake of maximum compatibility the program does
+not take advantage of advanced widget sets ( such as Motif ), neither
+does it require color screen.
+
+
+To install under DOS/MS-WINDOWS 3.x , 
+-----------------------------------------------------
+a UNIX shell script (mswin.gen) should be invoked first, 
+which converts the file names according to the requirements of DOS 
+and Borland C++ compiler. This shell script expects a directory as command
+line argument and will place the generated file to the given directory:
+		
+		mswin.gen mswin
+
+will generate the files in mswin directory.		
+
+Having generated the files, they should to transferred to a
+DOS/MS-WINDOWS system and the make utility of the borland C++ 3.1
+compiler can be used to generate the executable file ( called graph ),
+which will run under MS-WINDOWS environment.
+
+The information file of the make is called graph.mak here, which supposes:
+	- borland C++ compiler, version 3.1
+	
+
+Running the graph program:
+==========================
+Under UNIX/X-WINDOW the program can be started by typing "graph" with a
+file name argument referring to the definition of a graph:
+
+		graph g20.dat
+
+Under DOS/MS-WINDOWS you should also start MS-WINDOWS as for example:
+		
+		win graph g20.dat
+		
+
+Two sample files are included in this package: g.dat, g20.dat. In addition
+to that, you can also define graphs in the format described below.
+
+Having started the program, it will display the original arrangement of
+the graph on the screen, which can be altered by the layout algorithm
+by pressing the key <L>, or can be arranged randomly by pressing the
+key <R>.  Key <Q> gets the program to quit, while saving the last
+arrangement in file ggg.dat.
+
+
+
+Files of the program
+=====================
+
+The complete file set consists of the following files:
+
+1. C++ Source files: 
+	layout.C = Dynamic layout and Initial Placement algorithms
+	fileio.C = File I/O operations
+	graph.C  = Manipulation of Graph data structure and event handlers
+	vector.C = 2D vector operations
+	window.C = class library to interface XLib 
+	mswindow.C = class library to interface MS-WINDOWS
+	
+2. C++ Header files:
+	defines.h
+	fileio.hxx
+	graph.hxx
+	vector.hxx
+	window.hxx
+	mswindow.hxx
+
+3. README files:
+	README = you are reading this file!
+	
+4. Program generation files:
+	Makefile = makefile for X-WINDOWS
+	graph.mak = makefile for MS-WINDOWS
+	mswin.gen = UNIX shell script to generate dos file names:
+			layout.C     -> layout.cpp
+			fileio.C     -> fileio.cpp
+			graph.C      -> graph.cpp
+			vector.C     -> vector.cpp
+			mswindow.C   -> mswindow.cpp
+			defines.h    -> defines.h
+			fileio.hxx   -> fileio.hxx
+			graph.hxx    -> graph.hxx
+			vector.hxx   -> vector.hxx
+			mswindow.hxx -> mswindow.hxx
+			graph.mak    -> graph.mak
+			*.dat        -> *.dat
+			
+5. Sample Data files for the definition of graphs	
+	g.dat
+	g20.dat
+
+
+
+            
+Definitions of graph description files
+======================================
+
+The layout program expects the input data in a text file and also
+generates output file in the same format during the termination.  This
+file defines a weighted graph to be arranged in a easy-to-understand,
+programming language like way.
+
+The definition language consists of
+
+keywords: NAME, POSITION, TYPE, RELATIONS, OF, NODE, RELATION, RELATED, TO,
+--------  WITH, INTENSITY, END, MOVEABLE, FIXED
+Keywords should be specified by capital letters.
+
+operators:
+--------- 
+	  = :
+          
+string variables:
+-----------------
+          Any ASCII character string, having maximal length of 10 and which
+          does not contain characters "= : # space tab newline"
+
+real variables:
+---------------
+          For positions the range (0..1000.0, 0..1000.0) is allowed and for
+          weights (relation intensity) the range (-10.0..10.0) is permitted.
+          
+comments:
+---------
+          The characters following a # character as far as the end of line
+          are assumed to form a comment
+
+Keywords, variables and comments should be separated by whitespace characters
+(space, tabulator, newline) or operators.
+
+
+The basic structure of Graph definition File:
+
+                       node definition
+                       node definition
+                       .
+                       .
+                       .
+                       node definition
+                       
+                       node relation definition
+                       node relation definition
+                       .
+                       .
+                       .
+                       node relation definition
+                       
+
+node definition ( position is optional ):                     
+      NAME = nodename [POSITION =  position] TYPE = nodetype
+                    
+nodename:                    
+      Any ASCII character string, having maximal length of 10 and which
+      does not contain characters "= : # space newline". This name must be
+	  unique, that is only one node can have it.
+      
+position:
+      Two real values in the range of (0..1000.0)
+      
+nodetype:
+      FIXED or MOVEABLE
+      
+      
+node relation definition:
+      RELATIONS OF nodename NODE
+      relation definition
+      relation definition
+      .
+      .
+      .
+      relation definition
+      END
+
+nodename:
+      Name of already declared node in node definition
+               
+relation definition:
+      RELATION relation : RELATED TO node WITH INTENSITY intensity
+      
+relation:
+      Any ASCII character string, having maximal length of 10 and which
+      does not contain characters "= : # space newline"
+	  The name * means that no name is specified for this relation.
+
+node:      
+      Name of already declared node in node definition
+
+intensity:
+      A real value in the range of (-10.0 .. 10.0)
+
+A relation between two nodes can be defined in the file several times.
+In this case the last definition is taken into consideration.
+
+SAMPLE INPUT FILE
+-----------------
+#
+#	DEMO RELATION GROUP - I am a comment
+#
+
+#
+#	DECLARATIONS OF NODES
+#
+NAME = n1 POSITION =  764.2 216.0 TYPE = FIXED
+NAME = n2 POSITION =  131.3 858.6 TYPE = FIXED
+NAME = n3 TYPE = MOVEABLE			# POSITION = x,y is optional
+NAME = n4 TYPE = MOVEABLE
+NAME = n5 TYPE = MOVEABLE
+NAME = n6 TYPE = MOVEABLE
+NAME = n7 TYPE = MOVEABLE
+NAME = n8 TYPE = MOVEABLE
+NAME = n9 POSITION =  688.0 587.1 TYPE = MOVEABLE
+
+#
+#	DECLARATIONS OF RELATIONS
+#
+RELATIONS OF n1 NODE
+RELATION r12 : RELATED TO n2 WITH INTENSITY 3.000000
+END
+
+RELATIONS OF n2 NODE
+RELATION r23 : RELATED TO n3 WITH INTENSITY 2.000000 
+END
+
+RELATIONS OF n3 NODE
+RELATION r31 : RELATED TO n1 WITH INTENSITY 6.000000
+END
+
+RELATIONS OF n4 NODE
+RELATION r42 : RELATED TO n2 WITH INTENSITY 4.000000
+END
+
+RELATIONS OF n5 NODE
+RELATION r53 : RELATED TO n3 WITH INTENSITY 3.000000
+#
+# * relation name means no name
+#
+RELATION * : RELATED TO n8 WITH INTENSITY 3.000000
+END
+
+RELATIONS OF n7 NODE		# empty relation is also allowed
+END
+
+RELATIONS OF n9 NODE 
+#
+# * relation name means no name
+#
+RELATION * : RELATED TO n8 WITH INTENSITY 3.000000
+END

@@ -1,0 +1,3 @@
+README		this file
+vec_h.c		library (.h file) generator	
+vec.h		as produced by "cc vec_h.c -o vec_h; ./vec_h 4 >vec.h"

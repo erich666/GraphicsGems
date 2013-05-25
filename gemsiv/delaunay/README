@@ -1,0 +1,11 @@
+C++ code from the article
+"Incremental Delaunay Triangulation"
+by Dani Lischinski, danix@graphics.cornell.edu
+in "Graphics Gems IV", Academic Press, 1994
+
+
+test.C contains an interactive test program for Delaunay triangulation.
+The program should compile and run on SGI workstations.
+Use left-mouse to add new points.
+
+The rest of the code is more portable (not limited to SGIs).

@@ -1,0 +1,70 @@
+Errata to _Graphics Gems IV_, first edition, edited by Paul Heckbert,
+Academic Press 1994.  Code available online at http://www.graphicsgems.org
+
+compiled by Eric Haines (erich@acm.org) from author and reader contributions
+
+version 1.5
+date:  9/10/2008
+
+-----
+
+Errors in the text:
+
+p. xvi, near the bottom of the page: change
+    "in directory pub/GraphicsGems/GemsIV"
+    to
+    "in directory pub/Graphics/GraphicsGems/GemsIV".
+
+
+p. 129, lines 4,7,10:  changes:
+        "if (x < 0)" to "if (x >= 0)",
+        "if (y < 0)" to "if (y >= 0)",
+        "if (z < 0)" to "if (z >= 0)".
+
+p. 138, first equation: change "(-ax,ay)" to "(-ay,ax)" to match the text.
+
+p. 349, for (Moore 1992):  change "Rice University, Houston, TX" to "Cornell
+    University, Ithaca, NY".
+
+-----
+
+The following are errors in the code listings (corrected in the online code at
+princeton.edu:pub/Graphics/GraphicsGems/GemsIV).  Note that many of the code
+listings online are different in minor and major ways from the code in the
+book.
+
+
+Serious errors (ones your compiler cannot or may not catch):
+
+p. 273, 11 lines from the bottom:
+        B[0], umid, u1, depthb,
+    to:
+        B[1], umid, u1, depthb,
+    (thanks to Frank Rosfelder)
+
+-----
+
+Syntax errors (ones that are not usually harmful, or are easily caught):
+
+[none so far]
+
+-----
+
+The following are errors in the comments:
+
+p. 136, line 10: change
+    "The N data points have indices which range from 0 to N-1."
+    to "The data points have indices which range from 0 to N."
+    (thanks to Michael Ford, 9/10/2008)
+
+-----
+
+A new point in polygon test has been added to ptpoly_haines/ptinpoly.c, a
+variation on the Crossings test which is about 15% faster for triangles.
+This CrossingsMultiply test avoids using division.
+
+A potential divide by zero error has been removed from
+ptpoly_haines/ptinpoly.c; line 1286 had "inv_y = tmax / ydiff;", which is
+now deleted.
+
+END

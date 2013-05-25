@@ -1,0 +1,72 @@
+
+===========================================
+Graphics Gems V (Alan Paeth, Editor)
+Table of Contents
+(ver 1.0; March 6, 1995)
+===========================================
+
+ Pg Author(s)	  Title
+
+ -- (Glassner)    (Forward)
+ -- (Paeth)       (Preface/Afterword)
+
+  1 I.   Algebra and Arithmetic
+  3 Herbison-Evans Solving Quartics and Cubics for Graphics
+ 16 Turkowski     Computing the Inverse Square Root
+ 22 Turkowski     Fixed Point Square Root
+ 25 Shoemake      Rational Approximation
+
+ 33 II.  Computational Geometry
+ 35 Van Gelder    Efficient Computation of Polygon Area and Polyhedron Volume
+ 42 Carvalho/Cavalcanti Point in Polyhedron Testing using Spherical Polygons
+ 50 Glassner      Clipping a Concave Polygon
+ 55 Hanson        Rotations for N-dimensional Graphics
+ 65 Buckley       Parallelohedra and Uniform Color Quantization
+ 72 Hill          Matrix-based Ellipse Geometry
+ 78 Paeth         Distance Approximations and Bounding Polyhedra
+
+ 89 III. Modeling and Transformation
+ 91 Alciatore/Miranda The Best Least-Squares Line Fit
+ 98 Hill/Roberts  Surface Models and the Resolution of n-Dim. Cell Ambiguity
+107 Arata         Tri-cubic Interpolation
+111 Miller        Transforming Coordinates from One Coordinate Plane to Another
+121 Chin          A Walk Through BSP Trees
+139 Blanc         Generic Implementation of Axial Deformation Techniques
+
+147 IV.  Curves and Surfaces
+149 Goldman       Identifies for the Univariate, Bivariate Bernstein Basis Fcns
+163 Goldman       Identities for the B-Spline Basis Functions
+168 Turkowski     Circular Arc Subdivision
+173 de Figueiredo Adaptive Sampling of Parametric Curves
+179 Ahn           Fast Generation of Ellipsoids
+191 Bajaj/Xu      Sparse Smooth Connection between Bezier/B-Spline Curves
+199 Gravesen      The Length of Bezier Curves
+206 Miller        Quick and Simple Bezier Curve Drawing
+210 Shoemake      Linear Form Curves
+
+225 V.   Ray Tracing and Radiosity
+227 Shene         Computing the Intersection of a Line and a Cone
+232 Schlick/Subrenat Ray Intersection of Tessellated Surfaces: Quad vs Triangle
+242 Moller        Faster Raytracing using Scanline Rejection
+258 Leipelt       Ray Tracing a Swept Sphere
+268 Marton        Acceleration of Ray Tracing via Voronoi-diagrams
+285 Zimmerman     Direct Lighting Models for Ray Tracing with Cylindrical Lamps
+290 Feda          Improving Intermediate Radiosity using Directional Light
+
+295 VI.  Halftoning and Image Processing
+297 Purgathofer/Tobler/Geiler Improved Threshold Matrices for Ordered Dithering
+302 Wong/Hsu      Halftoning with Selective Precipitation & Adaptive Clustering
+314 Eker          Faster Pixel-Perfect Line Clipping
+323 Doue/Rubio    Efficient and Robust 2D Shape Vectorization
+338 Hsu/Lee       Reversable Straight Line Edge Reconstruction
+355 Sharma        Priority-based Adaptive Image Refinement
+359 Cross         Sampling Patterns Optimized for Uniform Distribution of Edges
+
+365 VII. Utilities
+367 Schlick       Wave Generators for Computer Graphics
+375 Green/Hatch   Fast Polygon-Cube Intersection Testing
+380 Bouma/Vanecek Velocity-based Collision Detection
+386 Vanecek       Spatial Partitioning of a Polygon by a Plane
+394 Narkhede/Manocha Fast Polygon Triangulation based on Seidel's Algorithm
+398 Karinthi      Accurate Z-buffer Rendering
+400 Paeth (et al) A Survey of Graphics Libraries

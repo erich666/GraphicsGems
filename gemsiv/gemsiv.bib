@@ -1,0 +1,895 @@
+@BOOK{Heckbert94gems,
+TITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={computer graphics, image processing},
+NOTE={comes with either MAC or DOS floppy},
+FTP={code in princeton.edu pub/Graphics/GraphicsGems/GemsIV/GGemsIV.tar.Z},
+}
+
+@INCOLLECTION{Bashein94,
+AUTHOR={Gerard Bashein and Paul R. Detmer},
+TITLE={Centroid of a Polygon},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={3-6},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={polygon area, polygon centroid},
+SUMMARY={
+Gives formulas and code to find the centroid (center of mass) of a
+polygon.  This is useful when simulating Newtonian dynamics.  Contains
+C code.
+},
+FTP={code in princeton.edu pub/Graphics/GraphicsGems/GemsIV/GGemsIV.tar.Z},
+}
+@INCOLLECTION{Schorn94,
+AUTHOR={Peter Schorn and Frederick Fisher},
+TITLE={Testing the Convexity of a Polygon},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={7-15},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={computational geometry, concave polygon},
+SUMMARY={
+Gives an algorithm and code to determine if a polygon is convex,
+non-convex (concave but not convex), or non-simple
+(self-intersecting).  For many polygon operations, faster algorithms
+can be used if the polygon is known to be convex.  This is true when
+scan converting a polygon and when determining if a point is inside a
+polygon, for instance.  Contains C code.
+},
+FTP={code in princeton.edu pub/Graphics/GraphicsGems/GemsIV/GGemsIV.tar.Z},
+}
+@INCOLLECTION{Weiler94,
+AUTHOR={Kevin Weiler},
+TITLE={An Incremental Angle Point in Polygon Test},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={16-23},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={computational geometry, inclusion testing},
+SUMMARY={
+Provides an algorithm for testing if a point is inside a concave
+polygon, a task known as point inclusion testing in computational
+geometry.  Point-in-polygon testing is a basic task when ray tracing
+polygonal models, so these methods are useful for 3D as well as 2D
+graphics.  Contains C code.
+},
+FTP={code in princeton.edu pub/Graphics/GraphicsGems/GemsIV/GGemsIV.tar.Z},
+}
+@INCOLLECTION{Haines94,
+AUTHOR={Eric Haines},
+TITLE={Point in Polygon Strategies},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={24-46},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={computational geometry, inclusion testing,
+ray-polygon intersection testing},
+SUMMARY={
+Provides algorithms for testing if a point is inside a polygon, a task
+known as point inclusion testing in computational geometry.
+Point-in-polygon testing is a basic task when ray tracing polygonal
+models, so these methods are useful for 3D as well as 2D graphics.
+Haines surveys a number of algorithms for point inclusion testing in
+both convex and concave polygons, with empirical speed tests and
+practical optimizations.  Contains C code.
+},
+FTP={code in princeton.edu pub/Graphics/GraphicsGems/GemsIV/GGemsIV.tar.Z},
+}
+@INCOLLECTION{Lischinski94triang,
+AUTHOR={Dani Lischinski},
+TITLE={Incremental {D}elaunay Triangulation},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={47-59},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={mesh generation, polygonization, Voronoi diagram,
+Delaunay triangulation},
+SUMMARY={
+Gives some code to solve a very important problem:  finding Delaunay
+triangulations and Voronoi diagrams in 2D.  These two geometric
+constructions are useful for triangular mesh generation and for nearest
+neighbor finding, respectively.  Triangular mesh generation comes up
+when doing interpolation of surfaces from scattered data points, and in
+finite element simulations of all kinds, such as radiosity.  Voronoi
+diagrams are used in many computational geometry algorithms.  Contains
+C++ code.
+},
+FTP={code in princeton.edu pub/Graphics/GraphicsGems/GemsIV/GGemsIV.tar.Z},
+}
+@INCOLLECTION{Glassner94normal,
+AUTHOR={Andrew Glassner},
+TITLE={Building Vertex Normals from an Unstructured Polygon List},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={60-73},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={smooth shading, topology, polyhedron},
+SUMMARY={
+Solves a fairly common rendering problem:  if one is given a set of
+polygons in raw form, with no topological (adjacency) information, and
+asked to do smooth shading (Gouraud or Phong shading) of them, one must
+infer topology and compute vertex normals.  Contains C code.
+},
+FTP={code in princeton.edu pub/Graphics/GraphicsGems/GemsIV/GGemsIV.tar.Z},
+}
+@INCOLLECTION{Greene94,
+AUTHOR={Ned Greene},
+TITLE={Detecting Intersection of a Rectangular Solid and a Convex Polyhedron},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={74-82},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={collision detection, octree, computational geometry},
+SUMMARY={
+Presents an optimized technique to test for intersection between a
+convex polyhedron and a box.  This is useful when comparing bounding
+boxes against a viewing frustum in a rendering program, for instance.
+Contains pseudocode.
+},
+}
+@INCOLLECTION{Rabbitz94,
+AUTHOR={Rich Rabbitz},
+TITLE={Fast Collision Detection of Moving Convex Polyhedra},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={83-109},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={animation, collision detection, computational geometry, polyhedron},
+SUMMARY={
+A turn-key piece of software that solves a difficult but basic problem
+in physically based animation and interactive modeling.  Contains C
+code.
+},
+FTP={code in princeton.edu pub/Graphics/GraphicsGems/GemsIV/GGemsIV.tar.Z},
+}
+@INCOLLECTION{Hart94,
+AUTHOR={John C. Hart},
+TITLE={Distance to an Ellipsoid},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={113-119},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={ray tracing, ellipse},
+SUMMARY={
+Gives the formulas necessary to find the distance from a point to an
+ellipsoid, or from a point to an ellipse.  These formulas can be useful
+for geometric modeling or for ray tracing.
+},
+}
+@INCOLLECTION{Ohashi94,
+AUTHOR={Yoshikazu Ohashi},
+TITLE={Fast Linear Approximations of {E}uclidean Distance in Higher Dimensions},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={120-124},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={integer arithmetic, square root},
+SUMMARY={
+Provides optimized formulas for approximating Euclidean distance in two
+or more dimensions without square roots.  Contains C code.
+},
+FTP={code in princeton.edu pub/Graphics/GraphicsGems/GemsIV/GGemsIV.tar.Z},
+}
+@INCOLLECTION{Donovan94,
+AUTHOR={Walt Donovan and Tim Van Hook},
+TITLE={Direct Outcode Calculation for Faster Clip Testing},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={125-131},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={IEEE floating point arithmetic, line clipping},
+SUMMARY={
+A clever optimization of clip testing that exploits the properties
+of IEEE floating point format.  Techniques are described to compute the
+``outcodes'' needed for line clipping using only integer arithmetic.
+Contains C code.
+},
+FTP={code in princeton.edu pub/Graphics/GraphicsGems/GemsIV/GGemsIV.tar.Z},
+}
+@INCOLLECTION{Miller94,
+AUTHOR={Robert D. Miller},
+TITLE={Computing the Area of a Spherical Polygon},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={132-137},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={cartography, Earth},
+SUMMARY={
+Gives the formulas needed to find the area of a polygon on a sphere
+that is bounded by great circle arcs.  This is useful in cartography.
+Contains C code.
+},
+FTP={code in princeton.edu pub/Graphics/GraphicsGems/GemsIV/GGemsIV.tar.Z},
+}
+@INCOLLECTION{Hill94perp,
+AUTHOR={F. S. {Hill Jr.}},
+TITLE={The Pleasures of 'Perp Dot' Products},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={138-148},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={geometry, fillet, perp-dot product, projection},
+SUMMARY={
+A tutorial on the ``perp dot product,'' which is the dot product, in
+2D, of one vector and the vector perpendicular to another.
+},
+}
+@INCOLLECTION{Hanson94,
+AUTHOR={Andrew J. Hanson},
+TITLE={Geometry for N-Dimensional Graphics},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={149-170},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={geometry, hyperplane, determinant, Levi-Civita, volume},
+SUMMARY={
+A tutorial on n-dimensional geometry.  Hanson generalizes a number of
+familiar concepts, such as plane equations, clipping, volume, and
+rotation, to n-D.
+},
+}
+@INCOLLECTION{Shoemake94arcball,
+AUTHOR={Ken Shoemake},
+TITLE={Arcball Rotation Control},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={175-192},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={interaction, quaternion},
+SUMMARY={
+Asks the question:  how does one control the three degrees of freedom
+of rotation in 3D, using a 2D input device such as a mouse?  Shoemake's
+answer: use a pair of points to designate a relative rotation, and use
+quaternions to make the rotation axis specification intuitive and
+consistent.  Contains C code.
+},
+FTP={code in princeton.edu pub/Graphics/GraphicsGems/GemsIV/GGemsIV.tar.Z},
+}
+@INCOLLECTION{Cromwell94,
+AUTHOR={Robert L. Cromwell},
+TITLE={Efficient Eigenvalues for Visualization},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={193-198},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={scatterplot, matrix of central moments},
+SUMMARY={
+Answers the question:  if I have a set of points in 3D, from what
+direction should I view them to get the best view (minimizing bunching
+in the projection)?  Solving this involves the eigenvalues of a 3x3
+matrix.  Optimized formulas are given for computing the eigenvalues.
+},
+}
+@INCOLLECTION{Wu94,
+AUTHOR={Kevin Wu},
+TITLE={Fast Inversion of Length- and Angle-Preserving Matrices},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={199-206},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={eigenvalue, 4x4 matrix},
+SUMMARY={
+Presents optimized formulas and code to compute the inverse of a 4x4
+matrix that is known to be length- and angle-preserving (consisting of
+only rotation, translation, and uniform scaling).  Contains C code.
+},
+FTP={code in princeton.edu pub/Graphics/GraphicsGems/GemsIV/GGemsIV.tar.Z},
+}
+@INCOLLECTION{Shoemake94decomp,
+AUTHOR={Ken Shoemake},
+TITLE={Polar Matrix Decomposition},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={207-221},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={quaternion, spectral decomposition, singular value decomposition},
+SUMMARY={
+Describes a method for decomposing an affine 3D transformation into
+translation, scaling, and rotation transformations in a physically
+meaningful way.  This can be useful for keyframe animation.  Contains C
+code.
+},
+FTP={code in princeton.edu pub/Graphics/GraphicsGems/GemsIV/GGemsIV.tar.Z},
+}
+@INCOLLECTION{Shoemake94euler,
+AUTHOR={Ken Shoemake},
+TITLE={Euler Angle Conversion},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={222-229},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={quaternion, rotation},
+SUMMARY={
+Gives code to convert a rotation expressed by one triple of axes into
+another triple.  Rotations in 3D are often described in terms of Euler
+angles:  rotations about x, y, and z in some order.  The order of
+rotations is significant, but not standardized.  These routines are
+useful for doing such conversions.  Contains C code.
+},
+FTP={code in princeton.edu pub/Graphics/GraphicsGems/GemsIV/GGemsIV.tar.Z},
+}
+@INCOLLECTION{Shoemake94twist,
+AUTHOR={Ken Shoemake},
+TITLE={Fiber Bundle Twist Reduction},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={230-236},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={animation, camera control, quaternion, topology, rotation},
+SUMMARY={
+Applies some advanced concepts from topology to the problem of
+minimizing twist (rotation about the z axis of screen space) in
+animation.  Has color plate.
+},
+}
+@INCOLLECTION{Eilers94,
+AUTHOR={Paul H. C. Eilers},
+TITLE={Smoothing and Interpolation with Finite Differences},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={241-250},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={data smoothing, curve smoothing},
+SUMMARY={
+Gives simple techniques for smoothing a set of uniformly spaced
+samples.  This can be used to remove noise from input data.  Contains C
+code.
+},
+FTP={code in princeton.edu pub/Graphics/GraphicsGems/GemsIV/GGemsIV.tar.Z},
+}
+@INCOLLECTION{Barry94,
+AUTHOR={Phillip Barry and Ron Goldman},
+TITLE={Knot Insertion Using Forward Differences},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={251-255},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={curve subdivision},
+SUMMARY={
+Describes a fast technique for subdivision of B-spline curves and
+surfaces.  Subdivision is a fundamental operation in modeling and
+rendering.  Contains pseudocode.
+},
+}
+@INCOLLECTION{Bajaj94,
+AUTHOR={Chandrajit Bajaj and Guoliang Xu},
+TITLE={Converting a Rational Curve to a Standard Rational {B}ernstein-{B}\'ezier Representation},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={256-260},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={Bezier curve, rational curve, NURB},
+SUMMARY={
+Discusses a low-level operation on curves:  conversion of a rational
+piecewise polynomial curve into rational Bernstein-Bezier form, a
+commonly used type of non-uniform rational B-spline (NURB).  Rational
+splines are useful because they allow conic curves to be represented
+exactly, whereas standard (polynomial) splines do not.  Contains
+pseudocode.
+},
+}
+@INCOLLECTION{Klassen94,
+AUTHOR={R. Victor Klassen},
+TITLE={Intersecting Parametric Cubic Curves by Midpoint Subdivision},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={261-277},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={Bezier curve, curve intersection, curve subdivision},
+SUMMARY={
+Provides code to find the intersection points of planar cubic curves.
+Contains C++ code.
+},
+FTP={code in princeton.edu pub/Graphics/GraphicsGems/GemsIV/GGemsIV.tar.Z},
+}
+@INCOLLECTION{Lischinski94patch,
+AUTHOR={Dani Lischinski},
+TITLE={Converting Rectangular Patches into {B}\'ezier Triangles},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={278-285},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={Bezier surface, biquadratic patch},
+SUMMARY={
+A parametric surface conversion routine.  Contains C++ code.
+},
+FTP={code in princeton.edu pub/Graphics/GraphicsGems/GemsIV/GGemsIV.tar.Z},
+}
+@INCOLLECTION{Peterson94,
+AUTHOR={John W. Peterson},
+TITLE={Tessellation of NURB Surfaces},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={286-320},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={surface subdivision, NURB, Bezier surface, B-spline surface,
+polygonization},
+SUMMARY={
+Gives code for polygonizing a very general class of parametric
+surfaces: NURBs.  Polygonization of parametric surfaces is useful both
+for rendering and for modeling.  Contains C code.
+},
+FTP={code in princeton.edu pub/Graphics/GraphicsGems/GemsIV/GGemsIV.tar.Z},
+}
+@INCOLLECTION{Shene94equation,
+AUTHOR={Ching-Kuang Shene},
+TITLE={Equations of Cylinders and Cones},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={321-323},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={quadric surface},
+SUMMARY={
+Derives the implicit equations of cylinders and cones.
+},
+}
+@INCOLLECTION{Bloomenthal94,
+AUTHOR={Jules Bloomenthal},
+TITLE={An Implicit Surface Polygonizer},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={324-349},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={iso-surface, marching cubes, polygonization},
+SUMMARY={
+Gives code to polygonize an arbitrary implicit surface.  Polygonization
+is a common approach to implicit surface rendering and volume
+rendering.  When combined with code for trilinear interpolation code, a
+program for polygonizing volume data can easily be constructed.  The
+resulting polygonizations will be superior to those generated by the
+``Marching Cubes'' algorithm, in many cases.  Contains C code.
+},
+FTP={code in princeton.edu pub/Graphics/GraphicsGems/GemsIV/GGemsIV.tar.Z},
+}
+@INCOLLECTION{Shene94intersect,
+AUTHOR={Ching-Kuang Shene},
+TITLE={Computing the Intersection of a Line and a Cylinder},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={353-355},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={quadric surface, ray tracing, cone},
+SUMMARY={
+Geometric method for intersecting a ray with a cylinder.
+},
+}
+@INCOLLECTION{Waggenspack94,
+AUTHOR={Joseph M. Cychosz and Warren N. {Waggenspack Jr.}},
+TITLE={Intersecting a Ray with a Cylinder},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={356-365},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={quadric surface, ray tracing},
+SUMMARY={
+Geometric method for intersecting a ray with a cylinder.  Contains C
+code.
+},
+FTP={code in princeton.edu pub/Graphics/GraphicsGems/GemsIV/GGemsIV.tar.Z},
+}
+@INCOLLECTION{Cohen94,
+AUTHOR={Daniel Cohen},
+TITLE={Voxel Traversal along a 3{D} Line},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={366-369},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={digital line drawing, grid traversal, ray tracing, scan conversion},
+SUMMARY={
+Visits all the voxels along a 3D line segment with integer endpoints,
+something like a 3D Bresenham's algorithm.  This code could be modified
+to take endpoints with fixed point coordinates.  Then the algorithm
+could be very useful for ray tracing, when a uniform grid is being used
+as a spatial data structure for optimization, or for volume rendering
+of grid data.  Contains C code.
+},
+FTP={code in princeton.edu pub/Graphics/GraphicsGems/GemsIV/GGemsIV.tar.Z},
+}
+@INCOLLECTION{Chiu94,
+AUTHOR={Kenneth Chiu and Peter Shirley and Changyaw Wang},
+TITLE={Multi-Jittered Sampling},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={370-374},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={antialiasing, jitter, stochastic sampling},
+SUMMARY={
+Presents a new technique for high quality stochastic sampling.  This is
+useful for antialiasing.  Contains C code.
+},
+FTP={code in princeton.edu pub/Graphics/GraphicsGems/GemsIV/GGemsIV.tar.Z},
+}
+@INCOLLECTION{Heckbert94minimal,
+AUTHOR={Paul S. Heckbert},
+TITLE={A Minimal Ray Tracer},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={375-381},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={ray tracing, obfuscation},
+SUMMARY={
+Answers the question: how short can a ray tracer be?  Contains C code.
+},
+FTP={code in princeton.edu pub/Graphics/GraphicsGems/GemsIV/GGemsIV.tar.Z},
+}
+@INCOLLECTION{Schlick94phong,
+AUTHOR={Christophe Schlick},
+TITLE={A Fast Alternative to {P}hong's Specular Model},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={385-387},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={Phong illumination, specular reflection, exponentiation},
+SUMMARY={
+Describes a simple approximation to Phong's specular reflection formula
+that does not require exponentiation or table lookup.
+},
+}
+@INCOLLECTION{Fisher94,
+AUTHOR={Frederick Fisher and Andrew Woo},
+TITLE={{R.E} versus {N.H} Specular Highlights},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={388-400},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={Phong illumination, specular reflection},
+SUMMARY={
+Compares two common variants of Phong's specular reflection formula and
+derives a surprising relationship between them.
+},
+}
+@INCOLLECTION{Schlick94perlin,
+AUTHOR={Christophe Schlick},
+TITLE={Fast Alternatives to {P}erlin's Bias and Gain Functions},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={401-403},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={hypertexture, texture synthesis},
+SUMMARY={
+Gives a simple approximation to some formulas that are commonly used in
+procedural texture synthesis and volume synthesis.
+},
+}
+@INCOLLECTION{Behrens94,
+AUTHOR={Uwe Behrens},
+TITLE={Fence Shading},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={404-409},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={Gouraud shading, Phong shading},
+SUMMARY={
+Proposes an approach halfway between Gouraud shading and Phong
+shading:  shade along the edges of the polygon, but interpolate across
+the interior.  Contains pseudocode.
+},
+}
+@INCOLLECTION{Kopp94,
+AUTHOR={Manfred Kopp and Michael Gervautz},
+TITLE={{XOR}-Drawing with Guaranteed Contrast},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={413-414},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={cursor},
+SUMMARY={
+Gives simple guidelines for the choice of write mask when drawing
+cursors and other graphics with exclusive-OR on multi-bit frame
+buffers.
+},
+}
+@INCOLLECTION{Ward94,
+AUTHOR={Greg Ward},
+TITLE={A Contrast-Based Scalefactor for Luminance Display},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={415-421},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={brightness, color, image display, perception, Radiance system},
+SUMMARY={
+Presents a simple technique for displaying pictures that have a dynamic
+range (ratio of brightest to dimmest pixel) beyond that of the
+display.  Has color plates.
+},
+}
+@INCOLLECTION{Schlick94dynamic,
+AUTHOR={Christophe Schlick},
+TITLE={High Dynamic Range Pixels},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={422-429},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={quantization, dynamic range},
+SUMMARY={
+Proposes a pixel encoding technique that allows color images with high
+dynamic range to be stored using only 24 bits per pixel.  Contains C
+code.
+},
+FTP={code in princeton.edu pub/Graphics/GraphicsGems/GemsIV/GGemsIV.tar.Z},
+}
+@INCOLLECTION{Schlag94,
+AUTHOR={John Schlag},
+TITLE={Fast Embossing Effects on Raster Image Data},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={433-437},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={bump mapping, texture, image filter, paint program, shading},
+SUMMARY={
+Presents a simple, fast technique that interprets an image as a height
+field or bump map, and then shades it, yielding an embossing effect.
+Has color plate.  Contains C code.
+},
+FTP={code in princeton.edu pub/Graphics/GraphicsGems/GemsIV/GGemsIV.tar.Z},
+}
+@INCOLLECTION{Heckbert94coons,
+AUTHOR={Paul S. Heckbert},
+TITLE={Bilinear {C}oons Patch Image Warping},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={438-446},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={morph, resampling, bilinear Coons patch},
+SUMMARY={
+Presents a fast technique to warp an image according to four boundary
+curves.  This can be used to correct distortions in images, or to
+introduce them, for special effects purposes.  Has color plates.
+Contains C code.
+},
+FTP={code in princeton.edu pub/Graphics/GraphicsGems/GemsIV/GGemsIV.tar.Z},
+}
+@INCOLLECTION{Wolberg94,
+AUTHOR={George Wolberg and Henry Massalin},
+TITLE={Fast Convolution with Packed Lookup Tables},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={447-464},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={image filter, image magnification, image resampling},
+SUMMARY={
+Gives optimized code for convolution of discrete signals.  This is
+useful for image resampling and filtering.  Contains C code.
+},
+FTP={code in princeton.edu pub/Graphics/GraphicsGems/GemsIV/GGemsIV.tar.Z},
+}
+@INCOLLECTION{Cychosz94,
+AUTHOR={Joseph M. Cychosz},
+TITLE={Efficient Binary Image Thinning Using Neighborhood Maps},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={465-473},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={image skeleton, image filter},
+SUMMARY={
+Provides fast code to thin a bitmap image and find its ``skeleton.''
+Image thinning is used for pattern recognition.  Contains C code.
+},
+FTP={code in princeton.edu pub/Graphics/GraphicsGems/GemsIV/GGemsIV.tar.Z},
+}
+@INCOLLECTION{Zuiderveld94,
+AUTHOR={Karel Zuiderveld},
+TITLE={Contrast Limited Adaptive Histogram Equalization},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={474-485},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={contrast enhancement},
+SUMMARY={
+Presents a contrast enhancement technique that overcomes some of the
+flaws of simple histogram equalization, such as noise amplification and
+suppression of local contrast.  Contains C code.
+},
+FTP={code in princeton.edu pub/Graphics/GraphicsGems/GemsIV/GGemsIV.tar.Z},
+}
+@INCOLLECTION{Paeth94,
+AUTHOR={Alan W. Paeth},
+TITLE={Ideal Tiles for Shading and Halftoning},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={486-492},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={bitblt, dither, stipple},
+SUMMARY={
+Discusses heuristics and design techniques for top-quality dither and
+stipple patterns.
+},
+FTP={picture in princeton.edu pub/Graphics/GraphicsGems/GemsIV/GGemsIV.tar.Z},
+}
+@INCOLLECTION{Christensen94,
+AUTHOR={Jon Christensen and Joe Marks and Stuart Shieber},
+TITLE={Placing Text Labels on Maps and Diagrams},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={497-504},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={cartography, label placement, layout, relaxation,
+simulated annealing},
+SUMMARY={
+Presents an algorithm to arrange text labels in a way that avoids
+overlap.  This is useful in cartography.
+},
+}
+@INCOLLECTION{Szirmay-Kalos94,
+AUTHOR={L\'aszl\'o Szirmay-Kalos},
+TITLE={Dynamic Layout Algorithm to Display General Graphs},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={505-517},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={cartography, layout, graph visualization, physically-based methods},
+SUMMARY={
+Gives code that finds aesthetic arrangements for a graph.  This could
+be used to graphically display data structures.  Contains C++ code.
+},
+FTP={code in princeton.edu pub/Graphics/GraphicsGems/GemsIV/GGemsIV.tar.Z},
+}
+@INCOLLECTION{Hill94trilinear,
+AUTHOR={Steve Hill},
+TITLE={Tri-linear Interpolation},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={521-525},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={trilinear interpolation, bilinear interpolation, reconstruction},
+SUMMARY={
+Gives optimized code for performing linear interpolation in a 3D grid.
+Trilinear interpolation is useful for volume rendering, and its 2D
+variant, bilinear interpolation, is a very common operation in image
+processing.  Contains C code.
+},
+FTP={code in princeton.edu pub/Graphics/GraphicsGems/GemsIV/GGemsIV.tar.Z},
+}
+@INCOLLECTION{Eker94,
+AUTHOR={Steven Eker},
+TITLE={Faster Linear Interpolation},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={526-533},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={line drawing, Gouraud shading, integer arithmetic, image resampling},
+SUMMARY={
+Gives optimized code for generic linear interpolation.  This is most
+useful for assembler language programming of graphics operations such
+as Gouraud shading and image scaling.  Contains C code.
+},
+FTP={code in princeton.edu pub/Graphics/GraphicsGems/GemsIV/GGemsIV.tar.Z},
+}
+@INCOLLECTION{Doue94,
+AUTHOR={Jean-Fran\c cois Dou\'e},
+TITLE={C++ Vector and Matrix Algebra Routines},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={534-557},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={vector algebra, transformation, ray tracing},
+SUMMARY={
+A C++ subroutine library for 2D, 3D, and 4D vector and matrix
+operations.  Contains C++ code.  The Floppy disk that comes with the
+book and the FTP collection contain a simple ray tracer written using
+the library.
+},
+FTP={code in princeton.edu pub/Graphics/GraphicsGems/GemsIV/GGemsIV.tar.Z},
+}
+@INCOLLECTION{Glassner94library,
+AUTHOR={Andrew Glassner and Eric Haines},
+TITLE={C Header File and Vector Library},
+BOOKTITLE={Graphics Gems IV},
+EDITOR={Paul Heckbert},
+PAGES={558-570},
+PUBLISHER={Academic Press},
+YEAR={1994},
+ADDRESS={Boston},
+KEYWORDS={vector algebra, root-finding},
+SUMMARY={
+Revised version of the ``Graphics Gems'' subroutine library, used in
+several other articles in the book.  Contains C code.
+},
+FTP={code in princeton.edu pub/Graphics/GraphicsGems/GemsIV/GGemsIV.tar.Z},
+}

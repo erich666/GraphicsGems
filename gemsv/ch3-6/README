@@ -1,0 +1,3 @@
+NOTE: These routines use the include files found in
+      ../ch7-7/mactbox/real.h
+      ../ch7-7/mactbox/mat.h

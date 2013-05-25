@@ -1,0 +1,33 @@
+
+This directory contains source code related to the book
+"Graphics Gems" (editor, Andrew S. Glassner, published by
+Academic Press, Cambridge, MA, 1990, ISBN 0-12-286165-5, 833 pgs.).
+
+The authors and the publisher hold no copyright restrictions 
+on any of these files; this source code is public domain, and 
+is freely available to the entire computer graphics community 
+for study, use, and modification.  We do request that the 
+comment at the top of each file, identifying the original 
+author and its original publication in the book Graphics 
+Gems, be retained in all programs that use these files.
+
+The original source files are stored in a plain text format; you
+may download  them without any special techniques (i.e. you need 
+not enable binary transfer, or have a special formatter to 
+read and use the code).  The updated source files in the "src"
+directory should be downloaded using binary transfer mode.
+
+Additional submissions (bug fixes, skeleton programs, auxiliary
+routines, etc.) may be directed to the site administrator,
+Craig Kolb (cek@cs.princeton.edu).  He will determine on a case-by-case
+basis if a particular submission should be included in this archive.
+If accepted, these routines will be made available in a companion 
+directory.
+
+src/			The most up-to-date version of each gem.
+			See src/README for details.
+
+original/		Source code as printed in "Graphics Gems".
+			See original/README for details.
+
+patches/		Patches to the original source code.

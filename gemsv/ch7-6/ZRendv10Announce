@@ -1,0 +1,98 @@
+This document describes the Z bufffer based rendering program
+developed at the West Virginia University.  The key features of this
+program are:
+
+(a) Reads a variant of the standard Neutral File Format (NFF) as input
+(b) Outputs a 24 bit color TARGA file
+(c) Uses accurate fixpoint arithmetic in all its calculations
+(d) Works on X windows environment.  We have tested it on Sun Sparc machines.
+(e) High Performance.  The renderer has almost realtime performance.
+
+This software is available through the Web and via anonymous ftp.  The
+software includes sample files, including the teapot.  We would
+appreciate any feedback you can give us on this software.  We are
+quite impressed by the quality of the images produced.  Enjoy the use
+of this utility!
+
+Raghu Karinthi
+Department of Statistics and Computer Science
+Concurrent Engineering Research Center
+West Virginia University
+Morgantown, WV 26506-6506
+Voice: (304) 293-7226
+Fax:   (304) 293-7541
+Email: raghu@cs.wvu.edu OR raghu@cerc.wvu.edu
+
+------------------------------------------------------------------------------
+
+This describes briefly our implementation of the Z buffer rendering
+algorithm.  The rendering pipeline has the following steps:
+
+1. Reading the input file.
+2. Backface Culling
+3. Trivial Accept/Reject of Triangles
+4. Computing the light intensity at the vertices.  Later, Gouraud
+   shading is used for interpolating the light intensity.
+   Several diffuse light sources and one specular light source are supported
+   but only Gouraud shading is supported.
+5. Applying the view transformation to all the vertices
+6. Clipping
+7. Division by W, Map to 3DViewport
+8. Rasterization, and writing to framebuffer.
+9. Writing framebuffer to a TARGA file.
+
+Subsequently, one can display the TARGA file, by invoking a separate
+utility (included with this package).
+
+We compute 24 bit color (R,G,B) at each pixel and write it to a TARGA
+file.  The functions to do write in TARGA file format are from the
+"LUG" library due to Raul Rivero.  The program "sx11" to display a
+TARGA file is also from the same library.  We have extracted these two
+utilities from the LUG library and provided them in the subdirectories
+"tga" and "sx11".
+
+Input File Format:  The input is a modified NFF file format described
+in the file called NFF.
+
+URL
+http://www.cerc.wvu.edu/public_domain_sw.html
+
+FTP INSTRUCTIONS 
+
+ftp ftp.cerc.wvu.edu
+
+Enter name: anonymous
+Enter Password: type in your email address
+
+cd pub/sources
+binary
+get ZRendv10.tar.Z
+quit
+
+Then, uncompress and untar the files.  Example (not guaranteed!):
+
+uncompress < ZRendv10.tar.Z | tar xf -
+
+Installation: type INSTALL in the main directory.
+
+Usage: ZRendv10 <backface cull> <trivial accept/reject> <clip> <phong>
+<NFFfilename> <TARGAfilename>.
+<backface cull>  must be -bf to enable backface culling, anything else to
+disable it.
+<trivial accept/reject> must be -tr to enable trivial accept/reject of
+triangles, anything else to disable it.
+<clip> must be -clip to enable triangle clipping, anything else to disable it.
+<phong> must be -phong to enable the use of the Phong model (the data file must
+have a Phong source) and anything else to use the diffuse model.
+<NFFFilename> is input NFF file name.
+<TARGAfilename> is output TARGA file name.
+
+Example:
+ZRendv10 -bf -tr -clip -phong tpot1l.nff tpot1l.tga
+
+The display program is "sx11" in the "sx11" subdirectory.  It is invoked by
+typing: sx11 <TARGAfilename>.  The <TARGAfilename> must have a ".tga"
+suffix.
+
+Example:
+sx11 tpot1l.tga

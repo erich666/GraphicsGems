@@ -1,0 +1,29 @@
+C code from the article
+"Direct Outcode Calculation for Faster Clip Testing"
+by Walt Donovan and Tim Van Hook,
+(donovan@eng.sun.com, tvh@sgi.com)
+in "Graphics Gems IV", Academic Press, 1994
+
+
+The files outcode2.c and outcode4.c are C code fragments for 2D and
+4D outcode calculation that were extracted from the paper, which you
+can insert in your own code.
+
+
+The following test programs demonstrate the performance gains from using the
+direct outcode method. 
+
+For a SuperSparc (SS10), we get the following figures:
+
+xcc2d1:	~27 clocks	(would be faster with overlap)
+xcc2d2:	~40 clocks	
+
+xcc4d1:	~54 clocks	(the paper says 50, but that's with a
+				more tightly written version than here)
+xcc4d2:	~94 clocks	(ditto)
+
+All of the routines were run several times, and the lowest figure
+reported.
+
+						-- walt donovan
+						donovan@eng.sun.com

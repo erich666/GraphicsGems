@@ -1,0 +1,317 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% File:    libgm.tex
+%%% Authors: Ferdi Scheepers and Stephen F. May
+%%% Purpose: Documents libgm
+%%% Created: July 1994
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentstyle{apgems}
+
+\font\elevencour=pcrr at 11pt          %%% in-text typewriter font
+\newcommand{\CO}[1]{{\elevencour#1}}   %%% typeset #1 in typewriter font
+\newcommand{\co}[1]{{\eightcour#1}}    %%% as \CO, but for tables
+
+\author{Ferdi Scheepers and Stephen F. May\\
+	Advanced Computing Center for the Arts and Design\\
+	Department of Computer and Information Science\\
+	The Ohio State University\\
+	Columbus, Ohio, USA 
+}
+
+%\author{Ferdi Scheepers\\
+%	Advanced Computing Center for the Arts and Design\\
+%	Department of Computer and Information Science\\
+%	The Ohio State University\\
+%	Columbus, Ohio, USA
+%\and 
+%	Stephen F. May\\
+%	Advanced Computing Center for the Arts and Design\\
+%	Department of Computer and Information Science\\
+%	The Ohio State University\\
+%	Columbus, Ohio, USA
+%}
+
+\newcommand{\napprox}{\approx\hspace{-0.9em}/\hspace{0.5em}}
+
+\begin{document}
+
+\chapter{A Graphics Math Library\index{C++ Graphics Math Library}}
+
+\section*{Description}
+
+{\it libgm\/} provides fundamental data types often required by 
+graphics-related programs. Included are data types for 2D and 3D vectors,
+and for $3\times3$ and $4\times4$ matrices. In addition, {\it libgm\/} 
+provides a set of constants and utility functions which are useful for 
+graphics programming and a boolean data type \CO{bool} with boolean constants
+\CO{false} and \CO{true}.
+
+The constants defined by {\it libgm\/} are shown in Table \ref{consts_tab}.
+All constants are double precision, floating point numbers defined to 20 
+digits of precision, although only 6 digits are shown in the table.
+Tables \ref{funcs_tab}---\ref{mfuncs_tab} show the scalar utility functions,
+and the vector and matrix operations provided by {\it libgm}. 
+Notationally, we use \CO{f} or 
+\CO{f}$k$ ($k = 1, 2, \ldots$) to denote variables of type \CO{double}, and 
+\CO{i} or \CO{i}$k$ ($k=1, 2, \ldots$) to denote variables of type \CO{int}.
+We use \CO{v} or \CO{v}$i$ ($i=1, 2, \ldots$) to denote instances of vectors
+and \CO{M} or \CO{M}$i$ ($i=1, 2, \ldots$) to denote instances of matrices.
+Matrix elements
+are stored in row-major order and can be accessed or changed by 
+using two, zero-indexed subscript operators.  
+Note that the adjoint matrix $M^* = (1/|M|)M^{-1}$ is used to determine
+the inverse of a non-singular matrix $M$\footnote{see volume I, pages 470-471.}.
+
+\begin{table}[tbp]
+\tablesize
+\caption{{\it libgm\/} Constants}
+\centering
+\brule
+\begin{tabular}{lll|lll}
+\noalign{\vskip3pt}
+\co{gm2PI}       &  6.283185\ldots 	& $2\pi$ 	& \co{gmPIDIV4}    &  0.785398\ldots 	& $\pi/4$\\
+\co{gmDEGTORAD}  &  0.017453\ldots 	& $\pi/180$     & \co{gmPIDIV4}    &  0.785398\ldots 	& $\pi/4$\\
+\co{gmE}         &  2.718281\ldots 	& $e$ 		& \co{gmRADTODEG}  & 57.295779\ldots 	& $180/\pi$\\
+\co{gmEEXPPI}    & 23.140692\ldots 	& $e^\pi$ 	& \co{gmSQRT2}     &  1.414213\ldots 	& $\sqrt 2$\\
+\co{gmGOLDEN}    &  1.618033\ldots 	& golden ratio	& \co{gmSQRT3}     &  1.732050\ldots 	& $\sqrt 3$\\
+\co{gmINVPI}     &  0.318309\ldots 	& $\pi^{-1}$ 	& \co{gmSQRT10}    &  3.162277\ldots 	& $\sqrt{10}$\\
+\co{gmLN10}      &  2.302585\ldots 	& $\ln{10}$ 	& \co{gmSQRTE}     &  1.648721\ldots 	& $\sqrt e$\\
+\co{gmLN2}       &  0.693147\ldots 	& $\ln 2$ 	& \co{gmSQRTHALF}  &  0.707106\ldots 	& $\sqrt{0.5}$\\
+\co{gmLOG10E}    &  0.434294\ldots 	& $\log e$ 	& \co{gmSQRTLN2}   &  0.832554\ldots 	& $\sqrt{\ln 2}$\\
+\co{gmLOG2E}     &  1.442695\ldots 	& $\lg e$ 	& \co{gmSQRTPI}    &  1.772453\ldots 	& $\sqrt\pi$\\
+\co{gmPI}        &  3.141592\ldots 	& $\pi$ 	& \co{gmEPSILON}   &  1.0e-10 		& next \co{double} $> 0$\\
+\co{gmPIDIV2}    &  1.570796\ldots 	& $\pi/2$ 	& \co{gmGOOGOL}    &  1.0e50  		& large \co{double}
+\label{consts_tab}
+\end{tabular}
+\erule
+\end{table}
+
+\begin{table}[tbp]
+\tablesize
+\caption{{\it libgm\/} Utility Functions}
+\centering
+\brule
+\begin{tabular}{lll}
+function & description & usage \\
+\noalign{\vskip2pt}
+\hline
+\noalign{\vskip3pt}
+\co{gmAbs(f)}      	& absolute value of \co{f}		 	                	& \co{f1 = gmAbs(f2);}\\
+\co{gmCeil(f)}     	& least integer greater than or equal to \co{f}				& \co{f1 = gmCeil(f2);}\\
+\co{gmClamp(f,f1,f2)}	& clamp \co{f} to \co{[f2,f3]} 						& \co{gmClamp(f,f1,f2);}\\
+\co{gmCube(f)}     	& \co{f}$^3$		                              			& \co{f1 = gmCube(f2);}\\
+\co{gmDegrees(f)} 	& convert angle in radians, \co{f}, to angle in degrees 		& \co{f1 = gmDegrees(f2);}\\
+\co{gmFloor(f)}    	& greatest integer less than or equal to \co{f} 			& \co{f1 = gmFloor(f2);}\\
+\co{gmFuzEQ(f1,f2)}  	& \co{true} iff \co{f1} is fuzzy equal to \co{f2}   			& \co{if (gmFuzEQ(f1,f2)) }\ldots\\
+\co{gmFuzGEQ(f1,f2)} 	& \co{true} iff \co{f1} is fuzzy greater than or equal to \co{f2} 	& \co{if (gmFuzGEQ(f1,f2)) }\ldots\\
+\co{gmFuzLEQ(f1,f2)} 	& \co{true} iff \co{f1} is fuzzy less than or equal to \co{f2} 		& \co{if (gmFuzLEQ(f1,f2)) }\ldots\\
+\co{gmInv(f)}      	& inverse of \co{f}, \co{f} $\napprox 0$		& \co{f1 = gmInv(f2);}\\
+\co{gmIsZero(f)}   	& \co{true} iff \co{f} is fuzzy equal to 0 				& \co{if (gmIsZero(f)) }\ldots\\
+\co{gmLerp(f,f1,f2)}  	& linear interpolation from \co{f1} (when \co{f} $=0$) 			& \co{f3 = gmLerp(f,f1,f2);}\\
+			& \ \ \ to \co{f2} (when \co{f} $=1$)  		      			& \\
+\co{gmMax(f1,f2)}    	& maximum of \co{f1} and \co{f2} 					& \co{f = gmMax(f1,f2);}\\
+\co{gmMax(f1,f2,f3)}  	& maximum of \co{f1} and \co{f2} and \co{f3} 				& \co{f = gmMax(f1,f2,f3);}\\
+\co{gmMin(f1,f2)}    	& minimum of \co{f1} and \co{f2}					& \co{f = gmMin(f1,f2);}\\
+\co{gmMin(f1,f2,f3)}  	& minimum of \co{f1} and \co{f2} and \co{f3} 				& \co{f = gmMin(f1,f2,f3);}\\
+\co{gmRadians(f)}  	& convert angle in degrees, \co{f}, to angle in radians 		& \co{f1 = gmRadians(f2);}\\
+\co{gmRound(f)}    	& \co{f} rounded to nearest integer 		 			& \co{f1 = gmRound(f2);}\\
+\co{gmSign(f)}     	& sign of \co{f} ($-1$ iff \co{f} $< 0$) 				& \co{f1 = gmSign(f2);}\\
+\co{gmSlide(f,f1,f2)} 	& hermite interpolation from \co{f1} (when \co{f} $=0$)			& \\
+			& \ \ \ to \co{f2} (when \co{f} $=1$)					& \co{f3 = gmSlide(f,f1,f2);}\\
+\co{gmSmooth(f)}   	& smooth hermite interpolate of \co{f} 					& \co{f1 = gmSmooth(f2);}\\
+\co{gmSqr(f)}      	& \co{f}$^2$								& \co{f1 = gmSqr(f2);}\\
+\co{gmSwap(f1,f2)}   	& swap \co{f1} and \co{f2} 						& \co{gmSwap(f1,f2);}\\
+\co{gmSwap(i1,i2)}   	& swap \co{i1} and \co{i2}						& \co{gmSwap(i1,i2);}\\
+\co{gmTrunc(f)}    	& \co{f} truncated 							& \co{f1 = gmTrunc(f2);}\\
+\co{gmZSign(f)}    	& zero or sign of \co{f} ($-1$, $0$, or $1$)	     			& \co{f1 = gmZSign(f2);}
+\label{funcs_tab}
+\end{tabular}
+\erule
+\end{table}
+
+\begin{table}[tbp]
+\tablesize	
+\caption{{\it libgm\/} Vector Operators}
+\centering	
+\brule
+\begin{tabular}{cll|cll}
+op & description & usage & op & description & usage \\
+\noalign{\vskip2pt}
+\hline
+\noalign{\vskip3pt}
+\co{[$i$]} & access component $i$ 		& \co{f = v[0];}	& \co{/=}  & destructive scalar divide	& \co{v1 /= f;}\\
+	   & \ \ \ 2D: $i\in\{ 0, 1 \}$		&  			&	   & \ \ \ requires: divisor $\napprox 0$ &\\
+           & \ \ \ 3D: $i\in\{ 0, 1, 2 \}$	& 			& \co{+}   & addition 			& \co{v1 = v2 + v3;}\\
+\co{[$i$]} & change component $i$ 	 	& \co{v[0] = f;}        & \co{-}   & subtraction 		& \co{v1 = v2 - v3;}\\
+	   & \ \ \ 2D: $i\in\{ 0, 1 \}$		& 			& \co{-}   & negation (unary) 		& \co{v1 = -v2;}\\
+           & \ \ \ 3D: $i\in\{ 0, 1, 2 \}$ 	&			& \co{*}   & scalar pre-multiply 	& \co{v1 = f * v2;}\\
+\co{=}     & assign 				& \co{v1 = v2;} 	& \co{*}   & scalar post-multiply 	& \co{v1 = v2 * f;}\\
+\co{+=}    & destructive add 		 	& \co{v1 += v2;} 	& \co{/}   & scalar divide 		& \co{v1 = v2 / f;}\\
+\co{-=}    & destructive subtract 		& \co{v1 -= v2;} 	&          & \ \ \ requires: divisor $\napprox 0$ &\\
+\co{*=}    & destructive scalar multiply        & \co{v1 *= f;} 	& \co{==}  & equality (fuzzy) 		& \co{if (v1 == v2) }\ldots\\
+	   & 					& 			& \co{!=}  & inequality (fuzzy) 	& \co{if (v1 != v2) }\ldots
+\label{vops_tab}
+\end{tabular}
+\erule
+\end{table}
+
+\begin{table}[tbp]
+\tablesize	
+\caption{{\it libgm\/} Vector Functions}
+\centering	
+\brule
+\begin{tabular}{lll}
+function & description & usage \\
+\noalign{\vskip2pt}
+\hline
+\noalign{\vskip3pt}
+\co{gmVector2()} 	    & default constructor, initializes to \co{(0,0)} 			& \co{gmVector v;}\\
+\co{gmVector2(v)} 	    & copy constructor 							& \co{gmVector v1(v2);}\\
+\co{gmVector2(f1,f2)} 	    & constructor, initializes to \co{(f1,f2)}				& \co{gmVector v(f1,f2);}\\
+\co{assign(f1,f2)}	    & assign components							& \co{v.assign(f1,f2);}\\
+\noalign{\vskip2pt}
+\hline
+\noalign{\vskip3pt}
+\co{gmVector3()} 	    & default constructor, initializes to \co{(0,0)} 			& \co{gmVector v;}\\
+\co{gmVector3(v)} 	    & copy constructor 							& \co{gmVector v1(v2);}\\
+\co{gmVector3(f1,f2,f3)}    & constructor, initializes to \co{(f1,f2,f3)}			& \co{gmVector v(f1,f2,f3);}\\
+\co{assign(f1,f2,f3)}	    & assign components							& \co{v.assign(f1,f2,f3);}\\
+\co{cross(v1,v2)}	    & cross product of \co{v1} and \co{v2}				& \co{v = cross(v1,v2);}\\
+\noalign{\vskip2pt}
+\hline
+\noalign{\vskip3pt}
+\co{distance(v1,v2)} 	    & distance between points \co{v1} and \co{v2} 			& \co{f = distance(v1,v2);}\\
+\co{distanceSquared(v1,v2)} & square of \co{distance(v1,v2)}					& \co{f = distanceSquared(v1,v2);}\\
+\co{dot(v1,v2)} 	    & dot product of \co{v1} and \co{v2}				& \co{f = dot(v1,v2);}\\
+\co{length()} 		    & length of this vector			 			& \co{f = v.length();}\\
+\co{lengthSquared()} 	    & square of \co{length()}						& \co{f = v.lengthSquared();}\\
+\co{lerp(f,v1,v2)} 	    & linear interpolation from \co{v1} (when \co{f} $=0$) 		& \co{v = lerp(f,v1,v2);}\\
+			    & \ \ \ to \co{v2} (when \co{f} $=1$) 				& \\
+\co{normalize()} 	    & normalize this vector \co{v} 			    		& \co{v.normalize();}\\
+			    & \ \ \ requires: \co{v.length()} $\napprox 0$ 			&
+\label{vfuncs_tab}
+\end{tabular}
+\erule
+\end{table}
+
+\begin{table}[tbp]
+\tablesize	
+\caption{{\it libgm\/} Matrix Operators}
+\centering	
+\brule
+\begin{tabular}{cll|cll}
+op & description & usage & op & description & usage \\
+\noalign{\vskip2pt}
+\hline
+\noalign{\vskip3pt}
+\noalign{\vskip3pt}
+\co{[$i$][$j$]} & access element $i,j$ 			& \co{f = M[0][0];}	&\co{+}   	& addition 			& \co{M1 = M2 + M3;}\\
+	   	& \ \ \ $3\times3$: $i,j\in\{ 0, 1, 2 \}$ &  			&\co{-}   	& subtraction 			& \co{M1 = M2 - M3;}\\
+           	& \ \ \ $4\times4$: $i,j\in\{ 0, 1, 2, 3 \}$ & 			&\co{-}   	& negation (unary) 		& \co{M1 = -M2;}\\
+\co{[$i$][$j$]} & change element $i,j$ 	 		& \co{M[0][0] = f;}     &\co{*}   	& matrix multiply 		& \co{M1 = M2 * M3;}\\
+	   	& \ \ \ $3\times3$: $i,j\in\{ 0, 1, 2 \}$ & 			&\co{*}   	& scalar pre-multiply 		& \co{M1 = f * M2;}\\
+           	& \ \ \ $4\times4$: $i,j\in\{ 0, 1, 2, 3 \}$ &			&\co{*}   	& scalar post-multiply 		& \co{M1 = M2 * f;}\\
+\co{=}   	& assign 				& \co{M1 = M2;}		&\co{*}   	& row vector pre-multiply 	& \co{M1 = v * M2;}\\
+\co{+=}  	& destructive add 			& \co{M1 += M2;}	&\co{*}   	& column vector post-	 	& \co{M1 = M2 * v;}\\
+\co{-=}  	& destructive subtract 			& \co{M1 -= M2;}	&               & \ \ \ multiply		& \\
+\co{*=}  	& destructive matrix multiply 		& \co{M1 *= M2;}	&\co{/}   	& scalar divide 		& \co{M1 = M2 / f;}\\
+\co{*=}  	& destructive scalar multiply 		& \co{M1 *= f;}		&		& \ \ \ requires: divisor $\napprox 0$	& \\
+\co{/=}  	& destructive scalar divide 	    	& \co{M1 /= f;}		&\co{==}	& equality (fuzzy) 		& \co{if (M1 == M2) }\ldots\\
+		& \ \ \ requires: divisor $\napprox 0$	&			&\co{!=}	& inequality (fuzzy) 		& \co{if (M1 != M2) }\ldots
+\label{mops_tab}
+\end{tabular}
+\erule
+\end{table}
+
+\begin{table}[tbp]
+\tablesize	
+\caption{{\it libgm\/} Matrix Functions}
+\centering	
+\brule
+\begin{tabular}{l@{\hspace{0.5em}}ll}
+function & description & usage \\
+\noalign{\vskip2pt}
+\hline
+\noalign{\vskip3pt}
+\co{gmMatrix3()} 	    	& default $3\times3$ matrix constructor,                        & \co{gmMatrix M;} 			\\
+				& \ \ \ initializes to all zeroes 	  			&					\\
+\co{gmMatrix3(M)} 	    	& copy constructor 	  					& \co{gmMatrix M1(M2);} 		\\
+\co{gmMatrix3}
+%
+\hspace*{-1.25em}
+\begin{array}[t]{l}
+$\co{(f00,f01,f02,}$ \\ $\co{ f10,f11,f12,}$ \\ $\co{ f20,f21,f22)}$
+\end{array}
+			   	& constructor      	  					& \co{gmMatrix M}
+%
+\hspace*{-1.25em}
+\begin{array}[t]{l}
+$\co{(f00,f01,f02,}$ \\ $\co{ f10,f11,f12,}$ \\ $\co{ f20,f21,f22)}$
+\end{array}
+																	\\
+\co{assign}
+%
+\hspace*{-1.25em}
+\begin{array}[t]{l}
+$\co{(f00,f01,f02,}$ \\ $\co{ f10,f11,f12,}$ \\ $\co{ f20,f21,f22)}$
+\end{array}
+			    	& assign elements						& \co{M.assign}
+%
+\hspace*{-1.25em}
+\begin{array}[t]{l}
+$\co{(f00,f01,f02,}$ \\ $\co{ f10,f11,f12,}$ \\ $\co{ f20,21,22)}$
+\end{array}
+																	\\
+\co{identity()}             	& $3\times3$ identity matrix	  				& \co{M = gmMatrix3::identity();}	\\
+\noalign{\vskip2pt}
+\hline
+\noalign{\vskip3pt}
+\co{gmMatrix4()} 	    	& default $4\times4$ matrix constructor,                        & \co{gmMatrix M;} 			\\
+				& \ \ \ initializes to all zeroes 				&					\\
+\co{gmMatrix4(M)} 	    	& copy constructor 	  					& \co{gmMatrix M1(M2);} 		\\
+\co{gmMatrix4}
+%
+\hspace*{-1.25em}
+\begin{array}[t]{l}
+$\co{(f00,f01,f02,f03,}$ \\ $\co{ f10,f11,f12,f13,}$ \\ $\co{ f20,f21,f22,f23,}$ \\ $\co{ f30,f31,f32,f33)}$
+\end{array}
+			   	& constructor      	  					& \co{gmMatrix M}
+%
+\hspace*{-1.25em}
+\begin{array}[t]{l}
+$\co{(f00,f01,f02,f03,}$ \\ $\co{ f10,f11,f12,f13,}$ \\ $\co{ f20,f21,f22,f23,}$ \\ $\co{ f30,f31,f32,f33)}$
+\end{array}
+																	\\
+\co{assign}
+%
+\hspace*{-1.25em}
+\begin{array}[t]{l}
+$\co{(f00,f01,f02,f03,}$ \\ $\co{ f10,f11,f12,f13,}$ \\ $\co{ f20,f21,f22,f23,}$ \\ $\co{ f30,f31,f32,f33)}$
+\end{array}
+			    	& assign elements						& \co{M.assign}
+%
+\hspace*{-1.25em}
+\begin{array}[t]{l}
+$\co{(f00,f01,f02,f03,}$ \\ $\co{ f10,f11,f12,f13,}$ \\ $\co{ f20,f21,f22,f23,}$ \\ $\co{ f30,f31,f32,f33)}$
+\end{array}
+																	\\
+\co{identity()}             	& $4\times4$ identity matrix	  				& \co{M = gmMatrix4::identity();}	\\
+\noalign{\vskip2pt}
+\hline
+\noalign{\vskip3pt}
+\co{adjoint()} 		& adjoint of this matrix				    & \co{M1 = M2.adjoint();}			\\
+\co{determinant()}	& determinant of this matrix		 		    & \co{f = M.determinant();}	  		\\
+\co{inverse()}		& inverse of this matrix \co{M}				    & \co{M1 = M2.inverse();}	  		\\
+			& \ \ \ requires: \co{!M.isSingular()}                      &						\\
+\co{isSingular()}	& \co{true} iff this matrix is singular 		    & \co{if (M.isSingular()) }\ldots		\\
+\co{transpose()}	& transpose of this matrix				    & \co{M1 = M2.transpose();}	
+\label{mfuncs_tab}
+\end{tabular}
+\erule
+\end{table}
+
+%\nocite{Glassner92a,Glassner92b,Foley90,Mortenson85,Lippman91,Pohl93}
+%\bibliography{fs_libgm}
+%\bibliographystyle{apgems}
+
+\end{document}

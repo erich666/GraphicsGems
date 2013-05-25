@@ -1,0 +1,2383 @@
+Path: pixar!ph
+From: ph@pixar.UUCP (Paul Heckbert)
+Newsgroups: comp.graphics
+Subject: Announcing: MINIMAL RAY TRACER PROGRAMMING CONTEST
+Date: 4 May 87 21:52:33 GMT
+Organization: Pixar -- Marin County, California
+
+# to unpack, cut here and run the following through sh
+# shell archive of: rules squeeze.c ntok.csh ray.h test1.ap
+#
+cat <<'EOF15382' >rules
+
+**************************************
+MINIMAL RAY TRACER PROGRAMMING CONTEST
+**************************************
+
+The goal: write the shortest Whitted-style ray tracing program in C.
+Countless people have written basic sphere ray tracers and made pictures of
+glass and chrome balls, so isn't it time we found out just how short such a
+program can be?
+
+The algorithms required are described in the classic article:
+	
+    Turner Whitted
+    "An Improved Illumination Model for Shaded Display"
+    Communications of the ACM, June 1980, pp. 343-349
+
+Given Kernighan&Ritchie, Whitted's article, and a basic knowledge of 3-D
+graphics, anyone should be able to enter this contest.  Winning the
+contest will require intimate knowledge of C and considerable ingenuity,
+however.
+
+Briefly, the rules are as follows: you mail me C source to a ray tracer which
+renders spheres with specular and transmitted rays and hard shadows but
+no antialiasing.  The scene is compiled in, and the picture is
+output to stdout.  Speed is no object.  The winner will be the shortest
+C program which produces the "correct" output, where shortest is measured by
+the number of tokens after the C preprocessor.  The deadline is 15 June 1987.
+
+Files in this shell archive are:
+    rules    - contest announcement and rules
+    squeeze.c   - program for token counting
+    ntok.csh - C shell alias for token counting
+    ray.h    - sphere list for a test scene
+    test1.ap - a correct image of that scene, for reference
+
+
+**** CONTEST RULES ****
+
+An entry is considered valid if it meets all of the following conditions:
+
+    1. program consists of a single C source file (called ray.c, say)
+
+    2. compiles with no errors or warnings on 4.3bsd on my VAX 780
+	with a command of the form "cc -o ray ray.c -lm"
+	(sorry, but this is the only way I can verify entries consistently)
+	Thus, "modern" C features such as structure passing and enum are legal.
+
+    3. ray traces a list of spheres using Whitted's recursive shading
+	model for the specular and transmitted (refracted) components.
+
+    4. the sphere list, camera, and other parameters
+	(listed below) are compiled into the program from a header file 
+	with '#include "ray.h"'.  The program must work for any set of such
+	parameters, except where noted below (each entry will be compiled
+	and tested with several different header files).
+
+	the following are specified in the header file:
+
+	a sphere has at least the following attributes
+	    center point (x,y,z)
+	    color (r,g,b) with 0<=r,g,b<=1
+	    radius
+	    diffuse, specular, transmitted, and luminosity coefficients
+		call them kd, ks, kt, kl respectively
+	    index of refraction ir
+
+	and the following constants are #defined:
+	    DEPTH		maximum ray tree depth
+				    depth=0 means return black (0,0,0)
+				    depth=1 means shade only primary rays
+				    depth=2 means primary and secondary, etc.
+	    SIZE		resolution of picture in pixels (it's square)
+	    AOV			total angle of view in degrees
+	    NSPHERE		number of spheres in scene
+
+	The sphere list and ambient color are initialized in ray.h using
+	the identifiers "SPHERE" and "AMBIENT", which you will need to
+	#define before #including that file.  SPHERE and AMBIENT can be
+	arrays of doubles, structures, or whatever you like.
+	For example:
+	
+		#define SPHERE	struct sphere sph[NSPHERE]
+		
+	Your program should compile with the enclosed ray.h.
+    
+    5. uses the following shading model:
+
+	if a ray intersects sphere i, then the color returned along that ray is:
+
+	    C = kd[i]*SURFCOLOR[i]*
+		    (AMBIENT + sum(j){lit(j)*kl[j]*SURFCOLOR[j]*max(0,N.L)}) +
+		ks[i]*CS + kt[i]*CT + kl[i]*SURFCOLOR[i]
+
+	if a ray misses all spheres, then the color returned is:
+
+	    C = AMBIENT
+
+	where
+	    capitals denote 3-vectors (xyz or rgb)
+		geometric (xyz) vectors N and L should be normalized
+	    sum(j){x} is the sum of x over all lights j
+	    lights are modeled as luminous spheres within the scene
+	    any sphere with kl!=0 is considered a light
+	    lit(j)=0 if the surface point is in shadow with respect to light j,
+		else lit(j)=1.  A surface point is "in shadow" if a ray from
+		that point toward the center of the light intersects any spheres
+		before it reaches the light
+
+	    (SURFCOLOR, kd, ks, kt, kl)[i] are attributes of the sphere hit
+	    kl[j] and SURFCOLOR[j] are intensity and color of light being tested
+	    L is the vector from the surface point to light j
+	    the normal vector N points in if the ray strikes the surface
+		from within the sphere, else N points out
+	    AMBIENT is the ambient light color
+	    CS and CT are the recursive specular and transmitted colors
+
+	notes:
+	    air has index of refraction of 1
+	    you may assume all spheres have a positive index of refraction
+	    you may assume that no two transparent spheres intersect
+	    use CT=0 when refraction causes total internal reflection
+	    shading formula needs no highlight term because lights are in scene
+
+    6. uses the following perspective camera model:
+	spheres are specified in right-handed world space
+	eye is at (0,0,0) looking in +y direction of world space
+	screen space x points right, y points down
+	pixels are square
+	the pixel at screen space (x,y) has world space ray direction
+	    dx = x-SIZE/2
+	    dy = (SIZE/2)/tan(AOV/2)	(where tan takes degrees)
+	    dz = SIZE/2-y
+
+    7. the picture is output to stdout in ascii in the format:
+	A header of two integers, the xsize and ysize,
+	followed by xsize*ysize rgb INTEGER triplets in scanline
+	(row-major) order.  These pixel values should be 255 times the
+	intensities computed with the above shading model.
+	It is acceptable for values to exceed 255.
+	Enclosed is test1.ap, an ascii picture file conforming to this format.
+
+    8. output of your program must match my pixel values within + or - 10.
+	(Please run your program with the enclosed ray.h and compare your
+	output to test1.ap; only submit if your pixel values nearly match)
+
+    9. entries must be postmarked before 15 June 1987
+
+not needed:
+    1. antialiasing
+    2. any geometric primitives besides spheres
+    3. CSG
+    4. any probabilistic ray tracing effects, such as
+	penumbras or the rendering equation
+    5. program doesn't have to pass lint
+    6. speed
+
+goal:
+    The winner will be the valid entry with the minimum number of tokens
+    after running the source through the C preprocessor.
+    (This is a better measure of program length than number of lines or object
+    code size, since it is machine-independent and more hacker-resistant.)
+    Use the enclosed program, squeeze.c, and the ntok alias in ntok.csh to
+    count tokens.
+
+Send entries and questions via e-mail to me at
+
+    UUCP: {sun,ucbvax}!pixar!minray
+    ARPA: minray%pixar.uucp@ucbvax.berkeley.edu
+
+Please put your name, address (electronic and otherwise), number of years of
+programming, and any remarks about your minimization tricks in a comment
+at the top of your source file.  Note that my token counter ignores comments
+and unused ifdefs, so such a comment won't penalize you.
+
+At any time before the deadline you can mail me and I'll tell you the token
+count of the current leader.
+
+The winning entries will be posted to comp.graphics.
+
+		- Paul Heckbert
+		  3 May 87
+EOF15382
+cat <<'EOF15383' >squeeze.c
+/*
+ * SQUEEZE - Squeeze a C program.
+ * Breaks a C program into indivisible tokens and packs as many tokens per
+ * line as possible, eliminating comments and unnecessary whitespace.
+ * One way to save paper, screen space, and disk space.
+ * "squeeze -1 | wc -l" will count tokens.
+ *
+ * Paul Heckbert	21 May 81
+ */
+
+#include <stdio.h>
+#define bs BUFSIZ
+#define siz 300000	/* change this if you ain't got that much memory */
+
+#define space 1
+#define punc 2
+#define label 3
+#define comment 4
+#define eof 5
+
+static char *usage = "\
+Usage: squeeze [<file>] [-<linelength>]\n\
+Reads from standard input if no filename given.	 Output to standard output.\n\
+";
+
+static char buf[siz+1];
+static char label_chars[] =
+    "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";
+static char *combo[] =
+    {">=","<=","!=","==","||","&&","->","++","--",">>","<<",0};
+static char *nd;
+
+main(ac,av)
+int ac;
+char **av;
+{
+    char *i0,*j0,*i1,*j1,*i2,*j2,q;
+    int count,t0,t1,t2,fill,linel,k,fd,n;
+
+    if (ac>3 || ac==2 && av[1][0]=='-' && av[1][1]==0) {
+	fprintf(stderr,usage);
+	exit(1);
+    }
+
+    fd = 0;
+    linel = 79;
+    for (k=1; k<ac; k++)
+	if (av[k][0]=='-') linel = atoi(av[k]+1);
+	else if ((fd = open(av[k],0))==-1)
+	    {printf("Can't get %s\n",av[k]); exit(1);}
+
+    for (i1=buf, n=0; n+bs<=siz && (count = read(fd,i1,bs))>0;
+	n+=count, i1+=count);
+    if (count>0) {printf("file too big to squeeze!\n"); return;}
+    buf[n] = 0;				/* sentinel */
+    nd = buf+n;
+    t0 = punc;				/* pretend */
+    i1 = j0 = i0 = buf;
+    count = 0;
+    fill = 1;
+    t1 = get_token(i1,&j1);		/* first token */
+
+    for (i2=j1; t1!=eof; i1=i2,j1=j2,t1=t2, i2=j1) {
+	t2 = get_token(i2,&j2);
+	if (t1==punc && j1-i1==1 && *i1=='#') { /* preprocessor line */
+	    if (count) {putchar('\n'); count = 0;}
+	    fill = 0;
+	}
+
+	if (!fill && t1==space && index(i1,"\n")<j1-i1) {
+					/* CR at end of preprocessor line */
+	    putchar('\n');
+	    count = 0;
+	    fill = 1;
+	}
+	else if (t1==comment || t1==space && (t0!=label || t2!=label) &&
+			    /* eliminate space unless it's between two labels */
+	    (fill || t0!=label) &&	/* macros are sensitive to spaces */
+	    (j0-i0!=1 || *i0!='=' || j2-i2!=1 ||
+		*i2!='-' && *i2!='*' && *i2!='&')) continue;
+					/* also, don't make =- or =* or =& */
+	else if (t1==space)
+	    if (fill && count+1+j2-i2>linel && count)
+		{putchar('\n'); count = 0;}
+					/* replace space with CR */
+	    else {putchar(' '); count++;}
+	else if (fill && count+j1-i1>linel && count) {
+					/* we've run over, time for a CR */
+	    putchar('\n');
+	    count = put(i1,j1);
+	}
+	else count += put(i1,j1);
+	i0 = i1; j0 = j1; t0 = t1;
+    }
+    if (count>0) putchar('\n');
+}
+
+static get_token(i1,j1)	/* find token starting at i1, set end j1, return type */
+char *i1,**j1;
+{
+    char *i,str[2];
+    int k, number, type;
+
+    if (i1>=nd) {			/* hit end of file */
+	*j1 = i1;
+	return(eof);
+    }
+    str[1] = 0;
+    number = *i1>='0' && *i1<='9'  ||  *i1=='.' && i1[1]>='0' && i1[1]<='9';
+    for (i=i1; i<nd; i++) {		/* is this a label char? */
+	str[0] = *i;
+	if (index(label_chars,str)<0 && (!number || *i!='.') &&
+	    (!number || i[-1]!='e' && i[-1]!='E' || index("+-",str)<0)) break;
+    }
+    if (i>i1) {				/* a label */
+	*j1 = i;
+	return(label);
+    }
+    type = punc;
+    for (i=i1; i<nd && (*i==' ' || *i=='\t' || *i=='\n'); i++);
+    if (i>i1) {i--; type = space;}
+    if (*i1=='"' || *i1=='\'')		/* quote */
+	for (i=i1+1; i<nd && *i!=*i1; i++) if (*i=='\\') i++;
+    for (k=0; combo[k] && !prefix(combo[k],i1); k++);
+    if (combo[k]) i = i1+strlen(combo[k])-1;
+			    /* a 2 or 3-char combination (don't split) */
+    if (prefix("/*",i1)) {i = index(i1+2,"*/")+i1+3; type = comment;}
+    *j1 = i+1;
+    return(type);
+}
+
+static index(A0,B)		/* find first occurence of string B within A */
+char *A0,*B;
+{
+    char *a,*b,*A;
+
+    if (*B==0) return(-1);
+    for (A=A0; *A; A++)
+	if (*A==*B) {			/* see if we have a match */
+	    for (a=A+1, b=B+1; *b && *a==*b; a++, b++);
+	    if (*b==0) return(A-A0);
+	}
+    return(-1);
+}
+
+static prefix(a,b)			/* is a a prefix of b? */
+char *a,*b;
+{
+    while (*a && *a==*b) {a++; b++;}
+    return(!*a);
+}
+
+static put(i,j)
+char *i,*j;
+{
+    int k;
+
+    k = j-i;
+    while (i<j) putchar(*i++);
+    return(k);
+}
+EOF15383
+cat <<'EOF15384' >ntok.csh
+# run "source ntok.csh" to add this alias to your C shell
+# then run "ntok ray.c", for example, to count tokens
+#
+alias ntok "/lib/cpp \!:1 | sed '/^#/d' | squeeze -1 | wc -l"
+alias tokf "/lib/cpp \!:1 | sed '/^#/d' | squeeze -1 | lam - -s \	 - -s \	 - -s \	 - -s \	 - > \!:1.tokf"
+EOF15384
+cat <<'EOF15385' >ray.h
+/* ray.h for test1, first test scene */
+#define DEPTH 3		/* max ray tree depth */
+#define SIZE 32		/* resolution of picture in x and y */
+#define AOV 25		/* total angle of view in degrees */
+#define NSPHERE 5	/* number of spheres */
+
+AMBIENT = {.02, .02, .02};	/* ambient light color */
+
+/* sphere: x y z  r g b  rad  kd ks kt kl  ir */
+SPHERE = {
+     0., 6., .5,    1., 1., 1.,   .9,   .05, .2, .85, 0.,  1.7,
+    -1., 8., -.5,   1., .5, .2,   1.,   .7, .3, 0., .05,   1.2,
+     1., 8., -.5,   .1, .8, .8,   1.,   .3, .7, 0., 0.,    1.2,
+     3., -6., 15.,  1., .8, 1.,   7.,   0., 0., 0., .6,    1.5,
+    -3., -3., 12.,  .8, 1., 1.,   5.,   0., 0., 0., .5,    1.5,
+};
+EOF15385
+cat <<'EOF15386' >test1.ap
+32 32
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+13 14 15
+13 14 15
+14 15 16
+14 15 16
+17 17 19
+25 19 17
+25 19 17
+25 19 17
+24 18 16
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+11 12 13
+12 13 14
+15 26 31
+15 25 29
+16 38 41
+16 32 34
+17 17 18
+75 41 27
+94 51 32
+49 34 23
+54 36 24
+57 38 24
+23 17 15
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+13 29 34
+14 28 33
+16 46 50
+16 43 47
+16 39 42
+15 33 36
+17 17 18
+17 17 18
+17 16 18
+81 44 28
+98 53 32
+110 59 35
+120 63 36
+60 40 24
+63 41 24
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+13 29 35
+13 28 33
+16 47 51
+16 43 48
+15 39 43
+15 33 36
+36 40 42
+36 41 42
+36 41 42
+46 39 47
+46 39 47
+83 45 28
+101 54 32
+114 60 35
+124 65 37
+62 41 24
+65 42 24
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+12 29 35
+15 50 55
+15 47 52
+15 44 48
+15 40 43
+14 33 36
+35 40 41
+35 40 41
+35 40 41
+35 40 41
+45 39 46
+45 39 46
+45 39 46
+83 45 28
+104 55 32
+118 62 35
+129 67 37
+138 71 38
+68 43 23
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+14 51 57
+14 48 54
+14 45 49
+14 40 44
+13 33 36
+15 15 16
+34 39 40
+34 39 41
+34 39 41
+34 39 41
+45 38 46
+45 38 46
+45 38 45
+15 14 16
+85 46 28
+108 57 32
+122 64 35
+134 69 37
+144 74 39
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+12 46 52
+13 50 55
+13 46 51
+13 41 46
+13 33 37
+14 14 15
+14 14 15
+14 14 15
+34 39 40
+34 39 40
+44 38 45
+44 38 45
+44 38 45
+14 14 15
+14 14 15
+14 13 15
+89 47 28
+113 59 33
+129 66 35
+141 72 37
+134 70 35
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+12 49 55
+12 48 53
+12 43 47
+12 35 38
+13 13 14
+13 13 14
+13 13 14
+13 13 14
+14 13 15
+14 14 15
+14 14 15
+14 13 15
+14 13 14
+14 13 14
+13 13 14
+13 13 14
+13 12 14
+95 50 28
+120 62 33
+136 70 36
+144 74 37
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+11 45 50
+11 44 49
+11 34 37
+12 12 12
+12 12 13
+12 12 13
+13 13 13
+13 13 14
+13 13 14
+13 13 14
+13 13 14
+13 13 14
+13 13 14
+13 12 14
+13 12 13
+12 12 13
+12 12 13
+12 11 12
+94 49 27
+127 65 33
+132 68 34
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+9 9 9
+10 10 10
+10 10 11
+11 11 12
+11 11 12
+11 12 12
+12 12 12
+12 12 13
+12 12 13
+12 12 13
+12 12 13
+12 12 13
+12 12 13
+12 12 13
+12 11 12
+12 11 12
+11 11 12
+11 11 11
+10 10 11
+10 9 10
+9 8 9
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+8 8 8
+9 9 9
+9 10 10
+10 10 11
+10 10 11
+11 11 11
+11 11 12
+11 11 12
+11 11 12
+11 11 12
+11 11 12
+11 11 12
+11 11 12
+11 11 12
+11 11 12
+11 10 11
+11 10 11
+10 10 10
+10 9 10
+9 8 9
+8 7 8
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+7 7 7
+8 8 8
+8 9 9
+9 9 10
+9 10 10
+10 10 10
+10 10 11
+10 10 11
+10 10 11
+10 10 11
+10 10 11
+10 10 11
+10 10 11
+10 10 11
+10 10 11
+10 10 10
+10 9 10
+9 9 9
+9 8 9
+8 8 8
+7 7 7
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+158 79 35
+175 87 39
+6 6 6
+7 7 7
+7 8 8
+8 8 9
+8 9 9
+9 9 9
+9 9 10
+9 9 10
+9 9 10
+9 9 10
+10 9 10
+10 9 10
+9 9 10
+9 9 10
+9 9 9
+9 9 9
+9 8 9
+8 8 8
+8 7 8
+7 7 7
+6 6 6
+10 57 64
+9 51 57
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+148 75 34
+172 86 39
+182 91 41
+189 94 42
+5 6 6
+6 6 6
+6 7 7
+7 7 7
+7 8 8
+8 8 8
+8 8 8
+8 8 9
+8 8 9
+9 8 9
+9 8 9
+9 8 9
+8 8 9
+8 8 9
+8 8 8
+8 8 8
+8 7 8
+7 7 7
+7 6 7
+6 6 6
+6 5 6
+11 62 69
+10 59 67
+10 56 63
+9 48 54
+5 5 5
+5 5 5
+147 74 33
+167 84 38
+178 89 40
+186 93 42
+190 94 42
+36 20 11
+5 5 5
+6 6 6
+6 6 6
+6 7 7
+7 7 7
+7 7 7
+7 7 8
+7 7 8
+7 7 8
+8 7 8
+8 7 8
+7 7 8
+7 7 7
+7 7 7
+7 7 7
+7 6 7
+6 6 6
+6 6 6
+6 5 6
+6 14 15
+11 62 69
+11 61 68
+10 58 65
+10 54 61
+9 47 53
+132 68 30
+156 79 35
+169 85 38
+178 89 40
+184 91 41
+187 93 42
+189 94 42
+5 5 5
+5 5 5
+5 5 5
+5 6 6
+6 6 6
+6 6 6
+6 6 6
+6 6 6
+6 6 7
+6 6 7
+6 6 7
+6 6 6
+6 6 6
+6 6 6
+6 6 6
+6 6 6
+6 5 6
+5 5 5
+5 5 5
+11 62 69
+11 61 68
+10 60 67
+10 58 65
+10 55 62
+9 50 57
+139 71 31
+155 78 35
+166 83 37
+173 87 39
+178 89 40
+211 127 77
+213 127 78
+38 21 11
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 10 11
+111 114 142
+114 141 170
+10 58 65
+10 56 63
+10 54 60
+9 50 56
+136 70 31
+150 76 34
+159 80 36
+166 83 37
+171 85 38
+203 123 76
+110 85 57
+84 54 26
+29 16 9
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 9 9
+25 44 55
+111 113 141
+111 113 141
+10 56 62
+10 54 61
+9 52 58
+9 48 55
+130 66 30
+142 72 32
+151 76 34
+158 79 35
+162 81 36
+78 47 19
+106 83 56
+74 44 18
+73 43 17
+15 10 7
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 8 9
+4 26 31
+5 26 32
+111 111 139
+111 112 139
+10 53 59
+9 51 57
+9 49 55
+9 46 52
+121 62 28
+133 67 30
+141 71 32
+147 74 33
+152 76 34
+73 44 18
+72 44 18
+70 42 17
+68 41 16
+66 39 16
+16 11 7
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+4 5 5
+1 2 2
+4 24 29
+4 24 30
+7 27 33
+7 28 34
+7 28 34
+9 48 53
+9 46 51
+8 43 48
+111 57 25
+122 62 28
+130 65 29
+136 68 31
+69 41 17
+68 41 17
+67 41 17
+66 40 17
+63 38 15
+61 36 14
+16 8 3
+17 9 4
+7 6 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+4 5 5
+3 4 4
+1 2 2
+1 2 2
+4 22 27
+7 25 30
+7 25 31
+7 26 31
+7 26 31
+8 44 49
+8 42 47
+8 39 44
+98 50 22
+109 55 25
+117 59 27
+123 62 28
+63 38 16
+63 38 16
+62 37 16
+61 36 15
+59 35 15
+57 34 14
+17 9 4
+17 9 4
+17 9 4
+17 9 4
+17 9 4
+19 10 4
+5 5 5
+11 8 4
+12 8 4
+12 8 4
+3 5 4
+3 4 4
+3 4 4
+3 4 4
+6 22 27
+6 23 28
+6 23 28
+6 24 28
+6 24 28
+6 23 28
+8 37 42
+7 35 39
+83 43 19
+95 48 22
+103 52 23
+109 55 25
+58 34 14
+57 34 14
+56 34 14
+55 33 14
+53 32 13
+51 30 13
+17 9 4
+17 9 4
+17 9 4
+17 9 4
+17 9 4
+19 10 4
+5 5 5
+11 8 4
+12 8 4
+12 8 4
+3 5 4
+3 4 4
+3 4 4
+3 4 4
+6 20 24
+6 21 25
+6 21 25
+6 21 26
+6 21 26
+6 21 25
+7 33 37
+7 30 34
+66 35 15
+78 40 18
+87 44 20
+93 47 21
+51 30 13
+51 30 13
+50 30 13
+49 29 12
+47 28 12
+45 26 11
+17 9 4
+17 9 4
+17 9 4
+17 9 4
+17 9 4
+17 9 4
+5 5 5
+12 9 5
+12 8 4
+12 8 4
+3 5 4
+3 4 4
+3 4 4
+3 4 4
+5 17 21
+5 18 22
+5 19 22
+6 19 22
+6 19 22
+5 19 22
+6 27 31
+6 24 28
+47 25 11
+60 32 14
+70 36 16
+76 39 17
+44 26 11
+44 26 11
+44 26 11
+42 25 11
+40 24 10
+38 22 10
+17 9 4
+17 9 4
+17 9 4
+17 9 4
+17 9 4
+17 9 4
+5 5 5
+4 5 5
+12 8 4
+3 5 5
+3 5 4
+3 4 4
+3 4 4
+3 4 4
+5 15 17
+5 15 18
+5 16 19
+5 16 19
+5 16 19
+5 16 19
+5 15 18
+5 18 21
+27 15 7
+39 21 9
+50 26 12
+36 21 9
+37 21 9
+37 21 9
+36 21 9
+35 20 9
+33 19 8
+31 17 8
+17 9 4
+17 9 4
+17 9 4
+17 9 4
+17 9 4
+5 5 5
+5 5 5
+5 5 5
+3 5 5
+3 5 5
+3 5 4
+3 4 4
+3 4 4
+3 4 4
+4 12 14
+5 12 14
+5 13 15
+5 13 15
+5 13 15
+5 13 15
+4 12 14
+4 11 13
+17 9 4
+22 12 6
+27 15 7
+28 16 7
+29 16 7
+29 16 7
+28 16 7
+27 15 7
+25 14 6
+22 12 6
+17 9 4
+17 9 4
+17 9 4
+17 9 4
+17 9 4
+5 5 5
+5 5 5
+5 5 5
+3 5 5
+3 5 4
+3 5 4
+3 4 4
+3 4 4
+4 7 8
+4 8 9
+4 9 10
+4 9 11
+4 10 11
+4 10 11
+4 9 10
+4 8 9
+4 7 7
+5 5 5
+17 9 4
+17 9 4
+18 9 4
+19 10 5
+19 10 5
+19 10 5
+18 9 4
+17 9 4
+17 9 4
+17 9 4
+17 9 4
+17 9 4
+17 9 4
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+3 5 4
+3 5 4
+3 4 4
+3 4 4
+3 4 4
+3 5 5
+3 5 5
+3 6 6
+4 6 6
+3 6 6
+3 5 5
+3 4 4
+3 4 4
+5 5 5
+5 5 5
+17 9 4
+17 9 4
+17 9 4
+17 9 4
+17 9 4
+17 9 4
+17 9 4
+17 9 4
+17 9 4
+17 9 4
+17 9 4
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+3 4 4
+3 4 4
+3 4 4
+3 4 4
+3 4 4
+3 4 4
+3 4 4
+3 4 4
+3 4 4
+3 4 4
+3 4 4
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+17 9 4
+17 9 4
+17 9 4
+17 9 4
+17 9 4
+17 9 4
+17 9 4
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+3 4 4
+3 4 4
+3 4 4
+3 4 4
+3 4 4
+3 4 4
+3 4 4
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+5 5 5
+EOF15386
+exit
+
+
+Path: pixar!ph
+From: ph@pixar.UUCP (Paul Heckbert)
+Newsgroups: comp.graphics
+Subject: Winners of Minimal Ray Tracer Contest
+Date: 20 Jun 87 06:03:25 GMT
+Organization: Pixar -- Marin County, California
+
+WINNERS OF THE MINIMAL RAY TRACER PROGRAMMING CONTEST
+*****************************************************
+
+The contest:
+    The goal: write the shortest Whitted-style ray tracing program in C.
+    Briefly, the rules were as follows: mail me C source to a ray tracer which
+    renders spheres with specular and transmitted rays and hard shadows but
+    no antialiasing.  The scene is compiled in, and the picture is
+    output to stdout.  Speed is no object.  The winner will be the shortest
+    C program which produces the "correct" output, where shortest is measured by
+    the number of tokens after the C preprocessor.  Deadline was 15 June 87.
+
+    
+I received entries from five people, some of whom sent two versions.
+The entries I received all passed my validation tests and they were all
+quite clever.  Joe Cychosz of Purdue won first place with an incredibly
+minimal program of just 916 tokens.
+
+PLACE   #TOKENS		AUTHOR				NOTES
+
+	    *** GENUINE ENTRIES ***
+  1	 916		Joe Cychosz, Purdue  		(compiler-dependent)
+   1a	 932		Joe Cychosz, Purdue		(portable)
+  2	 956		Darwyn Peachey, Saskatchewan	(portable)
+  3	 981		Michel Burgess, Montreal	(portable)
+  4	1003		Greg Ward, Berkeley		(portable)
+
+	    *** HONORABLE MENTIONS ***
+ c1	  10		Tony Apodaca, Pixar		(cheater)
+ c2	  66		Greg Ward, Berkeley		(cheater)
+
+Interestingly, the entries had nearly identical modularization into six
+subroutines: main, trace, intersect-sphere, vector-normalize, vector-add,
+and dot-product.  One person, Greg Ward, cleverly exploited a loophole in my
+rules which allowed arbitrarily long character strings to count as a single
+token, and submitted a program which writes a source file, compiles it, and
+runs it!  Tony Apodaca used a different cheat: hiding the real program in an
+unused part of the source file and compiling and running that program with
+a single call to system().  His program is about as minimal as you can get:
+10 tokens.  Programs from each of the entrants are included below.
+
+
+So what did we learn from all this?
+
+The first thing I learned is that there are a lot more dilettantes in
+comp.graphics than real hackers.  Various people offered thoughts on why
+the turnout was sparse:
+
+    "The unwashed might think that the task is too difficult
+    and the cognoscenti might think `I know I could do it, but it's
+    too much trouble just for a contest.'"
+
+    "We're all busy with previous hacking commitments."
+
+    "Now if you had a `Get a job at Pixar Ray Tracer Contest', then
+    I might be motivated to enter."
+    
+But one person obviously missed the spirit of the contest (and perhaps
+of life itself):
+
+    "For an up-front payment of $5000 and a 12% royalty on any sales of the
+    product, I will consider submitting an entry.  My lawyers are Hughes,
+    Gumaer, Bedolla and Diener of Santa Clara; please have your lawyers contact
+    them regarding contractual terms."
+
+Those who entered the contest also learned some repulsive C coding tricks:
+ *  color = point: "struct {float r, g, b;}" -> "struct {float x, y, z;}"
+ *  pass structures (not just pointers to structs) to allow vector expressions
+ *  use global variables for return values
+ *  no optimizations: trace specular and transmitted rays even if coeff=0!
+ *  reuse variables!
+ *  "for (i=0; i<n; i++)"  -->  "i = n; while (i--)"
+ *  merge x and y loops into one (see joe.c)
+ *  assume statics are initialized to 0
+ *  "&sph[i]" -> "sph+i"
+ *  choose just the right set of utility routines
+ *  creative use of commas, e.g.: "if (a) {b;c;}"  -->  "if (a) b,c;"
+ *  move assignments into expressions: "b = vdot(D, U = vcomb(-1., P, s->cen))"
+cheats (non-portable C):
+ *  eliminate semicolons in struct def: "struct {int a;}" -> "struct {int a}"
+ *  assume right-to-left argument evaluation order
+
+winner of the most shocking cheat award, a little gem by Joe Cychosz:
+ *  "printf("%f %f %f\n", pt.x, pt.y, pt.z);"  -->  "printf("%f %f %f\n", pt);"
+
+Since Joe Cychosz said this was only his second C program(!), I asked him
+how he managed to do so well.  Excerpts of his response:
+
+    "My thesis work is `Global Ray Tracing in a Vector Processing Environment.'
+    ... My primary program language is FORTRAN and COMPASS (CDC assembly)
+    for the CYBER 205 and the CYBER 800s ...
+    This is an interesting way to learn C.  I spent the weekend looking
+    through Kernighan & Ritchie trying to determine if what I wanted to do
+    was legal C ...  Finally, ... Kirk Smith found 12 tokens while we were
+    sitting in a bar..."
+
+
+But if you were expecting a useful ray tracing program out of this, a warning:
+
+As one would expect of any "minimal" program, the winning program is cryptic,
+"tense", inefficient, unmaintainable, and nearly useless, except as a source
+of C coding tricks.  Remember all the limitations of this contest:
+no antialiasing, spheres only, a bizarre shading model, and i/o formats out of
+the neanderthal age.  So don't be surprised that the program is slow and the
+output contoured and jaggy.  If you want a good ray tracer, start from scratch!
+
+
+I'd like to thank everyone who participated in the contest, especially
+Darwyn Peachey, who helped me debug the rules, and Paul Haeberli, who hatched
+this wacky idea with me.  Let's see some more programming contests here, eh?
+
+Paul Heckbert
+Pixar				415-499-3600
+P.O. Box 13719			UUCP: {sun,ucbvax}!pixar!ph
+San Rafael, CA 94913		ARPA: ph%pixar.uucp@ucbvax.berkeley.edu
+
+----
+The header files for three test scenes are included below along with five
+different ray tracers.  To compile and run one of these entries, run, e.g.:
+
+	cp test1.h ray.h
+	cc -o joe joe.c -lm
+
+Please MAIL any minimizations of these programs to me and I'll post to the net.
+----
+
+# to unpack, cut here and run the following through sh
+# shell archive of joe.c darwyn.c michel.c tony.c greg.c test1.h test2.h test3.h
+#
+cat <<'EOF27903' >joe.c
+/*	ray.c - Minimal ray tracing program.				*/
+/*									*/
+/*	Joe Cychosz							*/
+/*									*/
+/*	work:	Purdue University CADLAB /				*/
+/*		Control Data Corporation				*/
+/*		Potter Engineering Center				*/
+/*		W. Lafayette, IN  47907					*/
+/*									*/
+/*	phone:	(317) 494-5944						*/
+/*									*/
+/*	arpa:	3ksnn64@pb.ecn.purdue.edu				*/
+/*	uucp:	pur-ee!3ksnn64						*/
+/*									*/
+/*	experience: 13 years programing,				*/
+/*		    this is my second C program.			*/
+/*									*/
+/*	strategy:							*/
+/*		1)  Express shading calculations as functions.		*/
+/*		2)  All vector expressions are vector triads (a + b*s)	*/
+/*		3)  Do a critical path analysis of variables and map to */
+/*		    temporarys with #define's.  This keeps the code 	*/
+/*		    readable.						*/
+/*		4)  Have Kirk Smith find 14 more tokens.		*/
+/*		5)  This version is machine/compiler dependent in that	*/
+/*		    it assumes function parameters are evaluated from	*/
+/*		    right to left.					*/
+
+
+typedef	struct	{ double x, y, z;
+		} vector;
+
+typedef	struct	{ vector center,	/* center coordinate		*/
+			 color;		/* surface color		*/
+		  double radius,	/* radius			*/
+			 kd,		/* diffuse coefficient		*/
+			 ks,		/* coefficient of reflection	*/
+			 kt,		/* coefficient of transmission	*/
+			 kl,		/* light source intensity	*/
+			 ir;		/* index of refraction		*/
+		} sphere;
+
+
+#define	SPHERE	sphere spheres[]	/* "The Sceen"			*/
+#define AMBIENT	vector ambint		/* ambient light color		*/
+
+#define PINF	100000000.		/* positive infinity		*/
+#define PINF2	200000000.		/* second positive infinity	*/
+#define EPS	0.001			/* used to detect self-intersect*/
+
+
+/*	include file defining the sceen and viewing parameters		*/
+
+#include	"ray.h"
+
+
+/*	global variables		*/
+
+double	sqrt(), tan(),			/* math functions from <math.h>	*/
+	dist,				/* distance to closest sphere	*/
+	size2 = SIZE/2,			/* SIZE / 2			*/
+
+	s0, s1, s2;			/* temporary scalars		*/
+
+vector	origin,				/* eye location and zeros	*/
+	c,				/* direction cosine of pixel ray*/
+					/* and pixel color		*/
+
+	v0, v1;				/* temporary vectors		*/
+
+sphere	*sph,				/* closest sphere, = 0 if null	*/
+	*s;				/* intsph - current sphere	*/
+
+
+
+/*	basic math routines						*/
+
+
+double	dot (a,b)		/* compute dot product		(a.b)	*/
+vector	a, b;
+{
+	return  a.x*b.x + a.y*b.y + a.z*b.z ;
+}
+
+
+vector	vaddm (a,b,s)		/* compute vector triad		(a+b*s)	*/
+vector	a, b;
+double	s;
+{
+	a.x += b.x * s;
+	a.y += b.y * s;
+	a.z += b.z * s;
+	return a ;
+}
+
+
+vector	unitize (a)		/* normalize vector		(a/|a|)	*/
+vector	a;
+{
+	return  vaddm ( origin, a, 1.0/sqrt(dot(a,a)) ) ;
+}
+
+
+	intsph (base,cosine)
+vector	base,			/* base of the ray 			*/
+	cosine;			/* direction cosines for the ray	*/
+{
+#define	d	v0
+#define	bsq	s0
+#define	disc	s1
+#define root	s2		/* distance to intersected sphere	*/
+
+	dist = PINF;		/* closest sphere is at infinity	*/
+	sph  = 0;		/* default to no sphere intersected	*/
+
+	for (s = spheres; s < spheres+NSPHERE; s++)
+
+	    bsq  = - dot (d = vaddm(base,s->center,-1.),cosine),
+	    disc = bsq*bsq - dot (d,d) + s->radius*s->radius,
+	    disc = disc > 0. ? sqrt(disc) : PINF2,
+	    root = bsq - disc,
+	    root = root < EPS ? bsq + disc : root,
+	    dist = root > EPS && root < dist ? sph = s, root : dist
+	;
+}
+
+
+vector	shade (base,cosine,depth)
+vector	base,			/* base of the ray 			*/
+	cosine;			/* directoin cosines for the ray	*/
+/*int	depth;			/* depth in the shade tree		*/
+{
+	sphere	*p,		/* visible sphere for the ray		*/
+		*light =	/* current light source for shadow tests*/
+		       spheres;
+	vector	hitpt,		/* hit point on the visible sphere	*/
+		norm,		/* surface normal in direction of ray	*/
+		sint;		/* diffuse illumination intensity	*/
+	double	n12,		/* relative index of refraction		*/
+		costh;
+#define a	v0
+#define	scos	v1		/* direction cosine for shadow ray	*/
+#define	q	s0		/* N.L shading term			*/
+#define kf	s1
+
+	if  (!depth) return origin ;
+
+	intsph (base,cosine);
+
+	if  (p = sph) {
+
+	    costh = - dot (cosine,
+			   norm = unitize(vaddm(
+				  hitpt = vaddm(base,cosine,dist),
+				  p->center,-1.))
+		          );
+
+	    n12   = 1. / p->ir;
+
+	    if  (costh < 0.) 		/* if ray originates from within*/
+
+		norm = vaddm(origin,norm,-1.), n12 = p->ir, costh = -costh
+		;
+
+	    sint  = ambint; 		/* initial intensity = ambient	*/
+
+	    while ( light < spheres+NSPHERE )
+	
+		intsph (hitpt,
+			scos = unitize(vaddm(light->center,hitpt,-1.))
+		       ),
+		q    = dot (norm,scos),
+		sint = vaddm (sint,sph->color,
+			      sph == light++ && q > 0. ? sph->kl*q : 0.)
+	    ;
+
+	    kf    = 1.0 - n12*n12 *  dot(a,
+					 a = vaddm (cosine,norm,costh)
+					);
+
+/*	    evaluate the shading function				*/
+/*									*/
+/*		cs  = shade (hitpt,R,--depth) ;		reflected ray	*/
+/*		ct  = shade (hitpt,T,  depth) ;		refracted ray	*/
+/*									*/
+/*		c = p->kd * p->color * (ambint + shadow) +		*/
+/*		    p->ks * cs + p->kt * ct + p->kl * p->color ;	*/
+
+	
+	    sint.x *= p->color.x;
+	    sint.y *= p->color.y;
+	    sint.z *= p->color.z;
+
+	    depth--;
+
+	    return			/* yep folks, it's all here	*/
+	        vaddm(vaddm(vaddm(vaddm(
+		     origin,sint,
+		     p->kd)
+		,
+		     shade(hitpt,
+		           vaddm(cosine,norm,2.*costh),
+			   depth),
+		     p->ks)
+		,
+		     kf > 0. ? shade(hitpt,
+	    		   vaddm(vaddm(origin,norm,-sqrt(kf)),a,n12),
+			   depth) : origin,
+		     p->kt)
+		,
+		p->color,p->kl)
+		;
+	} else
+	    return ambint ;
+}
+
+
+main (argc) 
+/*	int	argc;			/* pixel number  		*/
+{
+
+	argc  = 0;
+	printf ("%d %d\n", SIZE, SIZE);
+
+	while ( argc < SIZE*SIZE )
+
+	    c.x = argc % SIZE - size2,
+	    c.y = size2 / tan( AOV / 114.59166 ),
+	    c.z = size2 - argc++ / SIZE,
+
+	    c = vaddm (origin,  shade (origin,unitize(c),DEPTH), 255.),
+
+	    printf ("%.0f %.0f %.0f\n", c)
+
+	;
+}	/* send laywers, guns, and money, get me out of this...		*/
+EOF27903
+cat <<'EOF27904' >darwyn.c
+/*
+ * Short ray tracer written with the goal of minimizing the total number
+ * of C tokens after processing by cpp.  For Paul Heckbert's contest,
+ * May/June 1987.  WARNING: this style of coding results in increasing
+ * execution time because the simplest brute force algorithms are used.
+ * Maintenance of the code is harder than it should be for a program
+ * of this size, because of the nasty coding style.
+ *
+ * I have 16 years of programming experience, including
+ * 12 years in C, but I'm afraid it doesn't show in this program.
+ *
+ * Darwyn Peachey, University of Saskatchewan, Dept. of Computational Science.
+ * (306) 966-4909  peachey@sask.uucp  peacheyd@sask.bitnet
+ *
+ * This is the 956 token version of 13-Jun-87.
+ */
+
+#define PI360          8.7266462599716e-3      /* PI/360 */
+#define INFINITY       1e30
+#define EPSILON                1e-6
+
+typedef struct { double x, y, z } triple;
+typedef struct {
+       triple ctr, color;      /* center and RGB coeffs of sphere */
+       double radius, kd, ks, kt, kl, ir
+} sphere;
+#define SPHERE sphere sph[]
+#define AMBIENT        triple v, zero, ambient
+
+#include "ray.h"
+
+double tan(), sqrt(), tmin, a, b, t;
+/* int */ row, col, half = SIZE/2;     /* row initialized to 0 */
+
+triple
+combine(v1, a, v2)
+       triple v1, v2;
+       double a;
+{
+       v2.x += a * v1.x;
+       v2.y += a * v1.y;
+       v2.z += a * v1.z;
+       return v2;
+}
+double
+dot(v1, v2)
+       triple v1, v2;
+{
+       return v1.x*v2.x + v1.y*v2.y + v1.z*v2.z;
+}
+
+triple
+norm(vec)
+       triple vec;
+{
+       return combine(vec, 1/sqrt(dot(vec,vec)), zero);
+}
+
+/*
+ * Intersect and trace use the same global variable, tmin.
+ */
+sphere *
+intersect(rayorg, rayvec)
+       triple rayorg, rayvec;
+{
+       sphere *sp, *which = 0;
+
+
+       tmin = INFINITY;
+       for (sp = sph; sp < sph+NSPHERE; sp++) {
+               /* determine coefficients of quadratic equation */
+               /* at^2 + bt + c = 0 */
+               a = dot(rayvec, rayvec);
+               v = combine(sp->ctr, -1.0, rayorg);
+               b = 2 * dot(rayvec, v);
+
+               /* discriminant: b*b - 4*a*c */
+               t = b*b - 4*a*(dot(v,v) - sp->radius*sp->radius);
+               /* find (closest) root if any */
+               if (t > EPSILON) {      /* there are two real roots */
+                       t = sqrt(t);
+                       t = 0.5 * ((-b > t + EPSILON ? -t : t) - b)/a;
+                       if (t > EPSILON && t < tmin)
+                               which = sp, tmin = t;
+               }
+       }
+       return which;
+}
+
+triple
+trace(N, rayvec, depth, inside)
+       triple N, rayvec;       /* N used for ray origin & normal vec */
+{
+       triple loc, dir, color;
+       sphere *which, *sp;
+       double rcos1, rcos2, n;
+
+       if (depth > DEPTH)
+               return zero;
+
+       if (which = intersect(N, rayvec)) {
+               /* having found best "t" value, compute location and normal */
+               N = combine(norm(combine(which->ctr, -1.0,
+                       loc = combine(rayvec, tmin, N))),
+                       inside ? -1.0 : 1.0, zero);
+
+               /* do shading calculations, and fire subrays as necessary */
+               color = ambient;        /* accumulate illumination in color */
+               for (sp = sph; sp < sph+NSPHERE; sp++)
+                       if ((n = dot(N,
+                               dir = norm(combine(loc, -1.0, sp->ctr)))) > 0.0
+                         && intersect(loc, dir) == sp)
+                               color = combine(sp->color, n*sp->kl, color);
+               /* color is now the total ambient + direct lighting */
+               color.x *= which->color.x * which->kd;
+               color.y *= which->color.y * which->kd;
+               color.z *= which->color.z * which->kd;
+               rcos1 = -dot(N, rayvec);
+               n = inside ? which->ir : 1/which->ir;
+               rcos2 = 1 - n*n * (1 - rcos1*rcos1);
+               return combine( /* refracted color */
+                               rcos2 > EPSILON ?
+                               trace(loc, combine(rayvec, n,
+                                       combine(N, n * rcos1 - sqrt(rcos2),
+                                               zero)),
+                                       depth+1, !inside) : zero, which->kt,
+                               /* reflected color */
+                               combine(trace(loc,combine(N,2 * rcos1,rayvec),
+                                       depth+1, inside), which->ks,
+                                       /* luminance + diffuse color */
+                                       combine(which->color, which->kl,
+                                               color)));
+       }
+       return ambient;
+}
+
+main()
+{
+       printf("%d %d\n", SIZE, SIZE);
+
+       while (col = 0,row++ < SIZE)
+               while (col < SIZE)
+                       v.x = col++ - half,
+                       v.y = half / tan(AOV * PI360),
+                       v.z = half - row + 1,
+                       v = trace(zero, norm(v), 1, 0),
+                       printf("%.0f %.0f %.0f\n",
+                               v.x*255, v.y*255, v.z*255);
+}
+EOF27904
+cat <<'EOF27905' >michel.c
+/*
+ = MINIMAL RAY TRACER PROGRAMMING CONTEST ENTRY
+ = 
+ = By : Michel Burgess                   
+ =      6750, rue St-Denis
+ =      Montreal(Quebec)
+ =      Canada  H2S 2S2
+ =
+ = Email:  CDNnet : mira1@iro.udem.cdn
+ =         CSNET  : mira1%iro.udem.cdn@ubc.csnet
+ =         UUCP   : ...!seismo!utgpu!utai!musocs!mcgill-vision!iros1!burgess
+ =                                                         ...!iros1!babin
+ =
+ = Years programming : 9 (recently finished a M.Sc. C.S. Universite de Montreal)
+ = 
+ = Notes : This program is barely readable due to compacting.
+ =         Reduced to fit in 80 columns.
+ =         It is based on a program written by Turner Whitted, that raytraces
+ =         quadric surfaces. ( picked it up at siggraph ).
+ =         It uses a few defines for lisibility ( some variables are reused to
+ =         save tokens).
+ =         everything declared as double (floats,ints,shorts).
+ =         Extensive use of affectations within if()s.
+ =         AddMul(v1,r,V2) = V1 + r*V2 , cuts on declaring Add Sub and Mul
+ =         for Vector Arithmethics.
+ =         Vectors and Colors are declared the same e.g. Vector.
+ =          -this causes problems on my SUN 3/50
+ =         This program compiles and links with no problems on my VAX 780 VMS.
+ =         I Can't find a Vax with 4.3 bsd on my network.
+ =
+ */
+ 
+#define NULL 0
+#define HUGEREAL 1e10  /* why not */
+#define cmino vPrime   /* center of sphere minus origin of ray */
+#define dist coeff     /* distance from origin to sphere */
+#define Kf coeff       /* refraction coefficient */
+#define Dot t          /* Dot product of incident ray and surface normal */
+#define VplusN direction /* Vprime pls normal cf Whitted's article */
+#define neworigin origin /* origin of reflected and refracted ray */
+ 
+#define AMBIENT   Vector Ambient
+#define SPHERE    Spheres sph[NSPHERE] 
+ 
+typedef struct  { double x,y,z ; } Vector;  
+ 
+typedef struct  {
+        Vector  center,
+  color;    
+ double radius,
+            kd,
+            ks,
+            kt,
+            kL,
+            ir; 
+} Spheres;
+ 
+#include "ray.h"
+ 
+Spheres *spo = sph+NSPHERE ;
+ 
+double  halfSIZE = SIZE/2.,
+        level,
+        lecos,
+        sqrt(),
+        tan();
+Vector  zeros, 
+        root,
+        eyedir;
+ 
+/* addmul compacts add mul sub div within one function */
+ 
+Vector addmul(v1,r,v2)
+Vector v1,v2;
+double r;
+{
+ v1.x += r * v2.x;
+ v1.y += r * v2.y;
+ v1.z += r * v2.z;
+ return v1;
+}
+ 
+/* scalar or dot product of 2 vectors */
+ 
+double sc(v1,v2)
+Vector v1,v2;
+{
+ return v1.x*v2.x+v1.y*v2.y+v1.z*v2.z;
+}
+ 
+/* rayHit : main recursive routine,
+            does the hitting and shading of rays.
+*/
+ 
+Vector  rayHit(pSph,origin,direction,normal)
+Spheres *pSph;
+Vector  origin,direction,normal;
+{
+ Spheres *current,*spn;
+ Vector  vPrime,Couleur;
+ double  t = HUGEREAL,
+ coeff;
+ 
+  direction=addmul(zeros, 1.0/sqrt(sc( direction ,direction)),direction);
+  for ( current=sph ; current < sph+NSPHERE ; current++)
+    if(( lecos=sc((cmino=addmul(current->center,-1.,origin)), direction)) >0.0 
+      &&
+      ( coeff= lecos*lecos + current->radius*current->radius - sc(cmino,cmino))
+       > 0.0 )
+           if((dist = pSph==current ? lecos+sqrt(coeff):lecos-sqrt(coeff))< t)
+           { t = dist;
+             spn = current;
+           }
+  Couleur=Ambient;
+  if ( spo != sph+NSPHERE ) 
+     return addmul(zeros,((t = spn->kL*sc(direction,normal))>=0. 
+                              && spn==spo ?t:0.),spn->color);
+  if ( t < HUGEREAL )
+  {
+    neworigin = addmul( origin , t,direction);
+    normal= addmul(zeros,1./spn->radius,addmul(neworigin ,-1., spn->center));
+    Dot = sc( normal, direction);
+    if ( Dot < 0.0 ) Dot = -Dot;
+     else normal= addmul(zeros,-1.,normal);
+ 
+    for (spo=sph ; spo < sph+NSPHERE ; spo++)
+        Couleur = addmul(Couleur,1.,rayHit( spn,neworigin, 
+                                    addmul(spo->center,-1.,neworigin),normal));
+    vPrime = addmul(zeros,spn->kd,spn->color);
+    Couleur.x *=  vPrime.x;
+    Couleur.y *=  vPrime.y;
+    Couleur.z *=  vPrime.z;
+    if ( ++level < DEPTH  && Dot > 0.001) 
+    {
+       vPrime = addmul(zeros,1./Dot, direction );
+       Couleur=addmul(Couleur,spn->ks,rayHit(spn,neworigin,
+                                             addmul(vPrime, 2.0 ,normal),zeros));
+       VplusN = addmul( vPrime , 1.,normal);
+       coeff = pSph == spn ? 1.0/spn->ir : spn->ir;
+       if((coeff = coeff*coeff*sc(vPrime,vPrime)-sc(VplusN,VplusN)) > 0.0 )
+          Couleur = addmul( Couleur, spn->kt, rayHit(spn,neworigin,
+                             addmul(addmul(zeros, 1.0/sqrt(coeff), VplusN),-1.
+                                                    ,normal),normal));
+    }
+    level--;
+    Couleur=addmul(Couleur , spn->kL , spn->color);
+  }
+  return Couleur;
+}
+ 
+main()
+{
+  printf("%d %d\n",SIZE,SIZE);
+  eyedir.y =  halfSIZE / tan( AOV*0.008726646 );
+  for ( eyedir.z = halfSIZE; eyedir.z > -halfSIZE ; eyedir.z-- )
+    for (eyedir.x = -halfSIZE ;  eyedir.x < halfSIZE  ; 
+        printf("%d %d %d\n",(int)root.x,(int)root.y,(int)root.z),eyedir.x++) 
+     if ( DEPTH ) root = addmul(zeros,255.,rayHit(NULL,zeros,eyedir,zeros));
+}
+EOF27905
+cat <<'EOF27906' >tony.c
+/*
+ * THE minimal ray tracer (or any other program): 10 tokens.
+ * Tony Apodaca, Pixar
+ */
+
+#ifdef TRACER
+main()
+{
+    printf("trace them rays!\n");
+    /* insert your favorite ray tracer here */
+}
+#else
+main()
+{
+    system("cc -DTRACER -o tmp tony.c -lm; tmp; rm tmp");
+}
+#endif
+EOF27906
+cat <<'EOF27907' >greg.c
+/*
+ *  ray.c - cheater's entry to minimal ray-tracing contest.
+ *
+ *	6/10/87
+ *	Gregory J. Ward
+ *	greg@lbl-csam.arpa
+ *	Lawrence Berkeley Lab
+ *	1 Cyclotron Rd. 90-3111
+ *	Berkeley, CA  94720
+ *	(415) 486-4757
+ *	3 years programming in C, a lifetime of cheating...
+ */
+main()
+{
+char *fopen(), *fp = fopen("/tmp/temp.c", "w");
+fputs("typedef double VECT[3];\n#define AMBIENT VECT ambient\n#define SPHERE struct sphere {VECT  cent, col; double  rad, kd, ks, kt, kl, ir;} sph[NSPHERE]\n#include \"ray.h\"\n", fp);
+fputs("struct ray{VECT org,dir,col;struct sphere*target;}pri;double tan(),sqrt();double dot(v1,v2)VECT v1,v2;{return*v1**v2+v1[1]*v2[1]+v1[2]*v2[2];}main(){int x,y= -1;printf(\"%d %d\\n\",SIZE,SIZE);while(x= -1,++y<SIZE)while(++x<SIZE)pri.dir[0]=x-SIZE/2,pri.dir[1]=SIZE/2/tan(AOV/114.591559),pri.dir[2]=SIZE/2-y,rayval(&pri,DEPTH),printf(\"%.0f %.0f %.0f\\n\",255*pri.col[0],255*pri.col[1],255*pri.col[2]);}rayval(r,depth)struct ray*r;{int i;struct sphere*s,*rs=0;VECT norm;double d1,d2,d3", fp);
+fputs(",rt=1e20;struct ray dau;bzero(r->col,24);if(!depth--)return;d3=sqrt(dot(r->dir,r->dir));i=3;while(i--)r->dir[i]/=d3;s=sph+NSPHERE;while(s-->sph){bcopy(s->cent,norm,24);vsum(norm,r->org,-1.0);d1=dot(norm,r->dir);d3=s->rad*s->rad+d1*d1-dot(norm,norm);if(d3<0.0)continue;d3=sqrt(d3);d3=d1-d3>1e-7?d1-d3:d1+d3;if(d3>1e-7&&d3<rt)rt=d3,rs=s;}if(r->target){if(rs!=r->target)return;}else{vsum(r->col,ambient,1.0);if(!rs)return;i=3;while(i--)norm[i]=((dau.org[i]=r->org[i]+r->dir[i]*rt)-rs->cent[i])/rs->rad;", fp);
+fputs("if(rs->kd!=0.0){s=sph+NSPHERE;while(s-->sph){if(s->kl==0.0)continue;dau.target=s;bcopy(s->cent,dau.dir,24);vsum(dau.dir,dau.org,-1.0);rayval(&dau,1);d1=dot(dau.dir,norm);if(d1>0.0)vsum(r->col,dau.col,d1);}}i=3;while(i--)r->col[i]*=rs->kd*rs->col[i];dau.target=0;d1= -dot(r->dir,norm);if(rs->ks!=0.0){bcopy(r->dir,dau.dir,24);vsum(dau.dir,norm,2.0*d1);rayval(&dau,depth);vsum(r->col,dau.col,rs->ks);}if(rs->kt!=0.0){d3=d1>0.0?1.0/rs->ir:rs->ir;d2=1.0-d3*d3*(1.0-d1*d1);if(d2>0.0){d2=sqrt(d2);if(d1>0.0", fp);
+fputs(")d2= -d2;bzero(dau.dir,24);vsum(dau.dir,r->dir,d3);vsum(dau.dir,norm,d3*d1+d2);rayval(&dau,depth);vsum(r->col,dau.col,rs->kt);}}}vsum(r->col,rs->col,rs->kl);}vsum(v1,v2,s)VECT v1,v2;double s;{int i=3;while(i--)*v1+++= *v2++*s;}", fp);
+fclose(fp);
+system("cc -o /tmp/temp -I. /tmp/temp.c -lm;/tmp/temp");
+}
+EOF27907
+cat <<'EOF27908' >test1.h
+/* ray.h for test1, first test scene */
+#define DEPTH 3		/* max ray tree depth */
+#define SIZE 32		/* resolution of picture in x and y */
+#define AOV 25		/* total angle of view in degrees */
+#define NSPHERE 5	/* number of spheres */
+
+AMBIENT = {.02, .02, .02};	/* ambient light color */
+
+/* sphere: x y z  r g b  rad  kd ks kt kl  ir */
+SPHERE = {
+     0., 6., .5,    1., 1., 1.,   .9,   .05, .2, .85, 0.,  1.7,
+    -1., 8., -.5,   1., .5, .2,   1.,   .7, .3, 0., .05,   1.2,
+     1., 8., -.5,   .1, .8, .8,   1.,   .3, .7, 0., 0.,    1.2,
+     3., -6., 15.,  1., .8, 1.,   7.,   0., 0., 0., .6,    1.5,
+    -3., -3., 12.,  .8, 1., 1.,   5.,   0., 0., 0., .5,    1.5,
+};
+EOF27908
+cat <<'EOF27909' >test2.h
+/* ray.h for test2, second test scene */
+#define DEPTH 4		/* max ray tree depth */
+#define SIZE 32		/* resolution of picture in x and y */
+#define AOV 30		/* total angle of view in degrees */
+#define NSPHERE 3	/* number of spheres */
+
+AMBIENT = {.04, .02, .02};	/* ambient light color */
+
+/* sphere: x y z  r g b  rad  kd ks kt kl  ir */
+SPHERE = {
+     -.15, 5., 0.,  1., 1., 1.,   1.,   0., .2, .9, .02,    1.1,
+     1., 8., .3,    .7, 1., .2,   1.,   .8, .2, 0., 0.,    1.5,
+     -3., -3., 4.,  1., 1., 1.,   4.,   0., 0., 0., 1.,    1.1,
+};
+EOF27909
+cat <<'EOF27910' >test3.h
+/* ray.h for test3, third test scene */
+#define DEPTH 3		/* max ray tree depth */
+#define SIZE 31		/* resolution of picture in x and y */
+#define AOV 15		/* total angle of view in degrees */
+#define NSPHERE 7	/* number of spheres */
+
+AMBIENT = {.05, .05, .05};	/* ambient light color */
+
+/* sphere: x y z  r g b  rad  kd ks kt kl  ir */
+SPHERE = {
+     .75, 4., 0.,    1., 1., 1.,   .5,   .2, .8, 0., 0.,    1.2,
+     .65, 6., 0.,    .9, .2, .9,   .5,   0., .2, .9, .05,   1.2,
+     .55, 8., 0.,    .2, .7, .6,   .5,   .6, .4, 0., 0.,    1.2,
+     -.75, 4., 0.,   .7, .3, .3,   .5,   .1, .3, .7, 0.,    1.4,
+     -.65, 6., 0.,   1., .8, .1,   .5,   .2, .8, 0., 0.,    1.2,
+     -.55, 8., 0.,   0., 0., 1.,   .5,   .5, .5, 0., 0.,    1.2,
+     0., 0., 3.,    1., 1., 1.,   2.,   0., 0., 0., 1.,    1.1,
+};
+EOF27910
+exit
+
+Path: pixar!ph
+From: ph@pixar.UUCP (Paul Heckbert)
+Newsgroups: comp.graphics
+Subject: Re: Winners of Minimal Ray Tracer Contest
+Summary: minimal ray tracing reaches new lows
+Date: 25 Jun 87 07:29:42 GMT
+Organization: Pixar -- Marin County, California
+
+Minimal ray tracing reaches new lows!
+
+I've taken some of the tricks from Darwyn Peachey's and Joe Cychosz's minimal
+ray tracers (posted previously) and combined them with some of my own to
+create a hybrid program that's the shortest of all: 888 tokens.
+Recall that Joe Cychosz's winning entry had 916 tokens.
+To compile the enclosed "paul.c", run "cc -o paul paul.c -lm".
+If you're able to shorten the enclosed program further, please send me mail.
+
+When my C code compacter program "squeeze.c" (also posted previously)
+is run on paul.c,
+
+    /lib/cpp paul.c | sed '/^#/d' | squeeze -77 > paul.squeeze.c
+
+we get a rectangular block of C code that fits nicely on a standard 24x80
+terminal screen.  See the enclosed file paul.squeeze.c.
+
+An even more impressive thing to do with this file is reduce it to fit on
+a small card.  If you've got the Adobe Transcript laser printer software, run:
+
+    enscript -B -fCourier5 paul.squeeze.c
+
+and you've got a ray-tracer-on-a-business-card!
+
+
+Paul Heckbert
+Pixar				415-499-3600
+P.O. Box 13719			UUCP: {sun,ucbvax}!pixar!ph
+San Rafael, CA 94913		ARPA: ph%pixar.uucp@ucbvax.berkeley.edu
+
+------------------------------
+
+# to unpack, cut here and run the following shell archive through sh
+# contents: paul.c ray.h paul.squeeze.c
+#
+sed 's/^X//' <<'EOF14163' >paul.c
+X/* minimal ray tracer, hybrid version - 888 tokens
+X * Paul Heckbert, ucbvax!pixar!ph, 13 Jun 87
+X * Using tricks from Darwyn Peachey and Joe Cychosz.
+X
+X#define TOL 1e-7
+X#define AMBIENT vec U, black, amb
+X#define SPHERE struct sphere {vec cen, color; double rad, kd, ks, kt, kl, ir} \
+X    *s, *best, sph[]
+Xtypedef struct {double x, y, z} vec;
+X#include "ray.h"
+Xyx;
+Xdouble u, b, tmin, sqrt(), tan();
+X
+Xdouble vdot(A, B)
+Xvec A, B;
+X{
+X    return A.x*B.x + A.y*B.y + A.z*B.z;
+X}
+X
+Xvec vcomb(a, A, B)	/* aA+B */
+Xdouble a;
+Xvec A, B;
+X{
+X    B.x += a*A.x;
+X    B.y += a*A.y;
+X    B.z += a*A.z;
+X    return B;
+X}
+X
+Xvec vunit(A)
+Xvec A;
+X{
+X    return vcomb(1./sqrt(vdot(A, A)), A, black);
+X}
+X
+Xstruct sphere *intersect(P, D)
+Xvec P, D;
+X{
+X    best = 0;
+X    tmin = 1e30;
+X    s = sph+NSPHERE;
+X    while (s-->sph)
+X	b = vdot(D, U = vcomb(-1., P, s->cen)),
+X	u = b*b-vdot(U, U)+s->rad*s->rad,
+X	u = u>0 ? sqrt(u) : 1e31,
+X	u = b-u>TOL ? b-u : b+u,
+X	tmin = u>=TOL && u<tmin ?
+X	    best = s, u : tmin;
+X    return best;
+X}
+X
+Xvec trace(level, P, D)
+Xvec P, D;
+X{
+X    double d, eta, e;
+X    vec N, color;
+X    struct sphere *s, *l;
+X
+X    if (!level--) return black;
+X    if (s = intersect(P, D));
+X    else return amb;
+X
+X    color = amb;
+X    eta = s->ir;
+X    d = -vdot(D, N = vunit(vcomb(-1., P = vcomb(tmin, D, P), s->cen)));
+X    if (d<0)
+X	N = vcomb(-1., N, black),
+X	eta = 1/eta,
+X	d = -d;
+X    l = sph+NSPHERE;
+X    while (l-->sph)
+X	if ((e = l->kl*vdot(N, U = vunit(vcomb(-1., P, l->cen)))) > 0 &&
+X	    intersect(P, U)==l)
+X		color = vcomb(e, l->color, color);
+X    U = s->color;
+X    color.x *= U.x;
+X    color.y *= U.y;
+X    color.z *= U.z;
+X    e = 1-eta*eta*(1-d*d);
+X    /* the following is non-portable: we assume right to left arg evaluation.
+X     * (use U before call to trace, which modifies U) */
+X    return vcomb(s->kt,
+X	e>0 ? trace(level, P, vcomb(eta, D, vcomb(eta*d-sqrt(e), N, black)))
+X	    : black,
+X	vcomb(s->ks, trace(level, P, vcomb(2*d, N, D)),
+X	    vcomb(s->kd, color, vcomb(s->kl, U, black))));
+X}
+X
+Xmain()
+X{
+X    printf("%d %d\n", SIZE, SIZE);
+X    while (yx<SIZE*SIZE)
+X	U.x = yx%SIZE-SIZE/2,
+X	U.z = SIZE/2-yx++/SIZE,
+X	U.y = SIZE/2/tan(AOV/114.5915590261),	/* 360/PI~=114 */
+X	U = vcomb(255., trace(DEPTH, black, vunit(U)), black),
+X	printf("%.0f %.0f %.0f\n", U);		/* yowsa! non-portable! */
+X}
+EOF14163
+sed 's/^X//' <<'EOF14164' >ray.h
+X/* ray.h for test1, first test scene */
+X#define DEPTH 3		/* max ray tree depth */
+X#define SIZE 32		/* resolution of picture in x and y */
+X#define AOV 25		/* total angle of view in degrees */
+X#define NSPHERE 5	/* number of spheres */
+X
+XAMBIENT = {.02, .02, .02};	/* ambient light color */
+X
+X/* sphere: x y z  r g b  rad  kd ks kt kl  ir */
+XSPHERE = {
+X     0., 6., .5,    1., 1., 1.,   .9,   .05, .2, .85, 0.,  1.7,
+X    -1., 8., -.5,   1., .5, .2,   1.,   .7, .3, 0., .05,   1.2,
+X     1., 8., -.5,   .1, .8, .8,   1.,   .3, .7, 0., 0.,    1.2,
+X     3., -6., 15.,  1., .8, 1.,   7.,   0., 0., 0., .6,    1.5,
+X    -3., -3., 12.,  .8, 1., 1.,   5.,   0., 0., 0., .5,    1.5,
+X};
+EOF14164
+sed 's/^X//' <<'EOF14165' >paul.squeeze.c
+Xtypedef struct{double x,y,z}vec;vec U,black,amb={.02,.02,.02};struct sphere{
+Xvec cen,color;double rad,kd,ks,kt,kl,ir}*s,*best,sph[]={0.,6.,.5,1.,1.,1.,.9,
+X.05,.2,.85,0.,1.7,-1.,8.,-.5,1.,.5,.2,1.,.7,.3,0.,.05,1.2,1.,8.,-.5,.1,.8,.8,
+X1.,.3,.7,0.,0.,1.2,3.,-6.,15.,1.,.8,1.,7.,0.,0.,0.,.6,1.5,-3.,-3.,12.,.8,1.,
+X1.,5.,0.,0.,0.,.5,1.5,};yx;double u,b,tmin,sqrt(),tan();double vdot(A,B)vec A
+X,B;{return A.x*B.x+A.y*B.y+A.z*B.z;}vec vcomb(a,A,B)double a;vec A,B;{B.x+=a*
+XA.x;B.y+=a*A.y;B.z+=a*A.z;return B;}vec vunit(A)vec A;{return vcomb(1./sqrt(
+Xvdot(A,A)),A,black);}struct sphere*intersect(P,D)vec P,D;{best=0;tmin=1e30;s=
+Xsph+5;while(s-->sph)b=vdot(D,U=vcomb(-1.,P,s->cen)),u=b*b-vdot(U,U)+s->rad*s
+X->rad,u=u>0?sqrt(u):1e31,u=b-u>1e-7?b-u:b+u,tmin=u>=1e-7&&u<tmin?best=s,u:
+Xtmin;return best;}vec trace(level,P,D)vec P,D;{double d,eta,e;vec N,color;
+Xstruct sphere*s,*l;if(!level--)return black;if(s=intersect(P,D));else return
+Xamb;color=amb;eta=s->ir;d= -vdot(D,N=vunit(vcomb(-1.,P=vcomb(tmin,D,P),s->cen
+X)));if(d<0)N=vcomb(-1.,N,black),eta=1/eta,d= -d;l=sph+5;while(l-->sph)if((e=l
+X->kl*vdot(N,U=vunit(vcomb(-1.,P,l->cen))))>0&&intersect(P,U)==l)color=vcomb(e
+X,l->color,color);U=s->color;color.x*=U.x;color.y*=U.y;color.z*=U.z;e=1-eta*
+Xeta*(1-d*d);return vcomb(s->kt,e>0?trace(level,P,vcomb(eta,D,vcomb(eta*d-sqrt
+X(e),N,black))):black,vcomb(s->ks,trace(level,P,vcomb(2*d,N,D)),vcomb(s->kd,
+Xcolor,vcomb(s->kl,U,black))));}main(){printf("%d %d\n",32,32);while(yx<32*32)
+XU.x=yx%32-32/2,U.z=32/2-yx++/32,U.y=32/2/tan(25/114.5915590261),U=vcomb(255.,
+Xtrace(3,black,vunit(U)),black),printf("%.0f %.0f %.0f\n",U);}/*pixar!ph*/
+EOF14165
+exit
+

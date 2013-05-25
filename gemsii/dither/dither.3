@@ -1,0 +1,157 @@
+.\" Copyright (c) 1986, 1987, University of Utah
+.TH DITHER 3 2/2/87 3
+.UC 4 
+.SH NAME
+.HP
+dithermap, bwdithermap, make_square, dithergb, ditherbw \- functions for dithering color or black and white images.
+.SH SYNOPSIS
+.na
+.sp
+.B
+dithermap( levels, gamma, rgbmap, divN, modN, magic )
+.br
+.B
+int levels;
+.br
+.B
+double gamma;
+.br
+.B
+int rgbmap[][3], divN[256], modN[256], magic[16][16];
+.sp
+.B
+bwdithermap( levels, gamma, bwmap, divN, modN, magic )
+.br
+.B
+int levels;
+.br
+.B
+double gamma;
+.br
+.B
+int bwmap[], int divN[256], modN[256], magic[16][16];
+.sp
+.B
+make_square( N, divN, modN, magic )
+.br
+.B
+double N;
+.br
+.B
+int divN[256], modN[256], magic[16][16];
+.sp
+.B
+dithergb( x, y, r, g, b, levels, divN, modN, magic )
+.br
+.B
+int x, y, r, g, b, levels;
+.br
+.B
+int divN[256], modN[256], magic[16][16];
+.sp
+.B
+ditherbw( x, y, val, divN, modN, magic )
+.br
+.B
+int x, y, val, divN[256], modN[256], magic[16][16];
+.ad b
+.SH DESCRIPTION
+These functions provide a common set of routines for dithering a full
+color or gray scale image into a lower resolution color map.  
+
+.I Dithermap
+computes a color map and some auxiliary parameters for dithering a
+full color (24 bit) image to fewer bits.  The argument
+.I levels
+tells how many different intensity levels per primary color should be
+computed.  To get maximum use of a 256 entry color map, use
+.IR levels =6.  
+The computed map uses \fIlevels^3\fP entries.
+The
+.I gamma 
+argument provides for gamma compensation of the generated color map
+(that is, the values in the map will be adjusted to give a linear
+intensity variation on a display with the given gamma).
+The computed color map will be returned in the array
+.IR rgbmap .
+.I divN
+and
+.I modN
+are auxiliary arrays for computing the dithering pattern (see below),
+and
+.I magic
+is the magic square dither pattern.
+.PP
+To compute a color map for dithering a black and white image to fewer
+intensity levels, use
+.IR bwdithermap .
+The arguments are as for
+.IR dithermap ,
+but only a single channel color map is computed.  The value of
+\fIlevels\fP can be larger than for \fIdithermap\fP, as
+the computed map only has \fIlevels\fP entries.
+.PP
+To just build the magic square and other parameters, use
+.IR make_square .
+The argument
+.I N
+should be equal to 255.0 divided by the desired number of intensity
+levels less one (i.e., \fIN = 255.0 / (levels - 1)\fP).  The other
+arguments are filled in as above.
+.PP
+The color map index for a dithered full color pixel is computed by
+.IR dithergb .
+Since the pattern depends on the screen location, the first two
+arguments
+.IR x 
+and
+.IR y ,
+specify that location.  The true color of the pixel at that location
+is given by the triple
+.IR r ,
+.IR g ,
+and
+.IR b .
+The number of intensity
+.I levels
+and the dithering parameter matrices computed by
+.I dithermap
+are also passed to 
+.IR dithergb .
+.PP
+The color map index for a dithered gray scale pixel is computed by
+.IR ditherbw .
+Again, the screen position is specified, and the intensity value of
+the pixel is supplied in
+.IR val .
+The dithering parameters must also be supplied.
+.PP
+Alternatively, the dithering may be done in line instead of incurring
+the extra overhead of a function call, which can be significant when
+repeated a million times.  The computation is as follows:
+.nf
+.ta .5i 1.0i 1.5i
+		row = y % 16;
+		col = x % 16;
+	#define DMAP(v,col,row) (divN[v] + (modN[v]>magic[col][row] ? 1 : 0))
+		pix = DMAP(r,col,row) + DMAP(g,col,row)*levels +
+			DMAP(b,col,row)*levels*levels;
+.fi
+For a gray scale image, it is a little simpler:
+.nf
+.ta .5i 1.0i 1.5i
+		pix = DMAP(val,row,col);
+.fi
+And on a single bit display (assuming a 1 means white):
+.nf
+.ta .5i 1.0i
+		pix = divN[val] > magic[col][row] ? 1 : 0
+.fi
+.SH SEE ALSO
+.IR rgb_to_bw (3),
+.IR librle (3),
+.IR RLE (5).
+.SH AUTHOR
+Spencer W. Thomas
+.br
+University of Utah
