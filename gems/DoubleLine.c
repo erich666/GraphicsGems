@@ -8,7 +8,7 @@ user provides "setpixel()" function for output.
 
 #define swap(a,b)           {a^=b; b^=a; a^=b;}
 #define absolute(i,j,k)     ( (i-j)*(k = ( (i-j)<0 ? -1 : 1)))
-int
+void
 symwuline(a1, b1, a2, b2) int a1, b1, a2, b2;
 {
 	int           dx, dy, incr1, incr2, D, x, y, xend, c, pixels_left;

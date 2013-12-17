@@ -65,7 +65,7 @@ extern void renderPixel(/* int x, y, Vertex *V,
 /*
  * Render shaded polygon
  */
-drawPolygon(polygon, numVertex, object)
+void drawPolygon(polygon, numVertex, object)
 	Vertex	polygon[];		/*clockwise clipped vertex list */
 	int	numVertex;			/*number of vertices in polygon */
 

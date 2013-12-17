@@ -14,6 +14,11 @@
 #include <math.h>
 #include "poly.h"
 
+static void scanline(int y, Poly_vert *l, Poly_vert *r, Window *win, void (*pixelproc)(), unsigned long mask);
+static incrementalize_y(register double *p1, register double *p2, register double *p, register double *dp, int y, register unsigned long mask);
+static incrementalize_x(register double *p1, register double *p2, register double *p, register double *dp, int x, register unsigned long mask);
+static increment(register double *p, register double *dp, register unsigned long mask);
+
 /*
  * poly_scan: Scan convert a polygon, calling pixelproc at each pixel with an
  * interpolated Poly_vert structure.  Polygon can be clockwise or ccw.
@@ -100,7 +105,7 @@ void (*pixelproc)();		/* procedure called at each pixel */
 
 /* scanline: output scanline by sampling polygon at Y=y+.5 */
 
-static scanline(y, l, r, win, pixelproc, mask)
+static void scanline(y, l, r, win, pixelproc, mask)
 int y;
 unsigned long mask;
 Poly_vert *l, *r;

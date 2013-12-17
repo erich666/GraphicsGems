@@ -48,9 +48,11 @@ static Point2 *pt;		/* vertices */
 static int nact;		/* number of active edges */
 static Edge *active;		/* active edge list:edges crossing scanline y */
 
+static void cdelete(int i);
+static void cinsert(int i, int y);
 int compare_ind(), compare_active();
 
-concave(nvert, point, win, spanproc)
+void concave(nvert, point, win, spanproc)
 int nvert;			/* number of vertices */
 Point2 *point;			/* vertices of polygon */
 Window *win;			/* screen clipping window */
@@ -117,7 +119,7 @@ void (*spanproc)();		/* called for each span of pixels */
     }
 }
 
-static cdelete(i)		/* remove edge i from active list */
+static void cdelete(i)		/* remove edge i from active list */
 int i;
 {
     int j;
@@ -128,7 +130,7 @@ int i;
     bcopy(&active[j+1], &active[j], (nact-j)*sizeof active[0]);
 }
 
-static cinsert(i, y)		/* append edge i to end of active list */
+static void cinsert(i, y)		/* append edge i to end of active list */
 int i, y;
 {
     int j;

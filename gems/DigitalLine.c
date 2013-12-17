@@ -14,7 +14,7 @@
 
 #include "GraphicsGems.h"
 
-digline(x1, y1, x2, y2, dotproc)
+void digline(x1, y1, x2, y2, dotproc)
 int x1, y1, x2, y2;
 void (*dotproc)();
 {

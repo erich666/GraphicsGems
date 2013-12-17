@@ -16,6 +16,7 @@
 
 #define FRANDOM() ((rand()&32767)/32767.)   /* random number between 0 and 1 */
 
+static void pixelproc(int x, int y, Poly_vert *point);
 void pixelproc();
 
 main(ac, av)
