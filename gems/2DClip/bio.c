@@ -141,7 +141,7 @@ int	no;
  *	delete contour(s) from the list with id
  *	no
  */
-del_contour(no)
+void del_contour(no)
 int	no;
 {
 	CONTOUR	*cp, *cpp;

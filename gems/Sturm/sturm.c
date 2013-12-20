@@ -197,7 +197,7 @@ numchanges(np, sseq, a)
  * described in sseq to isolate intervals in which roots occur,
  * the roots are returned in the roots array in order of magnitude.
  */
-sbisect(np, sseq, min, max, atmin, atmax, roots)
+void sbisect(np, sseq, min, max, atmin, atmax, roots)
 	int		np;
 	poly	*sseq;
 	double	min, max;

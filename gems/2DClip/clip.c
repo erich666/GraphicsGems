@@ -6,6 +6,8 @@
 #include	"GraphicsGems.h"
 #include	"line.h"
 
+void clip(CONTOUR	*p, SEGMENT	*l);
+
 /*
  * vis_vector
  *
@@ -16,7 +18,7 @@
  *	xf, yf	from coordinates of vector to be drawn
  *	xt, yt	to coordinates of vector to be drawn
  */
-vis_vector(xf, yf, xt, yt)
+void vis_vector(xf, yf, xt, yt)
 long	xf, yf, xt, yt;
 {
 	SEGMENT	l;
@@ -41,7 +43,7 @@ long	xf, yf, xt, yt;
  *	p	pointer to polygon
  *	l	pointer to line segment
  */
-clip(p, l)
+void clip(p, l)
 CONTOUR	*p;
 SEGMENT	*l;
 {

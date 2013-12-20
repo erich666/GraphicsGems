@@ -11,7 +11,7 @@ from "Graphics Gems", Academic Press, 1990
 
 #include "GraphicsGems.h"					
 #include <stdio.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include <math.h>
 
 typedef Point2 *BezierCurve;
@@ -255,7 +255,7 @@ static BezierCurve  GenerateBezier(d, first, last, uPrime, tHat1, tHat2)
     /* (if alpha is 0, you get coincident control points that lead to
      * divide by zero in any subsequent NewtonRaphsonRootFind() call. */
     double segLength = V2DistanceBetween2Points(&d[last], &d[first]);
-    epsilon = 1.0e-6 * segLength;
+    double epsilon = 1.0e-6 * segLength;
     if (alpha_l < epsilon || alpha_r < epsilon)
     {
 		/* fall back on standard (probably inaccurate) formula, and subdivide further if needed. */
