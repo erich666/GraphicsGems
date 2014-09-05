@@ -3,6 +3,7 @@ This program illustrates the calculation of delta form-factors for the cubic tet
 is computed and displayed.
 **************************************************************************/
 
+#define _USE_MATH_DEFINES
 #include <math.h>
 
 #define MIN   -2.0		/* Minimum value of a ct coordinate */

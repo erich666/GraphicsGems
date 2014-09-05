@@ -269,7 +269,7 @@ fixpoint      x0, y0, x1, y1, x2, y2;
 edge          left, right;
 int16         temp; 
 int16         ccw;
-fixpoint      xi, si, dx, dy;
+fixpoint      xi, si;
 int16         y;
 
 float fdx, fdy;
@@ -1146,7 +1146,7 @@ for (i = 0; i < count; i ++)
 
 void main(int argc, char **argv)
 {
-int16 i, j, tmp;
+int16 i, j;
 int16 datasize, num_lights, scale_factor;
 MAT3vec vrp, vpn, vupv;
 MAT3fvec from, temp1, temp2, curpt, Lvector, Vvector, SpecLocNPC; 

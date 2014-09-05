@@ -51,6 +51,7 @@
   The fuzz for comparison needs to be matched to the resolution of the model.
 */
 
+#include <stdlib.h>
 #include "smooth.h"
 
 void	 addVertexToTable(Point3 *pt, Polygon polygon, int vNum, Smooth smooth);
@@ -262,6 +263,14 @@ void processHashNode(HashNode headNode, HashNode firstNode, Smooth smooth) {
     }
 
 /* free up all the memory */
+
+void freePoly(polygon) Polygon polygon; {
+	if (polygon->vertices != NULL) free(polygon->vertices);
+	if (polygon->normals != NULL) free(polygon->normals);
+	polygon->next = NULL;
+	free(polygon);
+}
+
 void freeSmooth(Smooth smooth) {
 HashNode headNode;
 HashNode nextNode;
@@ -284,11 +293,4 @@ int i;
 	};
     smooth->polygonTable = NULL;
     free(smooth);
-    }
-
-freePoly(polygon) Polygon polygon; {
-    if (polygon->vertices != NULL) free(polygon->vertices);
-    if (polygon->normals != NULL) free(polygon->normals);
-    polygon->next = NULL;
-    free(polygon);
     }

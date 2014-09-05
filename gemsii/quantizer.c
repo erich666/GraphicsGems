@@ -20,9 +20,8 @@ additional documentation and a cure to a previous bug.
 Free to distribute, comments and suggestions are appreciated.
 **********************************************************************/	
 
-#include <stdio.h>
 #include <stdlib.h>
-#include <malloc.h>
+#include <stdio.h>
 #include <math.h>
 
 #define MAXCOLOR	256
@@ -105,10 +104,14 @@ long int line, line_r, line_g, line_b,
 float    line2, area2[33];
 
     for(r=1; r<=32; ++r){
-	for(i=0; i<=32; ++i) 
-	    area2[i]=area[i]=area_r[i]=area_g[i]=area_b[i]=0.0f;
+	for(i=0; i<=32; ++i)
+	{
+		area2[i]=0.0f;
+		area[i]=area_r[i]=area_g[i]=area_b[i]=0;
+	}
 	for(g=1; g<=32; ++g){
-	    line2 = line = line_r = line_g = line_b = 0.0f;
+		line2 = 0.0f;
+		line = line_r = line_g = line_b = 0;
 	    for(b=1; b<=32; ++b){
 		ind1 = (r<<10) + (r<<6) + r + (g<<5) + g + b; /* [r][g][b] */
 		line += vwt[ind1];
@@ -162,6 +165,7 @@ unsigned char dir;
 long int mmt[33][33][33];
 {
     switch(dir){
+	default:
 	case RED:
 	    return( -mmt[cube->r0][cube->g1][cube->b1]
 		    +mmt[cube->r0][cube->g1][cube->b0]
@@ -193,6 +197,7 @@ int   pos;
 long int mmt[33][33][33];
 {
     switch(dir){
+	default:
 	case RED:
 	    return( mmt[pos][cube->g1][cube->b1] 
 		   -mmt[pos][cube->g1][cube->b0]

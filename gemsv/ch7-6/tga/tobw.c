@@ -31,7 +31,7 @@
 
 extern int LUGverbose;
 
-tobw(inbitmap, outbitmap)
+void tobw(inbitmap, outbitmap)
 bitmap_hdr *inbitmap;
 bitmap_hdr *outbitmap;
 {
@@ -219,7 +219,7 @@ bitmap_hdr *bitmap;
   }
 }
 
-rgbtobw( r, g, b, position, size )
+void rgbtobw( r, g, b, position, size )
 byte *r, *g, *b;
 byte *position;
 int size;

@@ -5,6 +5,7 @@
   email: <dal@syntel.mn.org>  mail: 399 Beacon Ave., St. Paul MN 55104
 ************************************************************************/
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>

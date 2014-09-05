@@ -1,11 +1,11 @@
 /* partition.c: module to partition 3D convex face with an arbitrary plane.
  * Copyright (c) Norman Chin
  */ 
+#include <stdlib.h>		/* malloc() */
 #include <stdio.h>		/* NULL */
 #include <assert.h>		/* assert() */
-#include <malloc.h>		/* malloc() */
 #include <math.h>		/* fabs() */
-#include "GraphicsGems.h"	
+#include "../GraphicsGems.h"	
 #include "partition.h"
 
 /* local functions */

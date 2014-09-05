@@ -7,6 +7,7 @@
  * Paul Heckbert	Dec 1989
  */
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
 #include "poly.h"

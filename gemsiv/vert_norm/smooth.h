@@ -21,7 +21,7 @@ Vector3 *V3Normalize(Vector3 *v);
 Vector3 *V3Add(Vector3 *a, Vector3 *b, Vector3 *c);
 double V3Dot(Vector3 *a, Vector3 *b);
 #else
-#include "GraphicsGems.h"
+#include "../GraphicsGems.h"
 #endif
 
 /********* MACROS and CONSTANTS *********/

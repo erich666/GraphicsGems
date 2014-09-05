@@ -331,7 +331,7 @@ int locate_endpoint(v, vo, r)
 
     default:
       fprintf(stderr, "Haggu !!!!!\n");
-      break;
+	  return 0;
     }
 }
 
@@ -1014,7 +1014,7 @@ static int find_new_roots(segnum)
 
 
 /* Main routine to perform trapezoidation */
-int construct_trapezoids(nseg, seg)
+void construct_trapezoids(nseg, seg)
      int nseg;
      segment_t *seg;
 {

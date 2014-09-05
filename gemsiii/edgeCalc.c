@@ -385,7 +385,7 @@ extern int * xl, * xr;          /* pointers to arrays storing positions of the
           left and right edges of the polygon: xl[y] and xr[y] give the
           x-position of the leftmost and rightmost pixels of the polygon on
           scanline y */
-static float scale = 3.999; /* this should be set to just less than the ratio
+static float scale = 3.999f; /* this should be set to just less than the ratio
             of pixel to subpixel widths. The value 3.999 is for the case where
             each pixel is 4x4 subpixels */
 int ij,ix1,ix2,iy1,iy2;

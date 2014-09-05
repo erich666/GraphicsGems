@@ -2,7 +2,7 @@
  * Copyright (c) Norman Chin 
  */
 #include "bsp.h"		
-#include <malloc.h>
+#include <stdlib.h>
 
 static long memoryCount= 0L;
 

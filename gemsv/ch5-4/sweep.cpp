@@ -43,7 +43,8 @@ swept_sph::swept_sph(polynomial *M, polynomial R, double A, double B)
 // R : varying radius of the moving sphere. The radius is assumed
 //     to be non-negative.
 {
-  for (int i=0; i < 3; i++) m[i] = M[i];
+  int i;
+  for (i=0; i < 3; i++) m[i] = M[i];
   r = R;
   r2 = r*r;
   a = A;  b = B;
@@ -59,6 +60,7 @@ int swept_sph::intersect(double *origin, double *dir, double *l)
 // dir    : unit direction of the ray
 // t      : intersection parameter of the ray
 {
+  int i;
   polynomial p, q, dp, dq, s;
   double save[3];
   double roots[MAX_DEGREE];
@@ -122,9 +124,9 @@ void swept_sph::normal(double *IP, double* Nrm)
 int swept_sph::inside(double *P)
 {
   double save[3];
-  int is_inside;
+  int is_inside,i;
 
-  for (int i=0; i < 3; i++) {
+  for (i=0; i < 3; i++) {
     save[i] = m[i].coef[0];
     m[i].coef[0] -= P[i];
   };

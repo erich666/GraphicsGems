@@ -1,6 +1,7 @@
 /*
  * Spherical linear interpolation of unit quaternions with spins
  */
+#define _USE_MATH_DEFINES
 #include <math.h>
 
 #define EPSILON 1.0E-6 			/* a tiny number */

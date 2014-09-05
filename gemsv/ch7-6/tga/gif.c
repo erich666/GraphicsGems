@@ -47,28 +47,7 @@ int lug_read_code_position;
 
 extern int LUGverbose;
 
-read_gif_file( name, bitmap )
-char *name;
-bitmap_hdr *bitmap;
-{
-  FILE *handle;
-
-  /* Open the file descriptor */
-  if ( name != NULL )
-    handle = Fopen( name, "rb" );
-  else error( 20 );
-
-  lug_read_code_position = 0;
-
-  /* Read the bitmap */
-  read_gif( handle, bitmap );
-  rm_compress();
-
-  /* Close the file */
-  Fclose( handle );
-}
-
-read_gif( handle, image )
+void read_gif( handle, image )
 FILE *handle;
 bitmap_hdr *image;
 {
@@ -120,11 +99,32 @@ bitmap_hdr *image;
   uncode_gif( handle, codesize, mask, image );
 }
 
+void read_gif_file( name, bitmap )
+	char *name;
+bitmap_hdr *bitmap;
+{
+	FILE *handle;
+
+	/* Open the file descriptor */
+	if ( name != NULL )
+		handle = Fopen( name, "rb" );
+	else error( 20 );
+
+	lug_read_code_position = 0;
+
+	/* Read the bitmap */
+	read_gif( handle, bitmap );
+	rm_compress();
+
+	/* Close the file */
+	Fclose( handle );
+}
+
 #define READCODE()      { code = read_code( ptrblocks, datamask,    \
                                             &offset, codesize );    \
                           ptrblocks += offset; }
 
-uncode_gif( handle, codesize, mask, image )
+void uncode_gif( handle, codesize, mask, image )
 FILE *handle;
 int codesize, mask;
 bitmap_hdr *image;
@@ -285,7 +285,7 @@ int indexx;
   return ++offset;
 }
 
-read_gif_hdr( handle )
+void read_gif_hdr( handle )
 FILE *handle;
 {
   char buffer[6];
@@ -426,7 +426,7 @@ FILE *handle;
   return out;
 }
 
-write_gif_file( name, image )
+void write_gif_file( name, image )
 char *name;
 bitmap_hdr *image;
 {
@@ -445,7 +445,7 @@ bitmap_hdr *image;
 
 }
 
-write_gif(handle, image)
+void write_gif(handle, image)
 FILE *handle;
 bitmap_hdr *image;
 {
@@ -498,13 +498,13 @@ bitmap_hdr *image;
   fputc( ENDGIF, handle );      /* fin del fichero GIF */
 }
 
-write_gif_hdr(handle)
+void write_gif_hdr(handle)
 FILE *handle;
 {
   Fwrite( GIFHEADER, 6, 1, handle );
 }
 
-write_gif_screen_hdr(handle, image)
+void write_gif_screen_hdr(handle, image)
 FILE *handle;
 bitmap_hdr *image;
 {
@@ -528,14 +528,14 @@ bitmap_hdr *image;
   Fwrite( buffer, 7, 1, handle);
 }
 
-write_gif_cmap(handle, image)
+void write_gif_cmap(handle, image)
 FILE *handle;
 bitmap_hdr *image;
 {
   Fwrite(image->cmap, 3, image->colors, handle);
 }
 
-write_gif_image_hdr(handle, image)
+void write_gif_image_hdr(handle, image)
 FILE *handle;
 bitmap_hdr *image;
 {

@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-#include <gmUtils.h>
+#include "gmUtils.h"
 
 class gmVector2;
 class gmVector3;

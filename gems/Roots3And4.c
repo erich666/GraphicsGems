@@ -62,7 +62,7 @@ int SolveQuadric(c, s)
     {
 	return 0;
     }
-    else if (D > 0)
+    else /* if (D > 0) */
     {
 	double sqrt_D = sqrt(D);
 

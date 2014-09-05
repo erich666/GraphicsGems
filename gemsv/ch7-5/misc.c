@@ -1,5 +1,5 @@
 #include "basic.h"
-#include <sys/time.h>
+#include <time.h>
 #include <math.h>
 
 /* If you do not have log2() on your machine, use this macro:

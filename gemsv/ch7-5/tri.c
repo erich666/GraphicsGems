@@ -1,5 +1,6 @@
 #include "basic.h"
-#include <sys/time.h>
+#include <memory.h>
+#include <time.h>
 
 
 static int initialise(nseg)

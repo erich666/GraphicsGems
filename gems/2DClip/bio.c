@@ -4,8 +4,9 @@
  *	contains the basic operations
  *
  */
+#include	<stdlib.h>
 #include	<stdio.h>
-#include	"GraphicsGems.h"
+#include	"../GraphicsGems.h"
 #include	"line.h"
 
 /*

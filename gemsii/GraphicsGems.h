@@ -150,6 +150,7 @@ extern Vector3 *V3Normalize(), *V3Scale(), *V3Add(), *V3Sub();
 extern Vector3 *V3Lerp(), *V3Combine(), *V3Mul(), *V3Cross();
 extern Vector3 *V3New(), *V3Duplicate();
 extern Point3 *V3MulPointByMatrix(), *V3MulPointByProjMatrix();
+extern Point3 *V3MulPointByMatrix4(), *V3MulVectorByMatrix4();
 extern Matrix4 *V3MatMul();
 
 extern double RegulaFalsi(), NewtonRaphson(), findroot();

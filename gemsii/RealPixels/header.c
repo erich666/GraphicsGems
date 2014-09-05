@@ -19,6 +19,7 @@ static char SCCSid[] = "@(#)header.c 1.4 4/22/91 LBL";
  *  To copy header from input to output, use getheader(fin, fputs, fout)
  */
 
+#include  <string.h>
 #include  <stdio.h>
 #include  <ctype.h>
 
@@ -48,7 +49,7 @@ char  *s;
 }
 
 
-formatval(r, s)			/* return format value */
+void formatval(r, s)			/* return format value */
 register char  *r;
 register char  *s;
 {

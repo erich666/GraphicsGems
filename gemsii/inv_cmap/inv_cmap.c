@@ -419,7 +419,7 @@ int restart;
 	  b++, dp++, rgbp++,
 	  bdist += bxx, bxx += txsqr )
     {
-	if ( *dp > bdist )
+	if ( (long)(*dp) > bdist )
 	{
 	    /* Remember new 'here' and associated data! */
 	    if ( b > here )
@@ -440,7 +440,7 @@ int restart;
 	  b++, dp++, rgbp++,
 	  bdist += bxx, bxx += txsqr )
     {
-	if ( *dp > bdist )
+	if ( (long)(*dp) > bdist )
 	{
 	    *dp = bdist;
 	    *rgbp = i;
@@ -470,7 +470,7 @@ int restart;
 	      b--, dp--, rgbp--,
 	      bxx -= txsqr, bdist -= bxx )
 	{
-	    if ( *dp > bdist )
+	    if ( (long)(*dp) > bdist )
 	    {
 		/* Remember here! */
 		/* No test for b against here necessary because b <
@@ -491,7 +491,7 @@ int restart;
 	  b--, dp--, rgbp--,
 	  bxx -= txsqr, bdist -= bxx )
     {
-	if ( *dp > bdist )
+	if ( (long)(*dp) > bdist )
 	{
 	    *dp = bdist;
 	    *rgbp = i;

@@ -475,7 +475,7 @@ static void drawVPedge(int x, int y) {     /* draw a vertical pixel edge      */
  *    with the offset from a `proper' starting pt, i.e. the mid-pt of the  *
  *    first pixel edge pointing to the dominant direction.                *
  **************************************************************************/
-static makejaggedline(int x1, int y1, int x2, int y2) {
+static void makejaggedline(int x1, int y1, int x2, int y2) {
  int d, x, y, ax, ay, sx, sy, dx, dy, finaltrnsvrse;
 
  dx = x2-x1;  ax = abs(dx)*SUBPIXRES;  sx = sign(dx)*SUBPIXRES;

@@ -4,6 +4,7 @@ by Andrew Glassner
 from "Graphics Gems", Academic Press, 1990
 */
 
+#include <stdlib.h>
 #include <math.h>
 #include "GraphicsGems.h"
 
@@ -369,6 +370,36 @@ double w;
 	if (w != 0.0) { pout->x /= w;  pout->y /= w;  pout->z /= w; }
 	return(pout);
 	}
+
+/* multiply a point by a matrix and return the transformed point */
+Point3 *V3MulPointByMatrix4(pin, m, pout)
+	Point3 *pin, *pout;
+Matrix4 *m;
+{
+	pout->x = (pin->x * m->element[0][0]) + (pin->y * m->element[1][0]) + 
+		(pin->z * m->element[2][0]) + m->element[3][0];
+	pout->y = (pin->x * m->element[0][1]) + (pin->y * m->element[1][1]) + 
+		(pin->z * m->element[2][1]) + m->element[3][1];
+	pout->z = (pin->x * m->element[0][2]) + (pin->y * m->element[1][2]) + 
+		(pin->z * m->element[2][2]) + m->element[3][2];
+	return(pout);
+}
+
+/* multiply a vector by a matrix and return the transformed vector.
+ * Note that the full transpose of the inverse of the matrix is not computed -
+ * it's assumed you know what you're doing. */
+Vector3 *V3MulVectorByMatrix4(pin, m, pout)
+	Vector3 *pin, *pout;
+Matrix4 *m;
+{
+	pout->x = (pin->x * m->element[0][0]) + (pin->y * m->element[1][0]) + 
+		(pin->z * m->element[2][0]);
+	pout->y = (pin->x * m->element[0][1]) + (pin->y * m->element[1][1]) + 
+		(pin->z * m->element[2][1]);
+	pout->z = (pin->x * m->element[0][2]) + (pin->y * m->element[1][2]) + 
+		(pin->z * m->element[2][2]);
+	return(pout);
+}
 
 /* multiply together matrices c = ab */
 /* note that c must not point to either of the input matrices */

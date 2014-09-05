@@ -2,12 +2,28 @@
  * file clip.c
  *	contains the actual clipping routines
  */
+#include	<stdlib.h>
 #include	<stdio.h>
-#include	"GraphicsGems.h"
+#include	"../GraphicsGems.h"
 #include	"line.h"
 
 void clip(CONTOUR	*p, SEGMENT	*l);
 
+#define DEBUG
+#ifdef DEBUG
+move(x, y)
+	long	x, y;
+{
+	printf("(%d,%d) ->", x, y);
+}
+
+cont(x, y)
+	long	x, y;
+{
+	printf("(%d,%d)\n", x, y);
+}
+
+#endif
 /*
  * vis_vector
  *
@@ -157,22 +173,6 @@ SEGMENT	*l;
 	else
 		return(FALSE);
 }
-
-#define DEBUG
-#ifdef DEBUG
-move(x, y)
-long	x, y;
-{
-	printf("(%d,%d) ->", x, y);
-}
-
-cont(x, y)
-long	x, y;
-{
-	printf("(%d,%d)\n", x, y);
-}
-
-#endif
 
 
 

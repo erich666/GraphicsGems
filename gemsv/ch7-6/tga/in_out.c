@@ -197,7 +197,7 @@ FILE *handle;
   return len;
 }
 
-putshortMSBF( value, handle )
+void putshortMSBF( value, handle )
 int value;
 FILE *handle;
 {
@@ -205,7 +205,7 @@ FILE *handle;
   putc( LSB(value), handle );
 }
 
-putshortLSBF( value, handle )
+void putshortLSBF( value, handle )
 int value;
 FILE *handle;
 {

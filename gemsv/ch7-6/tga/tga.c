@@ -29,7 +29,7 @@
 #include "lug.h"
 #include "lugfnts.h"
 
-read_tga_file( name, bitmap )
+void read_tga_file( name, bitmap )
 char *name;
 bitmap_hdr *bitmap;
 {
@@ -48,7 +48,7 @@ bitmap_hdr *bitmap;
   Fclose( handle );
 }
 
-read_tga(handle, image)
+void read_tga(handle, image)
 FILE *handle;
 bitmap_hdr *image;
 {
@@ -61,7 +61,6 @@ bitmap_hdr *image;
   int totalsize;
   byte *ptr;
   byte *r, *g, *b;
-  byte *aux;
 
   /* Read the Tagar header */
   read_tga_header( handle, &tga );
@@ -153,7 +152,7 @@ bitmap_hdr *image;
 } */
 }
 
-read_tga24( handle, r, g, b, tga )
+void read_tga24( handle, r, g, b, tga )
 FILE *handle;
 byte *r, *g, *b;
 tga_hdr *tga;
@@ -248,7 +247,7 @@ tga_hdr *tga;
   }
 }
 
-read_tga_to24( handle, r, g, b, tga, cmap )
+void read_tga_to24( handle, r, g, b, tga, cmap )
 FILE *handle;
 byte *r, *g, *b;
 tga_hdr *tga;
@@ -258,7 +257,7 @@ byte *cmap;
   error( 99 );
 }
 
-read_tga8( handle, r, tga )
+void read_tga8( handle, r, tga )
 FILE *handle;
 byte *r;
 tga_hdr *tga;
@@ -289,7 +288,7 @@ tga_hdr *tga;
   }
 }
 
-read_tga_header(handle, tga)
+void read_tga_header(handle, tga)
 FILE *handle;
 tga_hdr *tga;
 {
@@ -359,7 +358,7 @@ tga_hdr *tga;
   }
 }
 
-read_tga_data( buffer, no_bytes, handle )
+void read_tga_data( buffer, no_bytes, handle )
 byte *buffer;
 int no_bytes;
 FILE *handle;
@@ -381,7 +380,7 @@ FILE *handle;
   }
 }
 
-write_tga_file( name, image )
+void write_tga_file( name, image )
 char *name;
 bitmap_hdr *image;
 {
@@ -399,7 +398,7 @@ bitmap_hdr *image;
   Fclose( handle );
 }
 
-write_rle_tga_file( name, image )
+void write_rle_tga_file( name, image )
 char *name;
 bitmap_hdr *image;
 {
@@ -417,7 +416,7 @@ bitmap_hdr *image;
   Fclose( handle );
 }
 
-write_tga(handle, image, rle)
+void write_tga(handle, image, rle)
 FILE *handle;
 bitmap_hdr *image;
 int rle;
@@ -452,7 +451,7 @@ int rle;
   }
 }
 
-write_tga_header(handle, image, rle)
+void write_tga_header(handle, image, rle)
 FILE *handle;
 bitmap_hdr *image;
 int rle;
@@ -485,7 +484,7 @@ int rle;
   Fwrite( buffer, 18, 1, handle );
 }
 
-write_tga_line24(handle, r, g, b, xsize)
+void write_tga_line24(handle, r, g, b, xsize)
 FILE *handle;
 byte *r, *g, *b;
 int xsize;
@@ -508,7 +507,7 @@ int xsize;
   Fwrite( buffer, xsize, 3, handle );
 }
 
-write_tga_rle_line24(handle, r, g, b, xsize)
+void write_tga_rle_line24(handle, r, g, b, xsize)
 FILE *handle;
 byte *r, *g, *b;
 int xsize;

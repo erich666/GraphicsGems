@@ -21,15 +21,15 @@ Box3    *B;  	/* The transformed bounding box. */
 
     /*Copy box A into a min array and a max array for easy reference.*/
 
-    Amin[0] = A.min.x;  Amax[0] = A.max.x;
-    Amin[1] = A.min.y;  Amax[1] = A.max.y;
-    Amin[2] = A.min.z;  Amax[2] = A.max.z;
+    Amin[0] = (float)A.min.x;  Amax[0] = (float)A.max.x;
+    Amin[1] = (float)A.min.y;  Amax[1] = (float)A.max.y;
+    Amin[2] = (float)A.min.z;  Amax[2] = (float)A.max.z;
 
     /* Take care of translation by beginning at T. */
 
-    Bmin[0] = Bmax[0] = T.x;
-    Bmin[1] = Bmax[1] = T.y;
-    Bmin[2] = Bmax[2] = T.z;
+    Bmin[0] = Bmax[0] = (float)T.x;
+    Bmin[1] = Bmax[1] = (float)T.y;
+    Bmin[2] = Bmax[2] = (float)T.z;
 
     /* Now find the extreme points by considering the product of the */
     /* min and max with each component of M.  */
@@ -37,8 +37,8 @@ Box3    *B;  	/* The transformed bounding box. */
     for( i = 0; i < 3; i++ )
     for( j = 0; j < 3; j++ )
         {
-        a = M.element[i][j] * Amin[j];
-        b = M.element[i][j] * Amax[j];
+        a = (float)(M.element[i][j] * Amin[j]);
+        b = (float)(M.element[i][j] * Amax[j]);
         if( a < b ) 
 
             { 

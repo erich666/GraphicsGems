@@ -15,7 +15,7 @@
       AATables.c -- Initialize lookup tables.
 */
 
-
+#include <math.h>
 #include "AALines.h"
 
 #define SWAPVARS(v1,v2) ( temp=v1, v1=v2, v2=temp )

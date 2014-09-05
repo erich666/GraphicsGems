@@ -108,23 +108,6 @@ int	icompos_lim;            /* composite amplitude limit (scaled integer) */
 double	pix_decode(), gc(), inv_gc();
 int	pix_encode(), hot();
 
-main()
-{
-	Pixel	p;
-	int	row, col;
-
-	build_tab();
-
-	for (col=0; col<WID; col++) {
-		for(row=0; row<HGT; row++) {
-			read_pixel(row, col, &p);
-			if (hot(&p)) {
-				write_pixel(row, col, &p);
-			}
-		}
-	}
-}
-
 /*
  * build_tab: Build multiply lookup table.
  *
@@ -391,5 +374,22 @@ pix_encode(v)
 double	v;
 {
 	return (int)(v * MAXPIX + 0.5);
+}
+
+main()
+{
+	Pixel	p;
+	int	row, col;
+
+	build_tab();
+
+	for (col=0; col<WID; col++) {
+		for(row=0; row<HGT; row++) {
+			read_pixel(row, col, &p);
+			if (hot(&p)) {
+				write_pixel(row, col, &p);
+			}
+		}
+	}
 }
 

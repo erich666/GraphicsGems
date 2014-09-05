@@ -63,6 +63,114 @@ typedef struct intpoint
 /* Return the max value, storing the minimum value in min */
 #define  maxmin(x1, x2, min) (x1 >= x2 ? (min = x2, x1) : (min = x1, x2))
 
+
+
+/* *********************************************************************
+   64 bit multiplication function.
+   Multiply two long integers in1 and in2, returning the result in out.
+********************************************************************* */
+void mult64(long in1, long in2, unsigned long out[2])
+{
+  unsigned short *x, *y, *z;
+  unsigned long temp;
+
+  x = (unsigned short *) &in1;  y = (unsigned short *) &in2;
+  z = (unsigned short *) out;
+  temp = x[0] * y[0];
+  z[1] = temp >> 16;   z[0] = temp & SHORTMASK;
+  temp = x[0] * y[1];
+  z[2] = temp >> 16;   z[1] += temp & SHORTMASK;
+  z[2] += z[1] >>16;   z[1] = z[1] & SHORTMASK;
+  temp = x[1] * y[0];
+  z[2] += temp >> 16;  z[1] += temp & SHORTMASK;
+  z[2] += z[1] >>16;  z[1] = z[1] & SHORTMASK;
+  z[3] = z[2] >>16;  z[2] = z[2] & SHORTMASK;
+  temp = x[1] * y[1];
+  z[3] += temp >> 16;   z[2] += temp & SHORTMASK;
+  z[3] += z[2] >>16;   z[2] = z[2] & SHORTMASK;
+}
+
+/* *********************************************************************
+Comparison primitive to test par1 <= par2.
+Return LEFT if par1 < par2; return ON if par1 = par2;
+return RIGHT if par1 > par2.
+********************************************************************* */
+int CompPrim(PARAM *par1, PARAM *par2)
+{
+	unsigned long r1[2],r2[2];
+
+	mult64(par1->num, par2->denom, r1);
+	mult64(par2->num, par1->denom, r2);
+	if(r1[1] != r2[1]) { if(r1[1] < r2[1]) return(LEFT); else return(RIGHT);}
+	if(r1[0] != r2[0]) { if(r1[0] < r2[0]) return(LEFT); else return(RIGHT);}
+	return(ON);
+}
+
+/* *********************************************************************
+  Helper function for all parameter comparisons.
+  Returns LEFT if par1 < par2, ON if par1 = par2, and RIGHT otherwise.
+  Denominators must be positive.
+********************************************************************* */
+int CompHelp(PARAM *par1, PARAM *par2)
+{
+  PARAM tpar1, tpar2;
+
+  tpar1 = *par1;   tpar2 = *par2;
+  if(tpar1.num < 0)
+     {
+       if(tpar2.num >= 0) return(LEFT);
+       tpar1.num = -tpar1.num;  tpar2.num = -tpar2.num;
+       return(CompPrim(&tpar2, &tpar1));
+     }
+  if(tpar2.num < 0) return(RIGHT);
+  return(CompPrim(&tpar1, &tpar2));
+}
+
+/* *********************************************************************
+  Returns TRUE if par1 < par2 and FALSE otherwise;
+********************************************************************* */
+boolean LessThan(PARAM *par1, PARAM *par2)
+{
+  double x1, x2;
+
+  x1 = ((double)par1->num) * par2->denom;
+  x2 = ((double)par2->num) * par1->denom;
+  if(x1 != x2)
+    if(x1 < x2) return(TRUE);
+    else return(FALSE);
+  return(CompHelp(par1, par2) == LEFT);
+}
+
+
+/* *********************************************************************
+  Returns TRUE if par1 > par2 and FALSE otherwise;
+********************************************************************* */
+boolean GreaterThan(PARAM *par1, PARAM *par2)
+{
+  double x1, x2;
+
+  x1 = ((double)par1->num) * par2->denom;
+  x2 = ((double)par2->num) * par1->denom;
+  if(x1 != x2)
+    if(x1 > x2) return(TRUE);
+    else return(FALSE);
+  return(CompHelp(par1, par2) == RIGHT);
+}
+
+
+/* *********************************************************************
+  Returns TRUE if par1 = par2 and FALSE otherwise;
+********************************************************************* */
+boolean Equal(PARAM *par1, PARAM *par2)
+{
+  double x1, x2;
+
+  x1 = ((double)par1->num) * par2->denom;
+  x2 = ((double)par2->num) * par1->denom;
+  if(x1 != x2) return(FALSE);
+  return(CompHelp(par1, par2) == ON);
+}
+
 /* *********************************************************************
    Below are two utility functions for implementing exact intersection
    calculation: SubsegIntersect and SideOfPoint.  SubsegIntersect uses
@@ -156,117 +264,6 @@ int SubsegIntersect(SUBSEGMENT *ss1, SUBSEGMENT *ss2, INTPOINT *ipt)
     return(0);  /* A priori segments intersect, but subsegments do not */
   return(1);
 }
-
-
-/* *********************************************************************
-   64 bit multiplication function.
-   Multiply two long integers in1 and in2, returning the result in out.
-********************************************************************* */
-void mult64(long in1, long in2, unsigned long out[2])
-{
-  unsigned short *x, *y, *z;
-  unsigned long temp;
-
-  x = (unsigned short *) &in1;  y = (unsigned short *) &in2;
-  z = (unsigned short *) out;
-  temp = x[0] * y[0];
-  z[1] = temp >> 16;   z[0] = temp & SHORTMASK;
-  temp = x[0] * y[1];
-  z[2] = temp >> 16;   z[1] += temp & SHORTMASK;
-  z[2] += z[1] >>16;   z[1] = z[1] & SHORTMASK;
-  temp = x[1] * y[0];
-  z[2] += temp >> 16;  z[1] += temp & SHORTMASK;
-  z[2] += z[1] >>16;  z[1] = z[1] & SHORTMASK;
-  z[3] = z[2] >>16;  z[2] = z[2] & SHORTMASK;
-  temp = x[1] * y[1];
-  z[3] += temp >> 16;   z[2] += temp & SHORTMASK;
-  z[3] += z[2] >>16;   z[2] = z[2] & SHORTMASK;
-}
-
-
-/* *********************************************************************
-Comparison primitive to test par1 <= par2.
-Return LEFT if par1 < par2; return ON if par1 = par2;
-return RIGHT if par1 > par2.
-********************************************************************* */
-int CompPrim(PARAM *par1, PARAM *par2)
-{
-  unsigned long r1[2],r2[2];
-
-  mult64(par1->num, par2->denom, r1);
-  mult64(par2->num, par1->denom, r2);
-  if(r1[1] != r2[1]) { if(r1[1] < r2[1]) return(LEFT); else return(RIGHT);}
-  if(r1[0] != r2[0]) { if(r1[0] < r2[0]) return(LEFT); else return(RIGHT);}
-  return(ON);
-}
-
-
-/* *********************************************************************
-  Helper function for all parameter comparisons.
-  Returns LEFT if par1 < par2, ON if par1 = par2, and RIGHT otherwise.
-  Denominators must be positive.
-********************************************************************* */
-int CompHelp(PARAM *par1, PARAM *par2)
-{
-  PARAM tpar1, tpar2;
-
-  tpar1 = *par1;   tpar2 = *par2;
-  if(tpar1.num < 0)
-     {
-       if(tpar2.num >= 0) return(LEFT);
-       tpar1.num = -tpar1.num;  tpar2.num = -tpar2.num;
-       return(CompPrim(&tpar2, &tpar1));
-     }
-  if(tpar2.num < 0) return(RIGHT);
-  return(CompPrim(&tpar1, &tpar2));
-}
-
-
-/* *********************************************************************
-  Returns TRUE if par1 < par2 and FALSE otherwise;
-********************************************************************* */
-boolean LessThan(PARAM *par1, PARAM *par2)
-{
-  double x1, x2;
-
-  x1 = ((double)par1->num) * par2->denom;
-  x2 = ((double)par2->num) * par1->denom;
-  if(x1 != x2)
-    if(x1 < x2) return(TRUE);
-    else return(FALSE);
-  return(CompHelp(par1, par2) == LEFT);
-}
-
-
-/* *********************************************************************
-  Returns TRUE if par1 > par2 and FALSE otherwise;
-********************************************************************* */
-boolean GreaterThan(PARAM *par1, PARAM *par2)
-{
-  double x1, x2;
-
-  x1 = ((double)par1->num) * par2->denom;
-  x2 = ((double)par2->num) * par1->denom;
-  if(x1 != x2)
-    if(x1 > x2) return(TRUE);
-    else return(FALSE);
-  return(CompHelp(par1, par2) == RIGHT);
-}
-
-
-/* *********************************************************************
-  Returns TRUE if par1 = par2 and FALSE otherwise;
-********************************************************************* */
-boolean Equal(PARAM *par1, PARAM *par2)
-{
-  double x1, x2;
-
-  x1 = ((double)par1->num) * par2->denom;
-  x2 = ((double)par2->num) * par1->denom;
-  if(x1 != x2) return(FALSE);
-  return(CompHelp(par1, par2) == ON);
-}
-
 
 /* *********************************************************************
    Determine if a given point is to the left of, right of,

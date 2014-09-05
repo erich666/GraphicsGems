@@ -1,10 +1,10 @@
 /* main.c: sample driver for partition module.
  * Copyright (c) Norman Chin
  */
+#include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
-#include <malloc.h>
-#include "GraphicsGems.h"
+#include "../GraphicsGems.h"
 #include "partition.h"
 
 static FACE *getFace(/* void */);

@@ -125,7 +125,7 @@ static FILE *g_outfile;
 static int ClearCode;
 static int EOFCode;
 
-compress( init_bits, outfile, ReadValue )
+void compress( init_bits, outfile, ReadValue )
 int init_bits;
 FILE *outfile;
 ifunptr ReadValue;

@@ -10,6 +10,7 @@
  * Paul Heckbert	1985, Dec 1989
  */
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
 #include "poly.h"
@@ -68,7 +69,7 @@ void (*pixelproc)();		/* procedure called at each pixel */
 
     li = ri = top;			/* left and right vertex indices */
     rem = p->n;				/* number of vertices remaining */
-    y = ceil(ymin-.5);			/* current scan line */
+    y = (int)ceil(ymin-.5);			/* current scan line */
     ly = ry = y-1;			/* lower end of left & right edges */
     mask = p->mask & ~POLY_MASK(sy);	/* stop interpolating screen y */
 
@@ -80,7 +81,7 @@ void (*pixelproc)();		/* procedure called at each pixel */
 	    i = li-1;			/* step ccw down left side */
 	    if (i<0) i = p->n-1;
 	    incrementalize_y(&p->vert[li], &p->vert[i], &l, &dl, y, mask);
-	    ly = floor(p->vert[i].sy+.5);
+	    ly = (int)floor(p->vert[i].sy+.5);
 	    li = i;
 	}
 	while (ry<=y && rem>0) {	/* advance right edge? */
@@ -88,7 +89,7 @@ void (*pixelproc)();		/* procedure called at each pixel */
 	    i = ri+1;			/* step cw down right edge */
 	    if (i>=p->n) i = 0;
 	    incrementalize_y(&p->vert[ri], &p->vert[i], &r, &dr, y, mask);
-	    ry = floor(p->vert[i].sy+.5);
+	    ry = (int)floor(p->vert[i].sy+.5);
 	    ri = i;
 	}
 
@@ -116,9 +117,9 @@ void (*pixelproc)();
     Poly_vert p, dp;
 
     mask &= ~POLY_MASK(sx);		/* stop interpolating screen x */
-    lx = ceil(l->sx-.5);
+    lx = (int)ceil(l->sx-.5);
     if (lx<win->x0) lx = win->x0;
-    rx = floor(r->sx-.5);
+    rx = (int)floor(r->sx-.5);
     if (rx>win->x1) rx = win->x1;
     if (lx>rx) return;
     incrementalize_x(l, r, &p, &dp, lx, mask);

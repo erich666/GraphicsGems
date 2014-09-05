@@ -11,6 +11,8 @@
 /******************************************************************************/
 
 /* include files */
+/* You will have to get these from the ancient Utah Raster Toolkit,
+   http://www.cs.utah.edu/gdc/projects/urt/ - best of luck! */
 #include "rle.h"
 
 /******************************************************************************/

@@ -5,6 +5,8 @@
  * in "Graphics Gems IV", Academic Press, 1994
  */
 
+#include <stdlib.h>
+#include <stdio.h>
 #include <math.h>
 
 typedef long	       Boolean;

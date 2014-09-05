@@ -14,7 +14,9 @@ Cornell University
 */
 
 #include <stdio.h>
+#define _USE_MATH_DEFINES
 #include <math.h>
+
 
 static float computeFormFactor() ;
 static float computeUnoccludedFormFactor() ;
@@ -108,7 +110,7 @@ Quad S;
 
     eps_A = minA;
 
-    return(rho * Bs * computeFormFactor(Pr, Nr, S, Ns));
+    return((float)(rho * Bs * computeFormFactor(Pr, Nr, S, Ns)));
 }
 
 /*
@@ -188,7 +190,7 @@ Quad S;
         VCOPY(s, t);
     }
     
-    return(f / (2.0 * M_PI));
+    return((float)(f / (2.0 * M_PI)));
 }
 
 /*
@@ -254,6 +256,6 @@ Quad Q;
     VCROSS(uxv, u, v);
     area += VNORM(uxv);
 
-    return area * 0.5;
+    return (float)(area * 0.5);
 }
 

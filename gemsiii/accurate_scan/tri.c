@@ -131,7 +131,7 @@ void triangle(int x0, int y0, int x1, int y1, int x2, int y2)
  *  SubEdgeSetup initializes the Bresenham-like scan conversion for a
  *  single edge (analogous to EdgeSetup).
  *
- *  Double lenght fixpoint is used to compute alpha below. Alpha
+ *  Double length fixpoint is used to compute alpha below. Alpha
  *  is then truncated (this corresponds to quantizing to a 
  *  particular subpixel while computing the x-intersection of the edge
  *  with the scanline). It will not produces artifacts except for

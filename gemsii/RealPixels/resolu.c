@@ -6,6 +6,7 @@ static char SCCSid[] = "@(#)resolu.c 1.1 9/22/90 LBL";
  * Read and write image resolutions.
  */
 
+#include <stdlib.h>
 #include <stdio.h>
 
 #include "color.h"

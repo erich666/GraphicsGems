@@ -5,6 +5,7 @@ by Andrew Glassner
 from "Graphics Gems", Academic Press, 1990
 */
 
+#include <stdlib.h>
 #include <math.h>
 #include "GraphicsGems.h"
 

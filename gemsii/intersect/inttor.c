@@ -1,6 +1,6 @@
 
 #include	<math.h>
-#include	"GraphicsGems.h"
+#include	"../GraphicsGems.h"
 
 /* ----	inttor - Intersect a ray with a torus. ------------------------	*/
 /*									*/
@@ -70,8 +70,8 @@ extern	int	SolveQuartic ();	/* Solve quartic equation	*/
 
 	Base = raybase;
 	Dcos = raycos;
-	V3MulPointByMatrix  (&Base,&tran);
-	V3MulVectorByMatrix (&Dcos,&tran);
+	V3MulPointByMatrix4  (&Base,&tran);
+	V3MulVectorByMatrix4 (&Dcos,&tran);
 
 /*	Bound the torus by two parallel planes rnorm from the x-z plane.*/
 

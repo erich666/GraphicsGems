@@ -23,10 +23,6 @@
  * Start low and see how consistent separate runs appear to be.
  */
 
-#ifndef M_PI
-#define M_PI	3.14159265358979323846
-#endif
-
 #ifdef	TIMER
 #define MACHINE_TEST_RATIO	50000
 #else
@@ -35,8 +31,10 @@
 
 /* ===========	that's all the easy stuff than can be changed  ============ */
 
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#define _USE_MATH_DEFINES
 #include <math.h>
 #include "ptinpoly.h"
 
@@ -215,6 +213,364 @@ void	BreakString() ;
 #ifdef	DISPLAY
 void	DisplayPolygon() ;
 void	DisplayPoint() ;
+#endif
+
+void Usage()
+{
+/* +++ add new routine here +++ */
+printf("p_test [options] -{ABCEGIMPSTW}\n");
+printf("  -v minverts [maxverts] = variation in number of polygon vertices\n");
+printf("  -r radius = radius of polygon vertices generated\n");
+printf("  -p perturbation = perturbation of polygon vertices generated\n");
+printf("       These first three determine the type of polygon tested.\n");
+printf("       No perturbation gives regular polygons, while no radius\n");
+printf("       gives random polygons, and a mix gives semi-random polygons\n");
+printf("  -s size = scale of test point box around polygon (1.0 default)\n");
+printf("       A larger size means more points generated outside the\n");
+printf("       polygon.	 By default test points are in the bounding box.\n");
+printf("  -b bins = number of y bins for trapezoid test\n");
+printf("  -g resolution = grid resolution for grid test\n");
+printf("  -n polygons = number of polygons to test (default %d)\n",
+		Test_Polygons);
+printf("  -i points = number of points to test per polygon (default %d)\n",
+		Test_Points);
+printf("  -c increment = constrain polygon and test points to grid\n");
+/* +++ add new routine here +++ */
+printf("  -{ABCEGIMPSTW} = angle/bary/crossings/exterior/grid/inclusion/cross-mult/\n");
+printf("       plane/spackman/trapezoid (bin)/weiler test (default is all)\n");
+printf("  -d = display polygons and points using starbase\n");
+}
+
+void	ScanOpts( argc, argv )
+int argc;  char *argv[];
+{
+float	f1 ;
+int	i1 ;
+int	test_flag = FALSE ;
+
+    for ( argc--, argv++; argc > 0; argc--, argv++ ) {
+	if ( **argv == '-' ) {
+	    switch ( *++(*argv)) {
+
+	    case 'v':	/* vertex min & max */
+		argv++ ; argc-- ;
+		if ( argc && sscanf ( *argv, "%d", &i1 ) == 1 ) {
+		    Min_Verts = i1 ;
+		    argv++ ; argc-- ;
+		    if ( argc && sscanf ( *argv, "%d", &i1 ) == 1 ) {
+			Max_Verts = i1 ;
+		    } else {
+			argv-- ; argc++ ;
+			Max_Verts = Min_Verts ;
+		    }
+		} else {
+		    Usage() ;
+		    exit(1) ;
+		}
+		break;
+
+	    case 'r':	/* vertex radius */
+		argv++ ; argc-- ;
+		if ( argc && sscanf ( *argv, "%f", &f1 ) == 1 ) {
+		    Vertex_Radius = (double)f1 ;
+		} else {
+		    Usage() ;
+		    exit(1) ;
+		}
+		break;
+
+	    case 'p':	/* vertex perturbation */
+		argv++ ; argc-- ;
+		if ( argc && sscanf ( *argv, "%f", &f1 ) == 1 ) {
+		    Vertex_Perturbation = (double)f1 ;
+		} else {
+		    Usage() ;
+		    exit(1) ;
+		}
+		break;
+
+	    case 's':	/* centered box size ratio - higher is bigger */
+		argv++ ; argc-- ;
+		if ( argc && sscanf ( *argv, "%f", &f1 ) == 1 ) {
+		    Box_Ratio = (double)f1 ;
+		    if ( Box_Ratio < 1.0 ) {
+			fprintf(stderr,"warning: ratio is smaller than 1.0\n");
+		    }
+		} else {
+		    Usage() ;
+		    exit(1) ;
+		}
+		break;
+
+	    case 'b':	/* number of bins for trapezoid test */
+		argv++ ; argc-- ;
+		if ( argc && sscanf ( *argv, "%d", &i1 ) == 1 ) {
+		    Trapezoid_Bins = i1 ;
+		} else {
+		    Usage() ;
+		    exit(1) ;
+		}
+		break;
+
+	    case 'g':	/* grid resolution for grid test */
+		argv++ ; argc-- ;
+		if ( argc && sscanf ( *argv, "%d", &i1 ) == 1 ) {
+		    Grid_Resolution = i1 ;
+		} else {
+		    Usage() ;
+		    exit(1) ;
+		}
+		break;
+
+	    case 'n':	/* number of polygons to test */
+		argv++ ; argc-- ;
+		if ( argc && sscanf ( *argv, "%d", &i1 ) == 1 ) {
+		    Test_Polygons = i1 ;
+		} else {
+		    Usage() ;
+		    exit(1) ;
+		}
+		break;
+
+	    case 'i':	/* number of intersections per polygon to test */
+		argv++ ; argc-- ;
+		if ( argc && sscanf ( *argv, "%d", &i1 ) == 1 ) {
+		    Test_Points = i1 ;
+		} else {
+		    Usage() ;
+		    exit(1) ;
+		}
+		break;
+
+	    case 'c':	/* constrain increment (0 means don't use) */
+		argv++ ; argc-- ;
+		if ( argc && sscanf ( *argv, "%f", &f1 ) == 1 ) {
+		    Constraint_Increment = (double)f1 ;
+		} else {
+		    Usage() ;
+		    exit(1) ;
+		}
+		break;
+
+	    case 'd':	/* display polygon & test points */
+#ifdef	DISPLAY
+		Display_Tests = 1 ;
+#else
+		fprintf( stderr,
+		    "warning: display mode not compiled in - ignored\n" ) ;
+#endif
+		break;
+
+	    /* +++ add new symbol here +++ */
+	    case 'A':	/* do tests specified */
+	    case 'B':
+	    case 'C':
+	    case 'E':
+	    case 'G':
+	    case 'I':
+	    case 'M':
+	    case 'P':
+	    case 'S':
+	    case 'T':
+	    case 'W':
+		test_flag = TRUE ;
+		if ( strchr( *argv, 'A' ) ) {
+		    St[ANGLE_TEST].work = 1 ;
+		}
+		if ( strchr( *argv, 'B' ) ) {
+		    St[BARYCENTRIC_TEST].work = 1 ;
+		}
+		if ( strchr( *argv, 'C' ) ) {
+		    St[CROSSINGS_TEST].work = 1 ;
+		}
+		if ( strchr( *argv, 'E' ) ) {
+#ifdef	CONVEX
+		    St[EXTERIOR_TEST].work = 1 ;
+#else
+		    fprintf( stderr,
+		    "warning: exterior test for -DCONVEX only - ignored\n" ) ;
+#endif
+		}
+		if ( strchr( *argv, 'G' ) ) {
+		    St[GRID_TEST].work = 1 ;
+		}
+		if ( strchr( *argv, 'I' ) ) {
+#ifdef	CONVEX
+		    St[INCLUSION_TEST].work = 1 ;
+#else
+		    fprintf( stderr,
+		    "warning: inclusion test for -DCONVEX only - ignored\n" ) ;
+#endif
+		}
+		if ( strchr( *argv, 'M' ) ) {
+		    St[CROSSMULT_TEST].work = 1 ;
+		}
+		if ( strchr( *argv, 'P' ) ) {
+		    St[PLANE_TEST].work = 1 ;
+		}
+		if ( strchr( *argv, 'S' ) ) {
+		    St[SPACKMAN_TEST].work = 1 ;
+		}
+		if ( strchr( *argv, 'T' ) ) {
+		    St[TRAPEZOID_TEST].work = 1 ;
+		}
+		if ( strchr( *argv, 'W' ) ) {
+		    St[WEILER_TEST].work = 1 ;
+		}
+		/* +++ add new symbol test here +++ */
+		break;
+
+	    default:
+		Usage() ;
+		exit(1) ;
+		break ;
+	    }
+
+	} else {
+	    Usage() ;
+	    exit(1) ;
+	}
+    }
+
+    if ( !test_flag ) {
+	fprintf( stderr,
+	    "error: no point in polygon tests were specified, e.g. -PCS\n" ) ;
+	Usage() ;
+	exit(1) ;
+    }
+}
+
+void ConstrainPoint( pt )
+double	*pt ;
+{
+double	val ;
+
+    if ( Constraint_Increment > 0.0 ) {
+	pt[X] -=
+		( val = fmod( pt[X], Constraint_Increment ) ) ;
+	if ( fabs(val) > Constraint_Increment * 0.5 ) {
+	    pt[X] += (val > 0.0) ? Constraint_Increment :
+					-Constraint_Increment ;
+	}
+	pt[Y] -=
+		( val = fmod( pt[Y], Constraint_Increment ) ) ;
+	if ( fabs(val) > Constraint_Increment * 0.5 ) {
+	    pt[Y] += (val > 0.0) ? Constraint_Increment :
+					-Constraint_Increment ;
+	}
+    }
+}
+
+/* break long strings into 80 or less character output.	 Not foolproof, but
+ * good enough.
+ */
+void BreakString( str )
+char	*str ;
+{
+int	length, i, last_space, col ;
+
+    length = strlen( str ) ;
+    last_space = 0 ;
+    col = 0 ;
+    for ( i = 0 ; i < length ; i++ ) {
+	if ( str[i] == ' ' ) {
+	    last_space = i ;
+	}
+	if ( col == 79 ) {
+	    str[last_space] = '\n' ;
+	    col = i - last_space ;
+	    last_space = 0 ;
+	} else {
+	    col++ ;
+	}
+    }
+}
+
+#ifdef	DISPLAY
+/* ================================= display routines ====================== */
+/* Currently for HP Starbase - pretty easy to modify */
+void DisplayPolygon( pgon, numverts, id )
+double	pgon[][2] ;
+int	numverts ;
+{
+static	int	init_flag = 0 ;
+int	i ;
+char	str[256] ;
+
+    if ( !init_flag ) {
+	init_flag = 1 ;
+	/* make things big enough to avoid clipping */
+	Display_Scale = 0.45 / ( Vertex_Radius + Vertex_Perturbation ) ;
+	Display_OffsetX = Display_Scale + 0.05 ;
+	Display_OffsetY = Display_Scale + 0.10 ;
+
+	Fd = DevOpen(OUTDEV,INIT) ;
+	shade_mode( Fd, CMAP_FULL|INIT, 0 ) ;
+	background_color( Fd, 0.1, 0.2, 0.4 ) ;
+	line_color( Fd, 1.0, 0.9, 0.7 ) ;
+	text_color( Fd, 1.0, 1.0, 0.2 ) ;
+	character_height( Fd, 0.08 ) ;
+	marker_type( Fd, 3 ) ;
+    }
+    clear_view_surface( Fd ) ;
+
+    move2d( Fd,
+	(float)( pgon[numverts-1][X] * Display_Scale + Display_OffsetX ),
+	(float)( pgon[numverts-1][Y] * Display_Scale + Display_OffsetY ) ) ;
+    for ( i = 0 ; i < numverts ; i++ ) {
+	draw2d( Fd,
+	    (float)( pgon[i][X] * Display_Scale + Display_OffsetX ),
+	    (float)( pgon[i][Y] * Display_Scale + Display_OffsetY ) ) ;
+    }
+
+    sprintf( str, "%4d sides, %3d of %d\n", numverts, id+1, Test_Polygons ) ;
+    text2d( Fd, 0.01, 0.01, str, VDC_TEXT, 0 ) ;
+    flush_buffer( Fd ) ;
+}
+
+void DisplayPoint( point, hilit )
+double	point[2] ;
+int	hilit ;
+{
+float	clist[2] ;
+
+    if ( hilit ) {
+	marker_color( Fd, 1.0, 0.0, 0.0 ) ;
+    } else {
+	marker_color( Fd, 0.2, 1.0, 1.0 ) ;
+    }
+
+    clist[0] = (float)( point[0] * Display_Scale + Display_OffsetX ) ;
+    clist[1] = (float)( point[1] * Display_Scale + Display_OffsetY ) ;
+    polymarker2d( Fd, clist, 1, 0 ) ;
+    flush_buffer( Fd ) ;
+}
+
+int DevOpen(dev_kind,init_mode)
+int dev_kind,init_mode;
+{
+char	*dev, *driver;
+int	fildes ;
+
+    if ( dev_kind == OUTDEV ) {
+	dev = getenv("OUTINDEV");
+	if (!dev) dev = getenv("OUTDEV");
+	if (!dev) dev = "/dev/crt" ;
+	driver = getenv("OUTDRIVER");
+	if (!driver) driver = "hp98731" ;
+    } else {
+	dev = getenv("OUTINDEV");
+	if (!dev) dev = getenv("INDEV");
+	if (!dev) dev = "/dev/hil2" ;
+	driver = getenv("INDRIVER");
+	if (!driver) driver = "hp-hil" ;
+    }
+
+    /* driver?	we don't need no stinking driver... */
+    fildes = gopen(dev,dev_kind,NULL,init_mode);
+
+    return(fildes) ;
+}
 #endif
 
 
@@ -586,361 +942,3 @@ pInclusionAnchor	p_inc_anchor ;
 
     return 0 ;
 }
-
-void Usage()
-{
-/* +++ add new routine here +++ */
-printf("p_test [options] -{ABCEGIMPSTW}\n");
-printf("  -v minverts [maxverts] = variation in number of polygon vertices\n");
-printf("  -r radius = radius of polygon vertices generated\n");
-printf("  -p perturbation = perturbation of polygon vertices generated\n");
-printf("       These first three determine the type of polygon tested.\n");
-printf("       No perturbation gives regular polygons, while no radius\n");
-printf("       gives random polygons, and a mix gives semi-random polygons\n");
-printf("  -s size = scale of test point box around polygon (1.0 default)\n");
-printf("       A larger size means more points generated outside the\n");
-printf("       polygon.	 By default test points are in the bounding box.\n");
-printf("  -b bins = number of y bins for trapezoid test\n");
-printf("  -g resolution = grid resolution for grid test\n");
-printf("  -n polygons = number of polygons to test (default %d)\n",
-		Test_Polygons);
-printf("  -i points = number of points to test per polygon (default %d)\n",
-		Test_Points);
-printf("  -c increment = constrain polygon and test points to grid\n");
-/* +++ add new routine here +++ */
-printf("  -{ABCEGIMPSTW} = angle/bary/crossings/exterior/grid/inclusion/cross-mult/\n");
-printf("       plane/spackman/trapezoid (bin)/weiler test (default is all)\n");
-printf("  -d = display polygons and points using starbase\n");
-}
-
-void	ScanOpts( argc, argv )
-int argc;  char *argv[];
-{
-float	f1 ;
-int	i1 ;
-int	test_flag = FALSE ;
-
-    for ( argc--, argv++; argc > 0; argc--, argv++ ) {
-	if ( **argv == '-' ) {
-	    switch ( *++(*argv)) {
-
-	    case 'v':	/* vertex min & max */
-		argv++ ; argc-- ;
-		if ( argc && sscanf ( *argv, "%d", &i1 ) == 1 ) {
-		    Min_Verts = i1 ;
-		    argv++ ; argc-- ;
-		    if ( argc && sscanf ( *argv, "%d", &i1 ) == 1 ) {
-			Max_Verts = i1 ;
-		    } else {
-			argv-- ; argc++ ;
-			Max_Verts = Min_Verts ;
-		    }
-		} else {
-		    Usage() ;
-		    exit(1) ;
-		}
-		break;
-
-	    case 'r':	/* vertex radius */
-		argv++ ; argc-- ;
-		if ( argc && sscanf ( *argv, "%f", &f1 ) == 1 ) {
-		    Vertex_Radius = (double)f1 ;
-		} else {
-		    Usage() ;
-		    exit(1) ;
-		}
-		break;
-
-	    case 'p':	/* vertex perturbation */
-		argv++ ; argc-- ;
-		if ( argc && sscanf ( *argv, "%f", &f1 ) == 1 ) {
-		    Vertex_Perturbation = (double)f1 ;
-		} else {
-		    Usage() ;
-		    exit(1) ;
-		}
-		break;
-
-	    case 's':	/* centered box size ratio - higher is bigger */
-		argv++ ; argc-- ;
-		if ( argc && sscanf ( *argv, "%f", &f1 ) == 1 ) {
-		    Box_Ratio = (double)f1 ;
-		    if ( Box_Ratio < 1.0 ) {
-			fprintf(stderr,"warning: ratio is smaller than 1.0\n");
-		    }
-		} else {
-		    Usage() ;
-		    exit(1) ;
-		}
-		break;
-
-	    case 'b':	/* number of bins for trapezoid test */
-		argv++ ; argc-- ;
-		if ( argc && sscanf ( *argv, "%d", &i1 ) == 1 ) {
-		    Trapezoid_Bins = i1 ;
-		} else {
-		    Usage() ;
-		    exit(1) ;
-		}
-		break;
-
-	    case 'g':	/* grid resolution for grid test */
-		argv++ ; argc-- ;
-		if ( argc && sscanf ( *argv, "%d", &i1 ) == 1 ) {
-		    Grid_Resolution = i1 ;
-		} else {
-		    Usage() ;
-		    exit(1) ;
-		}
-		break;
-
-	    case 'n':	/* number of polygons to test */
-		argv++ ; argc-- ;
-		if ( argc && sscanf ( *argv, "%d", &i1 ) == 1 ) {
-		    Test_Polygons = i1 ;
-		} else {
-		    Usage() ;
-		    exit(1) ;
-		}
-		break;
-
-	    case 'i':	/* number of intersections per polygon to test */
-		argv++ ; argc-- ;
-		if ( argc && sscanf ( *argv, "%d", &i1 ) == 1 ) {
-		    Test_Points = i1 ;
-		} else {
-		    Usage() ;
-		    exit(1) ;
-		}
-		break;
-
-	    case 'c':	/* constrain increment (0 means don't use) */
-		argv++ ; argc-- ;
-		if ( argc && sscanf ( *argv, "%f", &f1 ) == 1 ) {
-		    Constraint_Increment = (double)f1 ;
-		} else {
-		    Usage() ;
-		    exit(1) ;
-		}
-		break;
-
-	    case 'd':	/* display polygon & test points */
-#ifdef	DISPLAY
-		Display_Tests = 1 ;
-#else
-		fprintf( stderr,
-		    "warning: display mode not compiled in - ignored\n" ) ;
-#endif
-		break;
-
-	    /* +++ add new symbol here +++ */
-	    case 'A':	/* do tests specified */
-	    case 'B':
-	    case 'C':
-	    case 'E':
-	    case 'G':
-	    case 'I':
-	    case 'M':
-	    case 'P':
-	    case 'S':
-	    case 'T':
-	    case 'W':
-		test_flag = TRUE ;
-		if ( strchr( *argv, 'A' ) ) {
-		    St[ANGLE_TEST].work = 1 ;
-		}
-		if ( strchr( *argv, 'B' ) ) {
-		    St[BARYCENTRIC_TEST].work = 1 ;
-		}
-		if ( strchr( *argv, 'C' ) ) {
-		    St[CROSSINGS_TEST].work = 1 ;
-		}
-		if ( strchr( *argv, 'E' ) ) {
-#ifdef	CONVEX
-		    St[EXTERIOR_TEST].work = 1 ;
-#else
-		    fprintf( stderr,
-		    "warning: exterior test for -DCONVEX only - ignored\n" ) ;
-#endif
-		}
-		if ( strchr( *argv, 'G' ) ) {
-		    St[GRID_TEST].work = 1 ;
-		}
-		if ( strchr( *argv, 'I' ) ) {
-#ifdef	CONVEX
-		    St[INCLUSION_TEST].work = 1 ;
-#else
-		    fprintf( stderr,
-		    "warning: inclusion test for -DCONVEX only - ignored\n" ) ;
-#endif
-		}
-		if ( strchr( *argv, 'M' ) ) {
-		    St[CROSSMULT_TEST].work = 1 ;
-		}
-		if ( strchr( *argv, 'P' ) ) {
-		    St[PLANE_TEST].work = 1 ;
-		}
-		if ( strchr( *argv, 'S' ) ) {
-		    St[SPACKMAN_TEST].work = 1 ;
-		}
-		if ( strchr( *argv, 'T' ) ) {
-		    St[TRAPEZOID_TEST].work = 1 ;
-		}
-		if ( strchr( *argv, 'W' ) ) {
-		    St[WEILER_TEST].work = 1 ;
-		}
-		/* +++ add new symbol test here +++ */
-		break;
-
-	    default:
-		Usage() ;
-		exit(1) ;
-		break ;
-	    }
-
-	} else {
-	    Usage() ;
-	    exit(1) ;
-	}
-    }
-
-    if ( !test_flag ) {
-	fprintf( stderr,
-	    "error: no point in polygon tests were specified, e.g. -PCS\n" ) ;
-	Usage() ;
-	exit(1) ;
-    }
-}
-
-void ConstrainPoint( pt )
-double	*pt ;
-{
-double	val ;
-
-    if ( Constraint_Increment > 0.0 ) {
-	pt[X] -=
-		( val = fmod( pt[X], Constraint_Increment ) ) ;
-	if ( fabs(val) > Constraint_Increment * 0.5 ) {
-	    pt[X] += (val > 0.0) ? Constraint_Increment :
-					-Constraint_Increment ;
-	}
-	pt[Y] -=
-		( val = fmod( pt[Y], Constraint_Increment ) ) ;
-	if ( fabs(val) > Constraint_Increment * 0.5 ) {
-	    pt[Y] += (val > 0.0) ? Constraint_Increment :
-					-Constraint_Increment ;
-	}
-    }
-}
-
-/* break long strings into 80 or less character output.	 Not foolproof, but
- * good enough.
- */
-void BreakString( str )
-char	*str ;
-{
-int	length, i, last_space, col ;
-
-    length = strlen( str ) ;
-    last_space = 0 ;
-    col = 0 ;
-    for ( i = 0 ; i < length ; i++ ) {
-	if ( str[i] == ' ' ) {
-	    last_space = i ;
-	}
-	if ( col == 79 ) {
-	    str[last_space] = '\n' ;
-	    col = i - last_space ;
-	    last_space = 0 ;
-	} else {
-	    col++ ;
-	}
-    }
-}
-
-#ifdef	DISPLAY
-/* ================================= display routines ====================== */
-/* Currently for HP Starbase - pretty easy to modify */
-void DisplayPolygon( pgon, numverts, id )
-double	pgon[][2] ;
-int	numverts ;
-{
-static	int	init_flag = 0 ;
-int	i ;
-char	str[256] ;
-
-    if ( !init_flag ) {
-	init_flag = 1 ;
-	/* make things big enough to avoid clipping */
-	Display_Scale = 0.45 / ( Vertex_Radius + Vertex_Perturbation ) ;
-	Display_OffsetX = Display_Scale + 0.05 ;
-	Display_OffsetY = Display_Scale + 0.10 ;
-
-	Fd = DevOpen(OUTDEV,INIT) ;
-	shade_mode( Fd, CMAP_FULL|INIT, 0 ) ;
-	background_color( Fd, 0.1, 0.2, 0.4 ) ;
-	line_color( Fd, 1.0, 0.9, 0.7 ) ;
-	text_color( Fd, 1.0, 1.0, 0.2 ) ;
-	character_height( Fd, 0.08 ) ;
-	marker_type( Fd, 3 ) ;
-    }
-    clear_view_surface( Fd ) ;
-
-    move2d( Fd,
-	(float)( pgon[numverts-1][X] * Display_Scale + Display_OffsetX ),
-	(float)( pgon[numverts-1][Y] * Display_Scale + Display_OffsetY ) ) ;
-    for ( i = 0 ; i < numverts ; i++ ) {
-	draw2d( Fd,
-	    (float)( pgon[i][X] * Display_Scale + Display_OffsetX ),
-	    (float)( pgon[i][Y] * Display_Scale + Display_OffsetY ) ) ;
-    }
-
-    sprintf( str, "%4d sides, %3d of %d\n", numverts, id+1, Test_Polygons ) ;
-    text2d( Fd, 0.01, 0.01, str, VDC_TEXT, 0 ) ;
-    flush_buffer( Fd ) ;
-}
-
-void DisplayPoint( point, hilit )
-double	point[2] ;
-int	hilit ;
-{
-float	clist[2] ;
-
-    if ( hilit ) {
-	marker_color( Fd, 1.0, 0.0, 0.0 ) ;
-    } else {
-	marker_color( Fd, 0.2, 1.0, 1.0 ) ;
-    }
-
-    clist[0] = (float)( point[0] * Display_Scale + Display_OffsetX ) ;
-    clist[1] = (float)( point[1] * Display_Scale + Display_OffsetY ) ;
-    polymarker2d( Fd, clist, 1, 0 ) ;
-    flush_buffer( Fd ) ;
-}
-
-int DevOpen(dev_kind,init_mode)
-int dev_kind,init_mode;
-{
-char	*dev, *driver;
-int	fildes ;
-
-    if ( dev_kind == OUTDEV ) {
-	dev = getenv("OUTINDEV");
-	if (!dev) dev = getenv("OUTDEV");
-	if (!dev) dev = "/dev/crt" ;
-	driver = getenv("OUTDRIVER");
-	if (!driver) driver = "hp98731" ;
-    } else {
-	dev = getenv("OUTINDEV");
-	if (!dev) dev = getenv("INDEV");
-	if (!dev) dev = "/dev/hil2" ;
-	driver = getenv("INDRIVER");
-	if (!driver) driver = "hp-hil" ;
-    }
-
-    /* driver?	we don't need no stinking driver... */
-    fildes = gopen(dev,dev_kind,NULL,init_mode);
-
-    return(fildes) ;
-}
-#endif

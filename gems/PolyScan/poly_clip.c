@@ -10,6 +10,7 @@
  * Paul Heckbert	1985, Dec 1989
  */
 
+#include <stdlib.h>
 #include <stdio.h>
 #include "poly.h"
 
@@ -128,7 +129,7 @@ double sign, k;
 	/* on old polygon (p), u is previous vertex, v is current vertex */
 	/* tv is negative if vertex v is in */
 	tv = sign*COORD(v, index) - v->sw*k;
-	if (tu<=0. ^ tv<=0.) {
+	if ((tu<=0.) ^ (tv<=0.)) {
 	    /* edge crosses plane; add intersection point to q */
 	    t = tu/(tu-tv);
 	    up = (double *)u;

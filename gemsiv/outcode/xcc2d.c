@@ -1,9 +1,10 @@
 /* Time xform, clip checking, lighting only */
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
 #include <fcntl.h>
-#include <sys/time.h>
+#include <time.h>
 
 /* BSD timer macros -- replace with your own */
 struct timeval start, stop;

@@ -8,6 +8,8 @@
 
 #define GG_H 1
 
+#include <stdlib.h>
+
 /*********************/
 /* 2d geometry types */
 /*********************/

@@ -30,7 +30,7 @@ int    mode;    /* Selects hollow or solid.              */
     {
     float  a, b;
     float  dmin, dmax;
-    float  r2 = SQR( r );
+    float  r2 = (float)SQR( r );
     int    i, face;
 
 

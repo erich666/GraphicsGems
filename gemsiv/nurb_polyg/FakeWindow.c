@@ -1,5 +1,7 @@
 /* This is a fake version, used to test on other machines. */
 
+#include <stdio.h>
+
 extern void MakeWindow(void);
 
 void MakeWindow()

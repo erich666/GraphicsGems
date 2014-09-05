@@ -8,6 +8,16 @@ user provides "setpixel()" function for output.
 
 #define swap(a,b)           {a^=b; b^=a; a^=b;}
 #define absolute(i,j,k)     ( (i-j)*(k = ( (i-j)<0 ? -1 : 1)))
+
+/* non-zero flag indicates the pixels needing swap back. */
+plot(x, y, flag) int x, y, flag;
+{
+	if (flag)
+		setpixel(y, x);
+	else
+		setpixel(x, y);
+}
+
 void
 symwuline(a1, b1, a2, b2) int a1, b1, a2, b2;
 {
@@ -184,13 +194,5 @@ symwuline(a1, b1, a2, b2) int a1, b1, a2, b2;
 			}
 		}
 	}
-}
-/* non-zero flag indicates the pixels needing swap back. */
-plot(x, y, flag) int x, y, flag;
-{
-	if (flag)
-		setpixel(y, x);
-	else
-		setpixel(x, y);
 }
 

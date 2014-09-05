@@ -1,4 +1,4 @@
-#include <quadedge.h>
+#include "quadedge.h"
 
 /*********************** Basic Topological Operators ************************/
 

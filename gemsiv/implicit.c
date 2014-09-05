@@ -130,7 +130,7 @@ typedef struct process {	   /* parameters, function, storage */
     EDGELIST **edges;		   /* edge and vertex id hash table */
 } PROCESS;
 
-void *calloc();
+/*void *calloc();*/
 char *mycalloc();
 
 

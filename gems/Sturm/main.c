@@ -9,6 +9,7 @@ from "Graphics Gems", Academic Press, 1990
  *
  *	a sample driver program.
  */
+#include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
 #include "solve.h"

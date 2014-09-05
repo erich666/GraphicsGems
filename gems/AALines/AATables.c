@@ -9,6 +9,7 @@
       AALines.c -- Anti-aliased line rendering code.
 */
 
+#include <stdlib.h>
 #include <math.h>
 #include "AALines.h"
 
@@ -24,7 +25,7 @@ int sqrtshift;
 
 /* AA sizes */
 float line_r=1.0;     /* line radius */
-float pix_r=SQRT_2;   /* pixel radius */
+float pix_r=(float)SQRT_2;   /* pixel radius */
 FX *coverage=0;
 int covercells=128;
 int covershift;

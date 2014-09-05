@@ -3,7 +3,7 @@ Fast Bitmap Stretching
 Tomas Mšller
 */
 
-
+#include <math.h>
 
 
 

@@ -2,6 +2,8 @@
 ** TEST_HDP.C : Simple testing program for the HDP routines
 */
 
+#include <stdio.h>
+
 #include "hdp.h"
 
 void main (void)

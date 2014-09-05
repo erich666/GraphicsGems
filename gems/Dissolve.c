@@ -17,6 +17,19 @@ user must provide copy() function.
 
 int randmasks[32];	/* Gotta fill this in yourself. */
 
+
+int bitwidth (N)	/* find "bit-width" needed to represent N */
+	unsigned int N;	/* number to compute the width of */
+{
+	int width = 0;	/* initially, no bits needed to represent N */
+	while (N != 0) {	/* loop 'til N has been whittled down to 0 */
+		N >>= 1;		/* shift N right 1 bit (NB: N is unsigned) */
+		width++;		/* and remember how wide N is */
+	}			/* end of loop shrinking N down to nothing */
+	return (width);	/* return bit positions counted */
+
+}						/* end of bitwidth() */
+
 dissolve1 (height, width)	/* first version of the dissolve 								/* algorithm */
 	int height, width;	/* number of rows, columns */
 {
@@ -58,20 +71,6 @@ dissolve1 (height, width)	/* first version of the dissolve 								/* algorithm 
 						/* to original element */
 	 copy (0, 0);		/* kludge: the loop doesn't produce (0,0) */
 }						/* end of dissolve1() */
-
-
-
-int bitwidth (N)	/* find "bit-width" needed to represent N */
-	unsigned int N;	/* number to compute the width of */
-{
-	 int width = 0;	/* initially, no bits needed to represent N */
-	 while (N != 0) {	/* loop 'til N has been whittled down to 0 */
-	    N >>= 1;		/* shift N right 1 bit (NB: N is unsigned) */
-	    width++;		/* and remember how wide N is */
-	  }			/* end of loop shrinking N down to nothing */
-	  return (width);	/* return bit positions counted */
-
-}						/* end of bitwidth() */
 
 
 

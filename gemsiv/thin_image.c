@@ -5,6 +5,7 @@
  * in "Graphics Gems IV", Academic Press, 1994
  */
 
+#include <stdlib.h>
 #include <stdio.h>
 
 typedef unsigned char	Pixel;		/* Pixel data type		*/

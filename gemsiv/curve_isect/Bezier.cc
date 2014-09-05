@@ -1,6 +1,7 @@
 #include <stddef.h> // for size_t
 // #include <sys/stdtypes.h> // for size_t, on some systems
 #include "Bezier.h"
+#define _USE_MATH_DEFINES
 #include <math.h>
 /* The value of 1.0 / (1L<<23) is float machine epsilon. */
 #ifdef FLOAT_ACCURACY

@@ -5,34 +5,9 @@
  * in "Graphics Gems IV", Academic Press, 1994
  */
 
+#include <stdlib.h>
 #include <stdio.h>
-/*
- *	Test routine:
- *		Read in a, b, c
- *		Compute interpolations using old and new routines
- *		Check for differences
- *		Print interpolation
- */
-main()
-{
-  short o[1000], o2[1000];
-  int a, b, c, i;
 
-  while(scanf("%d%d%d", &a, &b, &c) == 3){
-    dec_var(a, b, c, o);
-    linear(a, b, c, o2);
-    printf("\n");
-    for(i = 0; i <= a; i++){
-      if(o[i] != o2[i]){
-	printf("Error\n");
-	printf("i = %d, o[i] = %d, o2[i] = %d\n", i, o[i], o2[i]);
-	exit(1);
-      }
-      printf("%d ", o[i]);
-    }
-    printf("\n\n");
-  }
-}
 
 /*
  *	Decision variable method
@@ -59,7 +34,7 @@ short *o;
 /*
  *	Fast decision variable method
  */
-linear(a, b, c, o)
+void linear(a, b, c, o)
 int a, b, c;
 short *o;
 {
@@ -109,4 +84,32 @@ pos3:
 pos4:
     *o++ = t;
   }while((a -= 4) >= 0);
+}
+
+/*
+ *	Test routine:
+ *		Read in a, b, c
+ *		Compute interpolations using old and new routines
+ *		Check for differences
+ *		Print interpolation
+ */
+main()
+{
+  short o[1000], o2[1000];
+  int a, b, c, i;
+
+  while(scanf("%d%d%d", &a, &b, &c) == 3){
+    dec_var(a, b, c, o);
+    linear(a, b, c, o2);
+    printf("\n");
+    for(i = 0; i <= a; i++){
+      if(o[i] != o2[i]){
+	printf("Error\n");
+	printf("i = %d, o[i] = %d, o2[i] = %d\n", i, o[i], o2[i]);
+	exit(1);
+      }
+      printf("%d ", o[i]);
+    }
+    printf("\n\n");
+  }
 }

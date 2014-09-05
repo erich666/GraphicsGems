@@ -197,6 +197,8 @@ static BezierCurve  GenerateBezier(d, first, last, uPrime, tHat1, tHat2)
     	   	alpha_r;
     Vector2 	tmp;			/* Utility variable		*/
     BezierCurve	bezCurve;	/* RETURN bezier curve ctl pts	*/
+	double  segLength;
+	double  epsilon;
 
     bezCurve = (Point2 *)malloc(4 * sizeof(Point2));
     nPts = last - first + 1;
@@ -254,8 +256,8 @@ static BezierCurve  GenerateBezier(d, first, last, uPrime, tHat1, tHat2)
     /* If alpha negative, use the Wu/Barsky heuristic (see text) */
     /* (if alpha is 0, you get coincident control points that lead to
      * divide by zero in any subsequent NewtonRaphsonRootFind() call. */
-    double segLength = V2DistanceBetween2Points(&d[last], &d[first]);
-    double epsilon = 1.0e-6 * segLength;
+    segLength = V2DistanceBetween2Points(&d[last], &d[first]);
+    epsilon = 1.0e-6 * segLength;
     if (alpha_l < epsilon || alpha_r < epsilon)
     {
 		/* fall back on standard (probably inaccurate) formula, and subdivide further if needed. */

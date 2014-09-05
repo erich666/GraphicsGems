@@ -14,7 +14,7 @@
 
 					/* right circular shift */
 #define RT_CSHFT( byte, shift, dimensions, bytemask ) \
-	((((byte) >> (shift)) | ((byte) << dimensions - (shift))) & bytemask)
+	((((byte) >> (shift)) | ((byte) << (dimensions - (shift)))) & bytemask)
 
 
 typedef char	byte;			/* size must be >= MAX_PRECISION */

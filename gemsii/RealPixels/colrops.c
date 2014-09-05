@@ -27,13 +27,13 @@ double	g;
 	for (i = 0; i <= MAXGSHIFT; i++) {
 		mult = pow(0.5, (double)(i+8));
 		for (j = 0; j < 256; j++)
-			g_bval[i][j] = 256.0 * pow((j+.5)*mult, 1.0/g);
+			g_bval[i][j] = (BYTE)(256.0 * pow((j+.5)*mult, 1.0/g));
 	}
 					/* compute gamb -> colr mapping */
 	i = 0;
 	mult = 256.0;
 	for (j = 255; j > 0; j--) {
-		while ((g_mant[j] = mult * pow(j/256.0, g)) < 128) {
+		while ((g_mant[j] = (BYTE)(mult * pow(j/256.0, g))) < 128) {
 			i++;
 			mult *= 2.0;
 		}

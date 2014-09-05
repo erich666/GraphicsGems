@@ -27,21 +27,36 @@ from "Graphics Gems", Academic Press, 1990
  * }
  */
 
-main(argc, argv)
-int argc;
-char **argv;
+#include <stdlib.h>
+#include <stdio.h>
+
+
+dithervalue(x, y, size)
+register int x, y, size;
 {
-	register int size, range;
-
-	if (argc >= 2) size = atoi(argv[1]);
-	else size = 2;
-
-	if (argc == 3) range = atoi(argv[2]);
-	else range = (1 << size) * (1 << size);
-
-	printdither (size, range);
+	register int d;
+	/*
+	 * calculate the dither value at a particular
+	 * (x, y) over the size of the matrix.
+	 */
+	d=0;
+	while (size-->0)	{
+		/* Think of d as the density. At every iteration,
+		 * d is shifted left one and a new bit is put in the
+		 * low bit based on x and y. If x is odd and y is even,
+		 * or x is even and y is odd, a bit is put in. This
+		 * generates the checkerboard seen in dithering.
+		 * This quantity is shifted left again and the low bit of
+		 * y is added in.
+		 * This whole thing interleaves a checkerboard bit pattern
+		 * and y's bits, which is the value you want.
+		 */
+		d = (d <<1 | (x&1 ^ y&1))<<1 | y&1;
+		x >>= 1;
+		y >>= 1;
+	}
+	return(d);
 }
-
 
 printdither (size, range)
 register int size, range;
@@ -70,30 +85,19 @@ register int size, range;
 	}
 	puts("\n}; ");
 }
-dithervalue(x, y, size)
-register int x, y, size;
+
+main(argc, argv)
+	int argc;
+char **argv;
 {
-	register int d;
-	/*
-	 * calculate the dither value at a particular
-	 * (x, y) over the size of the matrix.
-	 */
-	d=0;
-	while (size-->0)	{
-		/* Think of d as the density. At every iteration,
-		 * d is shifted left one and a new bit is put in the
-		 * low bit based on x and y. If x is odd and y is even,
-		 * or x is even and y is odd, a bit is put in. This
-		 * generates the checkerboard seen in dithering.
-		 * This quantity is shifted left again and the low bit of
-		 * y is added in.
-		 * This whole thing interleaves a checkerboard bit pattern
-		 * and y's bits, which is the value you want.
-		 */
-		d = (d <<1 | (x&1 ^ y&1))<<1 | y&1;
-		x >>= 1;
-		y >>= 1;
-	}
-	return(d);
+	register int size, range;
+
+	if (argc >= 2) size = atoi(argv[1]);
+	else size = 2;
+
+	if (argc == 3) range = atoi(argv[2]);
+	else range = (1 << size) * (1 << size);
+
+	printdither (size, range);
 }
 

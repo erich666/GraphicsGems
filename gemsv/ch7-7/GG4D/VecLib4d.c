@@ -502,6 +502,8 @@ Matrix5	*mat;
 	for (i = 0; i < 5; i += 1)
 	for (j = 0; j < 5; j += 1)
 		mat->element[i][j] = 0.0;
+
+	return mat;
 }
 
 /* STANDARD TRANSFORMATIONS
@@ -524,6 +526,8 @@ Matrix5	*mat;
 	for (i = 0; i < 5; i += 1)
 	for (j = 0; j < 5; j += 1)
 		mat->element[i][j] = i == j ? 1.0 : 0.0;
+
+	return mat;
 }
 
 /* V4MatRotationXY() etc.

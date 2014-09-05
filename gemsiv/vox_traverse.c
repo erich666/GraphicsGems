@@ -8,6 +8,8 @@
 /* The following C subroutine visits all voxels along the line
 segment from (x, y, z) and (x + dx, y + dy, z + dz) */
 
+#include <math.h>
+
 Line ( x, y, z, dx, dy, dz )
 int x, y, z, dx, dy, dz;
 {

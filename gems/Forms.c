@@ -12,6 +12,8 @@ integer arithmetic.  The intended application is validating or avoiding
 tedious algebraic calculations.  As such, no thought was given to
 efficiency.  
 ----------------------------------------------------------------------*/
+#include <stdlib.h>
+#include <stdio.h>
 #define ABS(x) ((x)>(0)? (x):(-x))
 #define N 4			/* size of matrices to deal with */
 int     M[N][N] =		/* Bezier weights */
@@ -28,42 +30,6 @@ int     T[N][N] =	/* re-parameterization xform for top half */
       0,   0,   4, -12,
       0,   0,   0,   8
 };
-main ()
-{
-    int     i,
-            j,
-            scale,
-            gcd,
-            C[N][N],
-            S[N][N],
-            Madj[N][N],
-            Tadj[N][N],
-            Mdet,
-            Tdet;
-
-
-    Tdet = adjoint (T, Tadj);   /* inverse without division by */
-    Mdet = adjoint (M, Madj);   /* determinant of T and M */
-    matmult (Madj, Tadj, C);
-    matmult (C, M, S);		/* Madj*Tadj*M -> S */
-    scale = gcd = Mdet * Tdet;  /* scale factors of both determinants */
-    for (i = 0; i < N; i++)	/* find the greatest common */
-    {				/* denominator of S and determinants */
-		for (j = 0; j < N; j++)
-	    	gcd = Gcd (gcd, S[i][j]);
-    }
-    scale /= gcd;		/* divide everything by gcd to get */
-    for (i = 0; i < N; i++)	/* matrix and scale factor in lowest */
-    {				/* integer terms possible */
-		for (j = 0; j < N; j++)
-	    	S[i][j] /= gcd;
-    }
-    printf ("scale factor = 1/%d  ", scale);
-    print_mat ("M=", M, N);     /* display the results */
-    print_mat ("T=", T, N);
-    print_mat ("S=", S, N);     /* subdivision matrix */
-    exit (0);
-}
 Gcd (a, b)			/*returns greatest common denominator */
 int     a,			/* of (a,b) */
        	b;
@@ -87,6 +53,51 @@ int     a,			/* of (a,b) */
 		return (Gcd (b, r));
 }
 
+subarray (src, dest, n, k)		/* strike out kth row/column */
+	int  	*src,				/* 	source array of n indices */
+	*dest,				/* dest array formed by deleting k  */
+	n,
+	k;
+{
+	int     i;
+	for (i = 0; i < n; i++, src++)
+		if (i != k)			/* skip over k */
+			*dest++ = *src;
+}
+determinant (A, I, J, n, parity)/* actually gets a sub-determinant */
+	int     A[N][N],			/* input = entire matrix */
+	I[N],				/* row sub-array we want */
+	J[N],				/* col sub-array we want */
+	parity,				/* 1-> flip polarity */
+	n;				/* # elements in subarrays */
+
+{
+	int     i,
+		j,
+		det,
+		j_,
+		Jsub[N];
+	if (n <= 2)			/* call ourselves till we get down to */
+	{				/* a 2x2 matrix */
+		det =
+			(A[I[0]][J[0]] * A[I[1]][J[1]]) -
+			(A[I[1]][J[0]] * A[I[0]][J[1]]);
+		if (parity)
+			det = -det;
+		return (det);
+	}					/* if (n <= 2) */
+	det = 0;				/* n > 2; call recursively */
+	i = I[0];				/* strike out 0th row */
+	for (j_ = 0; j_ < n; j_++)
+	{					/* strike out jth column */
+		subarray (J, Jsub, n, j_);
+		j = J[j_];		/* I + 1 => struck out 0th row */
+		det += A[i][j] * determinant (A, I + 1, Jsub, n - 1, j_ & 1);
+	}
+	if (parity)
+		det = -det;
+	return (det);
+}
 adjoint (A, Aadj)			/* returns determinant of A */
 int     A[N][N],			/* input matrix */
         Aadj[N][N];			/* output = adjoint of A */
@@ -124,51 +135,6 @@ int     A[N][N],			/* input matrix */
    	}
     return (det);
 }
-determinant (A, I, J, n, parity)/* actually gets a sub-determinant */
-int     A[N][N],			/* input = entire matrix */
-       	I[N],				/* row sub-array we want */
-        J[N],				/* col sub-array we want */
-        parity,				/* 1-> flip polarity */
-        n;				/* # elements in subarrays */
-
-{
-    int     i,
-            j,
-            det,
-            j_,
-            Jsub[N];
-    if (n <= 2)			/* call ourselves till we get down to */
-    {				/* a 2x2 matrix */
-		det =
-	    	(A[I[0]][J[0]] * A[I[1]][J[1]]) -
-	    	(A[I[1]][J[0]] * A[I[0]][J[1]]);
-		if (parity)
-	    det = -det;
-		return (det);
-    }					/* if (n <= 2) */
-    det = 0;				/* n > 2; call recursively */
-    i = I[0];				/* strike out 0th row */
-    for (j_ = 0; j_ < n; j_++)
-    {					/* strike out jth column */
-		subarray (J, Jsub, n, j_);
-		j = J[j_];		/* I + 1 => struck out 0th row */
-		det += A[i][j] * determinant (A, I + 1, Jsub, n - 1, j_ & 1);
-    }
-    if (parity)
-		det = -det;
-    return (det);
-}
-subarray (src, dest, n, k)		/* strike out kth row/column */
-int  	*src,				/* 	source array of n indices */
-     	*dest,				/* dest array formed by deleting k  */
-       	 n,
-       	 k;
-{
-    int     i;
-    for (i = 0; i < n; i++, src++)
-		if (i != k)			/* skip over k */
-	    	*dest++ = *src;
-}
 
 matmult (A, B, C)				/* C = A*B */
 int     A[N][N],
@@ -204,4 +170,40 @@ int     mat[N][N],
 	    printf (" %8ld", mat[i][j]);
 	printf ("\n");
     }
+}
+main ()
+{
+	int     i,
+		j,
+		scale,
+		gcd,
+		C[N][N],
+		S[N][N],
+		Madj[N][N],
+		Tadj[N][N],
+		Mdet,
+		Tdet;
+
+
+	Tdet = adjoint (T, Tadj);   /* inverse without division by */
+	Mdet = adjoint (M, Madj);   /* determinant of T and M */
+	matmult (Madj, Tadj, C);
+	matmult (C, M, S);		/* Madj*Tadj*M -> S */
+	scale = gcd = Mdet * Tdet;  /* scale factors of both determinants */
+	for (i = 0; i < N; i++)	/* find the greatest common */
+	{				/* denominator of S and determinants */
+		for (j = 0; j < N; j++)
+			gcd = Gcd (gcd, S[i][j]);
+	}
+	scale /= gcd;		/* divide everything by gcd to get */
+	for (i = 0; i < N; i++)	/* matrix and scale factor in lowest */
+	{				/* integer terms possible */
+		for (j = 0; j < N; j++)
+			S[i][j] /= gcd;
+	}
+	printf ("scale factor = 1/%d  ", scale);
+	print_mat ("M=", M, N);     /* display the results */
+	print_mat ("T=", T, N);
+	print_mat ("S=", S, N);     /* subdivision matrix */
+	exit (0);
 }

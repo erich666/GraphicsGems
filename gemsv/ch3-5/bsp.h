@@ -8,7 +8,7 @@
 #include <stdlib.h>		/* exit() */
 #include <assert.h>		/* assert() */
 #include <math.h>		/* fabs() */
-#include <values.h>		/* MAXINT */
+/*#include <values.h>*/		/* MAXINT */
 #include "../ch7-7/GG4D/GGems.h"
 
 typedef struct { float rr,gg,bb; } COLOR;

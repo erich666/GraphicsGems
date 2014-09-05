@@ -1,9 +1,11 @@
-#include <malloc.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
 #include <string.h>
 #include <time.h>
+/* HP's old 3D graphics API - good luck!
 #include <starbase.c.h>
+*/
 
 typedef unsigned char icolor[3];
 

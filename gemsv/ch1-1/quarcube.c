@@ -6,6 +6,7 @@
    Don Herbison-Evans   24 June 1994
 */
 
+#include <stdlib.h>
 #include <stdio.h>
 
 double nought;

@@ -20,34 +20,6 @@
 
 
 /*
- * determine the n-space coordinate of "point" on the peano curve
- */
-peano(coord, point)
-vector          coord;
-int             point;
-{
-	int             i;
-
-	zero(sigma);		/* initialize necessary arrays */
-	zero(tilde_sigma);
-	zero(tilde_tau);
-
-	build_rho(point);
-	for (i=0; i<precision; i++)
-		J[i] = principal_pos(rho[i]);
-	build_sigma();
-	build_tau();
-	build_tilde_sigma();
-	build_tilde_tau();
-	build_omega();
-	build_alpha();
-
-	v_convert(alpha, coord);
-
-} /* peano() */
-
-
-/*
  * build "rho" array
  */
 build_rho(point)
@@ -228,4 +200,33 @@ vector          coord;
 	}
 
 } /* v_convert() */
+
+
+/*
+ * determine the n-space coordinate of "point" on the peano curve
+ */
+peano(coord, point)
+vector          coord;
+int             point;
+{
+	int             i;
+
+	zero(sigma);		/* initialize necessary arrays */
+	zero(tilde_sigma);
+	zero(tilde_tau);
+
+	build_rho(point);
+	for (i=0; i<precision; i++)
+		J[i] = principal_pos(rho[i]);
+	build_sigma();
+	build_tau();
+	build_tilde_sigma();
+	build_tilde_tau();
+	build_omega();
+	build_alpha();
+
+	v_convert(alpha, coord);
+
+} /* peano() */
+
 

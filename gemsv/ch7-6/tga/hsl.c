@@ -32,7 +32,7 @@
 #include "lug.h"
 #include "lugfnts.h"
 
-hsl_to_rgb_buffer( h, s, l, r, g, b, size )
+void hsl_to_rgb_buffer( h, s, l, r, g, b, size )
 double *h, *s, *l;
 byte *r, *g, *b;
 int size;
@@ -44,7 +44,7 @@ int size;
   }
 }
 
-rgb_to_hsl_buffer( r, g, b, h, s, l, size )
+void rgb_to_hsl_buffer( r, g, b, h, s, l, size )
 double *h, *s, *l;
 byte *r, *g, *b;
 int size;
@@ -56,7 +56,7 @@ int size;
   }
 }
 
-RGB_to_HSL( r1, g1, b1, h, s, l)
+void RGB_to_HSL( r1, g1, b1, h, s, l)
 byte r1, g1, b1;
 double *h, *s, *l;
 {
@@ -93,7 +93,7 @@ double *h, *s, *l;
   *h /= 6;
 }
 
-HSL_to_RGB( h, sl, l, r, g, b)
+void HSL_to_RGB( h, sl, l, r, g, b)
 double h, sl,l;
 byte *r, *g, *b;
 {

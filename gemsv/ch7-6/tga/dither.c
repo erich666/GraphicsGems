@@ -35,7 +35,7 @@
 void create_dithermap();
 void create_square();
 
-dither_image(inbitmap, outbitmap, levels, gamma)
+void dither_image(inbitmap, outbitmap, levels, gamma)
 bitmap_hdr *inbitmap;
 bitmap_hdr *outbitmap;
 int levels;

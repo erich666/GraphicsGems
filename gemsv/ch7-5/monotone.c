@@ -1,4 +1,5 @@
 #include "basic.h"
+#include <memory.h>
 #include <math.h>
 
 #define CROSS_SINE(v0, v1) ((v0).x * (v1).y - (v1).x * (v0).y)
@@ -193,60 +194,6 @@ static int make_new_monotone_poly(mcur, v0, v1)
   mon[mcur] = p;
   mon[mnew] = i;
   return mnew;
-}
-
-/* Main routine to get monotone polygons from the trapezoidation of 
- * the polygon.
- */
-
-int monotonate_trapezoids(n)
-     int n;
-{
-  register int i;
-  int tr_start;
-
-  memset((void *)vert, 0, sizeof(vert));
-  memset((void *)visited, 0, sizeof(visited));
-  memset((void *)mchain, 0, sizeof(mchain));
-  memset((void *)mon, 0, sizeof(mon));
-  
-  /* First locate a trapezoid which lies inside the polygon */
-  /* and which is triangular */
-  for (i = 0; i < TRSIZE; i++)
-    if (inside_polygon(&tr[i]))
-      break;
-  tr_start = i;
-  
-  /* Initialise the mon data-structure and start spanning all the */
-  /* trapezoids within the polygon */
-
-  for (i = 1; i <= n; i++)
-    {
-      mchain[i].prev = i - 1;
-      mchain[i].next = i + 1;
-      mchain[i].vnum = i;
-      vert[i].pt = seg[i].v0;
-      vert[i].vnext[0] = i + 1;	/* next vertex */
-      vert[i].vpos[0] = i;	/* locn. of next vertex */
-      vert[i].nextfree = 1;
-    }
-  mchain[1].prev = n;
-  mchain[n].next = 1;
-  vert[n].vnext[0] = 1;
-  vert[n].vpos[0] = n;
-  chain_idx = n;
-  mon_idx = 0;
-  mon[0] = 1;			/* position of any vertex in the first */
-				/* chain  */
-  
-  /* traverse the polygon */
-  if (tr[tr_start].u0 > 0)
-    traverse_polygon(0, tr_start, tr[tr_start].u0, TR_FROM_UP);
-  else if (tr[tr_start].d0 > 0)
-    traverse_polygon(0, tr_start, tr[tr_start].d0, TR_FROM_DN);
-  
-  /* return the number of polygons created */
-  return newmon();
 }
 
 
@@ -530,79 +477,59 @@ int traverse_polygon(mcur, trnum, from, dir)
 }
 
 
-int triangulate_monotone_polygons(nmonpoly, op)
-     int nmonpoly;
-     int op[][3];
+
+/* Main routine to get monotone polygons from the trapezoidation of 
+ * the polygon.
+ */
+
+int monotonate_trapezoids(n)
+     int n;
 {
   register int i;
-  point_t ymax, ymin;
-  int p, vfirst, posmax, posmin, v;
-  int vcount;
+  int tr_start;
 
-#ifdef DEBUG
-  for (i = 0; i < nmonpoly; i++)
-    {
-      fprintf(stderr, "\n\nPolygon %d: ", i);
-      vfirst = mchain[mon[i]].vnum;
-      p = mchain[mon[i]].next;
-      fprintf (stderr, "%d ", mchain[mon[i]].vnum);
-      while (mchain[p].vnum != vfirst)
-	{
-	  fprintf(stderr, "%d ", mchain[p].vnum);
-	  p = mchain[p].next;
-	}
-    }
-  fprintf(stderr, "\n");
-#endif
-
-  op_idx = 0;
-  for (i = 0; i < nmonpoly; i++)
-    {
-      vcount = 1;
-      vfirst = mchain[mon[i]].vnum;
-      ymax = ymin = vert[vfirst].pt;
-      posmax = posmin = mon[i];
-      p = mchain[mon[i]].next;
-      while ((v = mchain[p].vnum) != vfirst)
-	{
-	  if (_greater_than(&vert[v].pt, &ymax))
-	    {
-	      ymax = vert[v].pt;
-	      posmax = p;
-	    }
-	  if (_less_than(&vert[v].pt, &ymin))
-	    {
-	      ymin = vert[v].pt;
-	      posmin = p;
-	    }
-	  p = mchain[p].next;
-	  vcount++;
-	}
-      
-      if (vcount == 3)		/* already a triangle */
-	{
-	  op[op_idx][0] = mchain[p].vnum;
-	  op[op_idx][1] = mchain[mchain[p].next].vnum;
-	  op[op_idx][2] = mchain[mchain[p].prev].vnum;
-	  op_idx++;
-	}
-      else			/* triangulate the polygon */
-	{
-	  v = mchain[mchain[posmax].next].vnum;
-	  if (_equal_to(&vert[v].pt, &ymin))
-	    {			/* LHS is a single line */
-	      triangulate_single_polygon(posmax, TRI_LHS, op);
-	    }
-	  else
-	    triangulate_single_polygon(posmax, TRI_RHS, op);
-	}
-    }
+  memset((void *)vert, 0, sizeof(vert));
+  memset((void *)visited, 0, sizeof(visited));
+  memset((void *)mchain, 0, sizeof(mchain));
+  memset((void *)mon, 0, sizeof(mon));
   
-#ifdef DEBUG
-  for (i = 0; i < (global.nseg - 2); i++)
-    fprintf(stderr, "tri #%d: (%d, %d, %d)\n", i, op[i][0], op[i][1],
-	   op[i][2]);
-#endif
+  /* First locate a trapezoid which lies inside the polygon */
+  /* and which is triangular */
+  for (i = 0; i < TRSIZE; i++)
+    if (inside_polygon(&tr[i]))
+      break;
+  tr_start = i;
+  
+  /* Initialise the mon data-structure and start spanning all the */
+  /* trapezoids within the polygon */
+
+  for (i = 1; i <= n; i++)
+    {
+      mchain[i].prev = i - 1;
+      mchain[i].next = i + 1;
+      mchain[i].vnum = i;
+      vert[i].pt = seg[i].v0;
+      vert[i].vnext[0] = i + 1;	/* next vertex */
+      vert[i].vpos[0] = i;	/* locn. of next vertex */
+      vert[i].nextfree = 1;
+    }
+  mchain[1].prev = n;
+  mchain[n].next = 1;
+  vert[n].vnext[0] = 1;
+  vert[n].vpos[0] = n;
+  chain_idx = n;
+  mon_idx = 0;
+  mon[0] = 1;			/* position of any vertex in the first */
+				/* chain  */
+  
+  /* traverse the polygon */
+  if (tr[tr_start].u0 > 0)
+    traverse_polygon(0, tr_start, tr[tr_start].u0, TR_FROM_UP);
+  else if (tr[tr_start].d0 > 0)
+    traverse_polygon(0, tr_start, tr[tr_start].d0, TR_FROM_DN);
+  
+  /* return the number of polygons created */
+  return newmon();
 }
 
 
@@ -685,4 +612,79 @@ int triangulate_single_polygon(posmax, side, op)
   return 0;
 }
 
+
+void triangulate_monotone_polygons(nmonpoly, op)
+     int nmonpoly;
+     int op[][3];
+{
+  register int i;
+  point_t ymax, ymin;
+  int p, vfirst, posmax, posmin, v;
+  int vcount;
+
+#ifdef DEBUG
+  for (i = 0; i < nmonpoly; i++)
+    {
+      fprintf(stderr, "\n\nPolygon %d: ", i);
+      vfirst = mchain[mon[i]].vnum;
+      p = mchain[mon[i]].next;
+      fprintf (stderr, "%d ", mchain[mon[i]].vnum);
+      while (mchain[p].vnum != vfirst)
+	{
+	  fprintf(stderr, "%d ", mchain[p].vnum);
+	  p = mchain[p].next;
+	}
+    }
+  fprintf(stderr, "\n");
+#endif
+
+  op_idx = 0;
+  for (i = 0; i < nmonpoly; i++)
+    {
+      vcount = 1;
+      vfirst = mchain[mon[i]].vnum;
+      ymax = ymin = vert[vfirst].pt;
+      posmax = posmin = mon[i];
+      p = mchain[mon[i]].next;
+      while ((v = mchain[p].vnum) != vfirst)
+	{
+	  if (_greater_than(&vert[v].pt, &ymax))
+	    {
+	      ymax = vert[v].pt;
+	      posmax = p;
+	    }
+	  if (_less_than(&vert[v].pt, &ymin))
+	    {
+	      ymin = vert[v].pt;
+	      posmin = p;
+	    }
+	  p = mchain[p].next;
+	  vcount++;
+	}
+      
+      if (vcount == 3)		/* already a triangle */
+	{
+	  op[op_idx][0] = mchain[p].vnum;
+	  op[op_idx][1] = mchain[mchain[p].next].vnum;
+	  op[op_idx][2] = mchain[mchain[p].prev].vnum;
+	  op_idx++;
+	}
+      else			/* triangulate the polygon */
+	{
+	  v = mchain[mchain[posmax].next].vnum;
+	  if (_equal_to(&vert[v].pt, &ymin))
+	    {			/* LHS is a single line */
+	      triangulate_single_polygon(posmax, TRI_LHS, op);
+	    }
+	  else
+	    triangulate_single_polygon(posmax, TRI_RHS, op);
+	}
+    }
+  
+#ifdef DEBUG
+  for (i = 0; i < (global.nseg - 2); i++)
+    fprintf(stderr, "tri #%d: (%d, %d, %d)\n", i, op[i][0], op[i][1],
+	   op[i][2]);
+#endif
+}
 

@@ -47,9 +47,9 @@ float	A, B, D, E, F;
  */
     if ((j = i + 1) > 3) j = 1;
     if ((k = j + 1) > 3) k = 1;
-    A = Q[j]; B = Q[k]; F = Q[0]; E = Q[i];
+    A = (float)Q[j]; B = (float)Q[k]; F = (float)Q[0]; E = (float)Q[i];
     P[i - 1] += x * (E * E + F * F - A * A - B * B);
-    D = x + x;
+    D = (float)(x + x);
     P[j - 1] += D * (E * A + F * B);
     P[k - 1] += D * (E * B + F * A);
   }
@@ -66,18 +66,18 @@ float	E, F, R1;
  */
 	if ((j = i + 1) > 3) j = 1;
 	if ((k = j + 1) > 3) k = 1;
-	E = Q[i];
+	E = (float)Q[i];
 	Q[i] = E * x + w * y * Q[0];
 	Q[0] = Q[0] * x - w * y * E;
-	E = Q[j];
+	E = (float)Q[j];
 	Q[j] = E * x + y * Q[k];
 	Q[k] = Q[k] * x - y * E;
   	if (w < 0) {
 /* Compute a new position if the observer moves in respect to the scene. */
     	j -= 1; k -= 1;
-    	R1 = x * x - y * y;
-    	F = 2. * x * y;
-    	E = P[j];
+    	R1 = (float)(x * x - y * y);
+    	F = (float)(2. * x * y);
+    	E = (float)P[j];
     	P[j] = E * R1 + F * P[k];
     	P[k] = P[k] * R1 - F * E;
   	}
@@ -91,7 +91,7 @@ int	i, j, k;
 /*
  * We will need some square values!
  */
-	for (i = 0; i < 4; i++) r[i] = Q[i] * Q[i];
+	for (i = 0; i < 4; i++) r[i] = (float)(Q[i] * Q[i]);
 /*
  * Compute each element of the matrix.
  * j is the successor of i (in 1,2,3), while k is the successor of j.
@@ -99,8 +99,8 @@ int	i, j, k;
   	for (i = 1; i < 4; i++) {
     	if ((j = i + 1) > 3) j = 1;
     	if ((k = j + 1) > 3) k = 1;
-		e = 2. * Q[i] * Q[j];
-    	f = 2. * Q[k] * Q[0];
+		e = (float)(2. * Q[i] * Q[j]);
+    	f = (float)(2. * Q[k] * Q[0]);
 		M[j][i] = e - f;
 		M[i][j] = e + f;
 		M[i][i] = r[i] + r[0] - r[j] - r[k];

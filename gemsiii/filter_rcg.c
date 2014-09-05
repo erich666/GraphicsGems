@@ -43,10 +43,10 @@
 		- Added implementation of getopt() if compiling under Windows.
 */
 
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
-#include <malloc.h>
+#define _USE_MATH_DEFINES
 #include <math.h>
 #include "GraphicsGems.h"
 
@@ -57,11 +57,6 @@ static char	_Copyright[] = "Public Domain 1991 by Dale Schumacher. Mods by Ray G
 #ifndef EXIT_SUCCESS
 #define	EXIT_SUCCESS	(0)
 #define	EXIT_FAILURE	(1)
-#endif
-
-/* M_PI was not in gems header ?? */
-#ifndef M_PI
-	#define M_PI	 3.14159265359
 #endif
 
 #ifdef WIN32

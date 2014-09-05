@@ -3,8 +3,9 @@
  * file cross.c:
  *	calculate the intersections
  */
+#include	<stdlib.h>
 #include	<math.h>
-#include	"GraphicsGems.h"
+#include	"../GraphicsGems.h"
 #include	"line.h"
 #include	"box.h"
 /*

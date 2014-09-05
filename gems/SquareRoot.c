@@ -36,7 +36,7 @@ build_table()
   		 */
 
 		*fi = (i << 16) | (127 << 23);
-		f = sqrt(f);
+		f = (float)sqrt(f);
 
 		/*
 		 * Take the square root then strip the first 7 bits of
@@ -52,7 +52,7 @@ build_table()
 
 		*fi = 0;
 		*fi = (i << 16) | (128 << 23);
-		f = sqrt(f);
+		f = (float)sqrt(f);
 		sqrttab[i+0x80] = (*fi & 0x7fffff) >> 16;
 	}
 }

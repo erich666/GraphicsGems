@@ -44,7 +44,7 @@
 #include <string.h>
 #include <sys/types.h>
 #ifndef MSDOS
-#       include <sys/wait.h>
+/*#       include <sys/wait.h>*/
 #endif
 #include <sys/stat.h>
 

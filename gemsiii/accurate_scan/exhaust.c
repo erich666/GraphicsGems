@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <starbase.c.h>
+/*#include <starbase.c.h>*/	/* ancient HP graphics API - good luck! */
 
 #include "fixpoint.h"
 

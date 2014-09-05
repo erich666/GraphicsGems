@@ -80,7 +80,7 @@ void InitRad(TRadParams *p)
 	n = hRes*hRes;
 	hemicube.view.buffer = calloc(n, sizeof(unsigned long));
 	hemicube.view.wid=0;
-	hemicube.view.near = params->worldSize*0.001;
+	hemicube.view.near = (float)params->worldSize*0.001;
 	hemicube.view.far = params->worldSize;
 	
 	/* take advantage of the symmetry in the delta form-factors */
@@ -143,7 +143,7 @@ static int FindShootPatch(unsigned long *shootPatch)
 	TPatch* ep;
 
 	ep = params->patches;
-	for (i=0; i< params->nPatches; i++, ep++)
+	for (i=0; i< (int)params->nPatches; i++, ep++)
 	{
 		energySum =0;
 		for (j=0; j<kNumberOfRadSamples; j++)

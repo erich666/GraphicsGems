@@ -206,7 +206,7 @@ char *c;
  * Compress and uncompress subroutines.
  */
 
-Uncompress(name, aux_file)
+void Uncompress(name, aux_file)
 char *name, *aux_file;
 {
 #ifndef MSDOS
@@ -245,7 +245,7 @@ char *name, *aux_file;
 #endif  /* MSDOS */
 }
 
-Compress(name)
+void Compress(name)
 char *name;
 {
 #ifndef MSDOS

@@ -25,6 +25,7 @@
  *  Paul Heckbert	30 June 81, 18 Dec 89
  */
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
 #include "GraphicsGems.h"
@@ -74,8 +75,8 @@ void (*spanproc)();		/* called for each span of pixels */
 
     nact = 0;				/* start with empty active list */
     k = 0;				/* ind[k] is next vertex to process */
-    y0 = MAX(win->y0, ceil(pt[ind[0]].y-.5));		/* ymin of polygon */
-    y1 = MIN(win->y1, floor(pt[ind[n-1]].y-.5));	/* ymax of polygon */
+    y0 = (int)MAX(win->y0, ceil(pt[ind[0]].y-.5));		/* ymin of polygon */
+    y1 = (int)MIN(win->y1, floor(pt[ind[n-1]].y-.5));	/* ymax of polygon */
 
     for (y=y0; y<=y1; y++) {		/* step through scanlines */
 	/* scanline y is at y+.5 in continuous coordinates */
@@ -107,9 +108,9 @@ void (*spanproc)();		/* called for each span of pixels */
 	/* draw horizontal segments for scanline y */
 	for (j=0; j<nact; j+=2) {	/* draw horizontal segments */
 	    /* span 'tween j & j+1 is inside, span tween j+1 & j+2 is outside */
-	    xl = ceil(active[j].x-.5);		/* left end of span */
+	    xl = (int)ceil(active[j].x-.5);		/* left end of span */
 	    if (xl<win->x0) xl = win->x0;
-	    xr = floor(active[j+1].x-.5);	/* right end of span */
+	    xr = (int)floor(active[j+1].x-.5);	/* right end of span */
 	    if (xr>win->x1) xr = win->x1;
 	    if (xl<=xr)
 		(*spanproc)(y, xl, xr);		/* draw pixels in span */

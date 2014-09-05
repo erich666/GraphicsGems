@@ -20,13 +20,13 @@ static char SCCSid[] = "@(#)color.c 1.15 8/28/91 LBL";
 
 char *
 tempbuffer(len)			/* get a temporary buffer */
-unsigned  len;
+unsigned int len;
 {
 	extern char  *malloc(), *realloc();
 	static char  *tempbuf = NULL;
 	static int  tempbuflen = 0;
 
-	if (len > tempbuflen) {
+	if ((int)len > tempbuflen) {
 		if (tempbuflen > 0)
 			tempbuf = realloc(tempbuf, len);
 		else
@@ -90,6 +90,42 @@ register FILE  *fp;
 }
 
 
+oldreadcolrs(scanline, len, fp)		/* read in an old colr scanline */
+	register COLR  *scanline;
+int  len;
+register FILE  *fp;
+{
+	int  rshift;
+	register int  i;
+
+	rshift = 0;
+
+	while (len > 0) {
+		scanline[0][RED] = getc(fp);
+		scanline[0][GRN] = getc(fp);
+		scanline[0][BLU] = getc(fp);
+		scanline[0][EXP] = getc(fp);
+		if (feof(fp) || ferror(fp))
+			return(-1);
+		if (scanline[0][RED] == 1 &&
+			scanline[0][GRN] == 1 &&
+			scanline[0][BLU] == 1) {
+				for (i = scanline[0][EXP] << rshift; i > 0; i--) {
+					copycolr(scanline[0], scanline[-1]);
+					scanline++;
+					len--;
+				}
+				rshift += 8;
+		} else {
+			scanline++;
+			len--;
+			rshift = 0;
+		}
+	}
+	return(0);
+}
+
+
 freadcolrs(scanline, len, fp)		/* read in an encoded colr scanline */
 register COLR  *scanline;
 int  len;
@@ -134,39 +170,29 @@ register FILE  *fp;
 }
 
 
-oldreadcolrs(scanline, len, fp)		/* read in an old colr scanline */
-register COLR  *scanline;
-int  len;
-register FILE  *fp;
+void setcolr(clr, r, g, b)		/* assign a short color value */
+	register COLR  clr;
+double  r, g, b;
 {
-	int  rshift;
-	register int  i;
-	
-	rshift = 0;
-	
-	while (len > 0) {
-		scanline[0][RED] = getc(fp);
-		scanline[0][GRN] = getc(fp);
-		scanline[0][BLU] = getc(fp);
-		scanline[0][EXP] = getc(fp);
-		if (feof(fp) || ferror(fp))
-			return(-1);
-		if (scanline[0][RED] == 1 &&
-				scanline[0][GRN] == 1 &&
-				scanline[0][BLU] == 1) {
-			for (i = scanline[0][EXP] << rshift; i > 0; i--) {
-				copycolr(scanline[0], scanline[-1]);
-				scanline++;
-				len--;
-			}
-			rshift += 8;
-		} else {
-			scanline++;
-			len--;
-			rshift = 0;
-		}
+	double  frexp();
+	double  d;
+	int  e;
+
+	d = r > g ? r : g;
+	if (b > d) d = b;
+
+	if (d <= 1e-32) {
+		clr[RED] = clr[GRN] = clr[BLU] = 0;
+		clr[EXP] = 0;
+		return;
 	}
-	return(0);
+
+	d = frexp(d, &e) * 256.0 / d;
+
+	clr[RED] = (BYTE)(r * d);
+	clr[GRN] = (BYTE)(g * d);
+	clr[BLU] = (BYTE)(b * d);
+	clr[EXP] = e + COLXS;
 }
 
 
@@ -195,6 +221,23 @@ FILE  *fp;
 }
 
 
+colr_color(col, clr)		/* convert short to float color */
+	register COLOR  col;
+register COLR  clr;
+{
+	double  f;
+
+	if (clr[EXP] == 0)
+		col[RED] = col[GRN] = col[BLU] = 0.0;
+	else {
+		f = ldexp(1.0, (int)clr[EXP]-(COLXS+8));
+		col[RED] = (BYTE)((clr[RED] + 0.5)*f);
+		col[GRN] = (BYTE)((clr[GRN] + 0.5)*f);
+		col[BLU] = (BYTE)((clr[BLU] + 0.5)*f);
+	}
+}
+
+
 freadscan(scanline, len, fp)		/* read in a scanline */
 register COLOR  *scanline;
 int  len;
@@ -219,49 +262,6 @@ FILE  *fp;
 			colr_color(scanline[0], clrscan[0]);
 	}
 	return(0);
-}
-
-
-setcolr(clr, r, g, b)		/* assign a short color value */
-register COLR  clr;
-double  r, g, b;
-{
-	double  frexp();
-	double  d;
-	int  e;
-	
-	d = r > g ? r : g;
-	if (b > d) d = b;
-
-	if (d <= 1e-32) {
-		clr[RED] = clr[GRN] = clr[BLU] = 0;
-		clr[EXP] = 0;
-		return;
-	}
-
-	d = frexp(d, &e) * 256.0 / d;
-
-	clr[RED] = r * d;
-	clr[GRN] = g * d;
-	clr[BLU] = b * d;
-	clr[EXP] = e + COLXS;
-}
-
-
-colr_color(col, clr)		/* convert short to float color */
-register COLOR  col;
-register COLR  clr;
-{
-	double  f;
-	
-	if (clr[EXP] == 0)
-		col[RED] = col[GRN] = col[BLU] = 0.0;
-	else {
-		f = ldexp(1.0, (int)clr[EXP]-(COLXS+8));
-		col[RED] = (clr[RED] + 0.5)*f;
-		col[GRN] = (clr[GRN] + 0.5)*f;
-		col[BLU] = (clr[BLU] + 0.5)*f;
-	}
 }
 
 

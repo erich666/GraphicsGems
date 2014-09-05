@@ -9,6 +9,7 @@
  Supporting Data Structures 
  ******************************************************************************/
 
+#include <stdlib.h>
 #include <stdio.h>
 #include "GraphicsGems.h"
 
@@ -334,7 +335,7 @@ boolean RayTreeIntersect(ray, BSPTree, obj, distance)
         }
 
         if ( RayObjIntersect(ray, currentNode->members, obj, distance) ) {
-            PointAtDistance(ray, distance, &p);
+            PointAtDistance(ray, *distance, &p);
             if (PointInNode(currentNode, p))
                 return TRUE;
         }

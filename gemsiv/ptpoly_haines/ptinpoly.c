@@ -62,12 +62,12 @@ int	numverts ;
 double	point[2] ;
 {
 #ifdef	WINDING
-register int	crossings ;
+int	crossings ;
 #endif
-register int	j, yflag0, yflag1, inside_flag, xflag0 ;
-register double ty, tx, *vtx0, *vtx1 ;
+int	j, yflag0, yflag1, inside_flag, xflag0 ;
+double ty, tx, *vtx0, *vtx1 ;
 #ifdef	CONVEX
-register int	line_flag ;
+int	line_flag ;
 #endif
 
     tx = point[X] ;
@@ -157,8 +157,8 @@ double	pgon[][2] ;
 int	numverts ;
 double	point[2] ;
 {
-register double *vtx0, *vtx1, angle, len, vec0[2], vec1[2], vec_dot ;
-register int	j ;
+double *vtx0, *vtx1, angle, len, vec0[2], vec1[2], vec_dot ;
+int	j ;
 int	inside_flag ;
 
     /* sum the angles and see if answer mod 2*PI > PI */
@@ -237,8 +237,8 @@ double	pgon[][2] ;
 int	numverts ;
 double	point[2] ;
 {
-register int	angle, qd, next_qd, delta, j ;
-register double ty, tx, *vtx0, *vtx1 ;
+int	angle, qd, next_qd, delta, j ;
+double ty, tx, *vtx0, *vtx1 ;
 int	inside_flag ;
 
     tx = point[X] ;
@@ -481,12 +481,12 @@ pPlaneSet	p_plane_set ;
 int	numverts ;
 double	point[2] ;
 {
-register pPlaneSet	ps ;
-register int	p2 ;
+pPlaneSet	ps ;
+int	p2 ;
 #ifndef CONVEX
-register int	inside_flag ;
+int	inside_flag ;
 #endif
-register double tx, ty ;
+double tx, ty ;
 
     tx = point[X] ;
     ty = point[Y] ;
@@ -575,8 +575,8 @@ double	pgon[][2] ;
 int	numverts ;
 double	point[2] ;
 {
-register double *pg1, *pg2, *pgend ;
-register double tx, ty, u0, u1, u2, v0, v1, vx0, vy0, alpha, beta, denom ;
+double *pg1, *pg2, *pgend ;
+double tx, ty, u0, u1, u2, v0, v1, vx0, vy0, alpha, beta, denom ;
 int	inside_flag ;
 
     tx = point[X] ;
@@ -775,10 +775,10 @@ pSpackmanSet	p_spackman_set ;
 int	numrec ;
 double	point[2] ;
 {
-register pSpackmanSet	pss ;
-register int	inside_flag ;
-register int	nr ;
-register double tx, ty, vx0, vy0, u0, v0, alpha, beta ;
+pSpackmanSet	pss ;
+int	inside_flag ;
+int	nr ;
+double tx, ty, vx0, vy0, u0, v0, alpha, beta ;
 
     tx = point[X] ;
     ty = point[Y] ;
@@ -1079,7 +1079,7 @@ int	inside_flag ;
     }
 
     /* what bin are we in? */
-    b = ( ty - p_trap_set->miny ) * p_trap_set->inv_ydelta ;
+    b = (int)(( ty - p_trap_set->miny ) * p_trap_set->inv_ydelta) ;
 
     /* find if we're inside this bin's bounds */
     if ( tx < (p_trap = &p_trap_set->trapz[b])->minx ||
@@ -1566,7 +1566,7 @@ double		slope, inv_slope ;
  *	  state of the point (inside or outside).
  */
 int GridTest( p_gs, point )
-register pGridSet	p_gs ;
+pGridSet	p_gs ;
 double	point[2] ;
 {
 int	j, count, init_flag ;
@@ -1867,9 +1867,9 @@ pPlaneSet	p_ext_set ;
 int	numverts ;
 double	point[2] ;
 {
-register PlaneSet	*pps ;
-register int	p0 ;
-register double tx, ty ;
+PlaneSet	*pps ;
+int	p0 ;
+double tx, ty ;
 int	inside_flag ;
 
     tx = point[X] ;
@@ -1996,7 +1996,7 @@ int InclusionTest( pia, point )
 pInclusionAnchor	pia ;
 double	point[2] ;
 {
-register double tx, ty, len, dot ;
+double tx, ty, len, dot ;
 int	inside_flag, lo, hi, ind ;
 pInclusionSet	pis ;
 
@@ -2087,8 +2087,8 @@ double	pgon[][2] ;
 int	numverts ;
 double	point[2] ;
 {
-register int	j, yflag0, yflag1, inside_flag ;
-register double	ty, tx, *vtx0, *vtx1 ;
+int	j, yflag0, yflag1, inside_flag ;
+double	ty, tx, *vtx0, *vtx1 ;
 
     tx = point[X] ;
     ty = point[Y] ;

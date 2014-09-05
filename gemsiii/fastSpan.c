@@ -16,7 +16,7 @@
  *           Chicago, IL 60616   (grace@iitmax.iit.edu)
  ***********/
 
-movespan(unsigned char *here, unsigned char val, int n)  {
+void movespan(unsigned char *here, unsigned char val, int n)  {
       /*This is simple: fall into the proper place in the switch*/
    switch(n)   {
       case 16: *(here++) = val;
@@ -56,7 +56,7 @@ movespan(unsigned char *here, unsigned char val, int n)  {
  *   AUTHOR: Thom Grace, CS Dept, Illinois Institute of Technology,
  *           Chicago, IL 60616   (grace@iitmax.iit.edu)
  ***********/
-movelongspan(unsigned char *here, unsigned char val, int n)  {
+void movelongspan(unsigned char *here, unsigned char val, int n)  {
       /*Illuminate 16 pixels at a time, as long as we are able*/
    while (n >= 16) {
       *(here++)=val;  *(here++)=val;  *(here++)=val;  *(here++)=val;
@@ -109,7 +109,7 @@ movelongspan(unsigned char *here, unsigned char val, int n)  {
  *           Chicago, IL  60616   (grace@iitmax.iit.edu)
  ***********/
 
-shadespan(unsigned char *here, unsigned char val, int n, int disp)
+void shadespan(unsigned char *here, unsigned char val, int n, int disp)
    {
       /*Each pixel is filled with the incremented intensity*/
    switch(n)   {

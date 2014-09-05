@@ -4,9 +4,10 @@
  *		  by Dale Schumacher
  */
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <malloc.h>
+#define _USE_MATH_DEFINES
 #include <math.h>
 #include "GraphicsGems.h"
 
@@ -358,7 +359,7 @@ double fwidth;				/* filter width (support) */
 			center = (double) i / xscale;
 			left = ceil(center - width);
 			right = floor(center + width);
-			for(j = left; j <= right; ++j) {
+			for(j = (int)left; j <= (int)right; ++j) {
 				weight = center - (double) j;
 				weight = (*filterf)(weight / fscale) / fscale;
 				if(j < 0) {
@@ -381,7 +382,7 @@ double fwidth;				/* filter width (support) */
 			center = (double) i / xscale;
 			left = ceil(center - fwidth);
 			right = floor(center + fwidth);
-			for(j = left; j <= right; ++j) {
+			for(j = (int)left; j <= (int)right; ++j) {
 				weight = center - (double) j;
 				weight = (*filterf)(weight);
 				if(j < 0) {
@@ -432,7 +433,7 @@ double fwidth;				/* filter width (support) */
 			center = (double) i / yscale;
 			left = ceil(center - width);
 			right = floor(center + width);
-			for(j = left; j <= right; ++j) {
+			for(j = (int)left; j <= (int)right; ++j) {
 				weight = center - (double) j;
 				weight = (*filterf)(weight / fscale) / fscale;
 				if(j < 0) {
@@ -455,7 +456,7 @@ double fwidth;				/* filter width (support) */
 			center = (double) i / yscale;
 			left = ceil(center - fwidth);
 			right = floor(center + fwidth);
-			for(j = left; j <= right; ++j) {
+			for(j = (int)left; j <= (int)right; ++j) {
 				weight = center - (double) j;
 				weight = (*filterf)(weight);
 				if(j < 0) {

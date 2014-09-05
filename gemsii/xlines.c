@@ -36,6 +36,8 @@
  *
  */
 
+#include <stdio.h>
+
 #define	DONT_INTERSECT    0
 #define	DO_INTERSECT      1
 #define COLLINEAR         2

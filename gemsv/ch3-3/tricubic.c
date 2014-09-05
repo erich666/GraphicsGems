@@ -82,5 +82,5 @@ float           TriCubic (Point p, float *volume, int xDim, int yDim, int zDim)
     vox += w[k] * q[k];
     pv += xyDim - 4 * xDim;
   }
-  return (vox < 0 ? 0.0 : vox);
+  return (float)(vox < 0 ? 0.0 : vox);
 }

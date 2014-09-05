@@ -19,6 +19,7 @@
 *
 ***********************************************************************/
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
 #include <signal.h>
@@ -47,102 +48,6 @@ int             seed, maxsteps; /* user input variables */
 
 				/* arrays for color lookup table values */
 unsigned char   r[MAXENTRY], g[MAXENTRY], b[MAXENTRY];
-
-
-main(argc, argv)
-int             argc;
-char           *argv[];
-{
-
-	register int    i;
-	int             reply, delay;
-
-	int             inter();	 /* signal functions, see below */
-	int             suspend();
-
-	signal(SIGINT, inter);		 /* traps <ctrl-C> */
-	signal(SIGTSTP, suspend);	 /* traps <ctrl-Z> */
-
-	printf("Please enter seed: ");
-	scanf("%d", &seed);
-
-					/* "(10-100)" is just a suggestion... */
-	printf("\nPlease enter maximum length of color ramp:  (10-100)");
-	scanf("%d", &maxsteps);
-	printf("\n");
-
-	fb_init();			/* generic frame buffer init routine */
-
-			/* if specified, set initial map option */
-	if (argc == 2) {
-			/* "-g" option for gray scale */
-		if (argv[1][0] == '-' && argv[1][1] == 'g') {
-			for (i=0; i<MAXINDEX; i++)
-				r[i] = g[i] = b[i] = i;
-			r[MAXINDEX] = g[MAXINDEX] = b[MAXINDEX] = 0;
-		}
-			/* "-z" option for zebra scale */
-		else if (argv[1][0] == '-' && argv[1][1] == 'z') {
-			for (i=0; i<MAXINDEX; i+=4) {
-				r[i]=r[i+1]=g[i]=g[i+1]=b[i]=b[i+1]=i * 4 / 5;
-				r[i+2]=r[i+3]=g[i+2]=g[i+3]=b[i+2]=b[i+3]=
-					i * 4/5 + 51;
-			}
-			r[MAXINDEX] = g[MAXINDEX] = b[MAXINDEX] = 0;
-		}
-	} else {
-			/* initialize the color map to black */
-		for (i=0; i<MAXINDEX; i++)
-			r[i] = g[i] = b[i] = 0;
-	}
-
-			/* generic routine to write frame buffer color map */
-	fb_setmap(r, g, b);
-
-			/* loop until <ctrl-C> is trapped */
-	while (!quit) {
-			/* trapped <crtl-Z> */
-		if (stop) {
-			fb_done();	/* release frame buffer */
-			printf("\nSave lookup table? (y/n) ");
-			while (isspace(reply = getchar()));
-			if (reply == 'y')
-				save_lut();
-					/* returns when job running again */
-			kill(getpid(), SIGSTOP);
-			stop = FALSE;
-			fb_init();	/* get back in action */
-		}
-
-		/*
-		 * main animation loop:
-		 *
-		 * move each entry in color map arrays down one place
-		 */
-		for (i=0; i<(MAXINDEX-1); i++) {
-			r[i] = r[i+1];
-			g[i] = g[i+1];
-			b[i] = b[i+1];
-		}
-		/* 
-		 * get new high color map entries 
-		 */
-		r[MAXINDEX-1] = dda_red();
-		g[MAXINDEX-1] = dda_green();
-		b[MAXINDEX-1] = dda_blue();
-		/*
-		 * send new color maps to the frame buffer
-		 * NOTE: we may do this several times (the value of
-		 * "DELAY") to slow down the animation
-		 */
-		for (delay=0; delay<DELAY; delay++)
-			fb_setmap(0, MAXINDEX, r, g, b);
-
-	}
-
-	fb_done();	/* release the frame buffer */
-
-} /* main() */
 
 
 /*
@@ -298,6 +203,102 @@ save_lut()
 	fclose(fp);
 
 } /* save_lut() */
+
+main(argc, argv)
+int             argc;
+char           *argv[];
+{
+
+	register int    i;
+	int             reply, delay;
+
+	int             inter();	 /* signal functions, see below */
+	int             suspend();
+
+	signal(SIGINT, inter);		 /* traps <ctrl-C> */
+	signal(SIGTSTP, suspend);	 /* traps <ctrl-Z> */
+
+	printf("Please enter seed: ");
+	scanf("%d", &seed);
+
+					/* "(10-100)" is just a suggestion... */
+	printf("\nPlease enter maximum length of color ramp:  (10-100)");
+	scanf("%d", &maxsteps);
+	printf("\n");
+
+	fb_init();			/* generic frame buffer init routine */
+
+			/* if specified, set initial map option */
+	if (argc == 2) {
+			/* "-g" option for gray scale */
+		if (argv[1][0] == '-' && argv[1][1] == 'g') {
+			for (i=0; i<MAXINDEX; i++)
+				r[i] = g[i] = b[i] = i;
+			r[MAXINDEX] = g[MAXINDEX] = b[MAXINDEX] = 0;
+		}
+			/* "-z" option for zebra scale */
+		else if (argv[1][0] == '-' && argv[1][1] == 'z') {
+			for (i=0; i<MAXINDEX; i+=4) {
+				r[i]=r[i+1]=g[i]=g[i+1]=b[i]=b[i+1]=i * 4 / 5;
+				r[i+2]=r[i+3]=g[i+2]=g[i+3]=b[i+2]=b[i+3]=
+					i * 4/5 + 51;
+			}
+			r[MAXINDEX] = g[MAXINDEX] = b[MAXINDEX] = 0;
+		}
+	} else {
+			/* initialize the color map to black */
+		for (i=0; i<MAXINDEX; i++)
+			r[i] = g[i] = b[i] = 0;
+	}
+
+			/* generic routine to write frame buffer color map */
+	fb_setmap(r, g, b);
+
+			/* loop until <ctrl-C> is trapped */
+	while (!quit) {
+			/* trapped <crtl-Z> */
+		if (stop) {
+			fb_done();	/* release frame buffer */
+			printf("\nSave lookup table? (y/n) ");
+			while (isspace(reply = getchar()));
+			if (reply == 'y')
+				save_lut();
+					/* returns when job running again */
+			kill(getpid(), SIGSTOP);
+			stop = FALSE;
+			fb_init();	/* get back in action */
+		}
+
+		/*
+		 * main animation loop:
+		 *
+		 * move each entry in color map arrays down one place
+		 */
+		for (i=0; i<(MAXINDEX-1); i++) {
+			r[i] = r[i+1];
+			g[i] = g[i+1];
+			b[i] = b[i+1];
+		}
+		/* 
+		 * get new high color map entries 
+		 */
+		r[MAXINDEX-1] = dda_red();
+		g[MAXINDEX-1] = dda_green();
+		b[MAXINDEX-1] = dda_blue();
+		/*
+		 * send new color maps to the frame buffer
+		 * NOTE: we may do this several times (the value of
+		 * "DELAY") to slow down the animation
+		 */
+		for (delay=0; delay<DELAY; delay++)
+			fb_setmap(0, MAXINDEX, r, g, b);
+
+	}
+
+	fb_done();	/* release the frame buffer */
+
+} /* main() */
+
 
 
 

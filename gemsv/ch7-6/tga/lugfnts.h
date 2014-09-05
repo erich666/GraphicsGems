@@ -104,7 +104,7 @@ get_real_index_function(
 
 /* gif.c */
 
-extern int
+extern void
 read_gif_file(
 #ifdef USE_PROTOTYPES
         char *,
@@ -112,7 +112,7 @@ read_gif_file(
 #endif
 );
 
-extern int
+extern void
 read_gif(
 #ifdef USE_PROTOTYPES
         FILE *,
@@ -120,7 +120,7 @@ read_gif(
 #endif
 );
 
-extern int
+extern void
 uncode_gif(
 #ifdef USE_PROTOTYPES
         FILE *,
@@ -148,7 +148,7 @@ push_gif(
 #endif
 );
 
-extern int
+extern void
 read_gif_hdr(
 #ifdef USE_PROTOTYPES
         FILE *
@@ -182,7 +182,7 @@ extern byte
 #endif
 );
 
-extern int
+extern void
 write_gif_file(
 #ifdef USE_PROTOTYPES
         char *,
@@ -190,7 +190,7 @@ write_gif_file(
 #endif
 );
 
-extern int
+extern void
 write_gif(
 #ifdef USE_PROTOTYPES
         FILE *,
@@ -198,14 +198,14 @@ write_gif(
 #endif
 );
 
-extern int
+extern void
 write_gif_hdr(
 #ifdef USE_PROTOTYPES
         FILE *
 #endif
 );
 
-extern int
+extern void
 write_gif_screen_hdr(
 #ifdef USE_PROTOTYPES
         FILE *,
@@ -213,7 +213,7 @@ write_gif_screen_hdr(
 #endif
 );
 
-extern int
+extern void
 write_gif_cmap(
 #ifdef USE_PROTOTYPES
         FILE *,
@@ -221,7 +221,7 @@ write_gif_cmap(
 #endif
 );
 
-extern int
+extern void
 write_gif_image_hdr(
 #ifdef USE_PROTOTYPES
         FILE *,
@@ -774,7 +774,7 @@ write_sgi_file(
 
 /* tga.c */
 
-extern int
+extern void
 read_tga_file(
 #ifdef USE_PROTOTYPES
         char *,
@@ -782,7 +782,7 @@ read_tga_file(
 #endif
 );
 
-extern int
+extern void
 read_tga(
 #ifdef USE_PROTOTYPES
         FILE *,
@@ -790,7 +790,7 @@ read_tga(
 #endif
 );
 
-extern int
+extern void
 read_tga24(
 #ifdef USE_PROTOTYPES
         FILE *,
@@ -801,7 +801,7 @@ read_tga24(
 #endif
 );
 
-extern int
+extern void
 read_tga_to24(
 #ifdef USE_PROTOTYPES
         FILE *,
@@ -813,7 +813,7 @@ read_tga_to24(
 #endif
 );
 
-extern int
+extern void
 read_tga8(
 #ifdef USE_PROTOTYPES
         FILE *,
@@ -822,7 +822,7 @@ read_tga8(
 #endif
 );
 
-extern int
+extern void
 read_tga_header(
 #ifdef USE_PROTOTYPES
         FILE *,
@@ -830,7 +830,7 @@ read_tga_header(
 #endif
 );
 
-extern int
+extern void
 read_tga_data(
 #ifdef USE_PROTOTYPES
         byte *,
@@ -839,7 +839,7 @@ read_tga_data(
 #endif
 );
 
-extern int
+extern void
 write_tga_file(
 #ifdef USE_PROTOTYPES
         char *,
@@ -847,7 +847,7 @@ write_tga_file(
 #endif
 );
 
-extern int
+extern void
 write_rle_tga_file(
 #ifdef USE_PROTOTYPES
         char *,
@@ -855,7 +855,7 @@ write_rle_tga_file(
 #endif
 );
 
-extern int
+extern void
 write_tga(
 #ifdef USE_PROTOTYPES
         FILE *,
@@ -864,7 +864,7 @@ write_tga(
 #endif
 );
 
-extern int
+extern void
 write_tga_header(
 #ifdef USE_PROTOTYPES
         FILE *,
@@ -873,7 +873,7 @@ write_tga_header(
 #endif
 );
 
-extern int
+extern void
 write_tga_line24(
 #ifdef USE_PROTOTYPES
         FILE *,
@@ -884,7 +884,7 @@ write_tga_line24(
 #endif
 );
 
-extern int
+extern void
 write_tga_rle_line24(
 #ifdef USE_PROTOTYPES
         FILE *,
@@ -1041,7 +1041,7 @@ isnumber(
 #endif
 );
 
-extern int
+extern void
 Uncompress(
 #ifdef USE_PROTOTYPES
         char *,
@@ -1049,7 +1049,7 @@ Uncompress(
 #endif
 );
 
-extern int
+extern void
 Compress(
 #ifdef USE_PROTOTYPES
         char *
@@ -1117,7 +1117,7 @@ getshortLSBF(
 #endif
 );
 
-extern int
+extern void
 putshortMSBF(
 #ifdef USE_PROTOTYPES
         int,
@@ -1125,7 +1125,7 @@ putshortMSBF(
 #endif
 );
 
-extern int
+extern void
 putshortLSBF(
 #ifdef USE_PROTOTYPES
         int,
@@ -1288,7 +1288,7 @@ chroma(
 
 /* dither.c */
 
-extern int
+extern void
 dither_image(
 #ifdef USE_PROTOTYPES
         bitmap_hdr *,
@@ -1366,7 +1366,7 @@ histogram_equalization(
 
 /* hsl.c */
 
-extern int
+extern void
 hsl_to_rgb_buffer(
 #ifdef USE_PROTOTYPES
         double *,
@@ -1379,7 +1379,7 @@ hsl_to_rgb_buffer(
 #endif
 );
 
-extern int
+extern void
 rgb_to_hsl_buffer(
 #ifdef USE_PROTOTYPES
         byte *,
@@ -1392,7 +1392,7 @@ rgb_to_hsl_buffer(
 #endif
 );
 
-extern int
+extern void
 RGB_to_HSL(
 #ifdef USE_PROTOTYPES
         byte,
@@ -1404,7 +1404,7 @@ RGB_to_HSL(
 #endif
 );
 
-extern int
+extern void
 HSL_to_RGB(
 #ifdef USE_PROTOTYPES
         double,
@@ -1643,7 +1643,7 @@ to24(
 
 /* tobw.c */
 
-extern int
+extern void
 tobw(
 #ifdef USE_PROTOTYPES
         bitmap_hdr *,
@@ -1676,7 +1676,7 @@ isagrayscaled(
 #endif
 );
 
-extern int
+extern void
 rgbtobw(
 #ifdef USE_PROTOTYPES
         byte *,

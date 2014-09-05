@@ -8,6 +8,7 @@
 
 /* Program to Classify a Polygon's Shape */
 
+#include <stdlib.h>
 #include <stdio.h>
 
 typedef enum { NotConvex, NotConvexDegenerate,

@@ -7,26 +7,12 @@
  * Copyright (c) 1990, University of Michigan
  * 
  */
+#include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-#include "GraphicsGems.h"
+#include "../GraphicsGems.h"
 #include "matrix.h"
 #include "viewcorr.h"
-
-main(argc, argv)
-char **argv;
-{
-    ViewData datapts;
-    ViewParms view_parms;
-    int num_iterations = 0;
-
-    if (argc >= 2) 
-	num_iterations = atoi(argv[1]);
-    read_points_and_view(stdin, &datapts, &view_parms );
-    iterate_view_parms( &datapts, &view_parms, num_iterations );
-    dump_points_and_view(stdout, &datapts, &view_parms );
-    dump_rayshade_parms(stdout, &view_parms);
-}
 
 read_points_and_view( infile, datapts, view_parms )
 FILE * infile;
@@ -142,21 +128,21 @@ ViewParms *view_parms;
     tmp.z = 0.0;
     V3MulPointByMatrix(&tmp, &view_parms->viewinv, &up);
 
-    if (view_parms->halfx > view_parms->xcenter) {
-	halfx = (int) (2.0*view_parms->halfx - view_parms->xcenter);
-    }
-    else
-	halfx = view_parms->xcenter;
-    if (view_parms->halfy > view_parms->ycenter) {
-	halfy = (int) (2.0*view_parms->halfy - view_parms->ycenter);
-    }
-    else
-	halfy = view_parms->ycenter;
-    ds = view_parms->d_over_s;
-    if (ds < 0.0) {
-	V3Negate(&up);
-	ds = -ds;
-    }
+	if (view_parms->halfx > view_parms->xcenter) {
+		halfx = (int) (2.0*view_parms->halfx - view_parms->xcenter);
+	}
+	else
+		halfx = view_parms->xcenter;
+	if (view_parms->halfy > view_parms->ycenter) {
+		halfy = (int) (2.0*view_parms->halfy - view_parms->ycenter);
+	}
+	else
+		halfy = view_parms->ycenter;
+	ds = view_parms->d_over_s;
+	if (ds < 0.0) {
+		V3Negate(&up);
+		ds = -ds;
+	}
     fprintf(dumpfile,"screen %d %d\n", halfx * 2, halfy * 2);
     fprintf(dumpfile,"window %d %d %d %d\n",
 	    (int) (halfx - view_parms->xcenter),
@@ -177,5 +163,20 @@ ViewParms *view_parms;
 		 (1.0/ds)) * RTOD * 2.0,
 	    atan(((double) halfy / view_parms->halfx) * 
 		 (1.0/(ds * view_parms->aspect))) * RTOD * 2.0);
+}
+
+main(argc, argv)
+	char **argv;
+{
+	ViewData datapts;
+	ViewParms view_parms;
+	int num_iterations = 0;
+
+	if (argc >= 2) 
+		num_iterations = atoi(argv[1]);
+	read_points_and_view(stdin, &datapts, &view_parms );
+	iterate_view_parms( &datapts, &view_parms, num_iterations );
+	dump_points_and_view(stdout, &datapts, &view_parms );
+	dump_rayshade_parms(stdout, &view_parms);
 }
 

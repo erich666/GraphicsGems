@@ -77,7 +77,7 @@ double 	*r, *g, *b;
 		m = l + l - v;
 		sv = (v - m ) / v;
 		h *= 6.0;
-		sextant = h;	
+		sextant = (int)h;	
 		fract = h - sextant;
 		vsf = v * sv * fract;
 		mid1 = m + vsf;

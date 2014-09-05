@@ -37,7 +37,7 @@ triangle_areas (vertices, vcount, areas)
      	V3Sub(&vertices[i+1], &vertices[0], &v1);
      	V3Sub(&vertices[i+2], &vertices[0], &v2);
      	V3Cross(&v1, &v2, &v3);
-     	areas[i] = V3Length(&v3);
+     	areas[i] = (float)V3Length(&v3);
      	area_sum += areas[i];
   }
 
@@ -93,9 +93,9 @@ square_to_polygon (vertices, vcount, areas, s, t, p)
 
   t = sqrt(t);
 
-  a = 1 - t;
-  b = (1 - s) * t;
-  c = s * t;
+  a = (float)(1 - t);
+  b = (float)((1 - s) * t);
+  c = (float)(s * t);
 
   p->x = a * vertices[0].x + b * vertices[i+1].x + c * vertices[i+2].x;
   p->y = a * vertices[0].y + b * vertices[i+1].y + c * vertices[i+2].y;
