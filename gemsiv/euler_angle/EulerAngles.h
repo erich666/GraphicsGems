@@ -24,6 +24,7 @@
 #define EulParEven   0
 #define EulParOdd    1
 #define EulPar(ord)  (((unsigned)(ord)>>2)&1)
+/* this code is merely a quick (and legal!) way to set arrays, EulSafe being 0,1,2,0 */
 #define EulSafe	     "\000\001\002\000"
 #define EulNext	     "\001\002\000\001"
 #define EulAxI(ord)  ((int)(EulSafe[(((unsigned)(ord)>>3)&3)]))

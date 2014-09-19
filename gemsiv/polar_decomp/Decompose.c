@@ -431,6 +431,9 @@ Quat snuggle(Quat q, HVect *k)
 	    if (two>big) {/*two*/
 		pa[hi] = sgn(neg[hi],SQRTHALF); pa[lo] = sgn(neg[lo], SQRTHALF);
 		if (lo>hi) {hi ^= lo; lo ^= hi; hi ^= lo;}
+		/* This wild code is simply defining a fixed array from a string.
+		** The code in the braces is equivalent to:
+		** hi = (lo+1)%3; lo = (lo+2)%3; */
 		if (hi==W) {hi = "\001\002\000"[lo]; lo = 3-hi-lo;}
 		swap(ka,hi,lo)
 	    } else {/*big*/ pa[hi] = sgn(neg[hi],1.0);}
