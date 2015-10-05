@@ -87,7 +87,7 @@ Vector3 *V3Combine (Vector3 *a, Vector3 *b, Vector3 *result, double ascl, double
 {
     result->x = (ascl * a->x) + (bscl * b->x);
     result->y = (ascl * a->y) + (bscl * b->y);
-    result->y = (ascl * a->z) + (bscl * b->z);
+    result->z = (ascl * a->z) + (bscl * b->z);
     return(result);
     }
 
