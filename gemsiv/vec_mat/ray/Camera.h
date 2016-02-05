@@ -45,7 +45,7 @@ public:
  vec3 pointToRay(vec2&	p);
 
  // friends
- friend istream& operator >> (istream& s, Camera& a);
+ friend std::istream& operator >> (std::istream& s, Camera& a);
 };
 
 #endif

@@ -1,11 +1,9 @@
 /* TEST PROGRAM FOR DELAUNAY */
 
-#include <stdlib.h>
-#include <stream.h>
-#include <string.h>
-#include <gl.h>
-#include <device.h>
-#include <quadedge.h>
+#include <cstdlib>
+#include <string>
+#include "quadedge.h"
+#include "../../dummy.h"
 
 void getArguments(int, char**);
 void InsertPoints(Subdivision&);
@@ -14,7 +12,7 @@ void display(Subdivision&, Real, Real, Real, Real);
 char *program;
 int num = 20;
 
-main(int argc, char** argv)
+int main(int argc, char** argv)
 {
 	getArguments(argc, argv);
 
@@ -30,12 +28,12 @@ main(int argc, char** argv)
 
 static void usage()
 {
-	cerr << "usage: " << program << " [ -n number_of_points ]\n";
+	std::cerr << "usage: " << program << " [ -n number_of_points ]\n";
 }
 
 static void errmsg(char *msg)
 {
-	cerr << program << ": " << msg << endl;
+	std::cerr << program << ": " << msg << std::endl;
 	usage();
 	exit(1);
 }
@@ -49,7 +47,8 @@ void getArguments(int argc, char** argv)
 		exit(0);
 	}
 
-	for (int i = 1; i < argc && argv[i][0] == '-'; i++)
+	int i;
+	for (i = 1; i < argc && argv[i][0] == '-'; i++)
 		if (strcmp(argv[i], "-n") == 0) {
 			if(++i < argc)
 				num = atoi(argv[i]);
@@ -103,7 +102,7 @@ void setView(float cx, float cy, float zoom, float xsize, float ysize)
 
 void printHelp()
 {
-	cerr << "<left>	   insert a new point\n"
+	std::cerr << "<left>	   insert a new point\n"
 		 << "  <h>     print help message\n"
 		 << "  <q>     quit\n";
 }
@@ -164,7 +163,7 @@ void display(Subdivision& mesh, Real left, Real bottom, Real right, Real top)
 			if(val) {
 				float x, y;
 				getMouse(wid, cx, cy, zoom, xsize, ysize, x, y);
-				cerr << "Mouse at (" << x << "," << y << ")\n";
+				std::cerr << "Mouse at (" << x << "," << y << ")\n";
 				x = (x < 0) ? 0 : (x > 1) ? 1 : x;
 				y = (y < 0) ? 0 : (y > 1) ? 1 : y;
 				mesh.InsertSite(Point2d(x, y));

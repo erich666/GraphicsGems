@@ -133,7 +133,7 @@ return picture;
 *									*
 ************************************************************************/
 
-int parseStream(istream& s, char** vocabulary)
+int parseStream(std::istream& s, char** vocabulary)
 {
 int	i;
 char	c,
@@ -167,7 +167,7 @@ return i+1;
 *									*
 ************************************************************************/
 
-istream& operator >> (istream& s, Scene3D& a)
+std::istream& operator >> (std::istream& s, Scene3D& a)
 {
 enum {CAMERA=1,
       LIGHT=2,
@@ -189,25 +189,28 @@ while ((key = parseStream(s, key_words)) && !s.eof())
 	    break;
 
 	case LIGHT:
-	    Light *light = new Light;
-	    a.lList[a.lightN++] = light;
-	    s >> *light;
-	    break;
-
+	{
+		Light *light = new Light;
+		a.lList[a.lightN++] = light;
+		s >> *light;
+		break;
+	}
 	case SPHERE:
-	    Sphere *sphere = new Sphere;
-	    a.pList[a.primitiveN++] = sphere;
-	    s >> *sphere;
-	    break;
-
+	{
+		Sphere *sphere = new Sphere;
+		a.pList[a.primitiveN++] = sphere;
+		s >> *sphere;
+		break;
+	}
 	case POLYHEDRON:
-	    Polyhedron *polyhedron = new Polyhedron;
-	    a.pList[a.primitiveN++] = polyhedron;
-	    s >> *polyhedron;
-	    break;
-
+	{
+		Polyhedron *polyhedron = new Polyhedron;
+		a.pList[a.primitiveN++] = polyhedron;
+		s >> *polyhedron;
+		break;
+	}
 	case UNKNOWN:
-	    cerr << "\nScene 3D: corrupted stream passed to operator >>";
+		std::cerr << "\nScene 3D: corrupted stream passed to operator >>";
 	    return s;
 	    break;
 	}

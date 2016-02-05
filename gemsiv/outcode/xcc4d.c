@@ -6,6 +6,11 @@
 #include <fcntl.h>
 #include <time.h>
 
+#if WIN32
+#define START
+#define STOP
+#define DELTAT
+#else
 /* BSD timer macros -- replace with your own */
 struct timeval start, stop;
 
@@ -13,6 +18,7 @@ struct timeval start, stop;
 #define STOP	gettimeofday(&stop, NULL)
 #define DELTAT	((float)(stop.tv_sec - start.tv_sec)+1.0e-6*	\
 		 (float)(stop.tv_usec-start.tv_usec))
+#endif
 
 #define LOOPCOUNT 10000
 
@@ -108,6 +114,8 @@ int loopcount = LOOPCOUNT;
 
 	STOP;
 
+#if ! WIN32
 	printf("%d points in %g seconds\n", i*VERTS, DELTAT);
 	printf("%g clocks/point at %d MHz\n", DELTAT/(i*VERTS)*MHz*1.0e6, MHz);
+#endif
 }

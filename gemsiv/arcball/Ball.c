@@ -1,9 +1,13 @@
 /***** Ball.c *****/
 /* Ken Shoemake, 1993 */
+#include <windows.h>
 #include <gl/gl.h>
 #include "Ball.h"
 #include "BallMath.h"
 
+
+#define TRUE 1
+#define FALSE 0
 #define LG_NSEGS 4
 #define NSEGS (1<<LG_NSEGS)
 #define RIMCOLOR()    RGBcolor(255, 255, 255)

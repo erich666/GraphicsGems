@@ -3,7 +3,7 @@
 
 #define H 1200.0
 #define STEPS 3
-main()
+int main()
     {
     point Origin = point( 0, 0 );
     point p0 = Origin;

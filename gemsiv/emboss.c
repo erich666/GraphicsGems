@@ -20,6 +20,9 @@
 #include <math.h>
 #include <sys/types.h>
 
+typedef unsigned short u_short;
+typedef unsigned char u_char;
+
 void
 Emboss(
     double azimuth, double elevation,	/* light source direction */

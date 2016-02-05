@@ -6,15 +6,13 @@
 ** Author: dr. Szirmay-Kalos Laszlo (szirmay@fsz.bme.hu)
 **	   Technical University of Budapest, Hungary
 *************************************************************************/
-#ifdef MSWINDOWS
+#ifdef WIN32
 #include "mswindow.hxx"
-#include "vector.hxx"
-#include "defines.h"
 #else
 #include "window.hxx"
+#endif
 #include "vector.hxx"
 #include "defines.h"
-#endif
 
 typedef char TYPE;
 

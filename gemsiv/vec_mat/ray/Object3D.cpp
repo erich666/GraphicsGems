@@ -6,7 +6,7 @@
 *									*
 ************************************************************************/
 
-istream& operator >> (istream& s, Object3D& a)
+std::istream& operator >> (std::istream& s, Object3D& a)
 {
 s >> a.pos;
 s >> a.orient;

@@ -21,7 +21,7 @@ protected:
 public:
 
  vec3 color() { return col; };
- friend istream& operator >> (istream& s, Light& a);
+ friend std::istream& operator >> (std::istream& s, Light& a);
 };
 
 #endif

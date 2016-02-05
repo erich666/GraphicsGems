@@ -1,17 +1,44 @@
 /***** Demo.c *****/
 /* Ken Shoemake, 1993 */
+#include <windows.h>
 #include <gl/gl.h>
-#include <gl/device.h>
+//#include <gl/device.h>
+#include "../../dummy.h"
 
 #include "BallAux.h"
 #include "Body.h"
 #include "Ball.h"
 
+
 typedef struct {long x, y;} Place;
+
 
 #define RADIUS	  (0.75)
 #define CNTRLDN	  1
 #define SHIFTDN	  2
+
+
+/* Draw the object being controlled. */
+void body_Draw(BallData *ball)
+{
+	HMatrix mNow;
+	Ball_Value(ball, mNow);
+	pushmatrix();
+	multmatrix(mNow);
+	scale(RADIUS, RADIUS, RADIUS);
+	drawbody(mNow);
+	popmatrix();
+}
+
+/* Draw whole window, including controller. */
+void scene_Draw(BallData *ball)
+{
+	RGBcolor(0, 0, 0);
+	clear();
+	body_Draw(ball);
+	Ball_Draw(ball);
+}
+
 
 void main(void)
 {
@@ -103,23 +130,3 @@ void main(void)
     /* NOT REACHED */
 }
 
-/* Draw whole window, including controller. */
-void scene_Draw(BallData *ball)
-{
-    RGBcolor(0, 0, 0);
-    clear();
-    body_Draw(ball);
-    Ball_Draw(ball);
-}
-
-/* Draw the object being controlled. */
-void body_Draw(BallData *ball)
-{
-    HMatrix mNow;
-    Ball_Value(ball, mNow);
-    pushmatrix();
-    multmatrix(mNow);
-    scale(RADIUS, RADIUS, RADIUS);
-    drawbody(mNow);
-    popmatrix();
-}

@@ -31,5 +31,5 @@ public:
  char* rayTrace(vec2 res);
 
  // friends
- friend istream& operator >> (istream& s, Scene3D& a);
+ friend std::istream& operator >> (std::istream& s, Scene3D& a);
 };

@@ -41,7 +41,7 @@ vec3 Sphere::normalAt(vec3& p)
 *									*
 ************************************************************************/
 
-istream& operator >> (istream& s, Sphere& a)
+std::istream& operator >> (std::istream& s, Sphere& a)
 {
 s >> *((Primitive*) &a);
 s >> a.radius;

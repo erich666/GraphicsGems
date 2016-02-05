@@ -32,7 +32,7 @@ public:
  virtual vec3 normalAt(vec3& p) = 0;
 
  // friends
- friend istream& operator >> (istream& s, Primitive& a);
+ friend std::istream& operator >> (std::istream& s, Primitive& a);
 };
 
 #endif

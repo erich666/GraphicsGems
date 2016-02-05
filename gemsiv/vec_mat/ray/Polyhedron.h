@@ -39,7 +39,7 @@ public:
  vec3 normalAt(vec3& p);
 
  // friends
- friend istream& operator >> (istream& s, Polyhedron& a);
+ friend std::istream& operator >> (std::istream& s, Polyhedron& a);
 };
 
 #endif

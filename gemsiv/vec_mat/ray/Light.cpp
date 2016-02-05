@@ -1,6 +1,6 @@
 #include "Light.h"
 
-istream& operator >> (istream& s, Light& a)
+std::istream& operator >> (std::istream& s, Light& a)
 {
 s >> *((Object3D*) &a);
 s >> a.col;

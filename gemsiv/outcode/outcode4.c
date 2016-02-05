@@ -12,6 +12,13 @@
 /* get the absolute value of a floating point number in integral form */
 #define a(x)	   ((x) & ~(1 << (NUMBITS-1)))
 
+void test() {
+
+	int iw, ix, iy, iz;
+	float x, y, z, w;
+	long abs_w;
+	unsigned long outcode, diff, t;
+
 	iw = v(w);
 	abs_w = a(iw);
 	outcode = s(iw);	  /* 0 or 1 per w's sign */
@@ -30,3 +37,4 @@
 	diff = s(abs_w - a(iz));
 	t = s(iz) + 5;
 	outcode |= diff << t;	  /* 0, 32, or 64 or'd with outcode */
+}

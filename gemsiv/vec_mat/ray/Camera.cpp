@@ -31,7 +31,7 @@ vec3 Camera::pointToRay(vec2&  p)
 *									*
 ************************************************************************/
 
-istream& operator >> (istream& s, Camera& a)
+std::istream& operator >> (std::istream& s, Camera& a)
 {
 vec2	fov;
 
