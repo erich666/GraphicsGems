@@ -1,6 +1,8 @@
 /***** Demo.c *****/
 /* Ken Shoemake, 1993 */
+#ifdef _WIN32
 #include <windows.h>
+#endif
 //#include <gl/gl.h>
 //#include <gl/device.h>
 #include "../../fakeirisgl.h"

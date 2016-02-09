@@ -161,9 +161,9 @@ inline const Point2d& Edge::Dest2d() const
 	return (num < 2) ? *((this + 2)->data) : *((this - 2)->data);
 }
 
-inline void Edge::EndPoints(Point2d* or, Point2d* de)
+inline void Edge::EndPoints(Point2d* origin, Point2d* de)
 {
-	data = or;
+	data = origin;
 	Sym()->data = de;
 }
 

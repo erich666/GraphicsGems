@@ -16,7 +16,9 @@ typedef int Device;
 #define LEFTSHIFTKEY	783
 #define RIGHTSHIFTKEY	784
 #define CAPSLOCKKEY		785
-//#define TRUE			786
+#ifndef _WIN32
+#define TRUE			786
+#endif
 #define INPUTCHANGE		787
 #define REDRAW			788
 #define HKEY			789

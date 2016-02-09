@@ -13,7 +13,7 @@ typedef struct {
 
 
 
-int srandom(int seed);
+//int srandom(int seed);
 
 void MultiJitter(Point2 points[], int m, int n);
 

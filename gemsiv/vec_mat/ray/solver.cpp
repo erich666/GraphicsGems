@@ -12,7 +12,7 @@
 *							*
 ********************************************************/
 
-static int isZero(double x)
+int isZero(double x)
 {
 return x > -EQN_EPS && x < EQN_EPS;
 }

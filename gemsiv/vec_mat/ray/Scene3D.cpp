@@ -82,7 +82,8 @@ picture = new char[(int)res[VX] * (int)res[VY] * 3];
 for (v = 1.; v > -1.; v -= 2. / (res[VY] - 1.))
     for (u = -1.; u < 1.; u += 2. / (res[VX] - 1.)) {
 	// compute the direction of the ray through that point
-	ray_dir = camera->pointToRay(vec2(u,v));
+        vec2 uv(u,v);
+        ray_dir = camera->pointToRay(uv);
 
 	// find the intersection with the closest primitive
 	t_min = FAR_AWAY;

@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <vector>
 #include "Polyhedron.h"
+#include "algebra3.h"
 
 /************************************************************************
 *									*
@@ -157,9 +158,11 @@ vec3	n;	// normal to the facet
 // call the implementation of the super-class
 s >> *((Primitive*) &a);
 
-// create the matrix to transform local coordinates to world coordinates
-T = translation3D(a.pos) * (a.orient.transpose());
-
+    // create the matrix to transform local coordinates to world coordinates
+    mat4 tl = translation3D(a.pos);
+    mat4 tp = a.orient.transpose();
+    T = tl * tp;
+    
 // read the vertices. Transform them on the fly to world coordinates
 s >> a.vertexN;
 a.vList = new vec3[a.vertexN];

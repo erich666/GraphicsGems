@@ -1,7 +1,9 @@
 /***** Ball.c *****/
 /* Ken Shoemake, 1993 */
+#ifdef _WIN32
 #include <windows.h>
-#include <gl/gl.h>
+#endif
+//#include <gl/gl.h>
 #include "Ball.h"
 #include "BallMath.h"
 
