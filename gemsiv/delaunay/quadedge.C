@@ -1,5 +1,5 @@
 #include "quadedge.h"
-#include "../../dummy.h"
+#include "../../irisgl.h"
 
 void bgnline();
 void endline();

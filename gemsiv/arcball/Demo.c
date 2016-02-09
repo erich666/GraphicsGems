@@ -1,9 +1,9 @@
 /***** Demo.c *****/
 /* Ken Shoemake, 1993 */
 #include <windows.h>
-#include <gl/gl.h>
+//#include <gl/gl.h>
 //#include <gl/device.h>
-#include "../../dummy.h"
+#include "../../irisgl.h"
 
 #include "BallAux.h"
 #include "Body.h"

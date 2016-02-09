@@ -1,9 +1,10 @@
 /* TEST PROGRAM FOR DELAUNAY */
 
 #include <cstdlib>
+#include <random>
 #include <string>
 #include "quadedge.h"
-#include "../../dummy.h"
+#include "../../irisgl.h"
 
 void getArguments(int, char**);
 void InsertPoints(Subdivision&);
@@ -61,11 +62,14 @@ void getArguments(int argc, char** argv)
 		errmsg("too many parameters");
 }
 
+std::default_random_engine generator;
+std::uniform_real_distribution<double> distribution(0.0, 1.0);
+
 void InsertPoints(Subdivision& mesh)
 {
 	for (int i = 0; i < num; i++) {
-		double u = drand48();
-		double v = drand48();
+		double u = distribution(generator);
+		double v = distribution(generator);
 		mesh.InsertSite(Point2d(u,v));
 	}
 }

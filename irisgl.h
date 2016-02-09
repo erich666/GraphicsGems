@@ -12,7 +12,7 @@ typedef int Device;
 #define LEFTSHIFTKEY	783
 #define RIGHTSHIFTKEY	784
 #define CAPSLOCKKEY		785
-#define TRUE			786
+//#define TRUE			786
 #define INPUTCHANGE		787
 #define REDRAW			788
 #define HKEY			789
@@ -34,8 +34,6 @@ void v2d(double*);
 void v3f();
 void endline();
 void prefsize(int, int);
-double drand48();
-void srand48(long int);
 long winopen(char*);
 void doublebuffer();
 void RGBmode();
