@@ -1,5 +1,9 @@
 #pragma once
 
+// Some code here still uses the old IRIS GL
+// (https://en.wikipedia.org/wiki/IRIS_GL).
+// This is a fake implementation to allow the examples to compile.
+
 typedef struct { int x; int y; int z; } Coord;
 typedef int Device;
 
