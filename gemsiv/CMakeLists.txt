@@ -36,3 +36,8 @@ add_subdirectory(ptpoly_weiler)
 add_subdirectory(vec_mat)
 add_subdirectory(vert_norm)
 
+if(CMAKE_COMPILER_IS_GNUCC)
+		target_link_libraries(collide m)
+		target_link_libraries(implicit m)
+endif()
+

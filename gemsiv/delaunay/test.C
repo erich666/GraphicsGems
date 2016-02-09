@@ -1,6 +1,7 @@
 /* TEST PROGRAM FOR DELAUNAY */
 
 #include <cstdlib>
+#include <cstring>
 #include <random>
 #include <string>
 #include "quadedge.h"
