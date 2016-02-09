@@ -1,5 +1,5 @@
 #include "quadedge.h"
-#include "../../irisgl.h"
+#include "../../fakeirisgl.h"
 
 void bgnline();
 void endline();

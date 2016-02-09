@@ -3,7 +3,7 @@
 #include <windows.h>
 //#include <gl/gl.h>
 //#include <gl/device.h>
-#include "../../irisgl.h"
+#include "../../fakeirisgl.h"
 
 #include "BallAux.h"
 #include "Body.h"

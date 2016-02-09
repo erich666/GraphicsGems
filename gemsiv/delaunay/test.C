@@ -4,7 +4,7 @@
 #include <random>
 #include <string>
 #include "quadedge.h"
-#include "../../irisgl.h"
+#include "../../fakeirisgl.h"
 
 void getArguments(int, char**);
 void InsertPoints(Subdivision&);
