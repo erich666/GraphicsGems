@@ -12,7 +12,12 @@
 /* get the absolute value of a floating point number in integral form */
 #define a(x)	   ((x) & ~(1 << (NUMBITS-1)))
 
-	/* these values typically would be calculated once and cached */
+int test() {
+	float x, y, xmin, xmax, ymin, ymax;
+	int iy, ixmin, ixmax, iymin, iymax, ix, ax, ay;
+	unsigned long outcode;
+
+/* these values typically would be calculated once and cached */
 	ixmin = v(xmin);
 	ixmax = v(xmax);
 	iymin = v(ymin);
@@ -31,3 +36,4 @@
 	ay = a(iy);
 	outcode |= s(iy | (ay - iymin))	 << 2;
 	outcode |= s(~iy & (iymax - ay)) << 3;
+}

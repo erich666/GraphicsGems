@@ -1,4 +1,9 @@
 #include "quadedge.h"
+#include "../../fakeirisgl.h"
+
+void bgnline();
+void endline();
+void v2d(double*);
 
 /*********************** Basic Topological Operators ************************/
 
@@ -207,7 +212,7 @@ void Subdivision::InsertSite(const Point2d& x)
 
 /*****************************************************************************/
 
-#include <gl.h>
+//#include <gl.h>
 static unsigned int timestamp = 0;
 
 void Subdivision::Draw()

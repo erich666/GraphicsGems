@@ -1,0 +1,1 @@
+add_executable(ray algebra3.h Camera.h Light.h Object3D.h Polyhedron.h Primitive.h Scene3D.h solver.h Sphere.h algebra3.cpp Camera.cpp Light.cpp main.cpp Object3D.cpp Polyhedron.cpp Primitive.cpp Scene3D.cpp solver.cpp Sphere.cpp)

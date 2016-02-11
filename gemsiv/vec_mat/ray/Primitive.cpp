@@ -28,7 +28,7 @@ return x_min;
 *									*
 ************************************************************************/
 
-istream& operator >> (istream& s, Primitive& a)
+std::istream& operator >> (std::istream& s, Primitive& a)
 {
 s >> *((Object3D*) &a);
 s >> a.col;

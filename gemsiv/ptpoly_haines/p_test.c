@@ -38,6 +38,11 @@
 #include <math.h>
 #include "ptinpoly.h"
 
+
+double RAN01() {
+	return 0.f;
+}
+
 #ifdef	TIMER
 #ifdef	IBM_PC
 #include <bios.h>
@@ -241,8 +246,7 @@ printf("       plane/spackman/trapezoid (bin)/weiler test (default is all)\n");
 printf("  -d = display polygons and points using starbase\n");
 }
 
-void	ScanOpts( argc, argv )
-int argc;  char *argv[];
+void	ScanOpts(int argc, char* argv[])
 {
 float	f1 ;
 int	i1 ;
@@ -440,8 +444,7 @@ int	test_flag = FALSE ;
     }
 }
 
-void ConstrainPoint( pt )
-double	*pt ;
+void ConstrainPoint(double* pt )
 {
 double	val ;
 
@@ -464,8 +467,7 @@ double	val ;
 /* break long strings into 80 or less character output.	 Not foolproof, but
  * good enough.
  */
-void BreakString( str )
-char	*str ;
+void BreakString(char* str )
 {
 int	length, i, last_space, col ;
 
@@ -575,8 +577,7 @@ int	fildes ;
 
 
 /* test program - see Usage() for command line options */
-main(argc,argv)
-int argc;  char *argv[];
+int main(int argc,char* argv[])
 {
 #ifdef	TIMER
 register long	tcnt ;
@@ -599,7 +600,7 @@ pPlaneSet	p_ext_set ;
 pInclusionAnchor	p_inc_anchor ;
 #endif
 
-    SRAN() ;
+    //SRAN() ;
 
     ScanOpts( argc, argv ) ;
 

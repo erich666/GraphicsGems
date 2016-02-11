@@ -24,6 +24,10 @@
 #include <assert.h>
 #define ALLOC(ptr, type, n)  assert(ptr = (type *)malloc((n)*sizeof(type)))
 
+typedef struct {
+	int dummy;
+} Pic;
+
 typedef struct {	/* 2-D POINT OR VECTOR */
     float x, y;
 } Point2f;

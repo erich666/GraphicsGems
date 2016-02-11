@@ -1,8 +1,8 @@
 #ifndef GEOM2D_H
 #define GEOM2D_H
 
-#include <math.h>
-#include <iostream.h>
+#include <cmath>
+#include <iostream>
 
 #ifndef ABS
 #define ABS(a)	((a) >= 0 ? (a) : -(a))
@@ -33,8 +33,8 @@ public:
 	Vector2d operator-(const Vector2d&) const;
 	friend Vector2d operator*(Real, const Vector2d&);
 	friend Real dot(const Vector2d&, const Vector2d&);
-	friend istream& operator>>(istream&, Vector2d&);
-	friend ostream& operator<<(ostream&, const Vector2d&);
+	friend std::istream& operator>>(std::istream&, Vector2d&);
+	friend std::ostream& operator<<(std::ostream&, const Vector2d&);
 };
 
 class Point2d {
@@ -46,8 +46,8 @@ public:
 	Point2d operator+(const Vector2d&) const;
 	Vector2d operator-(const Point2d&) const;
 	int operator==(const Point2d&) const;
-	friend istream& operator>>(istream&, Point2d&);
-	friend ostream& operator<<(ostream&, const Point2d&);
+	friend std::istream& operator>>(std::istream&, Point2d&);
+	friend std::ostream& operator<<(std::ostream&, const Point2d&);
 };
 
 class Line {
@@ -72,7 +72,7 @@ inline void Vector2d::normalize()
 	Real len;
 
 	if ((len = sqrt(x * x + y * y)) == 0.0)
-		cerr << "Vector2d::normalize: Division by 0\n";
+		std::cerr << "Vector2d::normalize: Division by 0\n";
 	else {
 		x /= len;
 		y /= len;
@@ -99,13 +99,13 @@ inline Real dot(const Vector2d& u, const Vector2d& v)
 	return u.x * v.x + u.y * v.y;
 }
 
-inline ostream& operator<<(ostream& os, const Vector2d& v)
+inline std::ostream& operator<<(std::ostream& os, const Vector2d& v)
 {
 	os << '(' << v.x << ", " << v.y << ')';
 	return os;
 }
 
-inline istream& operator>>(istream& is, Vector2d& v)
+inline std::istream& operator>>(std::istream& is, Vector2d& v)
 {
 	is >> v.x >> v.y;
 	return is;
@@ -128,13 +128,13 @@ inline int Point2d::operator==(const Point2d& p) const
 	return ((*this - p).norm() < EPS);
 }
 
-inline istream& operator>>(istream& is, Point2d& p)
+inline std::istream& operator>>(std::istream& is, Point2d& p)
 {
 	is >> p.x >> p.y;
 	return is;
 }
 
-inline ostream& operator<<(ostream& os, const Point2d& p)
+inline std::ostream& operator<<(std::ostream& os, const Point2d& p)
 {
 	os << '(' << p.x << ", " << p.y << ')';
 	return os;

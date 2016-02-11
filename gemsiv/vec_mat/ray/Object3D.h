@@ -27,7 +27,7 @@ public:
  mat4 orientation() { return orient; };
 
  // friends
- friend istream& operator >> (istream& s, Object3D& a);
+ friend std::istream& operator >> (std::istream& s, Object3D& a);
 };
 
 #endif

@@ -2,13 +2,14 @@
  * Paul Heckbert, ucbvax!pixar!ph, 13 Jun 87
  * Using tricks from Darwyn Peachey and Joe Cychosz. */
 
+#include <stdio.h>
+
 #define TOL 1e-7
 #define AMBIENT vec U, black, amb
-#define SPHERE struct sphere {vec cen, color; double rad, kd, ks, kt, kl, ir} \
-    *s, *best, sph[]
-typedef struct {double x, y, z} vec;
+#define SPHERE struct sphere {vec cen, color; double rad, kd, ks, kt, kl, ir; } *s, *best, sph[]
+typedef struct { double x, y, z;  } vec;
 #include "ray.h"
-yx;
+int yx;
 double u, b, tmin, sqrt(), tan();
 
 double vdot(A, B)

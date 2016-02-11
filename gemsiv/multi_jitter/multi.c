@@ -1,5 +1,9 @@
 #include <math.h>
 
+#if WIN32
+long int random() {};
+void srandom(unsigned int seed) {}
+#endif
 
 #define RAN_DOUBLE(l, h)    (((double) random()/0x80000000U)*((h) - (l)) + (l))
 #define RAN_INT(l, h)	    ((int) (RAN_DOUBLE(0, (h)-(l)+1) + (l)))

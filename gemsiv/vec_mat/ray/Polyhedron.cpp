@@ -1,4 +1,7 @@
+#include <algorithm>
+#include <vector>
 #include "Polyhedron.h"
+#include "algebra3.h"
 
 /************************************************************************
 *									*
@@ -46,8 +49,9 @@ vec3	normal;	    // Normal to the current facet.
 vec2	p1, p2,	    // Two consecutive points on a facet.
 	p,	    // A 2D projection of the point to test.
 	n;	    // Normal to one of the edges of a facet.
-double	s[facetN],  // Space to store at most N intersections.
-	vd,
+std::vector<double>	s;  // Space to store at most N intersections.
+s.resize(facetN);
+double	vd,
 	vn;
 
 for (i=0; i<facetN; i++) {
@@ -86,11 +90,11 @@ for (i=0; i<facetN; i++) {
 	if ((p1[VY] - p[VY]) * (p2[VY] - p[VY]) <= 0.0) {
 
 	    // Does the half-line trivially intersect the edge ?
-	    if (p[VX] < min(p1[VX], p2[VX]))
+	    if (p[VX] < std::min(p1[VX], p2[VX]))
 		iNum++;
 
 	    // Does the half-line trivially miss the edge ?
-	    else if (p[VX] < max(p1[VX], p2[VX])) {
+	    else if (p[VX] < std::max(p1[VX], p2[VX])) {
 
 		// tough case: compute the normal to the edge pointing towards
 		// positive X use the dot product between this normal and the
@@ -109,7 +113,7 @@ for (i=0; i<facetN; i++) {
     if (iNum % 2)
 	sNum++;
     }
-return closest_intersection(s, sNum);
+return closest_intersection(s.data(), sNum);
 }
 
 /************************************************************************
@@ -145,7 +149,7 @@ return vec3(pList[index], PD);
 *									*
 ************************************************************************/
 
-istream& operator >> (istream& s, Polyhedron& a)
+std::istream& operator >> (std::istream& s, Polyhedron& a)
 {
 int	i,j,M;
 mat4	T;	// local coordinates to world coordinates transformation
@@ -154,9 +158,11 @@ vec3	n;	// normal to the facet
 // call the implementation of the super-class
 s >> *((Primitive*) &a);
 
-// create the matrix to transform local coordinates to world coordinates
-T = translation3D(a.pos) * (a.orient.transpose());
-
+    // create the matrix to transform local coordinates to world coordinates
+    mat4 tl = translation3D(a.pos);
+    mat4 tp = a.orient.transpose();
+    T = tl * tp;
+    
 // read the vertices. Transform them on the fly to world coordinates
 s >> a.vertexN;
 a.vList = new vec3[a.vertexN];

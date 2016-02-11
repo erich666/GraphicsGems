@@ -6,8 +6,8 @@
 *								*
 ****************************************************************/
 
-#include <stream.h>
-#include <stdlib.h>
+#include <iostream>
+#include <cstdlib>
 
 // this line defines a new type: pointer to a function which returns a
 // double and takes as argument a double
@@ -18,7 +18,7 @@ typedef double (*V_FCT_PTR)(double);
 #define MAX(A,B) ((A) > (B) ? (A) : (B))
 
 // error handling macro
-#define V_ERROR(E) { cerr << E; exit(1); }
+#define V_ERROR(E) { std::cerr << E; exit(1); }
 
 class vec2;
 class vec3;
@@ -84,8 +84,8 @@ friend vec2 operator / (const vec2& a, const double d);	    // v1 / 3.0
 friend vec3 operator ^ (const vec2& a, const vec2& b);	    // cross product
 friend int operator == (const vec2& a, const vec2& b);	    // v1 == v2 ?
 friend int operator != (const vec2& a, const vec2& b);	    // v1 != v2 ?
-friend ostream& operator << (ostream& s, vec2& v);	    // output to stream
-friend istream& operator >> (istream& s, vec2& v);	    // input from strm.
+friend std::ostream& operator << (std::ostream& s, vec2& v);	    // output to stream
+friend std::istream& operator >> (std::istream& s, vec2& v);	    // input from strm.
 friend void swap(vec2& a, vec2& b);			    // swap v1 & v2
 friend vec2 min(const vec2& a, const vec2& b);		    // min(v1, v2)
 friend vec2 max(const vec2& a, const vec2& b);		    // max(v1, v2)
@@ -151,8 +151,8 @@ friend vec3 operator / (const vec3& a, const double d);	    // v1 / 3.0
 friend vec3 operator ^ (const vec3& a, const vec3& b);	    // cross product
 friend int operator == (const vec3& a, const vec3& b);	    // v1 == v2 ?
 friend int operator != (const vec3& a, const vec3& b);	    // v1 != v2 ?
-friend ostream& operator << (ostream& s, vec3& v);	    // output to stream
-friend istream& operator >> (istream& s, vec3& v);	    // input from strm.
+friend std::ostream& operator << (std::ostream& s, vec3& v);	    // output to stream
+friend std::istream& operator >> (std::istream& s, vec3& v);	    // input from strm.
 friend void swap(vec3& a, vec3& b);			    // swap v1 & v2
 friend vec3 min(const vec3& a, const vec3& b);		    // min(v1, v2)
 friend vec3 max(const vec3& a, const vec3& b);		    // max(v1, v2)
@@ -219,8 +219,8 @@ friend double operator * (const vec4& a, const vec4& b);    // dot product
 friend vec4 operator / (const vec4& a, const double d);	    // v1 / 3.0
 friend int operator == (const vec4& a, const vec4& b);	    // v1 == v2 ?
 friend int operator != (const vec4& a, const vec4& b);	    // v1 != v2 ?
-friend ostream& operator << (ostream& s, vec4& v);	    // output to stream
-friend istream& operator >> (istream& s, vec4& v);	    // input from strm.
+friend std::ostream& operator << (std::ostream& s, vec4& v);	    // output to stream
+friend std::istream& operator >> (std::istream& s, vec4& v);	    // input from strm.
 friend void swap(vec4& a, vec4& b);			    // swap v1 & v2
 friend vec4 min(const vec4& a, const vec4& b);		    // min(v1, v2)
 friend vec4 max(const vec4& a, const vec4& b);		    // max(v1, v2)
@@ -281,8 +281,8 @@ friend mat3 operator * (const double d, const mat3& a);	    // 3.0 * m1
 friend mat3 operator / (const mat3& a, const double d);	    // m1 / 3.0
 friend int operator == (const mat3& a, const mat3& b);	    // m1 == m2 ?
 friend int operator != (const mat3& a, const mat3& b);	    // m1 != m2 ?
-friend ostream& operator << (ostream& s, mat3& m);	    // output to stream
-friend istream& operator >> (istream& s, mat3& m);	    // input from strm.
+friend std::ostream& operator << (std::ostream& s, mat3& m);	    // output to stream
+friend std::istream& operator >> (std::istream& s, mat3& m);	    // input from strm.
 friend void swap(mat3& a, mat3& b);			    // swap m1 & m2
 
 // necessary friend declarations
@@ -338,8 +338,8 @@ friend mat4 operator * (const double d, const mat4& a);	    // 4.0 * m1
 friend mat4 operator / (const mat4& a, const double d);	    // m1 / 3.0
 friend int operator == (const mat4& a, const mat4& b);	    // m1 == m2 ?
 friend int operator != (const mat4& a, const mat4& b);	    // m1 != m2 ?
-friend ostream& operator << (ostream& s, mat4& m);	    // output to stream
-friend istream& operator >> (istream& s, mat4& m);	    // input from strm.
+friend std::ostream& operator << (std::ostream& s, mat4& m);	    // output to stream
+friend std::istream& operator >> (std::istream& s, mat4& m);	    // input from strm.
 friend void swap(mat4& a, mat4& b);			    // swap m1 & m2
 
 // necessary friend declarations
