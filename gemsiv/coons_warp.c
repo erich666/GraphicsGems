@@ -223,9 +223,11 @@ void resample_uniform(Curve *a, Curve *b, int n) {
 	    d -= step;
 	}
     }
-    if (bp-b->pt != n)
-	printf("WARNING: requested %d points, created %ld, d=%g\n",
-	    n, bp-b->pt, d);
+	ptrdiff_t created = bp - b->pt;
+
+	if (created != n)
+	printf("WARNING: requested %d points, created %td, d=%g\n",
+	    n, created, d);
 }
 
 static void resample(Curve *a, Curve *b, int n, int nonuniform) {
