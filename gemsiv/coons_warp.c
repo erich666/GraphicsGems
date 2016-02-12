@@ -224,7 +224,7 @@ void resample_uniform(Curve *a, Curve *b, int n) {
 	}
     }
     if (bp-b->pt != n)
-	printf("WARNING: requested %d points, created %lld, d=%g\n",
+	printf("WARNING: requested %d points, created %ld, d=%g\n",
 	    n, bp-b->pt, d);
 }
 

@@ -1,4 +1,5 @@
 #include <math.h>
+#include <stdlib.h>
 
 #if WIN32
 long int random() { return 0;  }

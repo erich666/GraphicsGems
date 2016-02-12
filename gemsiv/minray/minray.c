@@ -50,8 +50,7 @@ vec P, D;
     return best;
 }
 
-vec trace(level, P, D)
-vec P, D;
+vec trace(int level, vec P, vec D)
 {
     double d, eta, e;
     vec N, color;
