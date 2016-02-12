@@ -18,6 +18,7 @@
  *	display the warped destination image
  */
 
+#include <stddef.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
