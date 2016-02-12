@@ -28,9 +28,9 @@ double	 def;
 	       dx00, dx01, dx10, dx11,
 	       dxy0, dxy1, dxyz;
 
-    x0 = floor(p->x); fx = p->x - x0;
-    y0 = floor(p->y); fy = p->y - y0;
-    z0 = floor(p->z); fz = p->z - z0;
+    x0 = (int)floor(p->x); fx = p->x - x0;
+    y0 = (int)floor(p->y); fy = p->y - y0;
+    z0 = (int)floor(p->z); fz = p->z - z0;
 
     x1 = x0 + 1;
     y1 = y0 + 1;

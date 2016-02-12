@@ -207,7 +207,7 @@ void	SpackmanCleanup() ;
 
 void	TrapezoidCleanup() ;
 void	TrapBound() ;
-int	CompareEdges() ;
+int CompareEdges(const void* uu, const void* vv);
 void	TrapezoidSetup() ;
 
 void	GridSetup() ;

@@ -7,7 +7,7 @@ typedef enum AxisSet{NoAxes, CameraAxes, BodyAxes, OtherAxes, NSets} AxisSet;
 typedef float *ConstraintSet;
 typedef struct {
     HVect center;
-    double radius;
+    float radius;
     Quat qNow, qDown, qDrag;
     HVect vNow, vDown, vFrom, vTo, vrFrom, vrTo;
     HMatrix mNow, mDown;
@@ -20,7 +20,7 @@ typedef struct {
 
 /* Public routines */
 void Ball_Init(BallData *ball);
-void Ball_Place(BallData *ball, HVect center, double radius);
+void Ball_Place(BallData *ball, HVect center, float radius);
 void Ball_Mouse(BallData *ball, HVect vNow);
 void Ball_UseSet(BallData *ball, AxisSet axisSet);
 void Ball_ShowResult(BallData *ball);

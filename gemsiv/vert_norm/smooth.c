@@ -120,9 +120,9 @@ Smooth smooth = NEWTYPE(Smooth_def);
     smooth->polygonTable = NULL;
     smooth->polyTail = NULL;
     smooth->edgeTest = FALSE;
-    smooth->minDot = 0.2;
-    smooth->fuzzFraction = 0.001;
-    smooth->fuzz = 0.001;
+    smooth->minDot = 0.2f;
+    smooth->fuzzFraction = 0.001f;
+    smooth->fuzz = 0.001f;
     return(smooth);
     }
 
@@ -174,7 +174,7 @@ int i;
 
 void computeFuzz(Smooth smooth) {
 Point3 min, max;
-double od, d;
+float od, d;
 Point3 *v;
 int i;
 Polygon poly = smooth->polygonTable;
@@ -194,9 +194,9 @@ Polygon poly = smooth->polygonTable;
       };
     poly = poly->next;
     };
-  d = fabs(max.x - min.x);
-  od = fabs(max.y - min.y);  if (od > d) d = od;
-  od = fabs(max.z - min.z);  if (od > d) d = od;
+  d = fabsf(max.x - min.x);
+  od = fabsf(max.y - min.y);  if (od > d) d = od;
+  od = fabsf(max.z - min.z);  if (od > d) d = od;
   smooth->fuzz = od * smooth->fuzzFraction;
   }
 

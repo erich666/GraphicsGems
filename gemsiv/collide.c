@@ -296,7 +296,7 @@ int		  stop_index, *Is, c2;
 {
    Boolean	  first, pass;
    int		  i, k, s, is, best_s;
-   float	  sum, v_aff, best_v_aff;
+   double sum, v_aff, best_v_aff;
 
    first = TRUE;  best_s = -1;
    for (s = 0; s < stop_index; s++) {

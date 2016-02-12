@@ -4,21 +4,21 @@
 #include "BallAux.h"
 
 /* Convert window coordinates to sphere coordinates. */
-HVect MouseOnSphere(HVect mouse, HVect ballCenter, double ballRadius)
+HVect MouseOnSphere(HVect mouse, HVect ballCenter, float ballRadius)
 {
     HVect ballMouse;
-    register double mag;
+    register float mag;
     ballMouse.x = (mouse.x - ballCenter.x) / ballRadius;
     ballMouse.y = (mouse.y - ballCenter.y) / ballRadius;
     mag = ballMouse.x*ballMouse.x + ballMouse.y*ballMouse.y;
-    if (mag > 1.0) {
-	register double scale = 1.0/sqrt(mag);
+    if (mag > 1.f) {
+	float scale = 1.f/sqrtf(mag);
 	ballMouse.x *= scale; ballMouse.y *= scale;
-	ballMouse.z = 0.0;
+	ballMouse.z = 0.f;
     } else {
-	ballMouse.z = sqrt(1 - mag);
+	ballMouse.z = sqrtf(1 - mag);
     }
-    ballMouse.w = 0.0;
+    ballMouse.w = 0.f;
     return (ballMouse);
 }
 
@@ -36,17 +36,17 @@ Quat Qt_FromBallPoints(HVect from, HVect to)
 /* Convert a unit quaternion to two points on unit sphere */
 void Qt_ToBallPoints(Quat q, HVect *arcFrom, HVect *arcTo)
 {
-    double s;
-    s = sqrt(q.x*q.x + q.y*q.y);
-    if (s == 0.0) {
-	*arcFrom = V3_(0.0, 1.0, 0.0);
+    float s;
+    s = sqrtf(q.x*q.x + q.y*q.y);
+    if (s == 0.f) {
+	*arcFrom = V3_(0.f, 1.f, 0.f);
     } else {
-	*arcFrom = V3_(-q.y/s, q.x/s, 0.0);
+	*arcFrom = V3_(-q.y/s, q.x/s, 0.f);
     }
     arcTo->x = q.w*arcFrom->x - q.z*arcFrom->y;
     arcTo->y = q.w*arcFrom->y + q.z*arcFrom->x;
     arcTo->z = q.x*arcFrom->y - q.y*arcFrom->x;
-    if (q.w < 0.0) *arcFrom = V3_(-arcFrom->x, -arcFrom->y, 0.0);
+    if (q.w < 0.f) *arcFrom = V3_(-arcFrom->x, -arcFrom->y, 0.f);
 }
 
 /* Force sphere point to be perpendicular to axis. */
@@ -56,14 +56,14 @@ HVect ConstrainToAxis(HVect loose, HVect axis)
     register float norm;
     onPlane = V3_Sub(loose, V3_Scale(axis, V3_Dot(axis, loose)));
     norm = V3_Norm(onPlane);
-    if (norm > 0.0) {
-	if (onPlane.z < 0.0) onPlane = V3_Negate(onPlane);
-	return ( V3_Scale(onPlane, 1/sqrt(norm)) );
+    if (norm > 0.f) {
+	if (onPlane.z < 0.f) onPlane = V3_Negate(onPlane);
+	return ( V3_Scale(onPlane, 1/sqrtf(norm)) );
     } /* else drop through */
     if (axis.z == 1) {
-	onPlane = V3_(1.0, 0.0, 0.0);
+	onPlane = V3_(1.f, 0.f, 0.f);
     } else {
-	onPlane = V3_Unit(V3_(-axis.y, axis.x, 0.0));
+	onPlane = V3_Unit(V3_(-axis.y, axis.x, 0.f));
     }
     return (onPlane);
 }

@@ -1025,9 +1025,11 @@ double	xt ;
 }
 
 /* used by qsort to sort */
-int CompareEdges( u, v )
-pEdge	*u, *v ;
+int CompareEdges(const void* uu, const void* vv)
 {
+	pEdge* u = (pEdge*)uu;
+	pEdge* v = (pEdge*)vv;
+
     if ( (*u)->minx == (*v)->minx ) {
 	return( 0 ) ;
     } else {

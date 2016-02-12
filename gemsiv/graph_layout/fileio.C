@@ -23,7 +23,7 @@
 BOOL FileIO :: Get(char * pc )
 {
     if ( buffpt == nbytes ) {
-	if ( (nbytes = fread( buffer, 1, BUFFERSIZE, file)) <= 0) return FALSE;
+	if ( (nbytes = (int)fread( buffer, 1, BUFFERSIZE, file)) <= 0) return FALSE;
 	else							  buffpt = 0;
     }
     *pc = buffer[ buffpt++ ];

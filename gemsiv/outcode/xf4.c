@@ -5,7 +5,7 @@
 #define FI(x)	(*(int *)&x)
 
 /********************************************************/
-void xform_ctp(vc, vpi, vpo, visiz, vosiz, mtx, prj, pf, pa)
+void xform_ctp4(vc, vpi, vpo, visiz, vosiz, mtx, prj, pf, pa)
 	int vc	;	/* vertex count */
 int visiz;	/* input vertex array stride */
 int vosiz;	/* output vertex array stride */

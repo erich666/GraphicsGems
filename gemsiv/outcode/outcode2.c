@@ -13,7 +13,7 @@
 #define a(x)	   ((x) & ~((long)1 << (NUMBITS-1)))
 
 void test() {
-	float x, y, xmin, xmax, ymin, ymax;
+	float x = 0.f, y = 0.f, xmin = 0.f, xmax = 0.f, ymin = 0.f, ymax = 0.f;
 	int iy, ixmin, ixmax, iymin, iymax, ix, ax, ay;
 	unsigned long outcode;
 

@@ -18,6 +18,9 @@ typedef struct {
 void MultiJitter(Point2 points[], int m, int n);
 
 
+#if WIN32
+void srandom(int);
+#endif
 
 int main(int argc, char *argv[]) {
 
@@ -54,8 +57,8 @@ int main(int argc, char *argv[]) {
     }
 
     for (i = 0; i < m*n; i++) {
-	x = points[i].x / (1.0/m);
-	y = points[i].y / (1.0/n);
+	x = (int)(points[i].x / (1.f/m));
+	y = (int)(points[i].y / (1.f/n));
 	counts[x][y]++;
     }
 
@@ -79,8 +82,8 @@ int main(int argc, char *argv[]) {
 	y_bins[y] = 0;
 
     for (i = 0; i < m*n; i++) {
-	x = points[i].x / (1.0/(m*n));
-	y = points[i].y / (1.0/(m*n));
+	x = (int)(points[i].x / (1.f/(m*n)));
+	y = (int)(points[i].y / (1.f/(m*n)));
 	x_bins[x]++;
 	y_bins[y]++;
     }

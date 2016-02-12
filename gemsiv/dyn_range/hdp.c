@@ -30,7 +30,7 @@ int init_HDP_encode (real LoVal, real HiVal, int NbVal)
     int	 n;
 
   EncodeLut = (byte *) malloc (NbVal * sizeof (byte));
-  if (! EncodeLut) return (NULL);
+  if (! EncodeLut) return 0;
 
   NbVal--;
 
@@ -38,11 +38,11 @@ int init_HDP_encode (real LoVal, real HiVal, int NbVal)
   LutScale = NbVal / HiVal;
 
 /* Bias factor = ratio between the outcoming and the incoming range */
-  r = 256.0 * LoVal / HiVal;
+  r = 256.f * LoVal / HiVal;
 
   for (n = 0; n <= NbVal; n++) {
       t = (float) n / NbVal;
-      EncodeLut[n] = 255.0 * t / (t-r*t+r) + 0.5;
+      EncodeLut[n] = (byte)(255.f * t / (t-r*t+r) + 0.5f);
   }
   return (! NULL);
 }
@@ -73,16 +73,16 @@ int init_HDP_decode (real LoVal, real HiVal, real Bright)
     int n;
 
   DecodeLut = (real *) malloc (256 * sizeof (real));
-  if (! DecodeLut) return (NULL);
+  if (! DecodeLut) return 0;
 
 /* Change Bright from (-1,1) into a scaling coefficient (0,infinity) */
-  Bright = Bright < 0.0 ? Bright+1.0 : 1.0 / (1.0-Bright);
+  Bright = Bright < 0.f ? Bright+1.f : 1.f / (1.f-Bright);
 
 /* Bias factor = ratio of incoming and outcoming range * brightness factor */
-  r = Bright * HiVal / LoVal / 256.0;
+  r = Bright * HiVal / LoVal / 256.f;
 
   for (n = 0; n <= 256; n++) {
-    t = (float) n / 255.0;
+    t = (float) n / 255.f;
     DecodeLut[n] = t / (t-t*r+r) * HiVal;
   }
   return (! NULL);

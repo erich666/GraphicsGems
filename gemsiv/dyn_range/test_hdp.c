@@ -33,7 +33,7 @@ int main (void)
    Test NbTst sample values (ranging from 0 to HiVal)
    before and after a coding/decoding sequence
 */
-  NbTst = HiVal / LoVal;
+  NbTst = (int)(HiVal / LoVal);
   for (Index = 0; Index <= NbTst; Index++) {
     RealColor[0] = RealColor[1] = RealColor[2] = Index * HiVal / NbTst;
     printf ("Before = %.2f\t", RealColor[0]);

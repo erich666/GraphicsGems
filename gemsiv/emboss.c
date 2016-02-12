@@ -42,9 +42,9 @@ Emboss(
      * compute the light vector from the input parameters.
      * normalize the length to pixelScale for fast shading calculation.
      */
-    Lx = cos(azimuth) * cos(elevation) * pixelScale;
-    Ly = sin(azimuth) * cos(elevation) * pixelScale;
-    Lz = sin(elevation) * pixelScale;
+    Lx = (long)(cos(azimuth) * cos(elevation) * pixelScale);
+    Ly = (long)(sin(azimuth) * cos(elevation) * pixelScale);
+    Lz = (long)(sin(elevation) * pixelScale);
 
     /*
      * constant z component of image surface normal - this depends on the
@@ -56,7 +56,7 @@ Emboss(
     NzLz = Nz * Lz;
 
     /* optimization for vertical normals: L.[0 0 1] */
-    background = Lz;
+    background = (u_char)Lz;
 
     /* mung pixels, avoiding edge pixels */
     dst += xSize*3;
@@ -84,7 +84,7 @@ Emboss(
 	    else if ( (NdotL = Nx*Lx + Ny*Ly + NzLz) < 0 )
 		shade = 0;
 	    else
-		shade = NdotL / sqrt(Nx*Nx + Ny*Ny + Nz2);
+		shade = (u_char)(NdotL / sqrtf((float)(Nx*Nx + Ny*Ny + Nz2)));
 
 	    /* do something with the shading result */
 	    if ( texture ) {

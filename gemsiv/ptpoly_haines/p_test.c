@@ -210,7 +210,7 @@ static	int	Trapezoid_Bins = 20 ;
 #define STOP_TIMER( test_id )
 #endif
 
-char	*getenv() ;
+//char	*getenv() ;
 void	Usage() ;
 void	ScanOpts() ;
 void	ConstrainPoint() ;
@@ -469,7 +469,8 @@ double	val ;
  */
 void BreakString(char* str )
 {
-int	length, i, last_space, col ;
+	size_t length;
+	int i, last_space, col;
 
     length = strlen( str ) ;
     last_space = 0 ;

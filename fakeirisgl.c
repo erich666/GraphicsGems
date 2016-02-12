@@ -20,7 +20,7 @@ void doublebuffer() {}
 void RGBmode() {}
 void gconfig() {}
 void qdevice(int i) {}
-void ortho(int a, int b, int c, int d, float e, float f) {}
+void ortho(float a, float b, float c, float d, float e, float f) {}
 void translate(float a, float b, float c) {}
 void getsize(long* a, long* b) {}
 void getorigin(long* a, long* b) {}

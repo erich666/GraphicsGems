@@ -71,7 +71,7 @@ void coons_warp(Pic *source, Pic *dest, Curve *bound, int u0, int v0) {
     int nu, nv, v;
     float du, dv, fv;
     Point2f p00, p01, p10, p11, *pu0, *pu1, *p0v, *p1v;
-    Ipoint *pua;
+    Ipoint *pua = NULL;
 
     nu = bound[0].npt-1;			/* nu = dest_width-1 */
     nv = bound[1].npt-1;			/* nv = dest_height-1 */
@@ -86,33 +86,33 @@ void coons_warp(Pic *source, Pic *dest, Curve *bound, int u0, int v0) {
        running from right to left and bottom to top, resp., so we
        index them with negative subscripts from their ends (yeeeha!) */
 
-    p00.x = (p0v[ 0].x + pu0[  0].x)/2.;	/* upper left patch corner */
-    p00.y = (p0v[ 0].y + pu0[  0].y)/2.;
-    p10.x = (pu0[nu].x + p1v[  0].x)/2.;	/* upper right */
-    p10.y = (pu0[nu].y + p1v[  0].y)/2.;
-    p11.x = (p1v[nv].x + pu1[-nu].x)/2.;	/* lower right */
-    p11.y = (p1v[nv].y + pu1[-nu].y)/2.;
-    p01.x = (pu1[ 0].x + p0v[-nv].x)/2.;	/* lower left */
-    p01.y = (pu1[ 0].y + p0v[-nv].y)/2.;
+    p00.x = (p0v[ 0].x + pu0[  0].x)/2.f;	/* upper left patch corner */
+    p00.y = (p0v[ 0].y + pu0[  0].y)/2.f;
+    p10.x = (pu0[nu].x + p1v[  0].x)/2.f;	/* upper right */
+    p10.y = (pu0[nu].y + p1v[  0].y)/2.f;
+    p11.x = (p1v[nv].x + pu1[-nu].x)/2.f;	/* lower right */
+    p11.y = (p1v[nv].y + pu1[-nu].y)/2.f;
+    p01.x = (pu1[ 0].x + p0v[-nv].x)/2.f;	/* lower left */
+    p01.y = (pu1[ 0].y + p0v[-nv].y)/2.f;
 
-    du = 1./nu;
-    dv = 1./nv;
+    du = 1.f/nu;
+    dv = 1.f/nv;
 
     ALLOC(pua, Ipoint, nu+1);
     for (pu=pua, u=0; u<=nu; u++, pu++) {
-	pu->dx = (pu1[-u].x - pu0[u].x)*dv*SCALE + .5;
-	pu->dy = (pu1[-u].y - pu0[u].y)*dv*SCALE + .5;
-	pu->px = pu0[u].x*SCALE + .5;
-	pu->py = pu0[u].y*SCALE + .5;
+	pu->dx = (int)((pu1[-u].x - pu0[u].x)*dv*SCALE + .5f);
+	pu->dy = (int)((pu1[-u].y - pu0[u].y)*dv*SCALE + .5f);
+	pu->px = (int)(pu0[u].x*SCALE + .5f);
+	pu->py = (int)(pu0[u].y*SCALE + .5f);
     }
 
     for (fv=0., v=0; v<=nv; v++, fv+=dv) {
-	qx = (p0v[-v].x - (1.-fv)*p00.x - fv*p01.x + .5)*SCALE + .5;
-	qy = (p0v[-v].y - (1.-fv)*p00.y - fv*p01.y + .5)*SCALE + .5;
-	dqx = (p1v[v].x - p0v[-v].x - (1.-fv)*(p10.x-p00.x) - fv*(p11.x-p01.x))
-		*du*SCALE + .5;
-	dqy = (p1v[v].y - p0v[-v].y - (1.-fv)*(p10.y-p00.y) - fv*(p11.y-p01.y))
-		*du*SCALE + .5;
+	qx = (int)((p0v[-v].x - (1.-fv)*p00.x - fv*p01.x + .5f)*SCALE + .5f);
+	qy = (int)((p0v[-v].y - (1.-fv)*p00.y - fv*p01.y + .5f)*SCALE + .5f);
+	dqx = (int)((p1v[v].x - p0v[-v].x - (1.-fv)*(p10.x-p00.x) - fv*(p11.x-p01.x))
+		*du*SCALE + .5f);
+	dqy = (int)((p1v[v].y - p0v[-v].y - (1.-fv)*(p10.y-p00.y) - fv*(p11.y-p01.y))
+		*du*SCALE + .5f);
 	for (pu=pua, u=0; u<=nu; u++, pu++) {
 	    x = (pu->px+qx) >> SHIFT;
 	    y = (pu->py+qy) >> SHIFT;
@@ -141,27 +141,27 @@ void coons_warp1(Pic *source, Pic *dest, Curve *bound, int u0, int v0) {
     pu1 = &bound[2].pt[nu];			/* bottom */
     p0v = &bound[3].pt[nv];			/* left */
 
-    p00.x = (p0v[ 0].x + pu0[  0].x)/2.;	/* upper left patch corner */
-    p00.y = (p0v[ 0].y + pu0[  0].y)/2.;
-    p10.x = (pu0[nu].x + p1v[  0].x)/2.;	/* upper right */
-    p10.y = (pu0[nu].y + p1v[  0].y)/2.;
-    p11.x = (p1v[nv].x + pu1[-nu].x)/2.;	/* lower right */
-    p11.y = (p1v[nv].y + pu1[-nu].y)/2.;
-    p01.x = (pu1[ 0].x + p0v[-nv].x)/2.;	/* lower left */
-    p01.y = (pu1[ 0].y + p0v[-nv].y)/2.;
+    p00.x = (p0v[ 0].x + pu0[  0].x)/2.f;	/* upper left patch corner */
+    p00.y = (p0v[ 0].y + pu0[  0].y)/2.f;
+    p10.x = (pu0[nu].x + p1v[  0].x)/2.f;	/* upper right */
+    p10.y = (pu0[nu].y + p1v[  0].y)/2.f;
+    p11.x = (p1v[nv].x + pu1[-nu].x)/2.f;	/* lower right */
+    p11.y = (p1v[nv].y + pu1[-nu].y)/2.f;
+    p01.x = (pu1[ 0].x + p0v[-nv].x)/2.f;	/* lower left */
+    p01.y = (pu1[ 0].y + p0v[-nv].y)/2.f;
 
     for (v=0; v<=nv; v++) {
 	fv = (float)v/nv;
 	for (u=0; u<=nu; u++) {
 	    fu = (float)u/nu;
-	    x =	 (1.-fv)*pu0[ u].x + fv*pu1[-u].x
-	       + (1.-fu)*p0v[-v].x + fu*p1v[ v].x
-	       - (1.-fu)*(1.-fv)*p00.x - fu*(1.-fv)*p10.x
-	       - (1.-fu)*   fv	*p01.x - fu*   fv  *p11.x + .5;
-	    y =	 (1.-fv)*pu0[ u].y + fv*pu1[-u].y
-	       + (1.-fu)*p0v[-v].y + fu*p1v[ v].y
-	       - (1.-fu)*(1.-fv)*p00.y - fu*(1.-fv)*p10.y
-	       - (1.-fu)*   fv	*p01.y - fu*   fv  *p11.y + .5;
+	    x =	(int)( (1.f-fv)*pu0[ u].x + fv*pu1[-u].x
+	       + (1.f-fu)*p0v[-v].x + fu*p1v[ v].x
+	       - (1.f-fu)*(1.f-fv)*p00.x - fu*(1.f-fv)*p10.x
+	       - (1.f-fu)*   fv	*p01.x - fu*   fv  *p11.x + .5f);
+	    y = (int)((1.f-fv)*pu0[ u].y + fv*pu1[-u].y
+	       + (1.f-fu)*p0v[-v].y + fu*p1v[ v].y
+	       - (1.f-fu)*(1.f-fv)*p00.y - fu*(1.f-fv)*p10.y
+	       - (1.f-fu)*   fv	*p01.y - fu*   fv  *p11.y + .5f);
 	    pixel_write(dest, u0+u, v0+v, pixel_read(source, x, y));
 	}
     }
@@ -172,7 +172,7 @@ void coons_warp1(Pic *source, Pic *dest, Curve *bound, int u0, int v0) {
 
 void resample_nonuniform(Curve *a, Curve *b, int n) {
     int ai, bi;
-    double ax, af;
+    float ax, af;
     Point2f *ap, *bp;
 
     if (n<2) {
@@ -183,7 +183,7 @@ void resample_nonuniform(Curve *a, Curve *b, int n) {
     b->npt = n;
     for (bp=b->pt, bi=0; bi<n; bi++, bp++) {
 	ax = (float)bi*(a->npt-1)/(n-1);
-	ai = ax;
+	ai = (int)ax;
 	af = ax-ai;
 	ap = &a->pt[ai];
 	bp->x = ap[0].x + af*(ap[1].x-ap[0].x);
@@ -191,14 +191,14 @@ void resample_nonuniform(Curve *a, Curve *b, int n) {
     }
 }
 
-static double len(double x, double y) {return sqrt(x*x+y*y);}
+static float len(float x, float y) {return sqrtf(x*x+y*y);}
 
 /* resample_uniform: uniformly resample curve a to create curve b,
  * with n points.  Allocates b->pt to have length n */
 
 void resample_uniform(Curve *a, Curve *b, int n) {
     int i;
-    double step, l, d;
+    float step, l, d;
     Point2f *ap, *bp;
 
     if (a->npt<2) {
@@ -210,7 +210,7 @@ void resample_uniform(Curve *a, Curve *b, int n) {
     step /= n-1;		/* length of each output segment (ideally) */
     ALLOC(b->pt, Point2f, n);
     b->npt = n;
-    d = .0001;			/* = 0 + tolerance for roundoff error */
+    d = .0001f;			/* = 0 + tolerance for roundoff error */
     for (ap=a->pt, bp=b->pt, i=a->npt-1; i>0; i--, ap++) {
 	l = len(ap[1].x-ap[0].x, ap[1].y-ap[0].y);
 	d += l;
@@ -224,7 +224,7 @@ void resample_uniform(Curve *a, Curve *b, int n) {
 	}
     }
     if (bp-b->pt != n)
-	printf("WARNING: requested %d points, created %ld, d=%g\n",
+	printf("WARNING: requested %d points, created %lld, d=%g\n",
 	    n, bp-b->pt, d);
 }
 
@@ -235,7 +235,7 @@ static void resample(Curve *a, Curve *b, int n, int nonuniform) {
 
 Curve *boundary_resample(Curve *a, int nx, int ny, int nonuniform) {
     /* "nonuniform" is a boolean flag */
-    Curve *b;
+    Curve *b = NULL;
 
     ALLOC(b, Curve, 4);
     resample(&a[0], &b[0], nx, nonuniform);

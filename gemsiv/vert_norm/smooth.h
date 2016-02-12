@@ -10,7 +10,7 @@
 #define NEWTYPE(x) (x *)malloc((unsigned)(sizeof(x)))
 
 typedef struct Point3Struct {
-   double x, y, z;
+   float x, y, z;
    } Point3;
 typedef Point3 Vector3;
 typedef int boolean;
@@ -19,7 +19,7 @@ typedef int boolean;
 
 Vector3 *V3Normalize(Vector3 *v);
 Vector3 *V3Add(Vector3 *a, Vector3 *b, Vector3 *c);
-double V3Dot(Vector3 *a, Vector3 *b);
+float V3Dot(Vector3 *a, Vector3 *b);
 #else
 #include "../GraphicsGems.h"
 #endif
@@ -34,13 +34,13 @@ double V3Dot(Vector3 *a, Vector3 *b);
 #define MARKDONE       2
 
 /* fuzzy comparison macro */
-#define FUZZEQ(x,y)  (fabs((x)-(y))<(smooth->fuzz))
+#define FUZZEQ(x,y)  (fabsf((x)-(y))<(smooth->fuzz))
 
 /* hash table size; related to HASH */
 #define HASH_TABLE_SIZE	       1000
 
 /* quantization increment */
-#define QSIZE	 1000.0
+#define QSIZE	 1000.f
 
 #define QUANT(x)     (((int)((x)*QSIZE))/QSIZE)
 #define ABSQUANT(x)  (((int)((fabs(x))*QSIZE))/QSIZE)
@@ -74,8 +74,8 @@ typedef struct SmoothStruct {
     HashNode  hashTable[HASH_TABLE_SIZE];
     Polygon   polygonTable;
     Polygon   polyTail;
-    double    fuzz;	      /* distance for vertex equality */
-    double    fuzzFraction;   /* fraction of model size for fuzz */
+    float    fuzz;	      /* distance for vertex equality */
+    float    fuzzFraction;   /* fraction of model size for fuzz */
     boolean   edgeTest;	      /* apply edging test using minDot */
     float     minDot;	      /* if > this, make sharp edge; see above */
     } Smooth_def;

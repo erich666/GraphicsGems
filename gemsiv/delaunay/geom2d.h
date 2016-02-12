@@ -20,7 +20,7 @@
 
 #define EPS 1e-6
 
-typedef double	Real;
+typedef float Real;
 
 class Vector2d {
 public:

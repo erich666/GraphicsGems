@@ -80,7 +80,7 @@ int main(int argc, char**argv)
 		fprintf(stderr, "Can't read kernel file %s\n", argv[2]);
 		exit(1);
 	}
-	for(n=0; n<9 && fgets(buf, 80, fp); n++) kernel[n] = atof(buf);
+	for(n=0; n<9 && fgets(buf, 80, fp); n++) kernel[n] = (float)atof(buf);
 
 	/* convolve input I1 with fast convolver */
 	I2 = allocImage(I1->width, I1->height);
@@ -194,9 +194,9 @@ lutP	 luts;
 
 		/* compute bias for each field to avoid underflow */
 		b1 = b2 = b3 = 0;
-		if(k1 < 0) b1 = -k1 * 1024;
-		if(k2 < 0) b2 = -k2 * 1024;
-		if(k3 < 0) b3 = -k3 * 1024;
+		if(k1 < 0) b1 = (int)(-k1 * 1024);
+		if(k2 < 0) b2 = (int)(-k2 * 1024);
+		if(k3 < 0) b3 = (int)(-k3 * 1024);
 
 		/* luts->bias will be subtracted in convolve() after adding
 		 * stages; multiply by 2 because of combined effect of fwd

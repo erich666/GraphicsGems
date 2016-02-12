@@ -223,7 +223,7 @@ void MakeHistogram (kz_pixel_t* pImage, unsigned int uiXRes,
 	pImagePointer = &pImage[uiSizeX];
 	while (pImage < pImagePointer) pulHistogram[pLookupTable[*pImage++]]++;
 	pImagePointer += uiXRes;
-	pImage = &pImagePointer[-uiSizeX];
+	pImage = &pImagePointer[uiSizeX];
     }
 }
 

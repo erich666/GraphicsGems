@@ -65,9 +65,9 @@ int main(void)
     qdevice(LEFTCTRLKEY); qdevice(RIGHTCTRLKEY);
     qdevice(LEFTSHIFTKEY); qdevice(RIGHTSHIFTKEY);
     qdevice(CAPSLOCKKEY);
-    /* perspective(400, 1.0, 0.001, 100000.0); */
-    ortho(-1.0, 1.0, -1.0, 1.0, 0.001, 100000.0);
-    translate(0.0, 0.0, -3.0);
+    /* perspective(400, 1.f, 0.001, 100000.f); */
+    ortho(-1.f, 1.f, -1.f, 1.f, 0.001f, 100000.f);
+    translate(0.f, 0.f, -3.f);
     active = 0;
 
     getsize(&winsize.x, &winsize.y);
@@ -94,11 +94,11 @@ int main(void)
 		    break;
 		case MOUSEX:
 		    mouseNow.x = val;
-		    vNow.x = 2.0*(mouseNow.x - winorig.x)/winsize.x - 1.0;
+		    vNow.x = 2.f*(mouseNow.x - winorig.x)/winsize.x - 1.f;
 		    break;
 		case MOUSEY:
 		    mouseNow.y = val;
-		    vNow.y = 2.0*(mouseNow.y - winorig.y)/winsize.y - 1.0;
+		    vNow.y = 2.f*(mouseNow.y - winorig.y)/winsize.y - 1.f;
 		    break;
 		case LEFTMOUSE:
 		    if (val) Ball_BeginDrag(&ball);

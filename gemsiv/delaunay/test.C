@@ -23,7 +23,7 @@ int main(int argc, char** argv)
 	Subdivision mesh(p1, p2, p3);
 
 	InsertPoints(mesh);
-	display(mesh, -.1, -.1, 1.1, 1.1);
+	display(mesh, -.1f, -.1f, 1.1f, 1.1f);
 
 	exit(0);
 }
@@ -64,13 +64,13 @@ void getArguments(int argc, char** argv)
 }
 
 std::default_random_engine generator;
-std::uniform_real_distribution<double> distribution(0.0, 1.0);
+std::uniform_real_distribution<float> distribution(0.0, 1.0);
 
 void InsertPoints(Subdivision& mesh)
 {
 	for (int i = 0; i < num; i++) {
-		double u = distribution(generator);
-		double v = distribution(generator);
+		float u = distribution(generator);
+		float v = distribution(generator);
 		mesh.InsertSite(Point2d(u,v));
 	}
 }
@@ -99,8 +99,8 @@ void draw(Subdivision& mesh)
 
 void setView(float cx, float cy, float zoom, float xsize, float ysize)
 {
-	float dx = 0.5 * xsize / zoom;
-	float dy = 0.5 * ysize / zoom;
+	float dx = 0.5f * xsize / zoom;
+	float dy = 0.5f * ysize / zoom;
 
 	ortho2(cx - dx, cx + dx, cy - dy, cy + dy);
 }
@@ -125,8 +125,8 @@ void getMouse (long window, float cx, float cy, float zoom,
 	getsize(&sxsize, &sysize);
 	xsize /= zoom;
 	ysize /= zoom;
-	x = (float(sx) / float(sxsize)) * xsize - 0.5 * xsize + cx;
-	y = (float(sy) / float(sysize)) * ysize - 0.5 * ysize + cy;
+	x = (float(sx) / float(sxsize)) * xsize - 0.5f * xsize + cx;
+	y = (float(sy) / float(sysize)) * ysize - 0.5f * ysize + cy;
 }
 
 void display(Subdivision& mesh, Real left, Real bottom, Real right, Real top)
@@ -136,11 +136,11 @@ void display(Subdivision& mesh, Real left, Real bottom, Real right, Real top)
 
 	wid = createWindow();
 
-	cx = 0.5 * (left + right);
-	cy = 0.5 * (bottom + top);
+	cx = 0.5f * (left + right);
+	cy = 0.5f * (bottom + top);
 	zoom = 1;
-	xsize = 1.1 * (right - left);
-	ysize = 1.1 * (top - bottom);
+	xsize = 1.1f * (right - left);
+	ysize = 1.1f * (top - bottom);
 
 	setView(cx, cy, zoom, xsize, ysize);
 

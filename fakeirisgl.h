@@ -38,7 +38,7 @@ void pushmatrix();
 void popmatrix();
 void loadmatrix();
 void scale();
-void ortho(int a, int b, int c, int d, float e, float f);
+void ortho(float a, float b, float c, float d, float e, float f);
 void ortho2(float, float, float, float);
 void RGBcolor(int r, int g, int b);
 void circ();

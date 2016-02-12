@@ -16,7 +16,7 @@
 #define RESCOLOR()    RGBcolor(195, 31, 31)
 
 HMatrix mId = {{1,0,0,0},{0,1,0,0},{0,0,1,0},{0,0,0,1}};
-float otherAxis[][4] = {{-0.48, 0.80, 0.36, 1}};
+float otherAxis[][4] = {{-0.48f, 0.80f, 0.36f, 1.f}};
 
 /* Establish reasonable initial values for controller. */
 void Ball_Init(BallData *ball)
@@ -36,7 +36,7 @@ void Ball_Init(BallData *ball)
 }
 
 /* Set the center and size of the controller. */
-void Ball_Place(BallData *ball, HVect center, double radius)
+void Ball_Place(BallData *ball, HVect center, float radius)
 {
     ball->center = center;
     ball->radius = radius;
@@ -135,11 +135,11 @@ void DrawAnyArc(HVect vFrom, HVect vTo)
 {
     int i;
     HVect pts[NSEGS+1];
-    double dot;
+    float dot;
     pts[0] = vFrom;
     pts[1] = pts[NSEGS] = vTo;
     for (i=0; i<LG_NSEGS; i++) pts[1] = V3_Bisect(pts[0], pts[1]);
-    dot = 2.0*V3_Dot(pts[0], pts[1]);
+    dot = 2.f*V3_Dot(pts[0], pts[1]);
     for (i=2; i<NSEGS; i++) {
 	pts[i] = V3_Sub(V3_Scale(pts[i-1], dot), pts[i-2]);
     }
