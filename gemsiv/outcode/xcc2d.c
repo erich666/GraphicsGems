@@ -5,14 +5,9 @@
 #include <math.h>
 #include <fcntl.h>
 #include <time.h>
+
+#ifndef WIN32
 #include <sys/time.h>
-
-#if WIN32
-#define START
-#define STOP
-#define DELTAT
-#else
-
 /* BSD timer macros -- replace with your own */
 struct timeval start, stop;
 
@@ -20,7 +15,12 @@ struct timeval start, stop;
 #define STOP	gettimeofday(&stop, NULL)
 #define DELTAT	((float)(stop.tv_sec - start.tv_sec)+1.0e-6*	\
 		 (float)(stop.tv_usec-start.tv_usec))
+#else
+#define START
+#define STOP
+#define DELTAT
 #endif
+
 
 #define LOOPCOUNT 10000
 
