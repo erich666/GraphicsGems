@@ -139,7 +139,7 @@ Graph :: Graph()
 /* SIDE EFFECT: - node-relation data structure is destroyed	*/
 /*		  then it is restored from the given file	*/
 /*--------------------------------------------------------------*/
-void Graph :: RestoreNodes ( pchar file_name )
+void Graph :: RestoreNodes ( cpchar file_name )
 {
     char    s[MAXLINE + 1];
     char    node_name[MAXNAME + 1];
@@ -271,7 +271,7 @@ void Graph :: RestoreNodes ( pchar file_name )
 /* The file type is TEXT.					*/
 /* IN  : file name						*/
 /*--------------------------------------------------------------*/
-BOOL Graph :: SaveNodes ( pchar file_name )
+BOOL Graph :: SaveNodes ( cpchar file_name )
 {
     char s[MAXLINE];
     FileIO fo ( "w" );
@@ -782,9 +782,10 @@ void GraphWindow :: KeyPressed( KeyEvent * event )
 void GraphWindow :: ShowNode( )
 {
 
-    DrawRectangle( RectAngle( graph.ScreenPos().X() - NODESIZE_X / 2,
+    RectAngle rectangle( graph.ScreenPos().X() - NODESIZE_X / 2,
 			      graph.ScreenPos().Y() - NODESIZE_Y / 2,
-			      NODESIZE_X, NODESIZE_Y) );
+			      NODESIZE_X, NODESIZE_Y) ;
+    DrawRectangle(rectangle);
 
     Text( graph.GetNode() -> GetName(), graph.ScreenPos() );
 }

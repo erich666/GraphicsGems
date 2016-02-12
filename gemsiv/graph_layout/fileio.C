@@ -20,7 +20,7 @@
 /* OUT : char is put to the address				*/
 /*	 ret = was it succesful					*/
 /*--------------------------------------------------------------*/
-BOOL FileIO :: Get( char * pc )
+BOOL FileIO :: Get(char * pc )
 {
     if ( buffpt == nbytes ) {
 	if ( (nbytes = fread( buffer, 1, BUFFERSIZE, file)) <= 0) return FALSE;
@@ -106,7 +106,7 @@ BOOL FileIO :: GetString ( pchar s, int maxlength )
 /* SIDE EFFECT: - internal file descriptor is created end line	*/
 /*		  is initialized				*/
 /*--------------------------------------------------------------*/
-BOOL FileIO :: OpenFile( pchar name )
+BOOL FileIO :: OpenFile( cpchar name )
 {
     line_count = 1;
     buffpt = 0;
@@ -131,7 +131,7 @@ void FileIO :: CloseFile ( )
 /* IN  : pattern keyword					*/
 /* OUT : is the specified pattern received ?			*/
 /*--------------------------------------------------------------*/
-BOOL FileIO :: GetKeyWord ( pchar key )
+BOOL FileIO :: GetKeyWord ( cpchar key )
 {
     if ( !GetString( s, MAXSTRING ) ) return FALSE;
     return GetKeyAgain( key );
@@ -143,7 +143,7 @@ BOOL FileIO :: GetKeyWord ( pchar key )
 /* IN  : pattern keyword					*/
 /* OUT : is the specified pattern received ?			*/
 /*--------------------------------------------------------------*/
-BOOL FileIO :: GetKeyAgain ( pchar key )
+BOOL FileIO :: GetKeyAgain ( cpchar key )
 {
     if ( strcmp( key, s ) == 0 )      return TRUE;
     else {
@@ -190,7 +190,7 @@ BOOL FileIO :: GetOperator ( char op )
 /* IN  : specified string					*/
 /* OUT : was it succesful					*/
 /*--------------------------------------------------------------*/
-BOOL FileIO :: PutString ( pchar s )
+BOOL FileIO :: PutString ( cpchar s )
 {
     if ( fwrite( s, 1, strlen(s), file ) == 0) return FALSE;
     else				       return TRUE;
