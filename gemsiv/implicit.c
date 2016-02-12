@@ -133,6 +133,16 @@ typedef struct process {	   /* parameters, function, storage */
 /*void *calloc();*/
 char *mycalloc();
 
+void testface (int i, int j,int k, CUBE* old, int face, int c1, int c2, int c3, int c4, PROCESS* p);
+int vertid (CORNER *c1, CORNER* c2, PROCESS *p);
+void makecubetable();
+void converge (POINT* p1, POINT* p2, double v, double (*function)(), POINT* p);
+int setcenter(CENTERLIST* table[], int i, int j, int k);
+int dotet (CUBE *cube, int c1, int c2, int c3, int c4, PROCESS *p);
+int docube (CUBE* cube, PROCESS* p);
+void setedge (EDGELIST* table[], int i1, int j1, int k1, int i2, int j2, int k2, int vid);
+void vnormal (POINT* point, PROCESS* p, POINT* v);
+void addtovertices(VERTICES* vertices, VERTEX v);
 
 /**** A Test Program ****/
 
@@ -238,9 +248,7 @@ VERTICES gvertices;  /* global needed by application */
 
 /* triangle: called by polygonize() for each triangle; write to stdout */
 
-triangle (i1, i2, i3, vertices)
-int i1, i2, i3;
-VERTICES vertices;
+int triangle (int i1, int i2, int i3, VERTICES vertices)
 {
     gvertices = vertices;
     gntris++;
@@ -252,7 +260,7 @@ VERTICES vertices;
 /* main: call polygonize() with torus function
  * write points-polygon formatted data to stdout */
 
-main ()
+int main ()
     {
     int i;
     char *err, *polygonize();
@@ -389,10 +397,7 @@ int bounds, (*triproc)(), mode;
  * if surface crosses face, compute other four corners of adjacent cube
  * and add new cube to cube stack */
 
-testface (i, j, k, old, face, c1, c2, c3, c4, p)
-CUBE *old;
-PROCESS *p;
-int i, j, k, face, c1, c2, c3, c4;
+void testface (int i, int j,int k, CUBE* old, int face, int c1, int c2, int c3, int c4, PROCESS* p)
 {
     CUBE new;
     CUBES *oldcubes = p->cubes;
@@ -478,7 +483,6 @@ double x, y, z;
     return test;
 }
 
-
 /**** Tetrahedral Polygonization ****/
 
 
@@ -486,20 +490,17 @@ double x, y, z;
  * b, c, d should appear clockwise when viewed from a
  * return 0 if client aborts, 1 otherwise */
 
-int dotet (cube, c1, c2, c3, c4, p)
-CUBE *cube;
-int c1, c2, c3, c4;
-PROCESS *p;
+int dotet (CUBE *cube, int c1, int c2, int c3, int c4, PROCESS *p)
 {
     CORNER *a = cube->corners[c1];
     CORNER *b = cube->corners[c2];
     CORNER *c = cube->corners[c3];
     CORNER *d = cube->corners[c4];
     int index = 0, apos, bpos, cpos, dpos, e1, e2, e3, e4, e5, e6;
-    if (apos = (a->value > 0.0)) index += 8;
-    if (bpos = (b->value > 0.0)) index += 4;
-    if (cpos = (c->value > 0.0)) index += 2;
-    if (dpos = (d->value > 0.0)) index += 1;
+    if ((apos = (a->value > 0.0))) index += 8;
+    if ((bpos = (b->value > 0.0))) index += 4;
+    if ((cpos = (c->value > 0.0))) index += 2;
+    if ((dpos = (d->value > 0.0))) index += 1;
     /* index is now 4-bit number representing one of the 16 possible cases */
     if (apos != bpos) e1 = vertid(a, b, p);
     if (apos != cpos) e2 = vertid(a, c, p);
@@ -549,6 +550,7 @@ PROCESS *p;
 #define BF	9  /* bottom far edge	*/
 #define TN	10 /* top near edge	*/
 #define TF	11 /* top far edge	*/
+#define ERR 12
 
 static INTLISTS *cubetable[256];
 
@@ -563,9 +565,7 @@ static int rightface[12]   = {L,  T,  N,  L,  B,  R,  R,  F,  B,  F,  N,  T};
 
 /* docube: triangulate the cube directly, without decomposition */
 
-int docube (cube, p)
-CUBE *cube;
-PROCESS *p;
+int docube (CUBE* cube, PROCESS* p)
 {
     INTLISTS *polys;
     int i, index = 0;
@@ -588,8 +588,7 @@ PROCESS *p;
 
 /* nextcwedge: return next clockwise edge from given edge around given face */
 
-int nextcwedge (edge, face)
-int edge, face;
+int nextcwedge (int edge, int face)
 {
     switch (edge) {
 	case LB: return (face == L)? LF : BN;
@@ -605,6 +604,7 @@ int edge, face;
 	case TN: return (face == T)? LT : RN;
 	case TF: return (face == T)? RT : LF;
     }
+    return ERR;
 }
 
 
@@ -620,7 +620,7 @@ int edge, face;
 
 /* makecubetable: create the 256 entry table for cubical polygonization */
 
-makecubetable ()
+void makecubetable()
 {
     int i, e, c, done[12], pos[8];
     for (i = 0; i < 256; i++) {
@@ -671,9 +671,7 @@ int nitems, nbytes;
 /* setcenter: set (i,j,k) entry of table[]
  * return 1 if already set; otherwise, set and return 0 */
 
-int setcenter(table, i, j, k)
-CENTERLIST *table[];
-int i, j, k;
+int setcenter(CENTERLIST* table[], int i, int j, int k)
 {
     int index = HASH(i, j, k);
     CENTERLIST *new, *l, *q = table[index];
@@ -688,9 +686,7 @@ int i, j, k;
 
 /* setedge: set vertex id for edge */
 
-setedge (table, i1, j1, k1, i2, j2, k2, vid)
-EDGELIST *table[];
-int i1, j1, k1, i2, j2, k2, vid;
+void setedge (EDGELIST* table[], int i1, int j1, int k1, int i2, int j2, int k2, int vid)
 {
     unsigned int index;
     EDGELIST *new;
@@ -733,9 +729,7 @@ int i1, j1, k1, i2, j2, k2;
  * c1->value and c2->value are presumed of different sign
  * return saved index if any; else compute vertex and save */
 
-int vertid (c1, c2, p)
-CORNER *c1, *c2;
-PROCESS *p;
+int vertid (CORNER *c1, CORNER* c2, PROCESS *p)
 {
     VERTEX v;
     POINT a, b;
@@ -754,9 +748,7 @@ PROCESS *p;
 
 /* addtovertices: add v to sequence of vertices */
 
-addtovertices (vertices, v)
-VERTICES *vertices;
-VERTEX v;
+void addtovertices(VERTICES* vertices, VERTEX v)
 {
     if (vertices->count == vertices->max) {
 	int i;
@@ -773,9 +765,7 @@ VERTEX v;
 
 /* vnormal: compute unit length surface normal at point */
 
-vnormal (point, p, v)
-POINT *point, *v;
-PROCESS *p;
+void vnormal (POINT* point, PROCESS* p, POINT* v)
 {
     double f = p->function(point->x, point->y, point->z);
     v->x = p->function(point->x+p->delta, point->y, point->z)-f;
@@ -788,10 +778,7 @@ PROCESS *p;
 
 /* converge: from two points of differing sign, converge to zero crossing */
 
-converge (p1, p2, v, function, p)
-double v;
-double (*function)();
-POINT *p1, *p2, *p;
+void converge (POINT* p1, POINT* p2, double v, double (*function)(), POINT* p)
 {
     int i = 0;
     POINT pos, neg;

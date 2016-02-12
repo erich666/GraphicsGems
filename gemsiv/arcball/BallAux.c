@@ -22,7 +22,7 @@ Quat Qt_Mul(Quat qL, Quat qR)
  * Assumes matrix is used to multiply column vector on the left:
  * vnew = mat vold.  Works correctly for right-handed coordinate system
  * and right-handed rotations. */
-HMatrix *Qt_ToMatrix(Quat q, HMatrix out)
+HMatrix *Qt_ToMatrix(Quat q, HMatrix* out)
 {
     double Nq = q.x*q.x + q.y*q.y + q.z*q.z + q.w*q.w;
     double s = (Nq > 0.0) ? (2.0 / Nq) : 0.0;
@@ -30,12 +30,18 @@ HMatrix *Qt_ToMatrix(Quat q, HMatrix out)
     double wx = q.w*xs,	      wy = q.w*ys,	  wz = q.w*zs;
     double xx = q.x*xs,	      xy = q.x*ys,	  xz = q.x*zs;
     double yy = q.y*ys,	      yz = q.y*zs,	  zz = q.z*zs;
-    out[X][X] = 1.0 - (yy + zz); out[Y][X] = xy + wz; out[Z][X] = xz - wy;
-    out[X][Y] = xy - wz; out[Y][Y] = 1.0 - (xx + zz); out[Z][Y] = yz + wx;
-    out[X][Z] = xz + wy; out[Y][Z] = yz - wx; out[Z][Z] = 1.0 - (xx + yy);
-    out[X][W] = out[Y][W] = out[Z][W] = out[W][X] = out[W][Y] = out[W][Z] = 0.0;
-    out[W][W] = 1.0;
-    return ((HMatrix *)&out);
+    (*out)[X][X] = 1.0 - (yy + zz);
+    (*out)[Y][X] = xy + wz;
+    (*out)[Z][X] = xz - wy;
+    (*out)[X][Y] = xy - wz;
+    (*out)[Y][Y] = 1.0 - (xx + zz);
+    (*out)[Z][Y] = yz + wx;
+    (*out)[X][Z] = xz + wy;
+    (*out)[Y][Z] = yz - wx;
+    (*out)[Z][Z] = 1.0 - (xx + yy);
+    (*out)[X][W] = (*out)[Y][W] = (*out)[Z][W] = (*out)[W][X] = (*out)[W][Y] = (*out)[W][Z] = 0.0;
+    (*out)[W][W] = 1.0;
+    return out;
 }
 
 /* Return conjugate of quaternion. */

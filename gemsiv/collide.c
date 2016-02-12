@@ -883,7 +883,7 @@ double	     tx, ty, tz;
  *   it is approximate.
  *
  ****************************************************************************/
-main()
+int main()
 {
    Polyhedron	  Polyhedron1, Polyhedron2, Polyhedron3;
    Couple	  Couple1, Couple2, Couple3;

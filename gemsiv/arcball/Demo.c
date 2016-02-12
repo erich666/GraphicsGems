@@ -1,10 +1,10 @@
 /***** Demo.c *****/
 /* Ken Shoemake, 1993 */
+
+#include <stdlib.h>
 #ifdef _WIN32
 #include <windows.h>
 #endif
-//#include <gl/gl.h>
-//#include <gl/device.h>
 #include "../../fakeirisgl.h"
 
 #include "BallAux.h"
@@ -42,14 +42,14 @@ void scene_Draw(BallData *ball)
 }
 
 
-void main(void)
+int main(void)
 {
     int gid;
     short active;    /* TRUE if window is attached */
     Device dev;
     short val;
     Place winsize, winorig;
-    Place mouseNow, mouseDown;
+    Place mouseNow;
     int keysDown;
     HVect vNow;
     BallData ball;

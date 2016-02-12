@@ -36,7 +36,7 @@ double fofxy(double x, double y) {
 }
 
 
-addTriangles(double lx, double ly, double hx, double hy,
+void addTriangles(double lx, double ly, double hx, double hy,
 	Point3 *vlist, Smooth smooth) {
 		Point3 *p = vlist;
 		/* make the first triangle */
@@ -52,7 +52,7 @@ addTriangles(double lx, double ly, double hx, double hy,
 		includePolygon(3, vlist, smooth, NULL);  /* add the polygon */
 }
 
-addQuadrilateral(double lx, double ly, double hx, double hy,
+void addQuadrilateral(double lx, double ly, double hx, double hy,
 	Point3 *vlist, Smooth smooth) {
 		Point3 *p = vlist;
 		p->x = lx;  p->y = ly;  p->z = fofxy(p->x, p->y); p++;
@@ -62,7 +62,7 @@ addQuadrilateral(double lx, double ly, double hx, double hy,
 		includePolygon(4, vlist, smooth, NULL);  /* add the polygon */
 }
 
-buildMesh(Smooth smooth, int xres, int yres) {
+void buildMesh(Smooth smooth, int xres, int yres) {
 	int x, y;
 	Point3 *vlist;
 	double dx, dy, lx, ly, hx, hy;
@@ -82,7 +82,7 @@ buildMesh(Smooth smooth, int xres, int yres) {
 	free(vlist);
 }
 
-savePolys(Smooth smooth) {
+void savePolys(Smooth smooth) {
 	Polygon poly = smooth->polygonTable;
 	int i, k;
 	Point3 *v, *n;
@@ -100,8 +100,10 @@ savePolys(Smooth smooth) {
 	};
 }
 
+void freeSmooth(Smooth smooth);
+
 /* make a square height field of quadrilaterals and triangles */
-main(int ac, char *av[]) {
+int main(int ac, char *av[]) {
 	int xres, yres;
 	Smooth smooth;
 	if (ac < 3) { printf("use: test x y\n"); exit(-1); };	 /* abrupt, I know */

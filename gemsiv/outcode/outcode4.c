@@ -10,7 +10,7 @@
 #define s(x)	   (((unsigned long)(x)) >> (NUMBITS-1))
 
 /* get the absolute value of a floating point number in integral form */
-#define a(x)	   ((x) & ~(1 << (NUMBITS-1)))
+#define a(x)	   ((x) & ~((long)1 << (NUMBITS-1)))
 
 void test() {
 

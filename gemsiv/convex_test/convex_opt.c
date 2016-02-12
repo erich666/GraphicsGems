@@ -55,9 +55,7 @@ typedef double	Number;		/* float or double */
     dprev[0] = dcur[0];		/* Remember current delta.	  */	\
     dprev[1] = dcur[1];							\
 
-classifyPolygon2( nvert, pVert )
-int	nvert;
-Number	pVert[][2];
+int classifyPolygon2(int nvert, Number pVert[][2] )
 /* Determine polygon type. return one of:
  *	NotConvex, NotConvexDegenerate,
  *	ConvexCCW, ConvexCW, ConvexDegenerate

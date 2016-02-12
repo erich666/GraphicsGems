@@ -46,6 +46,9 @@ typedef struct {	/* INTEGER POINT AND VECTOR */
 } Ipoint;
 
 
+int pixel_read(Pic* p, int x, int y) { return 0; }
+void pixel_write(Pic* p, int x, int z, int i) {}
+
 /*
  * coons_warp: warps the picture in source image into a rectangular
  * destination image according to four boundary curves, using a
@@ -63,8 +66,8 @@ typedef struct {	/* INTEGER POINT AND VECTOR */
  */
 
 void coons_warp(Pic *source, Pic *dest, Curve *bound, int u0, int v0) {
-    register Ipoint *pu;
-    register int u, x, y, qx, qy, dqx, dqy;
+    Ipoint *pu;
+    int u, x, y, qx, qy, dqx, dqy;
     int nu, nv, v;
     float du, dv, fv;
     Point2f p00, p01, p10, p11, *pu0, *pu1, *p0v, *p1v;
@@ -111,8 +114,8 @@ void coons_warp(Pic *source, Pic *dest, Curve *bound, int u0, int v0) {
 	dqy = (p1v[v].y - p0v[-v].y - (1.-fv)*(p10.y-p00.y) - fv*(p11.y-p01.y))
 		*du*SCALE + .5;
 	for (pu=pua, u=0; u<=nu; u++, pu++) {
-	    x = pu->px+qx >> SHIFT;
-	    y = pu->py+qy >> SHIFT;
+	    x = (pu->px+qx) >> SHIFT;
+	    y = (pu->py+qy) >> SHIFT;
 	    pixel_write(dest, u0+u, v0+v, pixel_read(source, x, y));
 	    qx += dqx;
 	    qy += dqy;
@@ -221,7 +224,7 @@ void resample_uniform(Curve *a, Curve *b, int n) {
 	}
     }
     if (bp-b->pt != n)
-	printf("WARNING: requested %d points, created %d, d=%g\n",
+	printf("WARNING: requested %d points, created %ld, d=%g\n",
 	    n, bp-b->pt, d);
 }
 

@@ -3,7 +3,7 @@
 */
 
 #include <stdio.h>
-void *malloc(unsigned int);
+#include <stdlib.h>
 #include "hdp.h"
 
 /*

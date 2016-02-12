@@ -134,7 +134,7 @@ return picture;
 *									*
 ************************************************************************/
 
-int parseStream(std::istream& s, char** vocabulary)
+int parseStream(std::istream& s, const char** vocabulary)
 {
 int	i;
 char	c,
@@ -176,7 +176,7 @@ enum {CAMERA=1,
       POLYHEDRON=4,
       UNKNOWN=5};
 int	    key;
-static char *key_words[] = {"CAMERA",
+const char *key_words[5] = {"CAMERA",
 			    "LIGHT",
 			    "SPHERE",
 			    "POLYHEDRON",

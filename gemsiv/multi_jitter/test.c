@@ -19,7 +19,7 @@ void MultiJitter(Point2 points[], int m, int n);
 
 
 
-main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) {
 
     Point2 *points;
     int m, n, i, x, y;

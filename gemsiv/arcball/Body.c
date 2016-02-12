@@ -1,8 +1,7 @@
 /***** Body.c *****/
-//#include <gl/gl.h>
+#include "../../fakeirisgl.h"
 #include "Body.h"
 
-typedef float Matrix[4][4];
 
 enum QuatPart {X, Y, Z, W};
 int bodyNPoints = 8;

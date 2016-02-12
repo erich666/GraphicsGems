@@ -3,13 +3,10 @@
 #ifdef _WIN32
 #include <windows.h>
 #endif
-//#include <gl/gl.h>
 #include "Ball.h"
 #include "BallMath.h"
+#include "../../fakeirisgl.h"
 
-
-#define TRUE 1
-#define FALSE 0
 #define LG_NSEGS 4
 #define NSEGS (1<<LG_NSEGS)
 #define RIMCOLOR()    RGBcolor(255, 255, 255)
@@ -72,7 +69,7 @@ void Ball_HideResult(BallData *ball)
 /* Using vDown, vNow, dragging, and axisSet, compute rotation etc. */
 void Ball_Update(BallData *ball)
 {
-    int i, setSize = ball->setSizes[ball->axisSet];
+    int setSize = ball->setSizes[ball->axisSet];
     HVect *set = (HVect *)(ball->sets[ball->axisSet]);
     ball->vFrom = MouseOnSphere(ball->vDown, ball->center, ball->radius);
     ball->vTo = MouseOnSphere(ball->vNow, ball->center, ball->radius);
@@ -89,7 +86,7 @@ void Ball_Update(BallData *ball)
 	}
     }
     Qt_ToBallPoints(ball->qDown, &ball->vrFrom, &ball->vrTo);
-    Qt_ToMatrix(Qt_Conj(ball->qNow), ball->mNow); /* Gives transpose for GL. */
+    Qt_ToMatrix(Qt_Conj(ball->qNow), &ball->mNow); /* Gives transpose for GL. */
 }
 
 /* Return rotation matrix defined by controller use. */
@@ -173,7 +170,7 @@ void Ball_DrawConstraints(BallData *ball)
 {
     ConstraintSet set;
     HVect axis;
-    int j, axisI, setSize = ball->setSizes[ball->axisSet];
+    int axisI, setSize = ball->setSizes[ball->axisSet];
     if (ball->axisSet==NoAxes) return;
     set = ball->sets[ball->axisSet];
     for (axisI=0; axisI<setSize; axisI++) {

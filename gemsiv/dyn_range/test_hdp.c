@@ -6,7 +6,7 @@
 
 #include "hdp.h"
 
-void main (void)
+int main (void)
 {
     realcolor RealColor;
     bytecolor ByteColor;

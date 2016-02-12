@@ -389,8 +389,7 @@ int i, j, k;
 
 /* binary greatest common divisor by Silver and Terzian.  See Knuth */
 /* both inputs must be >= 0 */
-gcd(u, v)
-int u, v;
+int gcd(int u, int v)
 {
 int t, f;
 	if ((u<0) || (v<0)) return(1); /* error if u<0 or v<0 */

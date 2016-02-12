@@ -7,18 +7,20 @@
 typedef struct { int x; int y; int z; } Coord;
 typedef int Device;
 
+#ifndef TRUE
+#define TRUE			1
+#define FALSE			0
+#endif
+
 #define WINSHUT			777
 #define MOUSEX			778
 #define MOUSEY			779
 #define LEFTMOUSE		780
 #define LEFTCTRLKEY		781
-#define RIGHTCTRLKEY	782
-#define LEFTSHIFTKEY	783
-#define RIGHTSHIFTKEY	784
+#define RIGHTCTRLKEY		782
+#define LEFTSHIFTKEY		783
+#define RIGHTSHIFTKEY		784
 #define CAPSLOCKKEY		785
-#ifndef _WIN32
-#define TRUE			786
-#endif
 #define INPUTCHANGE		787
 #define REDRAW			788
 #define HKEY			789
@@ -29,10 +31,14 @@ extern "C" {
 #endif
 
 void bgnline();
+void bgnpolygon();
+void endpolygon();
+void multmatrix(float m[4][4]);
 void pushmatrix();
 void popmatrix();
 void loadmatrix();
 void scale();
+void ortho(int a, int b, int c, int d, float e, float f);
 void ortho2(float, float, float, float);
 void RGBcolor(int r, int g, int b);
 void circ();
@@ -40,7 +46,7 @@ void v2d(double*);
 void v3f();
 void endline();
 void prefsize(int, int);
-long winopen(char*);
+long winopen(const char*);
 void doublebuffer();
 void RGBmode();
 void gconfig();
@@ -58,6 +64,12 @@ void winset(int);
 void reshapeviewport();
 void winclose(int);
 void gexit();
+void v4f();
+//void drawbody(float m[4][4]);
+void keepaspect(int x, int y);
+void prefposition(int a, int b, int c, int d);
+void translate(float a, float b, float c);
+int qtest();
 
 #ifdef __cplusplus
 }

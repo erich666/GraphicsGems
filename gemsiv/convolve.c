@@ -53,9 +53,7 @@ void	freeImage();
  * Main function to collect input image and kernel values.
  * Pass them to convolve() and save result in output file.
  */
-main(argc, argv)
-int	  argc;
-char	**argv;
+int main(int argc, char**argv)
 {
 	int	n;
 	imageP	I1, I2;
@@ -89,7 +87,7 @@ char	**argv;
 	convolve(I1, kernel, n, I2);
 
 	/* save output to a file */
-	if(saveImage(I2, argv[3]) == NULL) {
+	if(saveImage(I2, argv[3]) == 0) {
 		fprintf(stderr, "Can't save output file %s\n", argv[3]);
 		exit(1);
 	}
@@ -381,14 +379,14 @@ char	*file;
  * saveImage:
  *
  * Save image I into file.
- * Return NULL for failure, 1 for success.
+ * Return 0 for failure, 1 for success.
  */
 int
 saveImage(I, file)
 imageP	 I;
 char	*file;
 {
-	int	 sz[2], status = NULL;
+	int	 sz[2], status = 0;
 	FILE	*fp;
 
 	if((fp = fopen(file, "w")) != NULL) {	/* open file for save	*/

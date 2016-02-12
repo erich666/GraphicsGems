@@ -5,7 +5,7 @@
 #include <math.h>
 #include <fcntl.h>
 #include <time.h>
-
+#include <sys/time.h>
 
 #if WIN32
 #define START
@@ -58,6 +58,11 @@ verttype vtxm[] = {	/* model triangle strip points */
 	{ 0.0, 0.0 + X*5},
 	{ X,   X/2 + X*5}, };
 
+
+
+void xform_ctp(int vc, verttype vpi[12], float vpo[VERTS+1][VSIZ-1], int visiz, int vosiz, float* mtx, float* prj, int* pf, int* pa);
+
+
 /*
  * Transform/clip check test program
  *
@@ -67,8 +72,7 @@ verttype vtxm[] = {	/* model triangle strip points */
  *	-c count : loop counter (defaults to 10000)
  *
  */
-
-main( argc, argv)
+int main( argc, argv)
 int argc; char *argv[];
 {
 int MHz = 40;

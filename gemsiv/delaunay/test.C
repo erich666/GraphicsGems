@@ -33,7 +33,7 @@ static void usage()
 	std::cerr << "usage: " << program << " [ -n number_of_points ]\n";
 }
 
-static void errmsg(char *msg)
+static void errmsg(const char *msg)
 {
 	std::cerr << program << ": " << msg << std::endl;
 	usage();
@@ -112,13 +112,10 @@ void printHelp()
 		 << "  <q>     quit\n";
 }
 
-void getMouse (long,
-		float cx, float cy, float zoom,
-		float xsize, float ysize,
-		float& x, float& y)
+void getMouse (long window, float cx, float cy, float zoom,
+		float xsize, float ysize, float& x, float& y)
 {
 	long sx, sy, ox, oy, sxsize, sysize;
-	Coord p[3], v[3];
 
 	sx = getvaluator(MOUSEX);
 	sy = getvaluator(MOUSEY);

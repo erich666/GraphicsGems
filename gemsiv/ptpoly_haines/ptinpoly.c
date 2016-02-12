@@ -56,10 +56,7 @@
  * _point_, returns 1 if inside, 0 if outside.	WINDING and CONVEX can be
  * defined for this test.
  */
-int CrossingsTest( pgon, numverts, point )
-double	pgon[][2] ;
-int	numverts ;
-double	point[2] ;
+int CrossingsTest(double pgon[][2], int numverts, double point[2])
 {
 #ifdef	WINDING
 int	crossings ;
@@ -152,10 +149,7 @@ int	line_flag ;
  * Input 2D polygon _pgon_ with _numverts_ number of vertices and test point
  * _point_, returns 1 if inside, 0 if outside.
  */
-int AngleTest( pgon, numverts, point )
-double	pgon[][2] ;
-int	numverts ;
-double	point[2] ;
+int AngleTest(double pgon[][2], int numverts, double point[2] )
 {
 double *vtx0, *vtx1, angle, len, vec0[2], vec1[2], vec_dot ;
 int	j ;
@@ -232,10 +226,7 @@ int	inside_flag ;
 #define X_INTERCEPT( v0, v1, y )	\
 	( (((v1)[X]-(v0)[X])/((v1)[Y]-(v0)[Y])) * ((y)-(v0)[Y]) + (v0)[X] )
 
-int WeilerTest( pgon, numverts, point )
-double	pgon[][2] ;
-int	numverts ;
-double	point[2] ;
+int WeilerTest(double pgon[][2], int numverts, double point[2])
 {
 int	angle, qd, next_qd, delta, j ;
 double ty, tx, *vtx0, *vtx1 ;
@@ -476,10 +467,7 @@ pSizePlanePair	p_sp0, p_sp1 ;
 
 
 /* check point for inside of three "planes" formed by triangle edges */
-int PlaneTest( p_plane_set, numverts, point )
-pPlaneSet	p_plane_set ;
-int	numverts ;
-double	point[2] ;
+int PlaneTest(pPlaneSet p_plane_set, int numverts, double point[2])
 {
 pPlaneSet	ps ;
 int	p2 ;
@@ -570,10 +558,7 @@ pPlaneSet	p_plane_set ;
  * Input 2D polygon _pgon_ with _numverts_ number of vertices and test point
  * _point_, returns 1 if inside, 0 if outside.
  */
-int BarycentricTest( pgon, numverts, point )
-double	pgon[][2] ;
-int	numverts ;
-double	point[2] ;
+int BarycentricTest(double pgon[][2], int numverts, double point[2] )
 {
 double *pg1, *pg2, *pgend ;
 double tx, ty, u0, u1, u2, v0, v1, vx0, vy0, alpha, beta, denom ;
@@ -769,11 +754,7 @@ double	u[2], v[2], len[2], *pv_temp ;
 }
 
 /* barycentric, a la Gems I and Spackman's normalization precompute */
-int SpackmanTest( anchor, p_spackman_set, numrec, point )
-double	anchor[2] ;
-pSpackmanSet	p_spackman_set ;
-int	numrec ;
-double	point[2] ;
+int SpackmanTest(double anchor[2], pSpackmanSet p_spackman_set, int numrec, double point[2])
 {
 pSpackmanSet	pss ;
 int	inside_flag ;
@@ -1054,11 +1035,7 @@ pEdge	*u, *v ;
     }
 }
 
-int TrapezoidTest( pgon, numverts, p_trap_set, point )
-double	pgon[][2] ;
-int	numverts ;
-pTrapezoidSet	p_trap_set ;
-double	point[2] ;
+int TrapezoidTest(double pgon[][2],int  numverts, pTrapezoidSet	p_trap_set, double point[2])
 {
 int	j, b, count, id ;
 double	tx, ty, *vtx0, *vtx1 ;
@@ -1565,9 +1542,7 @@ double		slope, inv_slope ;
  *	  state of the edge or corner the ray went to and so determine the
  *	  state of the point (inside or outside).
  */
-int GridTest( p_gs, point )
-pGridSet	p_gs ;
-double	point[2] ;
+int GridTest(pGridSet p_gs, double point[2])
 {
 int	j, count, init_flag ;
 pGridCell	p_gc ;
@@ -2082,10 +2057,7 @@ pInclusionAnchor p_inc_anchor ;
  * Input 2D polygon _pgon_ with _numverts_ number of vertices and test point
  * _point_, returns 1 if inside, 0 if outside.
  */
-int CrossingsMultiplyTest( pgon, numverts, point )
-double	pgon[][2] ;
-int	numverts ;
-double	point[2] ;
+int CrossingsMultiplyTest(double pgon[][2], int numverts, double point[2])
 {
 int	j, yflag0, yflag1, inside_flag ;
 double	ty, tx, *vtx0, *vtx1 ;
