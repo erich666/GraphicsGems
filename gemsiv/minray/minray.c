@@ -50,16 +50,15 @@ vec P, D;
     return best;
 }
 
-vec trace(level, P, D)
-vec P, D;
+vec trace(int level, vec P, vec D)
 {
     double d, eta, e;
     vec N, color;
     struct sphere *s, *l;
 
     if (!level--) return black;
-    if (s = intersect(P, D));
-    else return amb;
+    s = intersect(P, D);
+    if(!s) return amb;
 
     color = amb;
     eta = s->ir;
@@ -87,7 +86,7 @@ vec P, D;
 	    vcomb(s->kd, color, vcomb(s->kl, U, black))));
 }
 
-main()
+int main()
 {
     printf("%d %d\n", SIZE, SIZE);
     while (yx<SIZE*SIZE)
@@ -95,5 +94,5 @@ main()
 	U.z = SIZE/2-yx++/SIZE,
 	U.y = SIZE/2/tan(AOV/114.5915590261),	/* 360/PI~=114 */
 	U = vcomb(255., trace(DEPTH, black, vunit(U)), black),
-	printf("%.0f %.0f %.0f\n", U);		/* yowsa! non-portable! */
+	printf("%.0f %.0f %.0f\n", U.x, U.y, U.z);		/* yowsa! Portable! ;) */
 }

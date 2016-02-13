@@ -76,6 +76,9 @@ ScreenProject( Point4 * worldPt, Point3 * screenPt )
     screenPt->z = worldPt->z / worldPt->w * 100 + 200;
 }
 
+void MoveTo(int a, int b);
+void LineTo(int a, int b);
+
 static void
 LineTriangle( SurfSample * v0, SurfSample * v1, SurfSample * v2 )
 {
@@ -85,7 +88,7 @@ LineTriangle( SurfSample * v0, SurfSample * v1, SurfSample * v2 )
     LineTo( (short) (v0->point.x * 100 + 200), (short) (v0->point.y * 100 + 200) );
 }
 
-main()
+int main()
 {
     NurbSurface * torus;
 

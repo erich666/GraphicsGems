@@ -530,7 +530,7 @@ EmitTriangles( NurbSurface * n )
 {
     Point3 vecnn, vec0n;		/* Diagonal vectors */
     double len2nn, len20n;		/* Diagonal lengths squared */
-    double u0, un, v0, vn;		/* Texture coords;
+    double u0, un, v0, vn;		/* Texture coords; */
 
     /*
      * Measure the distance along the two diagonals to decide the best

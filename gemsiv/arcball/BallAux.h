@@ -9,7 +9,7 @@ typedef Quat HVect;
 typedef float HMatrix[QuatLen][QuatLen];
 
 extern Quat qOne;
-HMatrix *Qt_ToMatrix(Quat q, HMatrix out);
+HMatrix *Qt_ToMatrix(Quat q, HMatrix* out);
 Quat Qt_Conj(Quat q);
 Quat Qt_Mul(Quat qL, Quat qR);
 HVect V3_(float x, float y, float z);

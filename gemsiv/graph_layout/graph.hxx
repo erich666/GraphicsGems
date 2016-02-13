@@ -31,7 +31,7 @@ public:
     vector& Speed( void )	     { return speed;	    }
     vector& Force( void )	     { return force;	    }
 
-    void   AddForce( vector& f )     { force += f;	    }
+    void   AddForce(const vector& f )     { force += f;	    }
 
     pchar  GetName( void )	     { return name;	    }
     TYPE   GetType( void )	     { return type;	    }
@@ -109,8 +109,8 @@ public:
     BOOL	 RelSearchNode( pchar );
     int		 SearchRelation( void );  // search relation of currnode and relatenode
 
-    BOOL	 SaveNodes( pchar );	  // save to a file
-    void	 RestoreNodes( pchar );	  // restore from file
+    BOOL	 SaveNodes( cpchar );	  // save to a file
+    void	 RestoreNodes( cpchar );	  // restore from file
 
     int		 Placement( void );	  // place nodes step-by-step
     void	 RandomArrange( void );	  // arrange nodes randomly

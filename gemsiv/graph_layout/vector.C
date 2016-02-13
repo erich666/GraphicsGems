@@ -19,7 +19,7 @@
 /* IN  : reference of the two operands				*/
 /* OUT : result vector						*/
 /*--------------------------------------------------------------*/
-vector operator+(vector& a, vector& b)
+vector operator+(const vector& a, const vector& b)
 {
 	vector sum;
 	sum.x = a.x + b.x;
@@ -32,7 +32,7 @@ vector operator+(vector& a, vector& b)
 /* IN  : reference of the two operands				*/
 /* OUT : result vector						*/
 /*--------------------------------------------------------------*/
-vector operator-(vector& a, vector& b)
+vector operator-(const vector& a, const vector& b)
 {
 	vector dif;
 	dif.x = a.x - b.x;
@@ -58,7 +58,7 @@ vector operator-(vector& a)
 /* IN  : vector and scalar operand				*/
 /* OUT : result vector						*/
 /*--------------------------------------------------------------*/
-vector operator*(vector& a, double s)
+vector operator*(double s, const vector& a)
 {
 	vector scaled;
 	scaled.x = s * a.x;

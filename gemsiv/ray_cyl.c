@@ -34,8 +34,6 @@
 /*									*/
 /* -------------------------------------------------------------------- */
 
-#define HUGE		1.0e21		/* Huge value			*/
-
 
 boolean intcyl	(raybase,raycos,base,axis,radius,in,out)
 

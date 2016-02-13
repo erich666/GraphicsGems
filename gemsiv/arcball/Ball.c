@@ -3,13 +3,10 @@
 #ifdef _WIN32
 #include <windows.h>
 #endif
-//#include <gl/gl.h>
 #include "Ball.h"
 #include "BallMath.h"
+#include "../../fakeirisgl.h"
 
-
-#define TRUE 1
-#define FALSE 0
 #define LG_NSEGS 4
 #define NSEGS (1<<LG_NSEGS)
 #define RIMCOLOR()    RGBcolor(255, 255, 255)
@@ -19,7 +16,7 @@
 #define RESCOLOR()    RGBcolor(195, 31, 31)
 
 HMatrix mId = {{1,0,0,0},{0,1,0,0},{0,0,1,0},{0,0,0,1}};
-float otherAxis[][4] = {{-0.48, 0.80, 0.36, 1}};
+float otherAxis[][4] = {{-0.48f, 0.80f, 0.36f, 1.f}};
 
 /* Establish reasonable initial values for controller. */
 void Ball_Init(BallData *ball)
@@ -39,7 +36,7 @@ void Ball_Init(BallData *ball)
 }
 
 /* Set the center and size of the controller. */
-void Ball_Place(BallData *ball, HVect center, double radius)
+void Ball_Place(BallData *ball, HVect center, float radius)
 {
     ball->center = center;
     ball->radius = radius;
@@ -72,7 +69,7 @@ void Ball_HideResult(BallData *ball)
 /* Using vDown, vNow, dragging, and axisSet, compute rotation etc. */
 void Ball_Update(BallData *ball)
 {
-    int i, setSize = ball->setSizes[ball->axisSet];
+    int setSize = ball->setSizes[ball->axisSet];
     HVect *set = (HVect *)(ball->sets[ball->axisSet]);
     ball->vFrom = MouseOnSphere(ball->vDown, ball->center, ball->radius);
     ball->vTo = MouseOnSphere(ball->vNow, ball->center, ball->radius);
@@ -89,7 +86,7 @@ void Ball_Update(BallData *ball)
 	}
     }
     Qt_ToBallPoints(ball->qDown, &ball->vrFrom, &ball->vrTo);
-    Qt_ToMatrix(Qt_Conj(ball->qNow), ball->mNow); /* Gives transpose for GL. */
+    Qt_ToMatrix(Qt_Conj(ball->qNow), &ball->mNow); /* Gives transpose for GL. */
 }
 
 /* Return rotation matrix defined by controller use. */
@@ -138,11 +135,11 @@ void DrawAnyArc(HVect vFrom, HVect vTo)
 {
     int i;
     HVect pts[NSEGS+1];
-    double dot;
+    float dot;
     pts[0] = vFrom;
     pts[1] = pts[NSEGS] = vTo;
     for (i=0; i<LG_NSEGS; i++) pts[1] = V3_Bisect(pts[0], pts[1]);
-    dot = 2.0*V3_Dot(pts[0], pts[1]);
+    dot = 2.f*V3_Dot(pts[0], pts[1]);
     for (i=2; i<NSEGS; i++) {
 	pts[i] = V3_Sub(V3_Scale(pts[i-1], dot), pts[i-2]);
     }
@@ -173,7 +170,7 @@ void Ball_DrawConstraints(BallData *ball)
 {
     ConstraintSet set;
     HVect axis;
-    int j, axisI, setSize = ball->setSizes[ball->axisSet];
+    int axisI, setSize = ball->setSizes[ball->axisSet];
     if (ball->axisSet==NoAxes) return;
     set = ball->sets[ball->axisSet];
     for (axisI=0; axisI<setSize; axisI++) {

@@ -6,13 +6,8 @@
 #include <fcntl.h>
 #include <time.h>
 
-
-#if WIN32
-#define START
-#define STOP
-#define DELTAT
-#else
-
+#ifndef WIN32
+#include <sys/time.h>
 /* BSD timer macros -- replace with your own */
 struct timeval start, stop;
 
@@ -20,7 +15,12 @@ struct timeval start, stop;
 #define STOP	gettimeofday(&stop, NULL)
 #define DELTAT	((float)(stop.tv_sec - start.tv_sec)+1.0e-6*	\
 		 (float)(stop.tv_usec-start.tv_usec))
+#else
+#define START
+#define STOP
+#define DELTAT
 #endif
+
 
 #define LOOPCOUNT 10000
 
@@ -58,6 +58,11 @@ verttype vtxm[] = {	/* model triangle strip points */
 	{ 0.0, 0.0 + X*5},
 	{ X,   X/2 + X*5}, };
 
+
+
+void xform_ctp(int vc, verttype vpi[12], float vpo[VERTS+1][VSIZ-1], int visiz, int vosiz, float* mtx, float* prj, int* pf, int* pa);
+
+
 /*
  * Transform/clip check test program
  *
@@ -67,8 +72,7 @@ verttype vtxm[] = {	/* model triangle strip points */
  *	-c count : loop counter (defaults to 10000)
  *
  */
-
-main( argc, argv)
+int main( argc, argv)
 int argc; char *argv[];
 {
 int MHz = 40;

@@ -7,9 +7,36 @@
 **	   Technical University of Budapest, Hungary
 *****************************************************************************/
 
+#define FAKE 1
+
+#ifndef FAKE
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/Xos.h>
+#else
+
+class XKeyEvent;
+class KeySym;
+class XComposeStatus;
+class XExposeEvent;
+class Display;
+
+int XLookupString(XKeyEvent*, char*, int, KeySym*, XComposeStatus*);
+
+class KeySym {};
+class XComposeStatus {};
+class XExposeEvent {
+    public:
+    int x;
+    int y;
+    int width;
+    int height;
+};
+class GC {};
+class Window {};
+
+#endif
+
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
@@ -28,6 +55,7 @@
 //******************************************************************
 typedef short  CoOrd;
 typedef char * pchar;
+typedef const char* cpchar;
 typedef char   BOOL;
 
 //===================================================================
@@ -35,8 +63,8 @@ class App {
 //===================================================================
 public:
 	void		Start( int argc, char * argv[] );
-	void		Error( char * mess, int line = -1 );
-	void		Warning( char * mess );
+	void		Error( const char * mess, int line = -1 );
+	void		Warning(const char * mess );
 	void		Quit( void );
 };
 
@@ -72,6 +100,8 @@ public:
     CoOrd&  Width()	{ return width;			}
     CoOrd&  Height()	{ return height;		}
 };
+
+
 
 //===================================================================
 class KeyEvent {
@@ -110,7 +140,7 @@ protected:
 
 	RectAngle	Canvas( void );
 	void		RePaint( void );
-	void		Text( char * text, Point position );
+	void		Text(const char * text, Point position );
 	void		MoveTo( Point to );
 	void		LineTo( Point to );
 	void		DrawRectangle( RectAngle& rect );

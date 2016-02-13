@@ -1,7 +1,8 @@
 #include <math.h>
+#include <stdlib.h>
 
 #if WIN32
-long int random() {};
+long int random() { return 0;  }
 void srandom(unsigned int seed) {}
 #endif
 
@@ -14,7 +15,7 @@ typedef struct {
 } Point2;
 
 
-unsigned long random();	    /* expected to return a random int in [0, 2^31-1] */
+//unsigned long random();	    /* expected to return a random int in [0, 2^31-1] */
 
 
 /*

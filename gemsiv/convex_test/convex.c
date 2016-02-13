@@ -56,10 +56,10 @@ Point2d previous, *next;	/* is different from 'previous' and	*/
  * and for orientation.
  */
 #define CheckTriple							\
-	if ( (thisDir = Compare(second, third)) == -curDir )		\
+	if (((thisDir = Compare(second, third))) == -curDir )		\
 	    ++dirChanges;						\
 	curDir = thisDir;						\
-	if ( thisSign = WhichSide(first, second, third) ) {		\
+	if ((thisSign = WhichSide(first, second, third))) {		\
 	    if ( angleSign == -thisSign )				\
 		return NotConvex;					\
 	    angleSign = thisSign;					\

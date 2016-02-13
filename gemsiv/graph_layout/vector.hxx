@@ -15,8 +15,8 @@ class	 vector {
 public:
     vector()			     { x = 0.0; y = 0.0;	      }
     vector(double x0, double y0)     { x = x0; y = y0;		      }
-    void     operator=(vector&	a)   { x = a.x; y = a.y;	      }
-    void     operator+=(vector& a)   { x += a.x; y += a.y;	      }
+    void     operator=(const vector&	a)   { x = a.x; y = a.y;	      }
+    void     operator+=(const vector& a)   { x += a.x; y += a.y;	      }
     void     operator/=(double d)    { if (d != 0.0) {x /= d; y /= d;}}
     void     operator*=(double d)    { x *= d; y *= d;		      }
     double	  X()		     { return x;		      }
@@ -24,9 +24,9 @@ public:
     double     Size();
 
 // FRIENDS
-    friend vector operator+(vector&, vector&);
-    friend vector operator-(vector&, vector&);
+    friend vector operator+(const vector&, const vector&);
+    friend vector operator-(const vector&, const vector&);
     friend vector operator-(vector&);
-    friend vector operator*(vector&, double);
+    friend vector operator*(double, const vector&);
     friend vector operator*(double, vector&);
 };

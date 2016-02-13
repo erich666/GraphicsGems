@@ -53,9 +53,7 @@ void	freeImage();
  * Main function to collect input image and kernel values.
  * Pass them to convolve() and save result in output file.
  */
-main(argc, argv)
-int	  argc;
-char	**argv;
+int main(int argc, char**argv)
 {
 	int	n;
 	imageP	I1, I2;
@@ -82,14 +80,14 @@ char	**argv;
 		fprintf(stderr, "Can't read kernel file %s\n", argv[2]);
 		exit(1);
 	}
-	for(n=0; n<9 && fgets(buf, 80, fp); n++) kernel[n] = atof(buf);
+	for(n=0; n<9 && fgets(buf, 80, fp); n++) kernel[n] = (float)atof(buf);
 
 	/* convolve input I1 with fast convolver */
 	I2 = allocImage(I1->width, I1->height);
 	convolve(I1, kernel, n, I2);
 
 	/* save output to a file */
-	if(saveImage(I2, argv[3]) == NULL) {
+	if(saveImage(I2, argv[3]) == 0) {
 		fprintf(stderr, "Can't save output file %s\n", argv[3]);
 		exit(1);
 	}
@@ -196,9 +194,9 @@ lutP	 luts;
 
 		/* compute bias for each field to avoid underflow */
 		b1 = b2 = b3 = 0;
-		if(k1 < 0) b1 = -k1 * 1024;
-		if(k2 < 0) b2 = -k2 * 1024;
-		if(k3 < 0) b3 = -k3 * 1024;
+		if(k1 < 0) b1 = (int)(-k1 * 1024);
+		if(k2 < 0) b2 = (int)(-k2 * 1024);
+		if(k3 < 0) b3 = (int)(-k3 * 1024);
 
 		/* luts->bias will be subtracted in convolve() after adding
 		 * stages; multiply by 2 because of combined effect of fwd
@@ -381,14 +379,14 @@ char	*file;
  * saveImage:
  *
  * Save image I into file.
- * Return NULL for failure, 1 for success.
+ * Return 0 for failure, 1 for success.
  */
 int
 saveImage(I, file)
 imageP	 I;
 char	*file;
 {
-	int	 sz[2], status = NULL;
+	int	 sz[2], status = 0;
 	FILE	*fp;
 
 	if((fp = fopen(file, "w")) != NULL) {	/* open file for save	*/

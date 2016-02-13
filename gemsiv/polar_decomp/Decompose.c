@@ -101,13 +101,13 @@ Quat Qt_FromMatrix(HMatrix mat)
      * Otherwise, the largest diagonal entry corresponds to the largest of |x|,
      * |y|, or |z|, one of which must be larger than |w|, and at least 1/2. */
     Quat qu;
-    register double tr, s;
+    float tr, s;
 
     tr = mat[X][X] + mat[Y][Y]+ mat[Z][Z];
-    if (tr >= 0.0) {
-	    s = sqrt(tr + mat[W][W]);
-	    qu.w = s*0.5;
-	    s = 0.5 / s;
+    if (tr >= 0.f) {
+	    s = sqrtf(tr + mat[W][W]);
+	    qu.w = s*0.5f;
+	    s = 0.5f / s;
 	    qu.x = (mat[Z][Y] - mat[Y][Z]) * s;
 	    qu.y = (mat[X][Z] - mat[Z][X]) * s;
 	    qu.z = (mat[Y][X] - mat[X][Y]) * s;
@@ -118,9 +118,9 @@ Quat Qt_FromMatrix(HMatrix mat)
 	    switch (h) {
 #define caseMacro(i,j,k,I,J,K) \
 	    case I:\
-		s = sqrt( (mat[I][I] - (mat[J][J]+mat[K][K])) + mat[W][W] );\
-		qu.i = s*0.5;\
-		s = 0.5 / s;\
+		s = sqrtf( (mat[I][I] - (mat[J][J]+mat[K][K])) + mat[W][W] );\
+		qu.i = s*0.5f;\
+		s = 0.5f / s;\
 		qu.j = (mat[I][J] + mat[J][I]) * s;\
 		qu.k = (mat[K][I] + mat[I][K]) * s;\
 		qu.w = (mat[K][J] - mat[J][K]) * s;\
@@ -130,7 +130,7 @@ Quat Qt_FromMatrix(HMatrix mat)
 	    caseMacro(z,x,y,Z,X,Y);
 	    }
 	}
-    if (mat[W][W] != 1.0) qu = Qt_Scale(qu, 1/sqrt(mat[W][W]));
+    if (mat[W][W] != 1.f) qu = Qt_Scale(qu, 1.f/sqrtf(mat[W][W]));
     return (qu);
 }
 /******* Decomp Auxiliaries *******/
@@ -142,10 +142,10 @@ float mat_norm(HMatrix M, int tpose)
 {
     int i;
     float sum, max;
-    max = 0.0;
+    max = 0.f;
     for (i=0; i<3; i++) {
-	if (tpose) sum = fabs(M[0][i])+fabs(M[1][i])+fabs(M[2][i]);
-	else	   sum = fabs(M[i][0])+fabs(M[i][1])+fabs(M[i][2]);
+	if (tpose) sum = fabsf(M[0][i])+fabsf(M[1][i])+fabsf(M[2][i]);
+	else	   sum = fabsf(M[i][0])+fabsf(M[i][1])+fabsf(M[i][2]);
 	if (max<sum) max = sum;
     }
     return max;
@@ -159,9 +159,9 @@ int find_max_col(HMatrix M)
 {
     float abs, max;
     int i, j, col;
-    max = 0.0; col = -1;
+    max = 0.f; col = -1;
     for (i=0; i<3; i++) for (j=0; j<3; j++) {
-	abs = M[i][j]; if (abs<0.0) abs = -abs;
+	abs = M[i][j]; if (abs<0.f) abs = -abs;
 	if (abs>max) {max = abs; col = j;}
     }
     return col;
@@ -170,10 +170,10 @@ int find_max_col(HMatrix M)
 /** Setup u for Household reflection to zero all v components but first **/
 void make_reflector(float *v, float *u)
 {
-    float s = sqrt(vdot(v, v));
+    float s = sqrtf(vdot(v, v));
     u[0] = v[0]; u[1] = v[1];
-    u[2] = v[2] + ((v[2]<0.0) ? -s : s);
-    s = sqrt(2.0/vdot(u, u));
+    u[2] = v[2] + ((v[2]<0.f) ? -s : s);
+    s = sqrtf(2.f/vdot(u, u));
     u[0] = u[0]*s; u[1] = u[1]*s; u[2] = u[2]*s;
 }
 
@@ -210,7 +210,7 @@ void do_rank1(HMatrix M, HMatrix Q)
     v2[0] = M[2][0]; v2[1] = M[2][1]; v2[2] = M[2][2];
     make_reflector(v2, v2); reflect_rows(M, v2);
     s = M[2][2];
-    if (s<0.0) Q[2][2] = -1.0;
+    if (s<0.f) Q[2][2] = -1.f;
     reflect_cols(Q, v1); reflect_rows(Q, v2);
 }
 
@@ -229,13 +229,13 @@ void do_rank2(HMatrix M, HMatrix MadjT, HMatrix Q)
     make_reflector(v2, v2); reflect_rows(M, v2);
     w = M[0][0]; x = M[0][1]; y = M[1][0]; z = M[1][1];
     if (w*z>x*y) {
-	c = z+w; s = y-x; d = sqrt(c*c+s*s); c = c/d; s = s/d;
+	c = z+w; s = y-x; d = sqrtf(c*c+s*s); c = c/d; s = s/d;
 	Q[0][0] = Q[1][1] = c; Q[0][1] = -(Q[1][0] = s);
     } else {
-	c = z-w; s = y+x; d = sqrt(c*c+s*s); c = c/d; s = s/d;
+	c = z-w; s = y+x; d = sqrtf(c*c+s*s); c = c/d; s = s/d;
 	Q[0][0] = -(Q[1][1] = c); Q[0][1] = Q[1][0] = s;
     }
-    Q[0][2] = Q[2][0] = Q[1][2] = Q[2][1] = 0.0; Q[2][2] = 1.0;
+    Q[0][2] = Q[2][0] = Q[1][2] = Q[2][1] = 0.f; Q[2][2] = 1.f;
     reflect_cols(Q, v1); reflect_rows(Q, v2);
 }
 
@@ -259,11 +259,11 @@ float polar_decomp(HMatrix M, HMatrix Q, HMatrix S)
     do {
 	adjoint_transpose(Mk, MadjTk);
 	det = vdot(Mk[0], MadjTk[0]);
-	if (det==0.0) {do_rank2(Mk, MadjTk, Mk); break;}
+	if (det==0.f) {do_rank2(Mk, MadjTk, Mk); break;}
 	MadjT_one = norm_one(MadjTk); MadjT_inf = norm_inf(MadjTk);
-	gamma = sqrt(sqrt((MadjT_one*MadjT_inf)/(M_one*M_inf))/fabs(det));
-	g1 = gamma*0.5;
-	g2 = 0.5/(gamma*det);
+	gamma = sqrtf(sqrtf((MadjT_one*MadjT_inf)/(M_one*M_inf))/fabsf(det));
+	g1 = gamma*0.5f;
+	g2 = 0.5f/(gamma*det);
 	mat_copy(Ek,=,Mk,3);
 	mat_binop(Mk,=,g1*Mk,+,g2*MadjTk,3);
 	mat_copy(Ek,-=,Mk,3);
@@ -273,7 +273,7 @@ float polar_decomp(HMatrix M, HMatrix Q, HMatrix S)
     mat_tpose(Q,=,Mk,3); mat_pad(Q);
     mat_mult(Mk, M, S);	 mat_pad(S);
     for (i=0; i<3; i++) for (j=i; j<3; j++)
-	S[i][j] = S[j][i] = 0.5*(S[i][j]+S[j][i]);
+	S[i][j] = S[j][i] = 0.5f*(S[i][j]+S[j][i]);
     return (det);
 }
 
@@ -303,33 +303,33 @@ float polar_decomp(HMatrix M, HMatrix Q, HMatrix S)
 HVect spect_decomp(HMatrix S, HMatrix U)
 {
     HVect kv;
-    double Diag[3],OffD[3]; /* OffD is off-diag (by omitted index) */
-    double g,h,fabsh,fabsOffDi,t,theta,c,s,tau,ta,OffDq,a,b;
+    float Diag[3],OffD[3]; /* OffD is off-diag (by omitted index) */
+    float g,h,fabsh,fabsOffDi,t,theta,c,s,tau,ta,OffDq,a,b;
     static char nxt[] = {Y,Z,X};
     int sweep, i, j;
     mat_copy(U,=,mat_id,4);
     Diag[X] = S[X][X]; Diag[Y] = S[Y][Y]; Diag[Z] = S[Z][Z];
     OffD[X] = S[Y][Z]; OffD[Y] = S[Z][X]; OffD[Z] = S[X][Y];
     for (sweep=20; sweep>0; sweep--) {
-	float sm = fabs(OffD[X])+fabs(OffD[Y])+fabs(OffD[Z]);
-	if (sm==0.0) break;
+	float sm = fabsf(OffD[X])+fabsf(OffD[Y])+fabsf(OffD[Z]);
+	if (sm==0.f) break;
 	for (i=Z; i>=X; i--) {
 	    int p = nxt[i]; int q = nxt[p];
-	    fabsOffDi = fabs(OffD[i]);
-	    g = 100.0*fabsOffDi;
-	    if (fabsOffDi>0.0) {
+	    fabsOffDi = fabsf(OffD[i]);
+	    g = 100.f*fabsOffDi;
+	    if (fabsOffDi>0.f) {
 		h = Diag[q] - Diag[p];
-		fabsh = fabs(h);
+		fabsh = fabsf(h);
 		if (fabsh+g==fabsh) {
 		    t = OffD[i]/h;
 		} else {
-		    theta = 0.5*h/OffD[i];
-		    t = 1.0/(fabs(theta)+sqrt(theta*theta+1.0));
-		    if (theta<0.0) t = -t;
+		    theta = 0.5f*h/OffD[i];
+		    t = 1.f/(fabsf(theta)+sqrtf(theta*theta+1.f));
+		    if (theta<0.f) t = -t;
 		}
-		c = 1.0/sqrt(t*t+1.0); s = t*c;
-		tau = s/(c+1.0);
-		ta = t*OffD[i]; OffD[i] = 0.0;
+		c = 1.f/sqrtf(t*t+1.f); s = t*c;
+		tau = s/(c+1.f);
+		ta = t*OffD[i]; OffD[i] = 0.f;
 		Diag[p] -= ta; Diag[q] += ta;
 		OffDq = OffD[q];
 		OffD[q] -= s*(OffD[p] + tau*OffD[q]);
@@ -342,7 +342,7 @@ HVect spect_decomp(HMatrix S, HMatrix U)
 	    }
 	}
     }
-    kv.x = Diag[X]; kv.y = Diag[Y]; kv.z = Diag[Z]; kv.w = 1.0;
+    kv.x = Diag[X]; kv.y = Diag[Y]; kv.z = Diag[Z]; kv.w = 1.f;
     return (kv);
 }
 
@@ -357,7 +357,7 @@ HVect spect_decomp(HMatrix S, HMatrix U)
  */
 Quat snuggle(Quat q, HVect *k)
 {
-#define SQRTHALF (0.7071067811865475244)
+#define SQRTHALF (0.7071067811865475244f)
 #define sgn(n,v)    ((n)?-(v):(v))
 #define swap(a,i,j) {a[3]=a[i]; a[i]=a[j]; a[j]=a[3];}
 #define cycle(a,p)  if (p) {a[3]=a[0]; a[0]=a[1]; a[1]=a[2]; a[2]=a[3];}\
@@ -371,15 +371,15 @@ Quat snuggle(Quat q, HVect *k)
     if (turn>=0) {
 	Quat qtoz, qp;
 	unsigned neg[3], win;
-	double mag[3], t;
+	float mag[3], t;
 	static Quat qxtoz = {0,SQRTHALF,0,SQRTHALF};
 	static Quat qytoz = {SQRTHALF,0,0,SQRTHALF};
-	static Quat qppmm = { 0.5, 0.5,-0.5,-0.5};
-	static Quat qpppp = { 0.5, 0.5, 0.5, 0.5};
-	static Quat qmpmm = {-0.5, 0.5,-0.5,-0.5};
-	static Quat qpppm = { 0.5, 0.5, 0.5,-0.5};
-	static Quat q0001 = { 0.0, 0.0, 0.0, 1.0};
-	static Quat q1000 = { 1.0, 0.0, 0.0, 0.0};
+	static Quat qppmm = { 0.5f, 0.5f,-0.5f,-0.5f};
+	static Quat qpppp = { 0.5f, 0.5f, 0.5f, 0.5f};
+	static Quat qmpmm = {-0.5f, 0.5f,-0.5f,-0.5f};
+	static Quat qpppm = { 0.5f, 0.5f, 0.5f,-0.5f};
+	static Quat q0001 = { 0.f, 0.f, 0.f, 1.f};
+	static Quat q1000 = { 1.f, 0.f, 0.f, 0.f};
 	switch (turn) {
 	default: return (Qt_Conj(q));
 	case X: q = Qt_Mul(q, qtoz = qxtoz); swap(ka,X,Z) break;
@@ -387,10 +387,10 @@ Quat snuggle(Quat q, HVect *k)
 	case Z: qtoz = q0001; break;
 	}
 	q = Qt_Conj(q);
-	mag[0] = (double)q.z*q.z+(double)q.w*q.w-0.5;
-	mag[1] = (double)q.x*q.z-(double)q.y*q.w;
-	mag[2] = (double)q.y*q.z+(double)q.x*q.w;
-	for (i=0; i<3; i++) if (neg[i] = (mag[i]<0.0)) mag[i] = -mag[i];
+	mag[0] = (float)q.z*q.z+(float)q.w*q.w-0.5f;
+	mag[1] = (float)q.x*q.z-(float)q.y*q.w;
+	mag[2] = (float)q.y*q.z+(float)q.x*q.w;
+	for (i=0; i<3; i++) if ((neg[i] = (mag[i]<0.f))) mag[i] = -mag[i];
 	if (mag[0]>mag[1]) {if (mag[0]>mag[2]) win = 0; else win = 2;}
 	else		   {if (mag[1]>mag[2]) win = 1; else win = 2;}
 	switch (win) {
@@ -399,17 +399,17 @@ Quat snuggle(Quat q, HVect *k)
 	case 2: if (neg[2]) p = qmpmm; else p = qpppm; cycle(ka,1) break;
 	}
 	qp = Qt_Mul(q, p);
-	t = sqrt(mag[win]+0.5);
-	p = Qt_Mul(p, Qt_(0.0,0.0,-qp.z/t,qp.w/t));
+	t = sqrtf(mag[win]+0.5f);
+	p = Qt_Mul(p, Qt_(0.f,0.f,-qp.z/t,qp.w/t));
 	p = Qt_Mul(qtoz, Qt_Conj(p));
     } else {
 	float qa[4], pa[4];
 	unsigned lo, hi, neg[4], par = 0;
-	double all, big, two;
+	float all, big, two;
 	qa[0] = q.x; qa[1] = q.y; qa[2] = q.z; qa[3] = q.w;
 	for (i=0; i<4; i++) {
-	    pa[i] = 0.0;
-	    if (neg[i] = (qa[i]<0.0)) qa[i] = -qa[i];
+	    pa[i] = 0.f;
+	    if ((neg[i] = (qa[i]<0.f))) qa[i] = -qa[i];
 	    par ^= neg[i];
 	}
 	/* Find two largest components, indices in hi and lo */
@@ -419,14 +419,14 @@ Quat snuggle(Quat q, HVect *k)
 	    if (qa[lo^1]>qa[hi]) {hi = lo; lo ^= 1;}
 	    else {hi ^= lo; lo ^= hi; hi ^= lo;}
 	} else {if (qa[hi^1]>qa[lo]) lo = hi^1;}
-	all = (qa[0]+qa[1]+qa[2]+qa[3])*0.5;
+	all = (qa[0]+qa[1]+qa[2]+qa[3])*0.5f;
 	two = (qa[hi]+qa[lo])*SQRTHALF;
 	big = qa[hi];
 	if (all>two) {
 	    if (all>big) {/*all*/
-		{int i; for (i=0; i<4; i++) pa[i] = sgn(neg[i], 0.5);}
+		{int i; for (i=0; i<4; i++) pa[i] = sgn(neg[i], 0.5f);}
 		cycle(ka,par)
-	    } else {/*big*/ pa[hi] = sgn(neg[hi],1.0);}
+	    } else {/*big*/ pa[hi] = sgn(neg[hi],1.f);}
 	} else {
 	    if (two>big) {/*two*/
 		pa[hi] = sgn(neg[hi],SQRTHALF); pa[lo] = sgn(neg[lo], SQRTHALF);
@@ -436,7 +436,7 @@ Quat snuggle(Quat q, HVect *k)
 		** hi = (lo+1)%3; lo = (lo+2)%3; */
 		if (hi==W) {hi = "\001\002\000"[lo]; lo = 3-hi-lo;}
 		swap(ka,hi,lo)
-	    } else {/*big*/ pa[hi] = sgn(neg[hi],1.0);}
+	    } else {/*big*/ pa[hi] = sgn(neg[hi],1.f);}
 	}
 	p.x = -pa[0]; p.y = -pa[1]; p.z = -pa[2]; p.w = pa[3];
     }
@@ -470,7 +470,7 @@ void decomp_affine(HMatrix A, AffineParts *parts)
     float det;
     parts->t = Qt_(A[X][W], A[Y][W], A[Z][W], 0);
     det = polar_decomp(A, Q, S);
-    if (det<0.0) {
+    if (det<0.f) {
 	mat_copy(Q,=,-Q,3);
 	parts->f = -1;
     } else parts->f = 1;
@@ -491,14 +491,14 @@ void invert_affine(AffineParts *parts, AffineParts *inverse)
     inverse->f = parts->f;
     inverse->q = Qt_Conj(parts->q);
     inverse->u = Qt_Mul(parts->q, parts->u);
-    inverse->k.x = (parts->k.x==0.0) ? 0.0 : 1.0/parts->k.x;
-    inverse->k.y = (parts->k.y==0.0) ? 0.0 : 1.0/parts->k.y;
-    inverse->k.z = (parts->k.z==0.0) ? 0.0 : 1.0/parts->k.z;
+    inverse->k.x = (parts->k.x==0.f) ? 0.f : 1.f/parts->k.x;
+    inverse->k.y = (parts->k.y==0.f) ? 0.f : 1.f/parts->k.y;
+    inverse->k.z = (parts->k.z==0.f) ? 0.f : 1.f/parts->k.z;
     inverse->k.w = parts->k.w;
     t = Qt_(-parts->t.x, -parts->t.y, -parts->t.z, 0);
     t = Qt_Mul(Qt_Conj(inverse->u), Qt_Mul(t, inverse->u));
     t = Qt_(inverse->k.x*t.x, inverse->k.y*t.y, inverse->k.z*t.z, 0);
     p = Qt_Mul(inverse->q, inverse->u);
     t = Qt_Mul(p, Qt_Mul(t, Qt_Conj(p)));
-    inverse->t = (inverse->f>0.0) ? t : Qt_(-t.x, -t.y, -t.z, 0);
+    inverse->t = (inverse->f>0.f) ? t : Qt_(-t.x, -t.y, -t.z, 0);
 }

@@ -12,9 +12,7 @@
 /*
  *	Decision variable method
  */
-dec_var(a, b, c, o)
-int a, b, c;
-short *o;
+void dec_var(int a, int b, int c,short *o)
 {
   int i1 = b / a, e1 = 2 * (b % a);
   int i2 = i1 + 1, e2 = e1 - 2 * a;
@@ -93,7 +91,7 @@ pos4:
  *		Check for differences
  *		Print interpolation
  */
-main()
+int main()
 {
   short o[1000], o2[1000];
   int a, b, c, i;

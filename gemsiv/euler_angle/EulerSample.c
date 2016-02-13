@@ -1,7 +1,7 @@
 /* EulerSample.c - Read angles as quantum mechanics, write as aerospace */
 #include <stdio.h>
 #include "EulerAngles.h"
-void main(void)
+int main(void)
 {
     EulerAngles outAngs, inAngs = {0,0,0,EulOrdXYXr};
     HMatrix R;

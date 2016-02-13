@@ -10,12 +10,12 @@
 #define s(x)	   (((unsigned long)(x)) >> (NUMBITS-1))
 
 /* get the absolute value of a floating point number in integral form */
-#define a(x)	   ((x) & ~(1 << (NUMBITS-1)))
+#define a(x)	   ((x) & ~((long)1 << (NUMBITS-1)))
 
-void test() {
+void test4() {
 
-	int iw, ix, iy, iz;
-	float x, y, z, w;
+	int iw = 0, ix = 0, iy = 0, iz = 0;
+	float x = 0.f, y = 0.f, z = 0.f, w = 0.f;
 	long abs_w;
 	unsigned long outcode, diff, t;
 

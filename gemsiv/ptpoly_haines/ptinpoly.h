@@ -207,9 +207,23 @@ void	SpackmanCleanup() ;
 
 void	TrapezoidCleanup() ;
 void	TrapBound() ;
-int	CompareEdges() ;
+int CompareEdges(const void* uu, const void* vv);
 void	TrapezoidSetup() ;
 
 void	GridSetup() ;
 int	AddGridRecAlloc() ;
 void	GridCleanup() ;
+
+int AngleTest(double pgon[][2], int numverts, double point[2]);
+int BarycentricTest(double pgon[][2], int numverts, double point[2]);
+int CrossingsTest(double pgon[][2], int numverts, double point[2]);
+int GridTest(pGridSet p_gs, double point[2]);
+int CrossingsMultiplyTest(double pgon[][2], int numverts, double point[2]);
+int PlaneTest(pPlaneSet p_plane_set, int numverts, double point[2]);
+int SpackmanTest(double anchor[2], pSpackmanSet p_spackman_set, int numrec, double point[2]);
+int TrapezoidTest(double pgon[][2],int  numverts, pTrapezoidSet	p_trap_set, double point[2]);
+int WeilerTest(double pgon[][2], int numverts, double point[2]);
+
+
+
+

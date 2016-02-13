@@ -22,20 +22,26 @@ Quat Qt_Mul(Quat qL, Quat qR)
  * Assumes matrix is used to multiply column vector on the left:
  * vnew = mat vold.  Works correctly for right-handed coordinate system
  * and right-handed rotations. */
-HMatrix *Qt_ToMatrix(Quat q, HMatrix out)
+HMatrix *Qt_ToMatrix(Quat q, HMatrix* out)
 {
-    double Nq = q.x*q.x + q.y*q.y + q.z*q.z + q.w*q.w;
-    double s = (Nq > 0.0) ? (2.0 / Nq) : 0.0;
-    double xs = q.x*s,	      ys = q.y*s,	  zs = q.z*s;
-    double wx = q.w*xs,	      wy = q.w*ys,	  wz = q.w*zs;
-    double xx = q.x*xs,	      xy = q.x*ys,	  xz = q.x*zs;
-    double yy = q.y*ys,	      yz = q.y*zs,	  zz = q.z*zs;
-    out[X][X] = 1.0 - (yy + zz); out[Y][X] = xy + wz; out[Z][X] = xz - wy;
-    out[X][Y] = xy - wz; out[Y][Y] = 1.0 - (xx + zz); out[Z][Y] = yz + wx;
-    out[X][Z] = xz + wy; out[Y][Z] = yz - wx; out[Z][Z] = 1.0 - (xx + yy);
-    out[X][W] = out[Y][W] = out[Z][W] = out[W][X] = out[W][Y] = out[W][Z] = 0.0;
-    out[W][W] = 1.0;
-    return ((HMatrix *)&out);
+    float Nq = q.x*q.x + q.y*q.y + q.z*q.z + q.w*q.w;
+    float s = (Nq > 0.f) ? (2.f / Nq) : 0.f;
+    float xs = q.x*s,	      ys = q.y*s,	  zs = q.z*s;
+    float wx = q.w*xs,	      wy = q.w*ys,	  wz = q.w*zs;
+    float xx = q.x*xs,	      xy = q.x*ys,	  xz = q.x*zs;
+    float yy = q.y*ys,	      yz = q.y*zs,	  zz = q.z*zs;
+    (*out)[X][X] = 1.f - (yy + zz);
+    (*out)[Y][X] = xy + wz;
+    (*out)[Z][X] = xz - wy;
+    (*out)[X][Y] = xy - wz;
+    (*out)[Y][Y] = 1.f - (xx + zz);
+    (*out)[Z][Y] = yz + wx;
+    (*out)[X][Z] = xz + wy;
+    (*out)[Y][Z] = yz - wx;
+    (*out)[Z][Z] = 1.f - (xx + yy);
+    (*out)[X][W] = (*out)[Y][W] = (*out)[Z][W] = (*out)[W][X] = (*out)[W][Y] = (*out)[W][Z] = 0.f;
+    (*out)[W][W] = 1.f;
+    return out;
 }
 
 /* Return conjugate of quaternion. */
@@ -64,8 +70,8 @@ float V3_Norm(HVect v)
 HVect V3_Unit(HVect v)
 {
     static HVect u = {0, 0, 0, 0};
-    float vlen = sqrt(V3_Norm(v));
-    if (vlen != 0.0) {
+    float vlen = sqrtf(V3_Norm(v));
+    if (vlen != 0.f) {
 	u.x = v.x/vlen; u.y = v.y/vlen; u.z = v.z/vlen;
     }
     return (u);
@@ -113,7 +119,7 @@ HVect V3_Bisect(HVect v0, HVect v1)
     if (Nv < 1.0e-5) {
 	v = V3_(0, 0, 1);
     } else {
-	v = V3_Scale(v, 1/sqrt(Nv));
+	v = V3_Scale(v, 1/sqrtf(Nv));
     }
     return (v);
 }

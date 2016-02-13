@@ -9,9 +9,15 @@
 segment from (x, y, z) and (x + dx, y + dy, z + dz) */
 
 #include <math.h>
+#include <stdlib.h>
 
-Line ( x, y, z, dx, dy, dz )
-int x, y, z, dx, dy, dz;
+int sgn(int x) {
+    return (x > 0) - (x < 0);
+}
+
+void VisitVoxel(int x, int y, int z) {}
+
+void Line (int x, int y, int z, int dx, int dy, int dz)
 {
     int n, sx, sy, sz, exy, exz, ezy, ax, ay, az, bx, by, bz;
 

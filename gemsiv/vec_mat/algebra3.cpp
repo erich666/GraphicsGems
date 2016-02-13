@@ -411,7 +411,7 @@ vec4 operator * (const mat4& a, const vec4& v) {
     #define ROWCOL(i) a.v[i].n[0]*v.n[VX] + a.v[i].n[1]*v.n[VY] \
     + a.v[i].n[2]*v.n[VZ] + a.v[i].n[3]*v.n[VW]
     return vec4(ROWCOL(0), ROWCOL(1), ROWCOL(2), ROWCOL(3));
-    #undef ROWCOL(i)
+    #undef ROWCOL
 }
 
 vec4 operator * (const vec4& v, mat4& a)
@@ -584,7 +584,7 @@ mat3 operator * (mat3& a, mat3& b) {
     return mat3(vec3(ROWCOL(0,0), ROWCOL(0,1), ROWCOL(0,2)),
 		vec3(ROWCOL(1,0), ROWCOL(1,1), ROWCOL(1,2)),
 		vec3(ROWCOL(2,0), ROWCOL(2,1), ROWCOL(2,2)));
-    #undef ROWCOL(i, j)
+    #undef ROWCOL
 }
 
 mat3 operator * (const mat3& a, const double d)

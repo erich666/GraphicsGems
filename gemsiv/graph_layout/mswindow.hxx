@@ -25,6 +25,7 @@
 //******************************************************************
 typedef short  CoOrd;
 typedef char * pchar;
+typedef const char* cpchar;
 
 //===================================================================
 class App {	    // APPLICATION

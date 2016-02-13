@@ -32,7 +32,7 @@
 #define EulAxK(ord)  ((int)(EulNext[EulAxI(ord)+(EulPar(ord)!=EulParOdd)]))
 #define EulAxH(ord)  ((EulRep(ord)==EulRepNo)?EulAxK(ord):EulAxI(ord))
     /* EulGetOrd unpacks all useful information about order simultaneously. */
-#define EulGetOrd(ord,i,j,k,h,n,s,f) {unsigned o=ord;f=o&1;o>>=1;s=o&1;o>>=1;\
+#define EulGetOrd(ord,i,j,k,h,n,s,f) {unsigned o=(unsigned)ord;f=o&1;o>>=1;s=o&1;o>>=1;\
     n=o&1;o>>=1;i=EulSafe[o&3];j=EulNext[i+n];k=EulNext[i+1-n];h=s?k:i;}
     /* EulOrd creates an order value between 0 and 23 from 4-tuple choices. */
 #define EulOrd(i,p,r,f)	   (((((((i)<<1)+(p))<<1)+(r))<<1)+(f))
