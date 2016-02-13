@@ -5,6 +5,10 @@ from "Graphics Gems", Academic Press, 1990
 user must provide copy() function.
 */
 
+void copy(int i, int j) {
+	// user provided
+}
+
 /*
  * Code fragment to advance from one element to the next.
  *

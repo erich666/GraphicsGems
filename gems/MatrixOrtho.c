@@ -20,6 +20,13 @@ from "Graphics Gems", Academic Press, 1990
 
 #include "GraphicsGems.h"
 
+#define MATRIX_transpose
+#define MATRIX_multiply
+#define MATRIX_identify
+#define MATRIX_subtract
+#define MATRIX_constant_multiply
+#define MATRIX_add
+
 static float coef[10] = 			/* From mathematica */
   { 1, -1/2., 3/8., -5/16., 35/128., -63/256.,
     231/1024., -429/2048., 6435/32768., -12155/65536. };
@@ -27,7 +34,7 @@ static float coef[10] = 			/* From mathematica */
 MATRIX_reorthogonalize (R, limit)
      Matrix4 R;
 {
-  Matrix4 I, Temp, X, X_power, Sum;
+	Matrix4 I, Temp, X, X_power, Sum;
   int power;
 
   limit = MAX(limit, 10);

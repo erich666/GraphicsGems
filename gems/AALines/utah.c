@@ -81,7 +81,7 @@ unsigned char	pixels[][3];
 
 	/* allocate storage */
 	width = ufp->xmax + 1;
-	if (width > n) {
+	if (width > (int)n) {
 		if (n > 0) {
 			free((char *)r);
 			free((char *)g);
@@ -183,7 +183,7 @@ unsigned char	pixels[][3];
 
 	/* allocate storage */
 	width = ufp->xmax + 1;
-	if (width > n) {
+	if (width > (int)n) {
 		if (n > 0) {
 			free((char *)r);
 			free((char *)g);

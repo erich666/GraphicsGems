@@ -16,11 +16,13 @@
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 #include "AALines.h"
 #include "utah.h"
 
-
+void Anti_Init();
+void Anti_Line(int X1, int Y1, int X2, int Y2);
 
 main ( argc, argv )
 int argc;

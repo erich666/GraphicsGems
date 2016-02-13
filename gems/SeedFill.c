@@ -20,7 +20,8 @@ typedef struct {		/* window: a discrete 2-D rectangle */
 
 typedef int Pixel;		/* 1-channel frame buffer assumed */
 
-Pixel pixelread();
+Pixel pixelread(int x, int y);
+void pixelwrite(int x, int y, Pixel p);
 
 typedef struct {short y, xl, xr, dy;} Segment;
 /*

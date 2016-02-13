@@ -17,13 +17,13 @@
 #define YMAX 1024	/* hypothetical image height */
 #define LIGHT_INTEN 255		/* light source intensity */
 
-void pixelproc();
+void pixelproc(int x, int y, Poly_vert* pt);
+void mx4_transform(double px, double py, double pz, double pw, double m[4][4], double* qxp, double* qyp, double* qzp, double* qwp);
 
-fancytest()
+void fancytest(Poly p)
 {
     int i;
     double WS[4][4];	/* world space to screen space transform */
-    Poly p;		/* a polygon */
     Poly_vert *v;
 
     static Poly_box box = {0, XMAX, 0, YMAX, -32678, 32767.99};
@@ -32,9 +32,9 @@ fancytest()
     static Window win = {0, 0, XMAX-1, YMAX-1};
 	/* 2-D screen clipping window, discrete coordinates */
 
-    <initialize world space position (x,y,z), normal (nx,ny,nz), and texture
+    /* initialize world space position (x,y,z), normal (nx,ny,nz), and texture
      position (u,v) at each vertex of p; set p.n>
-    <set WS to world-to-screen transform>
+    <set WS to world-to-screen transform>  */
 
     /* transform vertices from world space to homogeneous screen space */
     for (i=0; i<p.n; i++) {
@@ -72,23 +72,27 @@ fancytest()
     poly_scan(&p, &win, pixelproc);	/* scan convert! */
 }
 
-static void pixelproc(x, y, pt)		/* called at each pixel by poly_scan */
-int x, y;
-Poly_vert *pt;
+int zbuffer_read(int x, int y) { return 0; }
+void shade(double nor[3], double* diff, double* spec) {}
+int texture_read(int u, int v) { return 0; }
+void image_write(int u, int v, int value) {}
+void zbuffer_write(int x, int y, int value) {}
+
+void pixelproc(int x, int y, Poly_vert* pt)		/* called at each pixel by poly_scan */
 {
     int sz, u, v, inten;
     double len, nor[3], diff, spec;
 
-    sz = pt->sz;
+    sz = (int)pt->sz;
     if (sz < zbuffer_read(x, y)) {
 	len = sqrt(pt->nx*pt->nx + pt->ny*pt->ny + pt->nz*pt->nz);
 	nor[0] = pt->nx/len;		/* unitize the normal vector */
 	nor[1] = pt->ny/len;
 	nor[2] = pt->nz/len;
 	shade(nor, &diff, &spec);	/* compute specular and diffuse coeffs*/
-	u = pt->u/pt->q;		/* do homogeneous div. of texture pos */
-	v = pt->v/pt->q;
-	inten = texture_read(u, v)*diff + LIGHT_INTEN*spec;
+	u = (int)(pt->u/pt->q);		/* do homogeneous div. of texture pos */
+	v = (int)(pt->v/pt->q);
+	inten = (int)(texture_read(u, v)*diff + LIGHT_INTEN*spec);
 	image_write(x, y, inten);
 	zbuffer_write(x, y, sz);
     }
@@ -96,8 +100,7 @@ Poly_vert *pt;
 
 /* mx4_transform: transform 4-vector p by matrix m yielding q: q = p*m */
 
-mx4_transform(px, py, pz, pw, m, qxp, qyp, qzp, qwp)
-double px, py, pz, pw, m[4][4], *qxp, *qyp, *qzp, *qwp;
+void mx4_transform(double px, double py, double pz, double pw, double m[4][4], double* qxp, double* qyp, double* qzp, double* qwp)
 {
     *qxp = px*m[0][0] + py*m[1][0] + pz*m[2][0] + pw*m[3][0];
     *qyp = px*m[0][1] + py*m[1][1] + pz*m[2][1] + pw*m[3][1];

@@ -61,6 +61,9 @@ extern void vLerp(/* double alpha, Vertex *Va, *Vb, *Vout */);
 extern void renderPixel(/* int x, y, Vertex *V,
 						int area, unsigned mask[], 
 						Surface *object */);
+void renderScanline(Vertex* left, Vertex* right, int y, Surface* object);
+void computePixelMask(int x, unsigned mask[]);
+int Coverage(int x);
 
 /*
  * Render shaded polygon
@@ -131,7 +134,7 @@ for (y=Vleft->y; ; y++)	{
 	
 	sp_ptr = &sp[MODRES(y)];
 	aLeft = (double)(y - Vleft->y) / (VnextLeft->y - Vleft->y);
-	sp_ptr->xLeft = LERP(aLeft, xLeft, xNextLeft);
+	sp_ptr->xLeft = (int)LERP(aLeft, xLeft, xNextLeft);
 	if (sp_ptr->xLeft < xLmin)
 		xLmin = sp_ptr->xLeft;
 	if (sp_ptr->xLeft > xLmax)
@@ -139,7 +142,7 @@ for (y=Vleft->y; ; y++)	{
 
 	aRight = (double)(y - Vright->y) / (VnextRight->y 
 					- Vright->y);
-	sp_ptr->xRight = LERP(aRight, xRight, xNextRight);
+	sp_ptr->xRight = (int)LERP(aRight, xRight, xNextRight);
 	if (sp_ptr->xRight < xRmin)
 		xRmin = sp_ptr->xRight;
 	if (sp_ptr->xRight > xRmax)
@@ -160,7 +163,7 @@ for (y=Vleft->y; ; y++)	{
  * Render one scanline of polygon
  */
 
-renderScanline(Vl, Vr, y, object)
+void renderScanline(Vl, Vr, y, object)
 	Vertex *Vl, *Vr; 	/* polygon vertices interpolated */
 					/* at scanline */   
 	int y;			/* scanline coordinate */
@@ -170,7 +173,7 @@ renderScanline(Vl, Vr, y, object)
 	unsigned mask[SUBYRES];	/*pixel coverage bitmask */
 	int x;			/* leftmost subpixel of current pixel */
 
-	for (x=SUBXRES*floor((double)(xLmin/SUBXRES)); x<=xRmax; x+=SUBXRES) {
+	for (x=(int)(SUBXRES*floor((double)(xLmin/SUBXRES))); x<=xRmax; x+=SUBXRES) {
 		vLerp((double)(x-xLmin)/(xRmax-xLmin), Vl, Vr, &Vpixel);
 		computePixelMask(x, mask);
 		renderPixel(x/SUBXRES, y, &Vpixel,
@@ -181,7 +184,7 @@ renderScanline(Vl, Vr, y, object)
 /*
  * Compute number of subpixels covered by polygon at current pixel
 */
-/*computePixel*/Coverage(x)
+int Coverage(x)
 	int x;			/* left subpixel of pixel */
 {
 	int  area;			/* total covered area */
@@ -206,7 +209,7 @@ renderScanline(Vl, Vr, y, object)
  * polygon at current pixel. (Not all hidden-surface methods
  * need this mask. )
 */
-computePixelMask(x, mask)
+void computePixelMask(x, mask)
 	int x;			/* left subpixel of pixel */
 	unsigned mask[];	/* output bitmask */
 {

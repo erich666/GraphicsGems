@@ -51,7 +51,7 @@ static Edge *active;		/* active edge list:edges crossing scanline y */
 
 static void cdelete(int i);
 static void cinsert(int i, int y);
-int compare_ind(), compare_active();
+int compare_ind(const void*, const void*), compare_active(const void*, const void*);
 
 void concave(nvert, point, win, spanproc)
 int nvert;			/* number of vertices */
@@ -128,7 +128,7 @@ int i;
     for (j=0; j<nact && active[j].i!=i; j++);
     if (j>=nact) return;	/* edge not in active list; happens at win->y0*/
     nact--;
-    bcopy(&active[j+1], &active[j], (nact-j)*sizeof active[0]);
+    memcpy(&active[j], &active[j+1], (nact-j)*sizeof active[0]);
 }
 
 static void cinsert(i, y)		/* append edge i to end of active list */
@@ -149,5 +149,5 @@ int i, y;
 }
 
 /* comparison routines for qsort */
-compare_ind(u, v) int *u, *v; {return pt[*u].y <= pt[*v].y ? -1 : 1;}
-compare_active(u, v) Edge *u, *v; {return u->x <= v->x ? -1 : 1;}
+int compare_ind(const void* u, const void* v) {return pt[*(int*)u].y <= pt[*(int*)v].y ? -1 : 1;}
+int compare_active(const void* u, const void* v) {return ((Edge*)u)->x <= ((Edge*)v)->x ? -1 : 1;}

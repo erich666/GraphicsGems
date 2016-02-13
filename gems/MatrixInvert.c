@@ -4,6 +4,8 @@ by Richard Carling
 from "Graphics Gems", Academic Press, 1990
 */
 
+#include <stdio.h>
+
 #define SMALL_NUMBER	1.e-8
 
 #include "GraphicsGems.h"

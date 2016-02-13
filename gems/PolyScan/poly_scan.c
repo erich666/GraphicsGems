@@ -41,10 +41,10 @@ static increment(register double *p, register double *dp, register unsigned long
  * sx=x+.5 and sy=y+.5, since sampling is done at pixel centers.
  */
 
-void poly_scan(p, win, pixelproc)
-register Poly *p;		/* polygon */
-Window *win;			/* 2-D screen space clipping window */
-void (*pixelproc)();		/* procedure called at each pixel */
+void poly_scan(Poly* p, Window* win, void (*pixelproc)())
+/* polygon */
+/* 2-D screen space clipping window */
+/* procedure called at each pixel */
 {
     register int i, li, ri, y, ly, ry, top, rem;
     register unsigned long mask;
@@ -80,7 +80,7 @@ void (*pixelproc)();		/* procedure called at each pixel */
 	    rem--;
 	    i = li-1;			/* step ccw down left side */
 	    if (i<0) i = p->n-1;
-	    incrementalize_y(&p->vert[li], &p->vert[i], &l, &dl, y, mask);
+	    incrementalize_y((double*)&p->vert[li], (double*)&p->vert[i], (double*)&l, (double*)&dl, y, mask);
 	    ly = (int)floor(p->vert[i].sy+.5);
 	    li = i;
 	}
@@ -88,7 +88,7 @@ void (*pixelproc)();		/* procedure called at each pixel */
 	    rem--;
 	    i = ri+1;			/* step cw down right edge */
 	    if (i>=p->n) i = 0;
-	    incrementalize_y(&p->vert[ri], &p->vert[i], &r, &dr, y, mask);
+	    incrementalize_y((double*)&p->vert[ri], (double*)&p->vert[i], (double*)&r, (double*)&dr, y, mask);
 	    ry = (int)floor(p->vert[i].sy+.5);
 	    ri = i;
 	}
@@ -98,8 +98,8 @@ void (*pixelproc)();		/* procedure called at each pixel */
 		if (l.sx<=r.sx) scanline(y, &l, &r, win, pixelproc, mask);
 		else		scanline(y, &r, &l, win, pixelproc, mask);
 	    y++;
-	    increment(&l, &dl, mask);
-	    increment(&r, &dr, mask);
+	    increment((double*)&l, (double*)&dl, mask);
+	    increment((double*)&r, (double*)&dr, mask);
 	}
     }
 }
@@ -122,10 +122,10 @@ void (*pixelproc)();
     rx = (int)floor(r->sx-.5);
     if (rx>win->x1) rx = win->x1;
     if (lx>rx) return;
-    incrementalize_x(l, r, &p, &dp, lx, mask);
+    incrementalize_x((double*)l, (double*)r, (double*)&p, (double*)&dp, lx, mask);
     for (x=lx; x<=rx; x++) {		/* scan in x, generating pixels */
 	(*pixelproc)(x, y, &p);
-	increment(&p, &dp, mask);
+	increment((double*)&p, (double*)&dp, mask);
     }
 }
 

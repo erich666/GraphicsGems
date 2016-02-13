@@ -1,2 +1,2 @@
-add_executable(convex convex.c convex_opt.c)
+add_executable(convex_test convex.c convex_opt.c)
 

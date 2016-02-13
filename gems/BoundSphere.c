@@ -31,6 +31,9 @@ int NUM_POINTS;
 /* The final bounding sphere will be put into the globals */
 /* cen and rad. */
 
+void GET_iTH_POINT(int i) {
+	// TODO
+}
 
 find_bounding_sphere()
 {

@@ -8,6 +8,11 @@
 #include	"../GraphicsGems.h"
 #include	"line.h"
 #include	"box.h"
+
+
+int p_where(POINT* p1, POINT* p2, SEGMENT* l);
+int psort(const void* a, const void* b);
+
 /*
  * cross_calc:
  *
@@ -24,17 +29,13 @@
  *		if nsol exceeds nsmax additional storage is allocated
  *
  */
-cross_calc(poly, l, psol, nsol, nsmax)
-CONTOUR	*poly;
-SEGMENT	*l;
-CLIST	**psol;
-short	*nsol, nsmax;
+void cross_calc(CONTOUR* poly, SEGMENT* l, CLIST** psol, short* nsol, short nsmax)
 {
 	SEGMENT	*p;
 	CLIST	*sol;
 	double	s;
 	long	x, y, a, b, c;
-	int	psort(), type;
+	int type;
 
 	sol = *psol;
 	p = poly->_s;
@@ -190,9 +191,7 @@ short	*nsol, nsmax;
  *	l	pointer to linesegment
  * 
  */
-p_where(p1, p2, l)
-POINT	*p1, *p2;
-SEGMENT	*l;
+int p_where(POINT* p1, POINT* p2, SEGMENT* l)
 {
 	long	dx, dy, dx1, dx2, dy1, dy2, p_1, p_2;
 
@@ -254,9 +253,11 @@ POINT	*pt;
 /*
  * function used for sorting
  */
-psort(p1, p2)
-CLIST	*p1, *p2;
+int psort(const void* a, const void* b)
 {
+	const CLIST* p1 = a;
+	const CLIST* p2 = b;
+
 	if(p1->_p._x != p2->_p._x)
 		return(p1->_p._x - p2->_p._x);
 	else 

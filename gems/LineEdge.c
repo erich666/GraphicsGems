@@ -4,6 +4,7 @@ by Andrew Shapira
 from "Graphics Gems", Academic Press, 1990
 */
 
+#include <stdio.h>
 #include "GraphicsGems.h"
 
 #define OCTANT(f1, f2, f3, f4, f5, i1, s1, r1, r2) \
@@ -29,7 +30,7 @@ vertex(I)
 IntPoint2   *I;
 {
     /* Note: replace printf with code to process vertex, if desired */
-    (void) printf("vertex at %d %d\n", I->x, I->y);
+    printf("vertex at %d %d\n", I->x, I->y);
 }
 
 left(I)
@@ -38,7 +39,7 @@ IntPoint2   *I;
 
     /* Note: replace printf with code to process leftward */ 	
 	/* intersection, if desired */
-    (void) printf("left from %d %d\n", I->x, I->y);
+    printf("left from %d %d\n", I->x, I->y);
 }
 
 up(I)
@@ -46,7 +47,7 @@ IntPoint2   *I;
 {
     /* Note: replace printf with code to process upward */
 	/* intersection, if desired */
-    (void) printf("up from %d %d\n", I->x, I->y);
+    printf("up from %d %d\n", I->x, I->y);
 }
 
 right(I)
@@ -54,7 +55,7 @@ IntPoint2   *I;
 {
     /* Note: replace printf with code to process rightward */
 	/* intersection, if desired */
-    (void) printf("right from %d %d\n", I->x, I->y);
+    printf("right from %d %d\n", I->x, I->y);
 }
 
 down(I)
@@ -62,7 +63,7 @@ IntPoint2   *I;
 {
     /* Note: replace printf with code to process downward */
 	/* intersection, if desired */
-    (void) printf("down from %d %d\n", I->x, I->y);
+    printf("down from %d %d\n", I->x, I->y);
 }
 
 find_intersections(Pptr, Qptr)

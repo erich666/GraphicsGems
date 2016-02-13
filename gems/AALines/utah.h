@@ -13,7 +13,23 @@
 /* include files */
 /* You will have to get these from the ancient Utah Raster Toolkit,
    http://www.cs.utah.edu/gdc/projects/urt/ - best of luck! */
-#include "rle.h"
+//#include "rle.h"
+// fake rle
+typedef struct rle_hdr {
+	int xmax;
+	FILE* rle_file;
+	int xmin;
+	int ymin;
+	int ymax;
+	int alpha;
+} rle_hdr;
+typedef unsigned char rle_pixel;
+rle_hdr rle_dflt_hdr;
+int rle_get_setup();
+void rle_getrow();
+void rle_puteof();
+void rle_put_setup();
+void rle_putrow();
 
 /******************************************************************************/
 

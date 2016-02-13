@@ -7,6 +7,7 @@
 #include	"../GraphicsGems.h"
 #include	"line.h"
 
+void cross_calc(CONTOUR* poly, SEGMENT* l, CLIST** psol, short* nsol, short nsmax);
 void clip(CONTOUR	*p, SEGMENT	*l);
 
 #define DEBUG

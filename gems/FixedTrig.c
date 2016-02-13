@@ -7,6 +7,10 @@ provided by user:
     frmul(a,b)=(a*b)>>31, high part of 64-bit product
 */
 
+long frmul(long a, long b) {
+	return 0;
+}
+
 #define COSCALE 0x22c2dd1c /* 0.271572 */
 #define QUARTER ((int)(3.141592654 / 2.0 * (1 << 28)))
 static long arctantab[32] = {  /* MS 4 integral bits for radians */

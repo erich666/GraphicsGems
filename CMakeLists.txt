@@ -11,7 +11,10 @@ if(MSVC)
 	add_definitions(-D_CRT_SECURE_NO_WARNINGS=1)
 endif()
 
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
 add_library(fakeirisgl fakeirisgl.h fakeirisgl.c)
 
+add_subdirectory(gems)
 add_subdirectory(gemsiv)
 

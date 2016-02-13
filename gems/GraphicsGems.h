@@ -30,7 +30,6 @@ typedef struct Matrix3Struct {	/* 3-by-3 matrix */
 typedef struct Box2dStruct {		/* 2d box */
 	Point2 min, max;
 	} Box2;
-	
 
 /*********************/
 /* 3d geometry types */

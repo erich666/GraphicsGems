@@ -2,6 +2,7 @@
  * poly.c: simple utilities for polygon data structures
  */
 
+#include <stdio.h>
 #include "poly.h"
 
 Poly_vert *poly_dummy;		/* used superficially by POLY_MASK macro */

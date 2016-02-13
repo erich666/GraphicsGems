@@ -405,8 +405,8 @@ static double ComputeXIntercept(V, degree)
 {
     double	XLK, YLK, XNM, YNM, XMK, YMK;
     double	det, detInv;
-    double	S, T;
-    double	X, Y;
+    double	S;
+    double	X;
 
     XLK = 1.0 - 0.0;
     YLK = 0.0 - 0.0;

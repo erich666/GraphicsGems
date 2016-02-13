@@ -79,8 +79,7 @@ FX Pmax;
 
 /***************  FUNCTION ANTI_LINE  ***************/
 
-void Anti_Line ( X1, Y1, X2, Y2 )
-int X1, Y1, X2, Y2;
+void Anti_Line (int X1, int Y1, int X2, int Y2 )
 {
 int 	Bvar, 	/* decision variable for Bresenham's */
     	Bainc,   /* adjacent-increment for 'Bvar' */
@@ -92,7 +91,7 @@ FX 		Pmid,  	/* perp distance at Bresenham's pixel */
    		Poinc; 	/* orthogonal-increment for 'Pnow'--also equals 'k' */
 char 	*mid_addr,   /* pixel address for Bresenham's pixel */
      	*now_addr;   /* pixel address for current pixel */
-int 	addr_ainc,   /* adjacent pixel address offset */
+size_t 	addr_ainc,   /* adjacent pixel address offset */
     	addr_dinc,   /* diagonal pixel address offset */
     	addr_oinc;   /* orthogonal pixel address offset */
 int dx,dy,dir;    	/* direction and deltas */
@@ -157,13 +156,13 @@ do
   	if ( Bvar < 0 )
     	{
     	Bvar += Bainc;
-    	mid_addr = (char *) ((int)mid_addr + addr_ainc);
+    	mid_addr = (char *) ((size_t)mid_addr + addr_ainc);
     	Pmid += Painc;
     	}
   	else
     	{
     	Bvar += Bdinc;
-    	mid_addr = (char *) ((int)mid_addr + addr_dinc);
+    	mid_addr = (char *) ((size_t)mid_addr + addr_dinc);
     	Pmid += Pdinc;
     	}
 

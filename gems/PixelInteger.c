@@ -26,6 +26,8 @@ from "Graphics Gems", Academic Press, 1990
  * red = 6, green = 7, blue = 6.
  */
 
+#define err
+
 getplanes(r, g, b, n, bias)
     int *r, *g, *b;
     char *bias;
