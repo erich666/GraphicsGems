@@ -8,7 +8,7 @@ std::ostream& operator<<(std::ostream& o, vector& v) {
         o<<"<"<<v.x<<","<<v.y<<","<<v.z<<">"; 
         return o;
 }
-vector operator-(vector& v) {return vector(-v.x,-v.y,-v.z);}
+vector operator-(const vector& v) {return vector(-v.x,-v.y,-v.z);}
 std::ostream& operator<<(std::ostream& o, xform& T) {
         o<<"xform {\n";
         o<<"\t"<<"orientation {\n";

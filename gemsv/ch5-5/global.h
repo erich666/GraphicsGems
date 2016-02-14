@@ -1,3 +1,6 @@
+# pragma cone
+
+
 #include <math.h>
 #include <stdlib.h>
 
@@ -54,7 +57,7 @@ public:
                 for(declaration<T>* d=h; d; d=d->n)
                         if(strcmp(d->i,i)==0)
                                 return d->p;
-                cout<<"identifier "<<i<<" not found\n";
+                std::cout<<"identifier "<<i<<" not found\n";
                 exit(1);
                 return (T*)0;
         }
@@ -66,7 +69,7 @@ class xform;
 
 class vector {
         friend std::ostream& operator<<(std::ostream& o, vector& v);
-        friend vector operator-(vector& v);
+        friend vector operator-(const vector& v);
         friend class xform;
         double x, y, z;
 public:
@@ -74,23 +77,23 @@ public:
         vector(double x, double y, double z) {
                 this->x=x; this->y=y; this->z=z;
         }
-        vector operator+(vector& v) {return vector(x+v.x,y+v.y,z+v.z);}
-        vector operator-(vector& v) {return vector(x-v.x,y-v.y,z-v.z);}
-        vector operator*(vector& v) {return vector(x*v.x,y*v.y,z*v.z);}
-        vector operator/(vector& v) {return vector(x/v.x,y/v.y,z/v.z);}
-        vector operator+(double d) {return vector(x+d,y+d,z+d);}
-        vector operator-(double d) {return vector(x-d,y-d,z-d);}
-        vector operator*(double d) {return vector(x*d,y*d,z*d);}
-        vector operator/(double d) {return vector(x/d,y/d,z/d);}
-        double operator%(vector& v) {return x*v.x+y*v.y+z*v.z;}
+        vector operator+(const vector& v) const {return vector(x+v.x,y+v.y,z+v.z);}
+        vector operator-(const vector& v) const {return vector(x-v.x,y-v.y,z-v.z);}
+        vector operator*(const vector& v) const {return vector(x*v.x,y*v.y,z*v.z);}
+        vector operator/(const vector& v) const {return vector(x/v.x,y/v.y,z/v.z);}
+        vector operator+(double d) const {return vector(x+d,y+d,z+d);}
+        vector operator-(double d) const {return vector(x-d,y-d,z-d);}
+        vector operator*(double d) const {return vector(x*d,y*d,z*d);}
+        vector operator/(double d) const {return vector(x/d,y/d,z/d);}
+        double operator%(const vector& v) const {return x*v.x+y*v.y+z*v.z;}
         operator double() {return y;}
-        double operator[](int i) {return i==0?this->x:i==1?this->y:this->z;}
+        double operator[](int i) const {return i==0?this->x:i==1?this->y:this->z;}
         double get_x() { return this->x;}
         double get_y() { return this->y;}
         double get_z() { return this->z;}
 };
 
-extern vector norm(vector& v);
+extern vector norm(const vector& v);
 
 struct matrix {
         double m11, m12, m13;                                   // 1ST ROW
@@ -103,7 +106,7 @@ struct matrix {
                 this->m21=m21; this->m22=m22; this->m23=m23;
                 this->m31=m31; this->m32=m32; this->m33=m33;
         }
-        matrix operator*(matrix& m) {
+        matrix operator*(const matrix& m) {
                 return matrix(
                         m11*m.m11+m12*m.m21+m13*m.m31,
                         m11*m.m12+m12*m.m22+m13*m.m32,
@@ -118,18 +121,18 @@ struct matrix {
                         m31*m.m13+m32*m.m23+m33*m.m33
                 );
         }
-        vector operator*(vector& v) {
+        vector operator*(const vector& v) {
                 return vector(
                         vector(m11,m12,m13)%v,
                         vector(m21,m22,m23)%v,
                         vector(m31,m32,m33)%v
                 );
         }
-        vector operator/(vector& v) {                     // INVERSE
+        vector operator/(const vector& v) {                     // INVERSE
                 return vector(
-                        v%vector(m11,m21,m31),
-                        v%vector(m12,m22,m32),
-                        v%vector(m13,m23,m33)
+                        v % vector(m11,m21,m31),
+                        v % vector(m12,m22,m32),
+                        v % vector(m13,m23,m33)
                 );
         }
 };
@@ -141,7 +144,7 @@ struct ray {
         vector d;                                               // DIRECTION
         int l;                                                  // LEVEL
         int c;                                                  // CODE
-        ray(vector& o, vector& d, int l, int c)
+        ray(const vector& o, const vector& d, int l, int c)
                 {this->o=o; this->d=d; this->l=l; this->c=c;}
 };
 
@@ -153,7 +156,7 @@ struct intersect {
         vector n;                                       // SURFACE NORMAL
         object *o;                                      // OBJECT SURFACE
         intersect() {o=(object*)0;}
-        intersect(double t, vector& p, vector& n, object *o) {
+        intersect(double t, const vector& p, const vector& n, object *o) {
                 this->t=t; this->p=p; this->n=n; this->o=o;
         }
 };
@@ -165,11 +168,11 @@ struct halfspace {
         double d;                                       // DISTANCE FROM ORIGIN
         halfspace()                                     // DEFAULT CONSTRUCTOR
                 {this->n=vector(0.,0.,1.); this->d=0.;}
-        halfspace(vector& n, double d)                  // USUAL DEFINITION
+        halfspace(const vector& n, double d)                  // USUAL DEFINITION
                 {this->n=norm(n); this->d=d;}
-        halfspace(vector& u, vector& v)     // BISECTOR PLANE
+        halfspace(const vector& u, const vector& v)     // BISECTOR PLANE
                 {n=norm(v-u); d=((u+v)/2.)%n;}
-        int operator&(vector& p) {return n%p<=d;} // IF CONTAINS POINT p
+        int operator&(const vector& p) {return n%p<=d;} // IF CONTAINS POINT p
 };
 
 //      GEOMETRIC TRANSFORMATIONS (RIGID MOTIONS)
@@ -181,11 +184,11 @@ class xform {
         vector t;                               // TRANSLATION VECTOR
 public:
         xform() {s=vector(1.,1.,1.); t=vector(0.,0.,0.);}
-        void operator+=(vector& t) {this->t=this->t+t;}   // TRANSLATE
-        void operator*=(vector& s) {                      // SCALE
+        void operator+=(const vector& t) {this->t=this->t+t;}   // TRANSLATE
+        void operator*=(const vector& s) {                      // SCALE
                 this->s=this->s*s; this->t=s*this->t;
         }
-        void operator<<=(vector& r) {                     // ROTATE
+        void operator<<=(const vector& r) {                     // ROTATE
                 double sa=sin(RAD(r.x)), ca=cos(RAD(r.x));
                 double sb=sin(RAD(r.y)), cb=cos(RAD(r.y));
                 double sc=sin(RAD(r.z)), cc=cos(RAD(r.z));
@@ -209,24 +212,29 @@ public:
                 );
                 t=Ap*t;
         }
-        vector operator*(vector& v) {return s*(A*v)+t;}         // TRANSFORM
-        vector operator/(vector& v) {return (A/(v-t))/s;}       // INVERSE
-        vector operator<<(vector& v) {return s*(A*v);}          // ROTATE
-        vector operator>>(vector& v) {return (A/v)/s;}          // INVERSE
-        ray operator*(ray& r)
+        vector operator*(const vector& v) {return s*(A*v)+t;}         // TRANSFORM
+        vector operator/(const vector& v) {return (A/(v-t))/s;}       // INVERSE
+        vector operator<<(const vector& v) {return s*(A*v);}          // ROTATE
+        vector operator>>(const vector& v) {return (A/v)/s;}          // INVERSE
+        ray operator*(const ray& r)
                 {return ray((*this)*r.o,(*this)<<r.d,r.l,r.c);}
-        ray operator/(ray& r)
+        ray operator/(const ray& r)
                 {return ray((*this)/r.o,(*this)>>r.d,r.l,r.c);}
-        intersect operator*(intersect& i)
-                {return intersect(i.t,(*this)*i.p,norm((*this)<<i.n),i.o);}
+        intersect operator*(const intersect& i) {
+            vector tmp = (*this) * i.p;
+            return intersect(i.t,tmp ,norm((*this)<<i.n),i.o);
+        }
         list<intersect*> *operator*(list<intersect*> *l) {
                 for(intersect* i=l->first(); i; i=l->next())
                         *i=(*this)*(*i);
                 return l;
         }
         halfspace operator*(halfspace& h) {
-                vector p=(*this)*(h.n*h.d); vector n=(*this)<<h.n;
-                return halfspace(n,p%n);
+            vector tmp = h.n * h.d;
+            //vector p=(*this)*(h.n*h.d);
+            vector p =(*this)*tmp;
+            vector n=(*this)<<h.n;
+            return halfspace(n,p%n);
         }
         halfspace operator/(halfspace& h) {
                 vector p=(*this)/(h.n*h.d); vector n=(*this)>>h.n;
@@ -285,9 +293,9 @@ public:
                 this->r=r; this->g=g; this->b=b;
         }
         intensity operator*(double d) {return intensity(r*d,g*d,b*d);}
-        intensity operator+(intensity& i)
+        intensity operator+(const intensity& i)
                 {return intensity(r+i.r,g+i.g,b+i.b);}
-        void operator+=(intensity& i) {r+=i.r; g+=i.g; b+=i.b;}
+        void operator+=(const intensity& i) {r+=i.r; g+=i.g; b+=i.b;}
         operator icolor() {
                 unsigned char ir=r<1.?(unsigned char)(r*255.):255;
                 unsigned char ig=g<1.?(unsigned char)(g*255.):255;
@@ -337,19 +345,19 @@ public:
         void operator|=(pigment& p) {
                 t=p.t; o=p.o; m=p.m; l=p.l; f=p.f; this->p=p.p; T=p.T;
         }
-        void setq(color& q) {this->q=q;}
-        void sett(vector& t) {this->t=t;}
+        void setq(const color& q) {this->q=q;}
+        void sett(const vector& t) {this->t=t;}
         void seto(int o) {this->o=o;}
         void setm(double m) {this->m=m;}
         void setl(double l) {this->l=l;}
         void setf(double f) {this->f=f;}
         void setp(double p) {this->p=p;}
-        void traT(vector& v) {T+=v;}
-        void rotT(vector& v) {T<<=v;}
-        void scaT(vector& v) {T*=v;}
+        void traT(const vector& v) {T+=v;}
+        void rotT(const vector& v) {T<<=v;}
+        void scaT(const vector& v) {T*=v;}
         virtual pigment* copy() {pigment *p=new pigment; *p=*this; return p;}
-        virtual color paint(vector& p) {return q;}
-        color surfcolor(vector& p) {return paint(T/p);}
+        virtual color paint(const vector& p) {return q;}
+        color surfcolor(const vector& p) {return paint(T/p);}
 };
 
 class solid : public pigment {
@@ -485,7 +493,10 @@ public:
         virtual normal* copy() {normal *n=new normal; *n=*this; return n;}
         virtual vector perturbate(vector& n,vector& p) {return n;}
         vector surfnormal(vector& n,vector& p) {
-                return norm(T<<perturbate(norm(T>>n),T*p));
+            vector tmp = norm(T >> n);
+            vector tmp2 = T * p;
+            return norm(T<<perturbate(tmp, tmp2));
+            //return norm(T<<perturbate(norm(T>>n),T*p));
         }
 };
 
@@ -561,7 +572,7 @@ public:
         void setkt(double d) {kt=d;}
         void setki(double d) {ki=d;}
         finish* copy() {finish *f=new finish; *f=*this; return f;}
-        intensity surfoptics(color& c, vector& n, ray& r, intersect& i);
+        intensity surfoptics(color& c, vector& n, const ray& r, intersect& i);
 };
 
 //      TEXTURES - IV. TOP LEVEL
@@ -607,7 +618,7 @@ public:
         normal* copyn() {return n->copy();}
         finish* copyf() {return f->copy();}
         virtual texture* copy() {texture* t=new texture; *t=*this; return t;}
-        virtual intensity shade(ray& r, intersect& i) {
+        virtual intensity shade(const ray& r, intersect& i) {
                 i.p=T/i.p;
                 color c=p->surfcolor(i.p);
                 vector v=n->surfnormal(i.n, i.p);
@@ -651,21 +662,24 @@ public:
         void rotT(vector& v) {T<<=v;}
         void scaT(vector& v) {T*=v;}
         virtual object* copy() {object* o=new object; *o=*this; return o;}
-        list<intersect*> *test(ray& r) {return T*shape(T/r);}
-        intensity shade(ray& r, intersect& i) {return t.shade(r,i);}
+        list<intersect*> *test(const ray& r) {
+            ray tmp = T / r;
+            return T*shape(tmp);
+        }
+        intensity shade(const ray& r, intersect& i) {return t.shade(r,i);}
         virtual list<vector*> *particles() {
                 vector *v=new vector; *v=(this->T)*vector(0.,0.,0.);
                 list<vector*> *l=new list<vector*>; *l+=v;
                 return l;
         }
-        virtual int operator&(halfspace& h) {return 1;}   // INTERSECTS h
+        virtual int operator&(const halfspace& h) const {return 1;}   // INTERSECTS h
 };
 
 //      INTERSECTION ACCELERATION TECHNIQUES
 
 class method {
         list<object*> *lo;                              // SCENE OBJECTS
-        virtual list<object*> *firstlist(ray& r)
+        virtual list<object*> *firstlist(const ray& r)
                 {return lo;}                            // BRUTE-FORCE METHOD
         virtual list<object*> *nextlist()
                 {return (list<object*>*)0;}             // BRUTE-FORCE METHOD
@@ -673,7 +687,7 @@ public:
         method() {lo=new list<object*>;}
         virtual void preprocess(list<object*> *l)
                 {delete lo; lo=l;}                      // NO PREPROCESSING
-        intersect operator()(ray& r) {                  // GENERAL SCHEME
+        intersect operator()(const ray& r) {                  // GENERAL SCHEME
                 intersect imin, *i;
                 for(list<object*>*lo=firstlist(r); lo; lo=nextlist()) {
                         for(object *o=lo->first(); o; o=lo->next()) {
@@ -848,12 +862,16 @@ public:
         object* copy() {lightsource* o=new lightsource; *o=*this; return o;}
         list<intersect*> *shape(ray& r) {return new list<intersect*>;}
         virtual list<light*>* illum(intersect& i) {
-                list<light*> *L=new list<light*>;
-                if((*query)(ray(this->p,norm(i.p-this->p),0,-1)).o!=i.o)
-                        return L;
-                light *l=new light((intensity)c,norm(this->p-i.p));
-                *L+=l;
-                return L;
+            
+           list<light*> *L=new list<light*>;
+           if((*query)(ray(this->p,norm(i.p-this->p),0,-1)).o!=i.o)
+                   return L;
+            intensity tmp = c;
+            vector tmp2 = norm(this->p - i.p);
+           light *l=new light(tmp,tmp2);
+           //light *l=new light((intensity)c,norm(this->p-i.p));
+           *L+=l;
+           return L;
         }
         list<vector*> *particles() {
                 vector *v=new vector; *v=T*p;
@@ -895,9 +913,11 @@ class voronoi : public method {
         cell **s;                               // ARRAY OF STARTING CELLS
         long traverse;                          // TRAVERSE CODE (disperse)
         void disperse(object *o, cell*C);
-        cell* a; ray* r; double t;              // USED BY step()
+        cell* a;
+        const ray* r;
+        double t;              // USED BY step()
         void step();                            // USED BY first-,nextlist()
-        list<object*> *firstlist(ray& r);
+        list<object*> *firstlist(const ray& r);
         list<object*> *nextlist();
 public:
         void preprocess(list<object*> *lo);

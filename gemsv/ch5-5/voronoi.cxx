@@ -12,18 +12,21 @@ struct cell : public VECTOR<3> {                // 3-DIMENSIONAL VORONOI-CELL
         long t;                                 // LOCAL TRAVERSE CODE (WORK)
         cell *b;                                // BACK (voronoi::disperse)
         cell() {t=0L;}
-        cell(vector& v, object *o=(object*)0) {
+        cell(const vector& v, object *o=(object*)0) {
                 double x[3]; x[0]=v[0]; x[1]=v[1]; x[2]=v[2];
                 *((VECTOR<3>*)this)=VECTOR<3>(x); p=v; {if(o)lh+=o;} t=0L;
         }
-        int operator&(vector& p) {              // CELL CONTAINS POINT p
+        int operator&(const vector& p) {              // CELL CONTAINS POINT p
                 for(cell*n=ln.first();n;n=ln.next())
                         if(!(halfspace(this->p,n->p)&p)) return 0;
                 return 1;
         }
-        int operator&(object& o) {              // CELL INTERSECTS OBJECT o
-                for(cell*n=ln.first();n;n=ln.next())
-                        if(!(o&halfspace(this->p,n->p))) return 0;
+        int operator&(const object& o) {              // CELL INTERSECTS OBJECT o
+            for(cell*n=ln.first();n;n=ln.next()) {
+                halfspace tmp(this->p, n->p);
+                if(!(o & tmp)) return 0;
+                    //if(!(o & halfspace(this->p,n->p))) return 0;
+            }
                 return 1;
         }
 };
@@ -161,7 +164,7 @@ void voronoi::step() {                                  // ONE STEP ALONG RAY r
         this->t=tmin; a=nmin;
 }
 
-list<object*>* voronoi::firstlist(ray& r) {
+list<object*>* voronoi::firstlist(const ray& r) {
         register int i=r.c>=0?r.c:(1<<(lmax+1))-1;      // INDEX INTO s
         a=s[i];                                         // INITIALIZE step()
         if(!((*a)&r.o)) {                               // COHERENCE FAILED

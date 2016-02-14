@@ -25,9 +25,9 @@ class polynomial {
   polynomial derivative();
 };
 
-polynomial operator+(polynomial&, polynomial&);
-polynomial operator-(polynomial&, polynomial&);
-polynomial operator*(polynomial&, polynomial&);
-polynomial operator*(double, polynomial&);
+polynomial operator+(const polynomial&, const polynomial&);
+polynomial operator-(const polynomial&, const polynomial&);
+polynomial operator*(const polynomial&, const polynomial&);
+polynomial operator*(double, const polynomial&);
 
 #endif

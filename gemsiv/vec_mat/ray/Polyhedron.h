@@ -35,8 +35,8 @@ public:
  ~Polyhedron();
 
  // virtual methods
- double intersect(vec3& ray_org, vec3& ray_dir);
- vec3 normalAt(vec3& p);
+ double intersect(const vec3& ray_org, const vec3& ray_dir);
+ vec3 normalAt(const vec3& p);
 
  // friends
  friend std::istream& operator >> (std::istream& s, Polyhedron& a);

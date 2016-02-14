@@ -7,7 +7,7 @@
  *  ray tracing
  */
 
-#include <math.h>
+#include <cmath>
 #include "poly.h"
 
 #define rayeps   1E-8  // tolerance for intersection test
@@ -19,6 +19,7 @@ extern char HitBoundingBox(double*,double*,double*,double*);
 // class of the swept sphere primitive
 class swept_sph {
   polynomial m[3]; // center of the sphere
+    polynomial laberhurzbla[3];
   polynomial r;    // radius of the sphere
   polynomial r2;   // r2 = r*r
   double a, b;     // the interval [a;b], where  m  and  r  live
@@ -72,7 +73,8 @@ int swept_sph::intersect(double *origin, double *dir, double *l)
     save[i] = m[i].coef[0];
     m[i].coef[0] -= origin[i];
   }
-  p = dir[0]*m[0] + dir[1]*m[1] + dir[2]*m[2];
+    
+  p = dir[0] * m[0] + dir[1] * m[1] + dir[2] * m[2];
   q = m[0]*m[0] + m[1]*m[1] + m[2]*m[2] - r2;
   dp = p.derivative();
   dq = q.derivative();

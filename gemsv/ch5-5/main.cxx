@@ -106,7 +106,7 @@ method* query;                                  // ACCELERATION METHOD
 
 int lmax=4;                                     // MAXIMAL LEVEL OF RECURSION
 
-intensity trace(ray& r) {
+intensity trace(const ray& r) {
         if(r.l>lmax)
                 return background;
         intersect i=(*query)(r);

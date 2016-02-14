@@ -1,1 +1,1 @@
-add_library(rayscan rayscan.cc )
+add_library(rayscan vector.h rayscan.cc )

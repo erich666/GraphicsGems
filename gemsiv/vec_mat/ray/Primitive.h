@@ -28,8 +28,8 @@ public:
 
  // virtual methods
  virtual ~Primitive();
- virtual double intersect(vec3& ray_org, vec3& ray_dir) = 0;
- virtual vec3 normalAt(vec3& p) = 0;
+ virtual double intersect(const vec3& ray_org, const vec3& ray_dir) = 0;
+ virtual vec3 normalAt(const vec3& p) = 0;
 
  // friends
  friend std::istream& operator >> (std::istream& s, Primitive& a);

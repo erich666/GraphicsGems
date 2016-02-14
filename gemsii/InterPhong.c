@@ -19,6 +19,10 @@ Daniel Thalmann, 1987
 
 #define	Trunc(v)	((int)floor(v))
 
+void ipabort(const char* msg) {
+    printf("%s", msg);
+}
+
 /* normalize vector, return in pn */
 #define	unity(v,pn)	{ double len ; \
 			  len = sqrt((v).x*(v).x+(v).y*(v).y+(v).z*(v).z) ; \
@@ -158,7 +162,7 @@ BlockPoly	*ptpoly;
 			edge2 = tripedtrie->ptedtrie;
 		} 
 		else 
-			abort(" Odd number of edges on scanline");
+			ipabort(" Odd number of edges on scanline");
 
 		dxx = edge2->x - edge1->x;	/* distance between edges
 						   on current scanline */

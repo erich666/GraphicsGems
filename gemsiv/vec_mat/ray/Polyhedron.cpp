@@ -38,7 +38,7 @@ delete iList;
 *									*
 ************************************************************************/
 
-double Polyhedron::intersect(vec3& ray_org, vec3& ray_dir)
+double Polyhedron::intersect(const vec3& ray_org, const vec3& ray_dir)
 {
 int	i, j,
 	sNum = 0,   // Number of intersections.
@@ -126,7 +126,7 @@ return closest_intersection(s.data(), sNum);
 *									*
 ************************************************************************/
 
-vec3 Polyhedron::normalAt(vec3& p)
+vec3 Polyhedron::normalAt(const vec3& p)
 {
 int	i,
 	index = 0;	// index of the facet being hit by the ray

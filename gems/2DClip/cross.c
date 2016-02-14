@@ -11,7 +11,7 @@
 
 
 int p_where(POINT* p1, POINT* p2, SEGMENT* l);
-int psort(const void* a, const void* b);
+int ggpsort(const void* a, const void* b);
 
 /*
  * cross_calc:
@@ -253,7 +253,7 @@ POINT	*pt;
 /*
  * function used for sorting
  */
-int psort(const void* a, const void* b)
+int ggpsort(const void* a, const void* b)
 {
 	const CLIST* p1 = a;
 	const CLIST* p2 = b;

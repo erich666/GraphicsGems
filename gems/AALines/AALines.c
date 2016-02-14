@@ -15,6 +15,7 @@
       AATables.c -- Initialize lookup tables.
 */
 
+#include <stddef.h>
 #include <math.h>
 #include "AALines.h"
 
@@ -29,9 +30,9 @@
   )
 
 /* HARDWARE ASSUMPTIONS:
-/*    * 32-bit, signed ints
-/*    * 8-bit pixels, with initialized color table
-/*    * pixels are memory mapped in a rectangular fashion */
+    * 32-bit, signed ints
+    * 8-bit pixels, with initialized color table
+    * pixels are memory mapped in a rectangular fashion */
 
 /* FIXED-POINT DATA TYPE */
 #ifndef FX_FRACBITS

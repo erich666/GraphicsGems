@@ -23,6 +23,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 /* even with windows.h defined, still needs work - uses deprecated data types */
+#if WIN32
 #include <windows.h>
 
 /* remove the next line after the first run */
@@ -213,3 +214,4 @@ range */
 
     return TRUE;
 }
+#endif

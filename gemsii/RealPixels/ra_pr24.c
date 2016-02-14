@@ -18,7 +18,7 @@ static char SCCSid[] = "@(#)ra_pr24.c 1.8 8/15/91 LBL";
 
 /* if needed: extern double  atof(), pow(); */
 
-double	gamma = 2.0;			/* gamma correction */
+double	ra_gamma = 2.0;			/* gamma correction */
 
 int  bradj = 0;				/* brightness adjustment */
 
@@ -116,7 +116,7 @@ char  *argv[];
 		if (argv[i][0] == '-')
 			switch (argv[i][1]) {
 			case 'g':
-				gamma = atof(argv[++i]);
+				ra_gamma = atof(argv[++i]);
 				break;
 			case 'e':
 				if (argv[i+1][0] != '+' && argv[i+1][0] != '-')
@@ -144,7 +144,7 @@ char  *argv[];
 			progname, argv[i+1]);
 		exit(1);
 	}
-	setcolrgam(gamma);
+	setcolrgam(ra_gamma);
 	if (reverse) {
 		/* get header */
 		if (fread((char *)&head, sizeof(head), 1, stdin) != 1)

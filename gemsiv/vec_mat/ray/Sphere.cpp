@@ -9,7 +9,7 @@
 *									*
 ************************************************************************/
 
-double Sphere::intersect(vec3& ray_org, vec3& ray_dir)
+double Sphere::intersect(const vec3& ray_org, const vec3& ray_dir)
 {
 double	c[3],			    // coefficients of the quadric equation.
 	s[2];			    // solutions of the quadric equation
@@ -32,7 +32,7 @@ return closest_intersection(s, solveQuadric(c, s));
 *									*
 ************************************************************************/
 
-vec3 Sphere::normalAt(vec3& p)
+vec3 Sphere::normalAt(const vec3& p)
 { return (p - pos) / radius; }
 
 /************************************************************************
