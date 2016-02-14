@@ -13,8 +13,13 @@ endif()
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
+include_directories(.)
+
 add_library(fakeirisgl fakeirisgl.h fakeirisgl.c)
+add_library(GGVecLib GGVecLib.c)
+add_library(GraphicsGems GraphicsGems.h GraphicsGems.c)
 
 add_subdirectory(gems)
+add_subdirectory(gemsii)
 add_subdirectory(gemsiv)
 

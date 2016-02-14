@@ -10,7 +10,6 @@ add_library(Dissolve Dissolve.c)
 add_library(DoubleLine DoubleLine.c)
 add_library(FastJitter FastJitter.c)
 add_library(FixedTrig FixedTrig.c)
-add_library(CGVecLib GGVecLib.c)
 add_library(HSLtoRGB HSLtoRGB.c)
 add_library(HypotApprox HypotApprox.c)
 add_library(Interleave Interleave.c)
@@ -47,7 +46,7 @@ add_subdirectory(Sturm)
 
 set_property(TARGET
 	Albers AAPolyScan BoundSphere BoxSphere CircleRect ConcaveScan DigitalLine Dissolve
-	DoubleLine FastJitter FixedTrig CGVecLib HSLtoRGB HypotApprox Interleave MatrixInvert
+	DoubleLine FastJitter FixedTrig HSLtoRGB HypotApprox Interleave MatrixInvert
 	MatrixOrtho MatrixPost Median PixelInteger PntOnLine Quaternions RayBox RayPolygon
 	RGBTo4Bits Roots3And4 SeedFill SquareRoot TransBox TriPoints ViewTrans
 
@@ -57,8 +56,8 @@ set_property(TARGET
 		
 	PROPERTY FOLDER "GraphicsGems I")
 
-target_link_libraries(FitCurves CGVecLib)
-target_link_libraries(NearestPoint CGVecLib)
+target_link_libraries(FitCurves GGVecLib)
+target_link_libraries(NearestPoint GGVecLib)
 
 #if(CMAKE_COMPILER_IS_GNUCC)
 #		target_link_libraries(collide m)

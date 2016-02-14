@@ -4,7 +4,7 @@
  */
 #include	<stdlib.h>
 #include	<stdio.h>
-#include	"../GraphicsGems.h"
+#include	"GraphicsGems.h"
 #include	"line.h"
 
 void cross_calc(CONTOUR* poly, SEGMENT* l, CLIST** psol, short* nsol, short nsmax);

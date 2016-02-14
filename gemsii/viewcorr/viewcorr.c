@@ -9,7 +9,7 @@
  */
 #include <stdio.h>
 #include <math.h>
-#include "../GraphicsGems.h"
+#include "GraphicsGems.h"
 #include "matrix.h"
 #include "viewcorr.h"
 

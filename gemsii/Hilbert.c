@@ -1,5 +1,5 @@
 
-#include <gl/gl.h>     /* SGI Graphics Library assumed */
+#include "fakeirisgl.h"
 
 #define STEP_SIZE 4    /* # of pixels in each step */
 

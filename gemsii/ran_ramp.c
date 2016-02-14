@@ -216,7 +216,7 @@ char           *argv[];
 	int             suspend();
 
 	signal(SIGINT, inter);		 /* traps <ctrl-C> */
-	signal(SIGTSTP, suspend);	 /* traps <ctrl-Z> */
+	//signal(SIGTSTP, suspend);	 /* traps <ctrl-Z> */
 
 	printf("Please enter seed: ");
 	scanf("%d", &seed);
@@ -264,7 +264,7 @@ char           *argv[];
 			if (reply == 'y')
 				save_lut();
 					/* returns when job running again */
-			kill(getpid(), SIGSTOP);
+			// Not on Windows kill(getpid(), SIGSTOP);
 			stop = FALSE;
 			fb_init();	/* get back in action */
 		}

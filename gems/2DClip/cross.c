@@ -5,7 +5,7 @@
  */
 #include	<stdlib.h>
 #include	<math.h>
-#include	"../GraphicsGems.h"
+#include	"GraphicsGems.h"
 #include	"line.h"
 #include	"box.h"
 

@@ -11,6 +11,13 @@
 /* trace( / reflection ray / );
 /**/
 
+#include <stddef.h>
+
+typedef struct { int transparency_value; } TRIANGLE_REC;
+typedef struct { int i; } RAY_REC;
+struct SHADOW_TREE;
+typedef struct { struct SHADOW_TREE* cache_tree; } LIGHT_REC;
+
 typedef struct _stree {
     TRIANGLE_REC   *last_object;
     TRIANGLE_REC  **last_voxel;
@@ -29,6 +36,8 @@ int        Spawning_ray_level; /* level of the ray spawning this shadow ray */
     int i, hit ;
     float shadow_percent;
     /* user needs to define cache, object, voxel structures */
+	TRIANGLE_REC* object;
+	int voxel;
 
     cache = light->cache_tree;
     Mask = 0x01;

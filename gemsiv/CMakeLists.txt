@@ -7,7 +7,6 @@ add_executable(convolve convolve.c)
 add_library(coons_warp coons_warp.c)
 add_library(dist_fast dist_fast.c)
 add_library(emboss emboss.c)
-add_library(GraphicsGems GraphicsGems.h GraphicsGems.c)
 add_executable(implicit implicit.c)
 add_executable(interp_fast interp_fast.c)
 add_library(inv_fast inv_fast.c)
@@ -36,7 +35,7 @@ add_subdirectory(vec_mat)
 add_subdirectory(vert_norm)
 
 set_property(TARGET
-	centroid clahe collide convolve coons_warp dist_fast emboss GraphicsGems
+	centroid clahe collide convolve coons_warp dist_fast emboss 
 	implicit interp_fast inv_fast ray_cyl sph_poly thin_image trilerp vo_traverse
 	arcball convex_test curve_isect data_smooth delaunay dyn_range euler_angle
 	graph_layout minray multi_jitter nurb_polyg outcode xcc2d xcc4d polar_decomp

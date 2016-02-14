@@ -1,6 +1,6 @@
 
 #include	<math.h>
-#include	"../GraphicsGems.h"
+#include	"GraphicsGems.h"
 
 /* ----	intsph - Intersect a ray with a sphere. -----------------------	*/
 /*									*/
