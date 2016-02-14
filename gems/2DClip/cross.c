@@ -171,7 +171,7 @@ void cross_calc(CONTOUR* poly, SEGMENT* l, CLIST** psol, short* nsol, short nsma
 		}
 		p = p->_next;
 	} while(p != poly->_s);
-	qsort(sol, *nsol, sizeof(CLIST), psort);
+	qsort(sol, *nsol, sizeof(CLIST), ggpsort);
 }
 
 
