@@ -7,7 +7,7 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
-#include <stream.h>
+#include <iostream>
 #include <string.h>
 #include <math.h>
 
@@ -107,7 +107,7 @@ inline float Vector::Length(void)
 
 inline void Vector::Normalize(void)
 { 
-	if(Length()==0.0) cout<<"Error:normalize\n";
+	if(Length()==0.0) std::cout<<"Error:normalize\n";
  	else Scale(1.0/Length());
 }
 
@@ -163,6 +163,6 @@ inline float Vector::operator[](short index)
 
 inline void Vector::print(void)
 {
-	cout<<form("x:%.6f y:%.6f z:%.6f\n",fx,fy,fz);
+	//std::cout<<form("x:%.6f y:%.6f z:%.6f\n",fx,fy,fz);
 }
 #endif

@@ -1,7 +1,14 @@
 // -*- C++ -*-
 // by Bill Bouma and George Vanecek Jr. Aug, 1994.
 // Compile by: g++ -O2 -s -o cull cull.cc algebra3.o -lm
-#include "algebra3.h"           // See Graphics Gems IV, pg534-557
+
+#include <iostream>
+using std::cout;
+using std::endl;
+
+const float pi = 3.141592;
+
+#include "../../gemsiv/vec_mat/algebra3.h"           // See Graphics Gems IV, pg534-557
 typedef vec3          Point;    // Points are not Vectors
 typedef vec3          Vector;   // Vectors are not Points
 typedef unsigned int  Index;    // Array Indices

@@ -1,9 +1,9 @@
-#include <iostream.h>
+#include <iostream>
 #include <math.h>
 
 #include "global.h"
 
-ostream& operator<<(ostream& o, sphere& s) {s.out(o); return o;}
+std::ostream& operator<<(std::ostream& o, sphere& s) {s.out(o); return o;}
 
 list<intersect*> *sphere::shape(ray& r) {
         list<intersect*> *l=new list<intersect*>;

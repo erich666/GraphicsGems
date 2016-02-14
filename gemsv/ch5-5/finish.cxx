@@ -1,8 +1,8 @@
-#include <iostream.h>
+#include <iostream>
 #include <math.h>
 #include "global.h"
 
-ostream& operator<<(ostream& o, finish& f) {
+std::ostream& operator<<(std::ostream& o, finish& f) {
         o<<"finish {\n";
         o<<"diffuse "<<f.kd<<"  "<<"brilliance "<<f.kb<<"\n";
         o<<"crand "<<f.kc<<"  "<<"ambient "<<f.ka<<"\n";

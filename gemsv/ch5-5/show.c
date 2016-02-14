@@ -63,11 +63,11 @@ char *av[];
         exit(1);
     }
     strcat(screen, av[1]);
-    if((fildes=gopen(screen,OUTDEV,0,INIT))<0) {
-        printf("failed to open screen device\n");
-        exit(1);
-    }
-    shade_mode(fildes, CMAP_FULL|INIT, 0);
+    //if((fildes=gopen(screen,OUTDEV,0,INIT))<0) {
+    //    printf("failed to open screen device\n");
+    //    exit(1);
+    //}
+    //shade_mode(fildes, CMAP_FULL|INIT, 0);
     for(;;) {
         for(i=0; i<height; i++) {
             if(fread(row, sizeof(icolor), width, f)!=width)

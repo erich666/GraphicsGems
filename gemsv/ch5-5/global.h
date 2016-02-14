@@ -65,7 +65,7 @@ public:
 class xform;
 
 class vector {
-        friend ostream& operator<<(ostream& o, vector& v);
+        friend std::ostream& operator<<(std::ostream& o, vector& v);
         friend vector operator-(vector& v);
         friend class xform;
         double x, y, z;
@@ -175,7 +175,7 @@ struct halfspace {
 //      GEOMETRIC TRANSFORMATIONS (RIGID MOTIONS)
 
 class xform {
-        friend ostream& operator<<(ostream& o, xform& T);
+        friend std::ostream& operator<<(std::ostream& o, xform& T);
         matrix A;                               // ORTHONORMAL ORIENTATION
         vector s;                               // DIAGONAL SCALE
         vector t;                               // TRANSLATION VECTOR
@@ -237,7 +237,7 @@ public:
 //      CAMERA MODEL
 
 class camera {
-        friend ostream& operator<<(ostream& o, camera& c);
+        friend std::ostream& operator<<(std::ostream& o, camera& c);
         vector l;                                       // LOCATION
         vector s;                                       // SKY
         vector d;                                       // DIRECTION
@@ -277,7 +277,7 @@ public:
 class color;
 
 class intensity {
-        friend ostream& operator<<(ostream& o, intensity& i);
+        friend std::ostream& operator<<(std::ostream& o, intensity& i);
         friend class color;
         double r, g, b;                                 // RED, GREEN, BLUE
 public:
@@ -297,7 +297,7 @@ public:
 };
 
 class color {
-        friend ostream& operator<<(ostream& o, color& c);
+        friend std::ostream& operator<<(std::ostream& o, color& c);
         double r, g, b;                                 // RED, GREEN, BLUE
         double f;                                       // FILTER
 public:
@@ -321,7 +321,7 @@ class fog {
 };
 
 class pigment {
-        friend ostream& operator<<(ostream& o, pigment& p);
+        friend std::ostream& operator<<(std::ostream& o, pigment& p);
 protected:
         color q;                                        // QUICK COLOR
         vector t;                                       // TURBULENCE
@@ -331,7 +331,7 @@ protected:
         double f, p;                                    // FREQUENCY, PHASE
         xform T;                                        // TRANSFORMATION
 public:
-        virtual void out(ostream& o) {}
+        virtual void out(std::ostream& o) {}
         pigment() {t=vector(0.,0.,0.); o=6; m=.5; l=2.; f=1.; p=0.;}
         virtual ~pigment() {}
         void operator|=(pigment& p) {
@@ -357,7 +357,7 @@ class solid : public pigment {
 public:
         solid() {c=color(1.,1.,1.); setq(c);}
         solid(color& c) {this->c=c; setq(c);}
-        void out(ostream& o) {o<<"color "<<c<<"\n";}
+        void out(std::ostream& o) {o<<"color "<<c<<"\n";}
         pigment* copy() {solid *p=new solid; *p=*this; return p;}
         color paint(vector& p) {return c;}
 };
@@ -368,7 +368,7 @@ public:
         checker() {c1=color(0.,0.,1.,0.); c2=color(0.,1.,0.,0.);}
         checker(color& c1) {this->c1=c1; c2=color(0.,1.,0.,0.);}
         checker(color& c1, color& c2) {this->c1=c1; this->c2=c2;}
-        void out(ostream& o) {o<<"checker color "<<c1<<" color "<<c2<<"\n";}
+        void out(std::ostream& o) {o<<"checker color "<<c1<<" color "<<c2<<"\n";}
         pigment* copy() {checker *p=new checker; *p=*this; return p;}
         color paint(vector& p)
                 {return (((int)p[0]+(int)p[1]+(int)p[2])%2)?c2:c1;}
@@ -400,7 +400,7 @@ struct colormapitem {
 };
 
 class colormap {
-        friend ostream& operator<<(ostream& o, colormap& m);
+        friend std::ostream& operator<<(std::ostream& o, colormap& m);
         friend class colormapped;
         colormapitem *I;
         int nI;
@@ -421,7 +421,7 @@ public:
 };
 
 class colormapped : public pigment {
-        friend ostream& operator<<(ostream& o, colormapped& m);
+        friend std::ostream& operator<<(std::ostream& o, colormapped& m);
 public:
         colormap cm;
         colormapped() {}
@@ -465,12 +465,12 @@ class radial : public colormapped {
 //      TEXTURES - II. NORMAL
 
 class normal {
-        friend ostream& operator<<(ostream& o, normal& n);
+        friend std::ostream& operator<<(std::ostream& o, normal& n);
         vector t;                                       // TURBULENCE
         double f, p;                                    // FREQUENCY, PHASE
         xform T;                                        // TRANSFORMATION
 public:
-        virtual void out(ostream& o) {}
+        virtual void out(std::ostream& o) {}
         normal() {t=vector(0.,0.,0.); f=1.; p=0.;}
         virtual ~normal() {}
         void operator|=(normal& n) {
@@ -492,7 +492,7 @@ public:
 class bumps : public normal {
         double p;                                       // PERTURBATION
 public:
-        void out(ostream& o) {o<<"bumps "<<p<<"\n";}
+        void out(std::ostream& o) {o<<"bumps "<<p<<"\n";}
         bumps() {p=.4;}
         bumps(double d) {p=d;}
         normal* copy() {bumps *n=new bumps; *n=*this; return n;}
@@ -514,7 +514,7 @@ public:
 class dents : public normal {
         double d;                                               // DENTING
 public:
-        void out(ostream& o) {o<<"dents "<<d<<"\n";}
+        void out(std::ostream& o) {o<<"dents "<<d<<"\n";}
         dents() {d=.4;}
         dents(double d) {this->d=d;}
         normal* copy() {dents *n=new dents; *n=*this; return n;}
@@ -536,7 +536,7 @@ class bumpmap : public normal {
 //      TEXTURES - III. FINISH
 
 class finish {
-        friend ostream& operator<<(ostream& o, finish& f);
+        friend std::ostream& operator<<(std::ostream& o, finish& f);
         double kd, kb, kc;                      // DIFFUSE, BRILLIANCE, CRAND
         double ka;                              // AMBIENT
         double kr;                              // REFLECTION
@@ -567,7 +567,7 @@ public:
 //      TEXTURES - IV. TOP LEVEL
 
 class texture {
-        friend ostream& operator<<(ostream& o, texture& t);
+        friend std::ostream& operator<<(std::ostream& o, texture& t);
         pigment *p;
         normal *n;
         finish *f;
@@ -591,7 +591,7 @@ public:
                 return *this;
         }
         void operator+=(texture* t) {*l+=t;}
-        virtual void out(ostream& o) {
+        virtual void out(std::ostream& o) {
                 o<<"texture {\n";
                 o<<*p; o<<*n; o<<*f;
                 o<<T<<"}\n";
@@ -617,7 +617,7 @@ public:
 
 class tiles : public texture {
 public:
-        void out(ostream& o) {
+        void out(std::ostream& o) {
                 o<<"texture {\n";
                 o<<"tiles\n"<<*(texture*)this<<"tile2\n"<<*(l->first());
                 o<<T<<"}\n";
@@ -634,14 +634,14 @@ class materialmap : public texture {
 
 class object {
 protected:
-        friend ostream& operator<<(ostream& o, object& p);
+        friend std::ostream& operator<<(std::ostream& o, object& p);
         texture t;                                      // TEXTURE
         xform T;                                        // TRANSFORMATION
         virtual list<intersect*> *shape(ray& r)   // RAY INTERSECTION
                 {return new list<intersect*>;}
 public:
-        void outopt(ostream& o) {o<<t<<T;}
-        virtual void out(ostream& o) {o<<"undefined {\n";outopt(o);o<<"}\n";}
+        void outopt(std::ostream& o) {o<<t<<T;}
+        virtual void out(std::ostream& o) {o<<"undefined {\n";outopt(o);o<<"}\n";}
         virtual ~object() {}
         void sett(texture& t) {this->t=t;}
         void setp(pigment& p) {t.setp(p);}
@@ -700,10 +700,10 @@ class sphere : public object {
         double r;                                       // RADIUS
         list<intersect*> *shape(ray& r);
 public:
-        void out(ostream& o) {
+        void out(std::ostream& o) {
                 o<<"sphere {\n"<<c<<"\n"<<r<<"\n"; outopt(o); o<<"}\n";
         }
-        friend ostream& operator<<(ostream& o, sphere& s);
+        friend std::ostream& operator<<(std::ostream& o, sphere& s);
         sphere() {c=vector(0.,0.,0.); r=1.;}
         sphere(vector& c, double r) {this->c=c;this->r=r;}
         object* copy() {sphere* o=new sphere; *o=*this; return o;}
@@ -746,13 +746,13 @@ class quadric : public object {
 //      OBJECTS SPECIFIED -  IV. CONSTRUCTIVE SOLID GEOMETRY (CSG)
 
 class csg : public object {
-        friend ostream& operator<<(ostream& o, csg& c);
+        friend std::ostream& operator<<(std::ostream& o, csg& c);
 protected:
         list<object*> *l;
 public:
         csg(list<object*>*ol=(list<object*>*)0) {l=ol?ol:new list<object*>;}
         ~csg() {for(object* o=l->first();o;o=l->next()) delete o; delete l;}
-        void outobj(ostream& o) {
+        void outobj(std::ostream& o) {
                 for(object *p=l->first();p;p=l->next()) o<<*p;
         }
         csg& operator=(csg& c) {
@@ -781,44 +781,44 @@ public:
 };
 
 class csguni : public csg {
-        friend ostream& operator<<(ostream& o, csguni& c);
+        friend std::ostream& operator<<(std::ostream& o, csguni& c);
 public:
         csguni(list<object*>*ol=(list<object*>*)0) : csg(ol) {}
         ~csguni() {}
-        void out(ostream& o) {
+        void out(std::ostream& o) {
                 o<<"union {\n"; outobj(o); outopt(o); o<<"}\n";
         }
         object* copy() {csguni* o=new csguni; *o=*this; return o;}
 };
 
 class csgmer : public csg {
-        friend ostream& operator<<(ostream& o, csgmer& c);
+        friend std::ostream& operator<<(std::ostream& o, csgmer& c);
 public:
         csgmer(list<object*>*ol=(list<object*>*)0) : csg(ol) {}
         ~csgmer() {}
-        void out(ostream& o) {
+        void out(std::ostream& o) {
                 o<<"merge {\n"; outobj(o); outopt(o); o<<"}\n";
         }
         object* copy() {csgmer* o=new csgmer; *o=*this; return o;}
 };
 
 class csgint : public csg {
-        friend ostream& operator<<(ostream& o, csgint& c);
+        friend std::ostream& operator<<(std::ostream& o, csgint& c);
 public:
         csgint(list<object*>*ol=(list<object*>*)0) : csg(ol) {}
         ~csgint() {}
-        void out(ostream& o) {
+        void out(std::ostream& o) {
                 o<<"intersection {\n";outobj(o);outopt(o);o<<"}\n";
         }
         object* copy() {csgint* o=new csgint; *o=*this; return o;}
 };
 
 class csgdif : public csg {
-        friend ostream& operator<<(ostream& o, csgdif& c);
+        friend std::ostream& operator<<(std::ostream& o, csgdif& c);
 public:
         csgdif(list<object*>*ol=(list<object*>*)0) : csg(ol) {}
         ~csgdif() {}
-        void out(ostream& o) {
+        void out(std::ostream& o) {
                 o<<"difference {\n";outobj(o);outopt(o);o<<"}\n";
         }
         object* copy() {csgdif* o=new csgdif; *o=*this; return o;}
@@ -834,12 +834,12 @@ struct light {
 };
 
 class lightsource : public object {
-        friend ostream& operator<<(ostream& o, lightsource& l);
+        friend std::ostream& operator<<(std::ostream& o, lightsource& l);
 protected:
         vector p;                                       // POSITION
         color c;                                        // COLOR
 public:
-        virtual void out(ostream& o) {
+        virtual void out(std::ostream& o) {
                 o<<"light_source {\n"<<p<<"\n"<<c<<"\n"; o<<T; o<<"}\n";
         }
         lightsource() {p=vector(0.,0.,0.); c=color(1.,1.,1.);}
@@ -863,13 +863,13 @@ public:
 };
 
 class spotlight : public lightsource {
-        friend ostream& operator<<(ostream& o, spotlight& l);
+        friend std::ostream& operator<<(std::ostream& o, spotlight& l);
         vector a;                                               // POINT AT
         double r;                                               // RADIUS
         double f;                                               // FALLOFF
         double t;                                               // TIGHTNESS
 public:
-        virtual void out(ostream& o) {
+        virtual void out(std::ostream& o) {
                 o<<"light_source {\n"<<p<<"\n"<<c<<"\n";
                 o<<"spotlight\npoint_at "<<a<<"\nradius "<<r<<"\n";
                 o<<"falloff "<<f<<"\ntightness "<<t<<"\n";

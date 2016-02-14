@@ -1,6 +1,6 @@
-#include <iostream.h>
+#include <iostream>
 #include <math.h>
-
+#include <vector>
 #include "global.h"
 #include "voronoi.h"                            // D-DIM. VORONOI TEMPLATE
 
@@ -96,7 +96,7 @@ void voronoi::preprocess(list<object*> *lo) {           // PREPROCESSING
                         {(*lc)+=new cell(*p,o); n++; delete p;}
                 delete lp;
         }
-        for(o=lightsources.first(); o; o=lightsources.next()) { // LIGHTSRC.S
+        for(auto o=lightsources.first(); o; o=lightsources.next()) { // LIGHTSRC.S
                 list<vector*> *lp=o->particles();
                 for(vector* p=lp->first(); p; p=lp->next()) 
                         {(*lc)+=new cell(*p); n++; delete p;}
@@ -115,24 +115,24 @@ void voronoi::preprocess(list<object*> *lo) {           // PREPROCESSING
                 cm=cm+C[i]->p;
                 if(lexcmp((const void**)&C[i],          // MULTIPLE PARTICLE
                           (const void**)&p)==0) {
-                        for(o=C[i]->lh.first(); o; o=C[i]->lh.next())
+                        for(auto o=C[i]->lh.first(); o; o=C[i]->lh.next())
                                 p->lh+=o;
                         delete C[i];
                 } else {(*lv)+=C[i]; p=C[i];}           // SINGLE (YET)
         }
         cm=cm/(double)n;                                // CENTER OF MASS
         delete C;
-        VECTOR<3>*b[4]; for(i=0;i<4;i++) b[i]=new cell; // BOUNDARY CELLS
+        VECTOR<3>*b[4]; for(auto i=0;i<4;i++) b[i]=new cell; // BOUNDARY CELLS
         VORONOI<3> V(lv,b);                             // VERTEX STRUCTURE
-        for(i=0;i<4;i++) {                              // BOUNDARY CELLS
+        for(auto i=0;i<4;i++) {                              // BOUNDARY CELLS
                 cell* c=(cell*)b[i];
                 c->p=vector((*c)[0],(*c)[1],(*c)[2]);   // UPDATE
         }
         V(initcells);                                   // 3D VORONOI-CELLS
         traverse=0L;                                    // INITIALIZE disperse
         double ddmin; register int first=1;             // INITIALIZE SEARCH
-        for(c=(cell*)lv->first();c;c=(cell*)lv->next()) {
-                for(o=c->lh.first();o;o=c->lh.next())   // BUILD OBJECT LISTS
+        for(auto c=(cell*)lv->first();c;c=(cell*)lv->next()) {
+                for(auto o=c->lh.first();o;o=c->lh.next())   // BUILD OBJECT LISTS
                         disperse(o,c);                  // PARTIAL TRAVERSE
                 vector u=c->p-cm; double dd=u%u;        // DISTANCE^2 FROM cm
                 if(first || dd<ddmin)                   // FIND CLOSEST TO cm
@@ -140,7 +140,7 @@ void voronoi::preprocess(list<object*> *lo) {           // PREPROCESSING
                 first=0;
         }
         n=1<<(lmax+1);
-        s=new cell*[n]; for(i=0;i<n;i++) s[i]=this->C;  // START FOR firstlist
+        s=new cell*[n]; for(auto i=0;i<n;i++) s[i]=this->C;  // START FOR firstlist
         delete lv; // ???
 }
 

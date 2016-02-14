@@ -1,13 +1,17 @@
 #include <stdio.h>
-#include <iostream.h>
-#include <fstream.h>
-#include <stdlib.h>
+#include <iostream>
+#include <fstream>
+#include <cstdlib>
 
 #include "global.h"
 
 //      GLOBAL CONSTANTS
 
 int verbose=0;                                      // WHAT TO PRINT OUT
+
+double drand48() {
+	return 1.f;
+}
 
 //      INPUT FILE CONTAINING RANDOM OBJECTS
 
@@ -23,7 +27,7 @@ double random(double a, double b) {                     // a<=random(a,b)<=b
 }
 
 void randomobjects(char* filename) {                // GENERATE RANDOM SPHERES
-        ofstream o(filename, ios::out);
+        std::ofstream o(filename, std::ios::out);
         o<<"#declare WHITE=color rgb<1,1,1>\n";
         o<<"#declare BLACK=color rgb<0,0,0>\n";
         o<<"#declare S=sphere{<0,0,0>,1 pigment{color WHITE}finish{diffuse 1}}\n";
@@ -55,7 +59,7 @@ extern "C" {void* malloc(size_t); void free(void*);}
 long nbytes=0L;
 void *operator new(size_t size) {
         nbytes+=size;
-        void *p=malloc(size+8); cout<<nbytes<<"\n";
+        void *p=malloc(size+8); std::cout<<nbytes<<"\n";
         *(long*)p=size;
         return p+8;
 }
@@ -114,23 +118,23 @@ intensity trace(ray& r) {
 //      MAIN PROGRAM
 
 void usage() {
-        cout<<"usage: oopov [SWITCHes] {FILENAME | -r #}\n";
-        cout<<"where\n";
-        cout<<"    SWITCH can be\n";
-        cout<<"        -a v             :accelerate via Voronoi-diagram\n";
-        cout<<"        -a b             :brute-force intersection (default)\n";
-        cout<<"        -o FILENAME      :name of output file\n";
-        cout<<"        -r #             :creates # number of random objects\n";
-        cout<<"                          (also writes them into random.pov)\n";
-        cout<<"        -r -1            :reads objects from random.pov\n";
-        cout<<"        -v               :verbose printout\n";
-        cout<<"        -x #             :horizontal resolution of image\n";
-        cout<<"        -y #             :vertical resolution of image\n";
-        cout<<"    # is an integer\n";
+        std::cout<<"usage: oopov [SWITCHes] {FILENAME | -r #}\n";
+        std::cout<<"where\n";
+        std::cout<<"    SWITCH can be\n";
+        std::cout<<"        -a v             :accelerate via Voronoi-diagram\n";
+        std::cout<<"        -a b             :brute-force intersection (default)\n";
+        std::cout<<"        -o FILENAME      :name of output file\n";
+        std::cout<<"        -r #             :creates # number of random objects\n";
+        std::cout<<"                          (also writes them into random.pov)\n";
+        std::cout<<"        -r -1            :reads objects from random.pov\n";
+        std::cout<<"        -v               :verbose printout\n";
+        std::cout<<"        -x #             :horizontal resolution of image\n";
+        std::cout<<"        -y #             :vertical resolution of image\n";
+        std::cout<<"    # is an integer\n";
         exit(0);
 }
 
-main(int argc, char** argv) {
+int main(int argc, char** argv) {
         query=new method;                               // DEFAULT BRUTE FORCE
         while(argv[1] && argv[1][0]=='-') {             // PROCESS ARGUMENTS
                 switch(argv[1][1]) {

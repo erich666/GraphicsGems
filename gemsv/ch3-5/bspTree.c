@@ -88,6 +88,8 @@ void BSPfreeTree(BSPNODE **bspNode)
 
 } /* BSPfreeTree() */
 
+#define MAXINT 500
+
 /* Chooses plane with which to partition. 
  * The algorithm is to examine the first MAX_CANDIDATES on face list. For
  * each candidate, count how many splits it would make against the scene.

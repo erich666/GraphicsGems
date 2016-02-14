@@ -14,7 +14,7 @@ public:
 //      D-DIMENSIONAL VECTOR TEMPLATE
 
 template <int D> class VECTOR {
-        friend ostream& operator<<(ostream& o, VECTOR<D>& v);
+        friend std::ostream& operator<<(std::ostream& o, VECTOR<D>& v);
         double x[D];                                            // COORDINATES
 public:
         VECTOR() {for(register int i=0; i<D; i++) x[i]=0.;}
@@ -51,7 +51,7 @@ public:
 //      D-DIMENSIONAL SQUARE MATRIX TEMPLATE
 
 template <int D> class MATRIX {
-        friend ostream& operator<<(ostream& o, MATRIX<D>& A);
+        friend std::ostream& operator<<(std::ostream& o, MATRIX<D>& A);
         VECTOR<D> a[D];                                         // ROWS
 public:
         MATRIX(VECTOR<D> a[D]) {for(register int i=0;i<D;i++) this->a[i]=a[i];}
@@ -128,7 +128,7 @@ public:
 //      VORONOI-DIAGRAM TEMPLATE
 
 template <int D> class VORONOI {
-        friend ostream& operator<<(ostream& o, VORONOI<D>& v);
+        friend std::ostream& operator<<(std::ostream& o, VORONOI<D>& v);
         VECTOR<D> C;                                    // CENTROID
         VECTOR<D> *b[D+1], B[D+1];                      // BOUNDING SIMPLEX
         VERTEX<D> *c;                                   // CLOSEST TO CENTROID
@@ -137,7 +137,7 @@ template <int D> class VORONOI {
                 VECTOR<D> d=v-w; return d*d;
         }
         void normals(int d, double n[D+1][D]) { // NORMAL VECTORS FOR bound()
-                register int i, j;
+                int i;
                 if(d==2) {
                         n[0][0]=1.0; n[0][1]=1.0;
                         n[1][0]=-1.0; n[1][1]=1.0;
@@ -157,9 +157,10 @@ template <int D> class VORONOI {
         list<VERTEX<D>*> *ln;                   // NEW VERTICES
         void create();                          // CREATE NEW VERTICES
         int samering(VERTEX<D>*v, int iv, VERTEX<D>*w, int iw) {
-                for(register int i=(iv+1)%(D+1);i!=iv;i=(i+1)%(D+1)) {
+                for(int i=(iv+1)%(D+1);i!=iv;i=(i+1)%(D+1)) {
                         VECTOR<D> *p=v->p[i];
-                        for(register int j=(iw+1)%(D+1);j!=iw;j=(j+1)%(D+1))
+						int j;
+                        for(j=(iw+1)%(D+1);j!=iw;j=(j+1)%(D+1))
                                 if(w->p[j]==p) {j=-1; break;}
                         if(j>=0) return 0;
                 }
@@ -305,10 +306,13 @@ template <int D> void VORONOI<D>::create() {
 }
 
 template <int D> void VORONOI<D>::link() {
-        register int i, j, n, iv, iw;
+	int n = 0;
+        int i, j, iv, iw;
         VERTEX<D> *v, *w;
-        n=0; for(v=ln->first(); v; v=ln->next()) n++;
-        VERTEX<D> *N[n];
+        for(v=ln->first(); v; v=ln->next()) n++;
+        //VERTEX<D> *N[n];
+		std::vector<VERTEX<D>*> N;
+		N.resize(n);
         n=0; for(v=ln->first(); v; v=ln->next()) N[n++]=v;
         for(i=0; i<n-1; i++) {
                 v=N[i];

@@ -1,8 +1,8 @@
-#include <iostream.h>
+#include <iostream>
 
 #include "global.h"
 
-ostream& operator<<(ostream& o, camera& c) {
+std::ostream& operator<<(std::ostream& o, camera& c) {
         o<<"camera {\n";
         o<<"location "<<c.l<<"\n";
         o<<"sky "<<c.s<<"\n";

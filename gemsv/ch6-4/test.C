@@ -65,7 +65,7 @@ while(mes[i]){
 /*                                                           */
 /*************************************************************/
 
-main(int argc, char** argv)
+int main(int argc, char** argv)
 {
 pt2     size;
 int     i, fileN = 0;
@@ -104,7 +104,7 @@ while (fileN < argc -1){
 
     /* read the data from the bitmap image*/
     i = 0;
-    bitmap = malloc(size.x * size.y * sizeof(char));
+    bitmap = (char*)malloc(size.x * size.y * sizeof(char));
     while (!feof(input)){
         fscanf(input,"%c", &c);
         if (c == '0' || c == '1'){

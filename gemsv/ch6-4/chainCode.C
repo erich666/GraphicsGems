@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <cstring>
 #include <stdio.h>
 #include "chainCode.h"
 
@@ -12,7 +13,7 @@
 
 chainCode::chainCode()
 {
-code = malloc(DEFAULT_CODE_LENGTH * sizeof(char));
+code = (char*)malloc(DEFAULT_CODE_LENGTH * sizeof(char));
 code[0] = '\0';
 length = DEFAULT_CODE_LENGTH;
 }
@@ -44,7 +45,7 @@ int l = strlen(code);
 
 if (l >= length-1){
     length *= 2;
-    code = realloc(code, length);
+    code = (char*)realloc(code, length);
     }
 code[l] = c;
 code[l+1] = '\0';

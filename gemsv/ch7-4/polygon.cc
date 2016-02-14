@@ -3,6 +3,7 @@
 //
 
 #include <assert.h>
+#include <vector>
 #include "polygon.h"
 
 Polygon::Polygon( const Counter nPoints, const Point pts[] )
@@ -32,7 +33,8 @@ void Polygon::split( const Plane& cut, DEdge* const d )
 // that cross the cut plane.
 Where Polygon::classifyPoints( const Plane& cut,
 			       Counter&     nOnDEdges,
-			       DEdge*       onDEdges[] )
+					std::vector<DEdge*>& onDEdges)
+			       //DEdge*       onDEdges[] )
 {
   first()->srcWhere() = cut.whichSide( first()->srcPoint() );
   Where polyW = first()->srcWhere();
@@ -93,14 +95,14 @@ void Polygon::addBridge( DEdge* const leftBelow,
 
 // Sort directed edges that have srcPoints ON the cut plane
 // left to right (in direction of cutDir) by their source points.
-void Polygon::sortDEdges( const Counter nOnDs, DEdge* const onDs[],
-			  const Vector& cutDir )
+//void Polygon::sortDEdges( const Counter nOnDs, DEdge* const onDs[], const Vector& cutDir )
+void Polygon::sortDEdges( const Counter nOnDs, std::vector<DEdge*> onDs, const Vector& cutDir )
 {
   assert( nOnDs >= 2 );
   const Point& refP = onDs[0]->srcPoint();
   for( Index i = 0; i < nOnDs; ++i )
     onDs[i]->distFromRefP() = cutDir * (onDs[i]->srcPoint() - refP );
-  for( i = nOnDs-1; i > 0; --i )
+  for(int i = nOnDs-1; i > 0; --i )
     for( Index j = 0, k = 1; k <= i; j = k++ )
       if( onDs[j]->distFromRefP() > onDs[k]->distFromRefP() ||
 	  onDs[j]->distFromRefP() == onDs[k]->distFromRefP() &&
@@ -112,8 +114,8 @@ static DEdge* useSrc = NULL;
 
 // Get the next directed edge that starts a cut.
 // This assumes all vertices on the cut Plane have manifold sectors.
-static DEdge* getSrcD( DEdge* const onDs[],
-		       Counter& start, const Counter nOnDs )
+//static DEdge* getSrcD( DEdge* const onDs[], Counter& start, const Counter nOnDs )
+static DEdge* getSrcD( std::vector<DEdge*> onDs, Counter& start, const Counter nOnDs )
 {
   if( useSrc ) {
     DEdge* const gotIt = useSrc;
@@ -135,8 +137,8 @@ static DEdge* getSrcD( DEdge* const onDs[],
 }
 
 // Get the next directed edge that ends a cut.
-static DEdge* getDstD( DEdge* const onDs[],
-		       Counter& start, const Counter nOnDs )
+//static DEdge* getDstD( DEdge* const onDs[], Counter& start, const Counter nOnDs )
+static DEdge* getDstD( std::vector<DEdge*> onDs, Counter& start, const Counter nOnDs )
 {
   while( start < nOnDs ) {
     const Where prevW = onDs[start]->prev()->srcWhere();
@@ -155,7 +157,8 @@ static DEdge* getDstD( DEdge* const onDs[],
 }
 
 void Polygon::complexCut( const Plane& cut,
-			  const Counter nOnDs, DEdge* const onDs[],
+			  //const Counter nOnDs, DEdge* const onDs[],
+			  const Counter nOnDs, std::vector<DEdge*>onDs,
 			  List<Polygon>& above, List<Polygon>& below)
 {
   sortDEdges( nOnDs, onDs, cut.normal() ^ plane().normal() );
@@ -184,7 +187,9 @@ void split( Polygon*& g, const Plane& cut,
 	    List<Polygon>& on,
 	    List<Polygon>& below )
 {
-  DEdge*  onDEdges[g.nPoints()];
+	std::vector<DEdge*> onDEdges;
+	onDEdges.resize(g->nPoints());
+  //DEdge*  onDEdges[g.nPoints()];
   Counter nOnDEdges = 0;
   switch( g->classifyPoints( cut, nOnDEdges, onDEdges ) ) {
   case ONABOVE:

@@ -7,10 +7,10 @@
 #ifndef GMUTILS_H
 #define GMUTILS_H
 
-#include <iostream.h>
+#include <iostream>
 #include <math.h>
-#include <bool.h>
-#include <gmConst.h>
+#include <stdbool.h>
+#include "gmConst.h"
 
 // ONE-ARGUMENT UTILITY FUNCTIONS
 

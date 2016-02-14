@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-#include <gmUtils.h>
+#include "gmUtils.h"
 
 class gmVector3 {
 
@@ -68,7 +68,7 @@ friend gmVector3 lerp(double, const gmVector3&, const gmVector3&);
 
   // output
 
-friend ostream & operator << ( ostream &, const gmVector3 & );
+friend std::ostream & operator << ( std::ostream &, const gmVector3 & );
 };
 
 // CONSTRUCTORS
@@ -251,7 +251,7 @@ inline gmVector3 lerp(double f, const gmVector3& v1, const gmVector3& v2)
 
 // OUTPUT
 
-inline ostream & operator << ( ostream& os, const gmVector3& v)
+inline std::ostream & operator << ( std::ostream& os, const gmVector3& v)
 {
   os << "< " << v[0] << " " << v[1] << " " << v[2] << " >";
   return os;
