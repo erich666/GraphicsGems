@@ -19,6 +19,7 @@
 
 ****************************************************************************/
 
+#include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
 /* even with windows.h defined, still needs work - uses deprecated data types */
@@ -130,6 +131,8 @@ void jitter_init()
 }
 #endif
 
+typedef int* HPBYTE;
+
 BOOL VaryDIB24(HANDLE hdib)
 {
     LPBITMAPINFOHEADER lpbi;
@@ -138,21 +141,21 @@ BOOL VaryDIB24(HANDLE hdib)
     int x,y;
 
     /* Get pointer to bits */
-    if (!hdib) return FALSE;
+    if (!hdib) return false;
     lpbi = (LPBITMAPINFOHEADER)GlobalLock(hdib);
     GlobalUnlock(hdib);
 
     if (lpbi->biBitCount != 24)
     {
        ErrMsg("Jitter only applies to 24bpp images.");
-       return FALSE;
+       return false;
     }
 
     /* Make sure it is not compressed */
     if (lpbi->biCompression != BI_RGB)
     {
        ErrMsg("Jitter only works on uncompressed images.");
-       return FALSE;
+       return false;
     }
 
 #ifdef GENTABLE

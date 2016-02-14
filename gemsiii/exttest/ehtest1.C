@@ -4,15 +4,17 @@
 // Len Wanger - Fri Aug 30 10:07:01 PDT 1991
 //
 
-#include "iostream.h"
+#include <iostream>
 #include "exthit.h"
+
+using std::cout;
 
 void func_tst (Ptr data, Ptr p1, Ptr p2 )
 {
   cout << "Objects " << (Ptr) p1 << " and " << (Ptr) p2 << " intersect.\n";
 }
 
-main()
+int main()
 {
   ExtHit eh(5);
   Extent ext;

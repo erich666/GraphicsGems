@@ -21,5 +21,6 @@ add_library(GraphicsGems GraphicsGems.h GraphicsGems.c)
 
 add_subdirectory(gems)
 add_subdirectory(gemsii)
+add_subdirectory(gemsiii)
 add_subdirectory(gemsiv)
 

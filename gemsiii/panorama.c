@@ -13,6 +13,62 @@
  * easy enough to do yourself.
  */
 
+#include <stdbool.h>
+
+typedef float Float;
+typedef float RSMatrix[4][4];
+typedef struct {
+	float x;
+	float y;
+	float z;
+} Vector;
+typedef struct {
+	int lookp;
+	Vector pos;
+	Vector dir;
+	int lookdist;
+	Vector up;
+	int hfov;
+	int vfov;
+} CAMERA;
+CAMERA Camera;
+typedef struct {
+	Vector scrni;
+	int scrnj;
+	int xres;
+	int yres;
+	Vector scrnx;
+	Vector scrny;
+	int hincr;
+	Vector firstray;
+	Vector* horizdir;
+	Vector* eyepts;
+	Vector* vertdir;
+	int background;
+} SCREEN;
+SCREEN Screen;
+typedef struct {
+	int panorama;
+	bool stereo;
+	int eyesep;
+} OPTIONS;
+OPTIONS Options;
+typedef struct {
+	Vector origin;
+	Vector dir;
+} Ray;
+typedef struct { int r; int g; int b; } Pixel;
+typedef struct { int nodes; } HitList;
+typedef struct { int r; int g; int b; } Color;
+typedef struct { int EyeRays; } STATS;
+STATS Stats;
+
+#define RL_PANIC 1
+#define UNSET 1
+#define LEFT 1
+#define FAR_AWAY 1
+#define EPSILON 0.00001
+
 RSViewing()
 {
 	Float magnitude;

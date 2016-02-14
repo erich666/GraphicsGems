@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
-#include "../GraphicsGems.h"
+#include "GraphicsGems.h"
 #include "partition.h"
 
 static FACE *getFace(/* void */);

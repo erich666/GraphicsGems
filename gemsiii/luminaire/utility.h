@@ -8,7 +8,7 @@
 // ******************************************************************
 
 #include <math.h>
-#include <stream.h>
+//#include <stream.h>
 
 class point;
 class vector;

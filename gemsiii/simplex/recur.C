@@ -16,6 +16,11 @@ Exit:
   dst_vtx - list of the vertexes of the kth subsimplex
   
 ***********************************************************/
+
+int bitCount(int i) {
+	return 0;
+}
+
 void rec_subsimplex(register float* dst_vtx,
                     const float* const src_vtx,
                     int n,

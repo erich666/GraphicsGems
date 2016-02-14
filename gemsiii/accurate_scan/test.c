@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -54,18 +55,18 @@ InitScreen()
 	if(!driver) driver = getenv("OUTDRIVER");
 	if (!driver ) driver = "hp98731";
 	
-	fildes = gopen(sb_dev,OUTDEV,driver,INIT|INT_XFORM);
-	interior_style(fildes,INT_SOLID,FALSE);
+	// ANCIENT fildes = gopen(sb_dev,OUTDEV,driver,INIT|INT_XFORM);
+	// ANCIENT interior_style(fildes,INT_SOLID,FALSE);
 	
 	intvdc_extent(fildes,0,0,SIZE, SIZE);
-	mapping_mode(fildes,FALSE);
+	mapping_mode(fildes,false);
 	
 	drawing_mode(fildes,6);	  /* xor mode */
 	
 	if (!verbose)
-	  double_buffer(fildes,TRUE,12); 
+	  double_buffer(fildes,true,12); 
 
-	clear_control(fildes, CLEAR_VIEWPORT);
+	// ANCIENT clear_control(fildes, CLEAR_VIEWPORT);
 	
 	return(fildes);
 }

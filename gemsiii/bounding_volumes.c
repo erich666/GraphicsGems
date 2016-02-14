@@ -65,6 +65,8 @@ canonical cube is centered about the origin, with faces at X=-1, X=1, Y=-1,
 Y=1, Z=-1, and Z=1.
 ****************************************************************************/
 
+#define MAXFLOAT 666
+
 cube_volume(min, max, ctm)
 vec3 min, max;			/* returned minimum and maximum of extent */
 mat4 ctm;			/* cumulative transformation */

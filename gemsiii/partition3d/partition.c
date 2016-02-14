@@ -5,7 +5,7 @@
 #include <stdio.h>		/* NULL */
 #include <assert.h>		/* assert() */
 #include <math.h>		/* fabs() */
-#include "../GraphicsGems.h"	
+#include "GraphicsGems.h"	
 #include "partition.h"
 
 /* local functions */
