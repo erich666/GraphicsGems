@@ -1,4 +1,4 @@
-# pragma cone
+# pragma once
 
 
 #include <math.h>
