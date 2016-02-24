@@ -942,7 +942,7 @@ freebitmap(
 #endif
 );
 
-extern int
+extern void
 copy_bitmap(
 #ifdef USE_PROTOTYPES
         bitmap_hdr *,

@@ -29,9 +29,7 @@
 #include "lug.h"
 #include "lugfnts.h"
 
-allocatebitmap(image, xsize, ysize, depth, colors)
-bitmap_hdr *image;
-int xsize, ysize, depth, colors;
+int allocatebitmap(bitmap_hdr* image, int xsize, int ysize, int depth, int colors)
 {
   int totalsize;
 
@@ -72,8 +70,7 @@ int xsize, ysize, depth, colors;
   return 0;
 }
 
-freebitmap(image)
-bitmap_hdr *image;
+int freebitmap(bitmap_hdr* image)
 {
   if ( image->magic != LUGUSED )
     return 0;
@@ -99,8 +96,7 @@ bitmap_hdr *image;
   return 0;
 }
 
-copy_bitmap( inbitmap, outbitmap)
-bitmap_hdr *inbitmap, *outbitmap;
+void copy_bitmap(bitmap_hdr* inbitmap, bitmap_hdr* outbitmap)
 {
   int totalsize = inbitmap->xsize * inbitmap->ysize;
 
