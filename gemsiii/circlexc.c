@@ -4,18 +4,18 @@
 #define START 0
 #define END 1
 
-#define QUAD1  90.0
-#define QUAD2 180.0
-#define QUAD3 270.0
-#define QUAD4 360.0
-#define FACTOR 57.29577951
+#define QUAD1  90.f
+#define QUAD2 180.f
+#define QUAD3 270.f
+#define QUAD4 360.f
+#define FACTOR 57.29577951f
 
 typedef struct {
    float angle;
    int type;
 } intsct_st;
 
-int compare(intsct_st *, intsct_st *);  /* used by qsort */
+int compare(void const*, void const*);  /* used by qsort */
 
 /*
  * clip_circle:
@@ -69,7 +69,7 @@ int clip_circle( float Xc, float Yc,  /* center of the circle */
     */
    {
       d = (float) ( clip_bnds[0] - Xc );
-      alpha = (int) FACTOR*acos(d/R);
+      alpha = (int) FACTOR*acosf(d/R);
 
       intsct[n].angle = 0; intsct[n++].type = START;
       intsct[n].angle = alpha; intsct[n++].type = END;
@@ -83,7 +83,7 @@ int clip_circle( float Xc, float Yc,  /* center of the circle */
     */
    {
       d = (float) ( clip_bnds[1] - Yc);
-      beta = (int) FACTOR*acos(d/R);
+      beta = (int) FACTOR*acosf(d/R);
 
       if ( (QUAD1-beta) < 0 )
       {
@@ -104,7 +104,7 @@ int clip_circle( float Xc, float Yc,  /* center of the circle */
     */
    {
       d = (float) ( Xc - clip_bnds[2] );
-      gamma = (int) FACTOR*acos(d/R);
+      gamma = (int) FACTOR*acosf(d/R);
 
       intsct[n].angle = QUAD2-gamma; intsct[n++].type = START;
       intsct[n].angle = QUAD2+gamma; intsct[n++].type = END;
@@ -116,7 +116,7 @@ int clip_circle( float Xc, float Yc,  /* center of the circle */
     */
    {
       d = (float) ( Yc - clip_bnds[3] );
-      delta = (int) FACTOR*acos(d/R);
+      delta = (int) FACTOR*acosf(d/R);
 
       intsct[n].angle = QUAD3-delta; intsct[n++].type = START;
       if ( (QUAD3+delta) > QUAD4 )
@@ -174,8 +174,11 @@ int clip_circle( float Xc, float Yc,  /* center of the circle */
    return num_sector;
 }
 
-int compare(intsct_st *a, intsct_st *b)
+int compare(void const* va, void const* vb)
 {
+	intsct_st *a = (intsct_st*)va;
+	intsct_st * b = (intsct_st*)vb;
+
    if (a->angle < b->angle)
       return -1;
    else if (a->angle == b->angle)

@@ -163,7 +163,7 @@ Bitmap *dst, *src;
 			bitbuf |= redux_7_of_16[*dq++];
 			bits += 7;
 			if(bits >= 16) {
-				*dp++ = bitbuf >> (bits - 16);
+				*dp++ = (unsigned short) bitbuf >> (bits - 16);
 				bits -= 16;
 			}
 		}

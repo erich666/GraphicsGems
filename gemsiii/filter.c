@@ -10,6 +10,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include "GraphicsGems.h"
+#include "getopt.h"
 
 static char	_Program[] = "fzoom";
 static char	_Version[] = "0.20";

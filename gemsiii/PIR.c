@@ -14,6 +14,8 @@ The parameters given are the subdivision start level (a power of two),
 and the X and Y dimensions of the entire image.
 ***********************************************************************/
 
+void SetColor(int x, int y) {}
+void Rectangle(int x, int y, int sx, int sy) {}
 void  PIR_Display  (start_level, Xdim, Ydim)
     int  start_level;      /* Starting Subdivision Level */
     int  Xdim, Ydim;       /* Image Dimensions */

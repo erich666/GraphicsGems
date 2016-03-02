@@ -19,9 +19,9 @@ Exit:
 #define HALF  32768      /* fixed point 1/2 */
 typedef long FIX;        /* 32-bit fixed point, 16-bit fraction */
 
-qtr_elips(xP, yP, xQ, yQ, xK, yK, m)
-FIX xP, yP, xQ, yQ, xK, yK;
-int m;
+void draw_point(int, int);
+
+void qtr_elips(FIX xP, FIX yP, FIX xQ, FIX yQ, FIX xK, FIX yK, int m)
 {
     int i, x, y;
     FIX vx, ux, vy, uy, w, xJ, yJ;

@@ -5,12 +5,24 @@
 /*#include <starbase.c.h>*/	/* ancient HP graphics API - good luck! */
 
 #ifndef M_PI
-#  define M_PI		3.14159265358979323846
+#  define M_PI		3.14159265358979323846f
 #endif
 
-extern double drand48();
-
 typedef int fixpoint;
+
+void fill_color(int a, float b, float c, float d) {}
+void intvdc_extent(int a, int b, int c, int d, int e) {}
+void mapping_mode(int a, bool b) {}
+void drawing_mode(int a, int b) {}
+void double_buffer(int a, bool b, int c) {}
+void intrectangle(int a, int b, int c, int d, int e) {}
+fp_fix(double a);
+void clear_view_surface(int a) {}
+void make_picture_current(int a) {}				
+void dbuffer_switch(int a, int b) {} 
+
+double drand48() { return 0.0; }
+
 extern void subpixel_triangle(fixpoint x0, fixpoint y0,
 										fixpoint x1, fixpoint y1,
 										fixpoint x2, fixpoint y2);
@@ -18,7 +30,7 @@ extern void triangle(int x0, int y0, int x1, int y1, int x2, int y2);
 extern void printnbits();
 
 static int	fildes;
-static struct color {float r, g, b;};
+struct color {float r, g, b;};
 int verbose = 0;
 
 #define MAXVERTICES     1000
@@ -76,6 +88,7 @@ int t0[MAXTRIANGLES], t1[MAXTRIANGLES], t2[MAXTRIANGLES];
 fixpoint x[MAXVERTICES], y[MAXVERTICES];
 float xf[MAXVERTICES], yf[MAXVERTICES];
 
+void fp_print(fixpoint x);
 
 void print_triangle(int n)
 {
@@ -130,14 +143,14 @@ draw_point (int ix, int iy)
 
 
 
-#define CENTER 0.5
+#define CENTER 0.5f
 
 main (int argc, char *argv[])
 {
     int xi[MAXVERTICES], yi[MAXVERTICES];
     struct color tc[MAXTRIANGLES];
     int nv, nt, i, j, k, white;
-    double c, s;
+    float c, s;
     float rotinc, xr, yr;
 	 float scale = 90.0;
 
@@ -162,7 +175,7 @@ main (int argc, char *argv[])
 		if (white) 
 		  tc[nt].r = tc[nt].g = tc[nt].b = 1.0;
 		else
-		  tc[nt].r = drand48(), tc[nt].g = drand48(), tc[nt].b = drand48();
+		  tc[nt].r = (float)drand48(), tc[nt].g = (float)drand48(), tc[nt].b = (float)drand48();
 	 }
 
 	 printf("Read %d triangles\n", nt);
@@ -170,19 +183,19 @@ main (int argc, char *argv[])
     InitScreen();
 
     for (k=0; k<1000; k++) {
-        c = cos(k*rotinc*M_PI/180.0);
-        s = sin(k*rotinc*M_PI/180.0);
+        c = cosf(k*rotinc*M_PI/180.f);
+        s = sinf(k*rotinc*M_PI/180.f);
 
 		  if (verbose) printf ("%4d: (%g, %g)\n", k, c, s);
 
         for (j=0; j<nv; j++) {
-            xr = (( xf[j]-CENTER)*c + (yf[j]-CENTER)*s + 0.5);
-            yr = ((-xf[j]+CENTER)*s + (yf[j]-CENTER)*c + 0.5);
-            x[j] = fp_fix(xr * scale + 105.0);
-            y[j] = fp_fix(yr * scale + 32.0);
+            xr = (( xf[j]-CENTER)*c + (yf[j]-CENTER)*s + 0.5f);
+            yr = ((-xf[j]+CENTER)*s + (yf[j]-CENTER)*c + 0.5f);
+            x[j] = fp_fix(xr * scale + 105.f);
+            y[j] = fp_fix(yr * scale + 32.f);
 
-            xi[j] = (int) (xr * scale + 5.5);
-            yi[j] = (int) (yr * scale + 32.5);
+            xi[j] = (int) (xr * scale + 5.5f);
+            yi[j] = (int) (yr * scale + 32.5f);
         }
 
         clear_view_surface(fildes); 

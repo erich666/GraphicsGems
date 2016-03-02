@@ -8,14 +8,6 @@ Filippo Tampieri
 Cornell University
 */
 
-
-
-
-
-
-
-
-
 /*
     This code partitions a given set of arbitrary 3D polygons into
     subsets of coplanar polygons.
@@ -40,8 +32,8 @@ Cornell University
 #define Z   2
 #define D   3
 
-#define VZERO(v)    (v[X] = v[Y] = v[Z] = 0.0)
-#define VNORM(v)    (sqrt(v[X] * v[X] + v[Y] * v[Y] + v[Z] * v[Z]))
+#define VZERO(v)    (v[X] = v[Y] = v[Z] = 0.f)
+#define VNORM(v)    (sqrtf(v[X] * v[X] + v[Y] * v[Y] + v[Z] * v[Z]))
 #define VDOT(u, v)  (u[0] * v[0] + u[1] * v[1] + u[2] * v[2])
 #define VINCR(u, v) (u[X] += v[X], u[Y] += v[Y], u[Z] += v[Z])
 
@@ -94,9 +86,7 @@ static int comparePlaneEqs() ;
     degrees) and the distance between the two planes is less than
     or equal to linearEps.
 */
-Node *coplanarSets(plist, linearEps, angularEps)
-Polygon *plist;
-float linearEps, angularEps;
+Node *coplanarSets(Polygon* plist, float linearEps, float angularEps)
 {
     Node *tree;
     Plane plane;
@@ -106,7 +96,7 @@ float linearEps, angularEps;
 
     /* initialize the tolerances used by comparePlaneEqs() */
     linEps = linearEps;
-    cosEps = cos(angularEps * M_PI / 180.0);
+    cosEps = cosf(angularEps * (float)M_PI / 180.f);
 
     /* place each input polygon in the appropriate set
        of coplanar polygons
@@ -145,9 +135,7 @@ float linearEps, angularEps;
     Equation of a Polygon" in this volume) is used for the
     computation.
 */
-static void computePlaneEq(polygon, plane)
-Polygon *polygon;
-Plane plane;
+static void computePlaneEq(Polygon* polygon, Plane plane)
 {
     int i;
     Point refpt;

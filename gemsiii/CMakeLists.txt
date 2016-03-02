@@ -57,6 +57,6 @@ set_property(TARGET
 	Polyintr pt2plane quatspin rand_rotation rgbvary rgbvaryW scallops8 sqfinal sqrt
 	triangleCube urot zdepth
 
-	accurate_scan alloc exttest luminaire partition3d simplex
+	accurate_scan accurate_exhaust accurate_test alloc exttest luminaire partition3d simplex
 
 	PROPERTY FOLDER "GraphicsGems III")

@@ -62,6 +62,10 @@ Entry:
     delta   - shutter open time
     n       - number of subframes
 *******************************************************************************/
+void shift_image(int x, int y) {}
+void draw(double t) {}
+void output(unsigned short* acc, int w, int h) {}
+
 void mb_frame(t0,delta,n)
 double t0;
 double delta;

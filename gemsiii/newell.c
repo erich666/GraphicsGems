@@ -25,8 +25,8 @@ Cornell University
 #define D   3
 
 /* a few useful vector operations */
-#define VZERO(v)    (v[X] = v[Y] = v[Z] = 0.0)
-#define VNORM(v)    (sqrt(v[X] * v[X] + v[Y] * v[Y] + v[Z] * v[Z]))
+#define VZERO(v)    (v[X] = v[Y] = v[Z] = 0.f)
+#define VNORM(v)    (sqrtf(v[X] * v[X] + v[Y] * v[Y] + v[Z] * v[Z]))
 #define VDOT(u, v)  (u[0] * v[0] + u[1] * v[1] + u[2] * v[2])
 #define VINCR(u, v) (u[X] += v[X], u[Y] += v[Y], u[Z] += v[Z])
 

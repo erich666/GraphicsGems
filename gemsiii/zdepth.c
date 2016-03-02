@@ -39,8 +39,8 @@
 																			\
 	for (i = 0, s = smin; i < ns; i++, s += ds) {							\
 		for (j = 0, t = tmin; j < nt; j++, t += dt) {						\
-			iu = s + Rand()*js;												\
-			iv = t + Rand()*jt;												\
+			iu = (int)(s + Rand()*js);										\
+			iv = (int)(t + Rand()*jt);												\
 			if (iu >= bbox->r_umin && iu <= bbox->r_umax && 				\
 				iv >= bbox->r_vmin && iv <= bbox->r_vmax) {					\
 				/* do integer comparison first */							\
@@ -61,10 +61,10 @@
 
 /* Start of Reeves' code in Siggraph 87 paper */
 
-float ResFactor = 3;
-float MinSize = 0;
-float Bias0 = 0.3;
-float Bias1 = 0.4;
+float ResFactor = 3.f;
+float MinSize = 0.f;
+float Bias0 = 0.3f;
+float Bias1 = 0.4f;
 int NumSamples = 16;
 int MinSamples = 1;
 
@@ -80,9 +80,7 @@ typedef struct {
 } TextureRect;
 
 
-float SampleShadow (s, t, z, sres, tres, bbox)
-float s, t, z, sres, tres;
-TextureRect *bbox;
+float SampleShadow (float s, float t, float z, float sres, float tres, TextureRect* bbox)
 {
 	int i, j, inshadow, iu, iv, ns, nt, lu, hu, lv, hv;
 	float smin, tmin, ds, dt, js, jt;
@@ -95,29 +93,29 @@ TextureRect *bbox;
 	s *= MAPRES; t *= MAPRES;
 	
 	/* cull if outside bounding box */
-	lu = floor (s-sres); hu = ceil (s+sres);
-	lv = floor (t-tres); hv = ceil (t+tres);
+	lu = (int)floorf (s-sres); hu = (int)ceilf (s+sres);
+	lv = (int)floorf (t-tres); hv = (int)ceilf (t+tres);
 	if (lu > bbox->r_umax || hu < bbox->r_umin ||
 		lv > bbox->r_vmax || hv < bbox->r_vmin) 
 		return (1.0);	/* error in Reeves' code at boundary cases */
 		
 	/* calculate number of samples */
     if (sres*tres*4 < NumSamples) {
-        ns = sres + sres + 0.5;
+        ns = (int)(sres + sres + 0.5f);
         ns = CLAMP(ns, MinSamples, NumSamples);
-        nt = tres + tres + 0.5;
+        nt = (int)(tres + tres + 0.5f);
         nt = CLAMP(nt, MinSamples, NumSamples);
     }
     else {
-        nt = sqrt(tres*NumSamples/sres) + 0.5;
+        nt = (int)(sqrtf(tres*NumSamples/sres) + 0.5f);
         nt = CLAMP(nt, MinSamples, NumSamples);
-        ns = ((float)NumSamples)/nt + 0.5;
+        ns = (int)(((float)NumSamples)/nt + 0.5f);
         ns = CLAMP(ns, MinSamples, NumSamples);
     }
 	
 	/* setup jitter variables */
 	ds = 2*sres/ns; dt = 2*tres/nt;
-	js = ds*.5; jt = dt*.5;
+	js = ds * 0.5f; jt = dt * 0.5f;
 	smin = s - sres + js; tmin = t - tres + jt;
 	
 	/* decide which version you want... */

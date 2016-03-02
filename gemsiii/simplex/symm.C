@@ -17,7 +17,7 @@ Exit:
   
 ***********************************************************/
 
-int bitCount(int i) { return 0; }
+int bitCount(int i);
 
 void sym_subsimplex(register float* dst_vtx,
                     const float* const src_vtx,
@@ -32,7 +32,7 @@ void sym_subsimplex(register float* dst_vtx,
   for (int j = 0; j <= s; ++j)
     {
       for (int i = 0; i < n; ++i)
-        *dst_vtx++ = (src_vtx[i+id[0]] + src_vtx[i+id[1]]) / 2.0;
+        *dst_vtx++ = (src_vtx[i+id[0]] + src_vtx[i+id[1]]) / 2.f;
       id[!(k&1)] += n;
       k >>= 1;
     }

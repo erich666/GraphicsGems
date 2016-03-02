@@ -19,6 +19,7 @@
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #define  XMIN		0		/* limits of the frame buffer */
 #define  XMAX		63

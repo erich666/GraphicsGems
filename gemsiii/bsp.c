@@ -9,6 +9,7 @@
  Supporting Data Structures 
  ******************************************************************************/
 
+#include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include "GraphicsGems.h"
@@ -53,6 +54,13 @@ typedef struct {
     BinNodePtr  root;          /* root of the entire bin tree */
 } BinTree;
 
+GeomObjPtr FirstOfLinkList(GeomObjList);
+void AddToLinkList(GeomObjList, GeomObjPtr);
+GeomObjPtr NextOfLinkList(GeomObjList);
+void CalculateTheExtentOfTheBinTree(Point3*, Point3*);
+int GetMaxAllowedDepth();
+int GetMaxAllowedListLength();
+void DuplicateLinkList(GeomObjList, GeomObjList);
 
 /*******************************************************************************
  Data structure for a simple stack. This is necessary for implementing an 
@@ -263,6 +271,7 @@ double *returnMin, *returnMax;
 
      For example, refer to Graphics Gems I, pp. 395 (736)
      */
+	return false;
 }
 
 boolean RayObjIntersect(ray, objList, obj, distance)
@@ -276,6 +285,7 @@ double      *distance;
     in the objList and returns the closest intersection 
     distance and the interesting object, if there is one.
     */
+	return false;
 }
 
 
@@ -300,7 +310,7 @@ boolean RayTreeIntersect(ray, BSPTree, obj, distance)
     double  *distance;
 {
     StackPtr stack;
-    BinNodePtr currentNode, nearChild, farChild;
+    BinNodePtr currentNode, nearChild = NULL, farChild = NULL;
     double dist, min, max;
     Point3 p;
 
@@ -320,8 +330,7 @@ boolean RayTreeIntersect(ray, BSPTree, obj, distance)
 
             dist = currentNode->DistanceToDivisionPlane(
                              currentNode->child[0]->max, ray);
-            currentNode->GetChildren(
-                             currentNode, ray.origin, nearChild, farChild);
+            currentNode->GetChildren(currentNode, ray.origin, nearChild, farChild);
 
             if ( (dist>max) || (dist<0) ) {
                 currentNode = nearChild;
@@ -360,12 +369,14 @@ boolean RayTreeIntersect(ray, BSPTree, obj, distance)
    axis          - subdivision axis for the children of node
                    (0-x, 1-y, 2-z)
  ******************************************************************************/
-void Subdivide(node, depth, MaxDepth, MaxListLength, axis)
+void Subdivide(BinNodePtr node, int depth, int MaxDepth, int MaxListLength, int axis)
+#if 0
 BinNodePtr  node; 
 int depth,         /* current tree depth */
     MaxDepth,      /* the specified max allowed depth */
     MaxListLength, /* the specified max allowed list length */
     axis;          /* current subdivision plane, 1-x, 2-y, 3-z */
+#endif
 {
     int i,     nextAxis;
     GeomObjPtr ObjPtr;
@@ -444,8 +455,7 @@ int depth,         /* current tree depth */
  Entry:
    BSPTree       - The BSPTree enclosing the entire scene
  ******************************************************************************/
-void InitBinTree(BSPTree)
-BinTree *BSPTree;
+void InitBinTree(BinTree* BSPTree)
 {
     CalculateTheExtentOfTheBinTree(&(BSPTree->min), &(BSPTree->max));
     /* BSPTree->members = ObjectsWithinTheExtent(BSPTree->min, BSPTree->max);*/

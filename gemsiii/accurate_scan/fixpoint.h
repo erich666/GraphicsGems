@@ -1,5 +1,4 @@
-#ifndef FIXPOINT_H
-#define FIXPOINT_H
+#pragma once
 
 /* Requires: LOBITS to be divisible by 2, HIBITS<=16, and LOBITS <=16. */
 
@@ -33,4 +32,5 @@ extern int fp_dbllessthan();
 extern dblfixpoint fp_dbladd();
 extern fixpoint fp_trunc();
 
-#endif
+fixpoint fp_floor(fixpoint x);
+fixpoint fp_floor_div(fixpoint x, fixpoint y);

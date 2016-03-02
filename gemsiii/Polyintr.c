@@ -71,11 +71,11 @@ typedef struct intpoint
 ********************************************************************* */
 void mult64(long in1, long in2, unsigned long out[2])
 {
-  unsigned short *x, *y, *z;
+  unsigned int *x, *y, *z;
   unsigned long temp;
 
-  x = (unsigned short *) &in1;  y = (unsigned short *) &in2;
-  z = (unsigned short *) out;
+  x = (unsigned int*) &in1;  y = (unsigned int*) &in2;
+  z = (unsigned int*) out;
   temp = x[0] * y[0];
   z[1] = temp >> 16;   z[0] = temp & SHORTMASK;
   temp = x[0] * y[1];

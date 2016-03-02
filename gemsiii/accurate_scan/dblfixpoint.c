@@ -118,6 +118,7 @@ dblfixpoint fp_dbladd(dblfixpoint a, dblfixpoint b)
 	 answer.neg = a.neg;
 	 answer.lo = add_with_carry(a.lo, b.lo, 0, &carry);
 
+#pragma warning(disable : 4293) // This shift seems not right
 	 if (verbose && ((answer.lo >> 2*LOBITS) || carry))
 	        printf("  Lobits overflow (ok, put into hibits).\n");
 

@@ -50,6 +50,10 @@
 #include <math.h>
 #include "GraphicsGems.h"
 
+#ifdef WIN32
+#define stricmp _stricmp
+#endif
+
 static char	_Program[] = "fzoom";
 static char	_Version[] = "0.30";
 static char	_Copyright[] = "Public Domain 1991 by Dale Schumacher. Mods by Ray Gardener";
@@ -283,13 +287,10 @@ Image *image;
 	Returns type of file based on its name.
 	Returns the empty string if filename has no extension 
 */
-char*
-fileextension(f)
-char* f;
+char* fileextension(char* f)
 {
 	/* Get a filename's extension string. */
-	int i;
-	for(i = strlen(f) - 1; i > 0; i--)
+	for(size_t i = strlen(f) - 1; i > 0; i--)
 	{
 		if(f[i] == '.')
 			return f + i + 1;

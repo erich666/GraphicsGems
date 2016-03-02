@@ -6,6 +6,14 @@
 
 #include "fixpoint.h"
 
+void fill_color(int a, float b, float c, float d) {}
+void intrectangle(int a, int b, int c, int d, int e) {}
+void make_picture_current(int a) {}
+void intvdc_extent(int a, int b, int c, int d, int e) {}
+void clear_view_surface(int a) {}
+void drawing_mode(int a, int b) {}
+void mapping_mode(int a, bool b) {}
+
 extern void printnbits();
 extern void subpixel_triangle(fixpoint x0, fixpoint y0,
 							  fixpoint x1, fixpoint y1,
@@ -22,7 +30,7 @@ extern void triangle(int x0, int y0, int x1, int y1, int x2, int y2);
   */
 
 static int fildes;
-static struct color {float r, g, b;};
+struct color {float r, g, b;};
 int verbose = 0;
 
 #define SIZE 200
@@ -131,6 +139,7 @@ void
 main()
 {
   int i, j;
+#pragma warning(disable : 4293)
   int nsubpixels = 1 << (HIBITS+LOBITS);
   fixpoint zero, maxpix;
 

@@ -35,6 +35,30 @@
 #include <math.h>
 #include "defs.h"
 
+void Make3DRot(double cos_theta, double sin_theta, double n[3], double Rmat[4][4]) {
+	// TODO
+}
+
+void Make3DTranslation(double Tx, double Ty, double Tz, double TransToOrigin[4][4]) {
+	// TODO
+}
+
+void CombineMatrices3D(double TransToOrigin[4][4], double frame[4][4], double Matrix3D[4][4]) {
+	// TODO
+}
+
+void SetFunction(Display* display, int i) {
+	// TODOj
+}
+
+void DrawObject(Display* display, Polyhedron* obj) {
+	// TODO
+}
+
+void CopyMatrix3D(double Matrix3D[4][4], double frame[4][4]) {
+	// TODO
+}
+
 ModifyObject(display, obj, dx, dy, state)
      Display *display;
      Polyhedron *obj;

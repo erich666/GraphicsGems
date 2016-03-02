@@ -391,8 +391,8 @@ static float scale = 3.999f; /* this should be set to just less than the ratio
 int ij,ix1,ix2,iy1,iy2;
 
 ij  = xpix + HRES*ypix;
-ix1 = x1*scale;  iy1 = y1*scale;
-ix2 = x2*scale;  iy2 = y2*scale;
+ix1 = (int)(x1*scale);  iy1 = (int)(y1*scale);
+ix2 = (int)(x2*scale);  iy2 = (int)(y2*scale);
 
 /*-- adjust current bitmask by bitwise ANDing it with computed bitmask --*/
 if(edgetype>0)
