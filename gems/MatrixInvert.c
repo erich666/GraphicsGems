@@ -5,6 +5,7 @@ from "Graphics Gems", Academic Press, 1990
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #define SMALL_NUMBER	1.e-8
 

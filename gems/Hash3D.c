@@ -11,6 +11,7 @@ and the bit operations are defined in the language.
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 #include "GraphicsGems.h"		
 
