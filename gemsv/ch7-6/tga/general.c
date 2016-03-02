@@ -26,8 +26,11 @@
  *
  */
 
+#include <ctype.h>
 #include "lug.h"
 #include "lugfnts.h"
+
+#ifndef WIN32
 
 int LUGverbose = 0;
 
@@ -116,7 +119,7 @@ int size;
   }else ptr = out;
 
   while ( size-- ) {
-    *ptr++ = *in++;
+    *ptr++ = (unsigned char)*in++;
   }
 
   return out;
@@ -160,7 +163,7 @@ int size;
   }
 
   while ( size-- ) {
-    *ptr++ = ((float)*in++) / 255.;
+    *ptr++ = ((float)*in++) / 255.f;
   }
 
   return out;
@@ -291,3 +294,6 @@ int no_colors;
 
   return n;
 }
+
+#endif
+

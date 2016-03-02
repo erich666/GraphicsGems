@@ -70,7 +70,7 @@ void main ()
     BezierForm(4, pn, bc);
 
     for(k =0; k <=10; k++) {
-        BezierCurve(4, bc, &pt, (float)k/10.0);
+        BezierCurve(4, bc, &pt, k/10.f);
         printf("%3d  %8.4f  %8.4f\n",k, pt.x, pt.y);
      /* draw curve  */
      /* if (k == 0) MoveTo(pt.x, pt.y);

@@ -14,8 +14,8 @@
 #define MAT3_EPSILON	1e-12			/* Close enough to zero   */
 #define MAT3_PI 	M_PI			/* Pi			  */
 
-typedef double MAT3mat[4][4];		/* 4x4 matrix			 */
-typedef double MAT3vec[3];		/* Vector			 */
+typedef float MAT3mat[4][4];		/* 4x4 matrix			 */
+typedef float MAT3vec[3];		/* Vector			 */
 
 #define HIBITS                        15
 #define LOBITS                        14
@@ -127,8 +127,13 @@ typedef struct MtlProperties_struct {
  */
 
 typedef struct edge_struct {
-  fixpoint E, DEA, DEB;
-  short Ix, AStep, BStep;} edge;
+	fixpoint E;
+	fixpoint DEA;
+	fixpoint DEB;
+	short int Ix;
+	short int AStep;
+	short int BStep;
+} edge;
 
 typedef struct SpecLightPoint_struct {
   MAT3fvec location;

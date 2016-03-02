@@ -2,6 +2,10 @@
 #include <memory.h>
 #include <math.h>
 
+int _equal_to(point_t* v0, point_t* v1);
+int _greater_than(point_t* v0, point_t* v1);
+int _less_than(point_t* v0, point_t* v1);
+
 #define CROSS_SINE(v0, v1) ((v0).x * (v1).y - (v1).x * (v0).y)
 #define LENGTH(v0) (sqrt((v0).x * (v0).x + (v0).y * (v0).y))
 
@@ -482,8 +486,7 @@ int traverse_polygon(mcur, trnum, from, dir)
  * the polygon.
  */
 
-int monotonate_trapezoids(n)
-     int n;
+int monotonate_trapezoids(int n)
 {
   register int i;
   int tr_start;
@@ -613,9 +616,7 @@ int triangulate_single_polygon(posmax, side, op)
 }
 
 
-void triangulate_monotone_polygons(nmonpoly, op)
-     int nmonpoly;
-     int op[][3];
+void triangulate_monotone_polygons(int nmonpoly, int op[][3])
 {
   register int i;
   point_t ymax, ymin;

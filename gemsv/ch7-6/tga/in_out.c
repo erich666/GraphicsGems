@@ -34,7 +34,6 @@
 #include "lugfnts.h"
 
 extern int getpid();
-extern char *getenv();
 
 static char aux_file[80];      /* temporal file for uncompressing files */
 
@@ -94,9 +93,9 @@ char *mode;
   return handle;
 }
 
-exist_file( name )
-char *name;
+int exist_file(char* name)
 {
+#ifndef WIN32
   int len = strlen(name) - 1;
   char aux[132];
 
@@ -126,7 +125,7 @@ char *name;
   sprintf( aux, "%s.Z", name );
   if ( !access( aux, 0 ) )
     return FILE_WITH_COMPRESS;   /* we have a <name>.Z file */
-
+#endif
   /* Oopppsssss!, no file */
   return FILE_NO_EXIST;
 }
@@ -139,10 +138,12 @@ FILE *handle;
   else return 0;
 }
 
-rm_compress()
+void rm_compress()
 {
+#ifndef WIN32
   if ( access( aux_file, 0 ) == 0 )
     unlink( aux_file );
+#endif
 }
 
 char *read_file(handle, bytes)
@@ -159,7 +160,7 @@ int *bytes;
     /* Read it */
     Fread(buffer, (int) (*bytes), 1, handle);
   }else {                       /* Oops!  It's a pipe. */
-    int n = 0, bufsize = 0;
+    size_t n = 0, bufsize = 0;
 
     /* Read in chunks of BUFSIZ. */
     buffer = (char *) Malloc( BUFSIZ );
@@ -171,7 +172,7 @@ int *bytes;
       n += bufsize;
     else
       n = bufsize;
-    *bytes = n;
+    *bytes = (int)n;
   }
 
   /* Return the buffer */

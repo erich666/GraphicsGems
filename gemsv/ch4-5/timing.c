@@ -12,13 +12,15 @@
 // Here, depth denote the degree of subdivision.
 */
 
+#include <stdio.h>
 #include "ellipsoid.h"
 
-//#include <gl/gl.h>
-//#include <gl/sphere.h>
-
-#include <stdio.h>
-//#include <sys/time.h>
+void finish();
+void foreground();
+void noport();
+void winopen(char*);
+void sphdraw(float*);
+void sphfree();
 
 void sphmode(int i, int j);
 #define SPH_TESS		1 

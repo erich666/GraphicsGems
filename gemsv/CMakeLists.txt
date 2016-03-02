@@ -38,4 +38,6 @@ set_property(TARGET
 	halfadap pclipper vectorize revfit sampat wave pcube collide5 partition
 	triangulation ZRendv10 xs11 tga cg4d gm vec_h
 
+	oopov_show
+
 	PROPERTY FOLDER "GraphicsGems V")

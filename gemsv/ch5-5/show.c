@@ -13,33 +13,34 @@ char command[100]="/usr/bin/X11/xwcreate -depth 24 -geometry ";
 char screen[100]="/dev/screen/";
 int watchmode=0;
 
-main(ac, av)
-int ac;
-char *av[];
+void bank_switch(int a, int b, int c) {}
+void dcblock_write(int a, int b, int c, int d, int e, char* f, int g) {}
+
+main(int argc, char** argv)
 {
     FILE *f;
     int width, height, w, h;
-    int fildes;
+	int fildes = 0;
     icolor *row;
     unsigned char *r, *g, *b;
     register int i, j;
     register long t;
         
-    while(av[1]&&*av[1]=='-') {
-        switch(av[1][1]) {
+    while(argv[1]&&*argv[1]=='-') {
+        switch(argv[1][1]) {
           case 'w':
             watchmode=1;
             break;
         }
-        ac--;
-        av++;
+        argc--;
+        argv++;
     }
-    if(ac!=2) {
+    if(argc!=2) {
         printf("usage: show file\n");
         exit(1);
     }
-    if(!(f=fopen(av[1],"rb"))) {
-        printf("failed to open file %s\n", av[1]);
+    if(!(f=fopen(argv[1],"rb"))) {
+        printf("failed to open file %s\n", argv[1]);
         exit(1);
     }
     fread(&width, sizeof(int), 1, f);
@@ -56,13 +57,13 @@ char *av[];
         printf("command processor not available\n");
         exit(1);
     }
-    sprintf(&command[strlen(command)], "%dx%d+10+10 %s", width, height, av[1]);
+    sprintf(&command[strlen(command)], "%dx%d+10+10 %s", width, height, argv[1]);
     system(command);
     if(errno) {
         printf("failed to create window\n");
         exit(1);
     }
-    strcat(screen, av[1]);
+    strcat(screen, argv[1]);
     //if((fildes=gopen(screen,OUTDEV,0,INIT))<0) {
     //    printf("failed to open screen device\n");
     //    exit(1);
@@ -98,8 +99,8 @@ char *av[];
             dcblock_write(fildes, 0, i, width, 1, r, 1);
         }
         for(t=clock(); (clock()-t)/CLOCKS_PER_SEC<2L;);
-        if(!(f=fopen(av[1],"rb"))) {
-            printf("failed to open file %s\n", av[1]);
+        if(!(f=fopen(argv[1],"rb"))) {
+            printf("failed to open file %s\n", argv[1]);
             exit(1);
         }
         fread(&w, sizeof(int), 1, f);

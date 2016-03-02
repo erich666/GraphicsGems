@@ -50,10 +50,10 @@ MakeInverseSqrtLookupTable(void)
     h = iSqrt;
     for (f = 0, h = iSqrt; f < TABLE_SIZE; f++) {
         fi.i = ((EXP_BIAS-1) << EXP_POS) | (f << LOOKUP_POS);
-        fo.f = 1.0 / sqrt(fi.f);
+        fo.f = 1.f / sqrtf(fi.f);
         *h++ = ((fo.i + (1<<(SEED_POS-2))) >> SEED_POS) & 0xFF; /* rounding */
     }
-    iSqrt[TABLE_SIZE / 2] = 0xFF;    /* Special case for 1.0 */
+    iSqrt[TABLE_SIZE / 2] = 0xFF;    /* Special case for 1.f */
 }
 
 /* The following returns the inverse square root */
@@ -74,14 +74,14 @@ InvSqrt(float x)
     r = seed.f;
 
     /* First iteration: accurate to 2*LOOKUP_BITS */
-    r = (3.0 - r * r * arg) * r * 0.5;
+    r = (3.f - r * r * arg) * r * 0.5f;
 
     /* Second iteration: accurate to 4*LOOKUP_BITS */
-    r = (3.0 - r * r * arg) * r * 0.5;
+    r = (3.f - r * r * arg) * r * 0.5f;
 
 #ifdef DOUBLE_PRECISION
     /* Third iteration: accurate to 8*LOOKUP_BITS */
-    r = (3.0 - r * r * arg) * r * 0.5;
+    r = (3.f - r * r * arg) * r * 0.5;
 #endif /* DOUBLE_PRECISION */
     return(r);
 }

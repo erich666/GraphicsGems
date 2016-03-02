@@ -11,7 +11,7 @@
 // private function: RCD
 // - dot product of row i of matrix A and row j of matrix B
 
-inline double RCD(const gmMatrix3& A, const gmMatrix3& B, int i, int j)
+inline float RCD(const gmMatrix3& A, const gmMatrix3& B, int i, int j)
 {
   return A[i][0] * B[0][j] + A[i][1] * B[1][j] + A[i][2] * B[2][j];
 }
@@ -19,7 +19,7 @@ inline double RCD(const gmMatrix3& A, const gmMatrix3& B, int i, int j)
 // private function: MINOR
 // - MINOR of M[r][c]; r in {0,1,2}-{r0,r1}; c in {0,1,2}-{c0,c1}
 
-inline double MINOR(const gmMatrix3& M, int r0, int r1, int c0, int c1)
+inline float MINOR(const gmMatrix3& M, int r0, int r1, int c0, int c1)
 {
   return M[r0][c0] * M[r1][c1] - M[r1][c0] * M[r0][c1];
 }
@@ -38,9 +38,9 @@ gmMatrix3::gmMatrix3(const gmMatrix3& M)
          M[2][0], M[2][1], M[2][2]);
 }
 
-gmMatrix3::gmMatrix3(double a00, double a01, double a02,
-		     double a10, double a11, double a12,
-		     double a20, double a21, double a22)
+gmMatrix3::gmMatrix3(float a00, float a01, float a02,
+		     float a10, float a11, float a12,
+		     float a20, float a21, float a22)
 {
   assign(a00, a01, a02,
          a10, a11, a12,
@@ -49,9 +49,9 @@ gmMatrix3::gmMatrix3(double a00, double a01, double a02,
 
 // ASSIGNMENT
 
-gmMatrix3& gmMatrix3::assign(double a00, double a01, double a02,
-		             double a10, double a11, double a12,
-		             double a20, double a21, double a22)
+gmMatrix3& gmMatrix3::assign(float a00, float a01, float a02,
+		             float a10, float a11, float a12,
+		             float a20, float a21, float a22)
 {
   m_[0][0] = a00; m_[0][1] = a01; m_[0][2] = a02;
   m_[1][0] = a10; m_[1][1] = a11; m_[1][2] = a12;
@@ -93,7 +93,7 @@ gmMatrix3& gmMatrix3::operator *=(const gmMatrix3& M)
   return *this;
 }
 
-gmMatrix3& gmMatrix3::operator *=(double d)
+gmMatrix3& gmMatrix3::operator *=(float d)
 {
   m_[0][0] *= d; m_[0][1] *= d; m_[0][2] *= d;
   m_[1][0] *= d; m_[1][1] *= d; m_[1][2] *= d;
@@ -101,9 +101,9 @@ gmMatrix3& gmMatrix3::operator *=(double d)
   return *this;
 }
 
-gmMatrix3& gmMatrix3::operator /=(double d)
+gmMatrix3& gmMatrix3::operator /=(float d)
 {
-  double di = 1 / d;
+  float di = 1 / d;
   m_[0][0] *= di; m_[0][1] *= di; m_[0][2] *= di;
   m_[1][0] *= di; m_[1][1] *= di; m_[1][2] *= di;
   m_[2][0] *= di; m_[2][1] *= di; m_[2][2] *= di;
@@ -139,23 +139,23 @@ gmMatrix3 gmMatrix3::operator *(const gmMatrix3& M) const
               RCD(*this, M, 2, 0), RCD(*this, M, 2, 1), RCD(*this, M, 2, 2));
 }
 
-gmMatrix3 gmMatrix3::operator *(double d) const
+gmMatrix3 gmMatrix3::operator *(float d) const
 {
   return gmMatrix3(m_[0][0] * d, m_[0][1] * d, m_[0][2] * d,
 		   m_[1][0] * d, m_[1][1] * d, m_[1][2] * d,
                    m_[2][0] * d, m_[2][1] * d, m_[2][2] * d);
 }
 
-gmMatrix3 gmMatrix3::operator /(double d) const
+gmMatrix3 gmMatrix3::operator /(float d) const
 {
   assert(!gmIsZero(d));
-  double di = 1 / d;
+  float di = 1 / d;
   return gmMatrix3(m_[0][0] * di, m_[0][1] * di, m_[0][2] * di,
 		   m_[1][0] * di, m_[1][1] * di, m_[1][2] * di,
                    m_[2][0] * di, m_[2][1] * di, m_[2][2] * di);
 }
 
-gmMatrix3 operator *(double d, const gmMatrix3& M)
+gmMatrix3 operator *(float d, const gmMatrix3& M)
 {
   return gmMatrix3(M[0][0] * d, M[0][1] * d, M[0][2] * d,
 		   M[1][0] * d, M[1][1] * d, M[1][2] * d,
@@ -228,7 +228,7 @@ gmMatrix3 gmMatrix3::adjoint() const
   return A;
 }
 
-double gmMatrix3::determinant() const
+float gmMatrix3::determinant() const
 {
   return m_[0][0] * MINOR(*this, 1, 2, 1, 2) -
          m_[0][1] * MINOR(*this, 1, 2, 0, 2) +
@@ -255,24 +255,24 @@ gmMatrix3 gmMatrix3::identity()
                    0, 0, 1);
 }
 
-gmMatrix3 gmMatrix3::rotate(double angle)
+gmMatrix3 gmMatrix3::rotate(float angle)
 {
-  double sine = sin(gmRadians(angle));
-  double cosine = cos(gmRadians(angle));
+  float sine = sin(gmRadians(angle));
+  float cosine = cos(gmRadians(angle));
   
   return gmMatrix3( cosine, sine,   0,
                    -sine,   cosine, 0,
                     0,      0,      1);
 }
 
-gmMatrix3 gmMatrix3::scale(double x, double y)
+gmMatrix3 gmMatrix3::scale(float x, float y)
 {
   return gmMatrix3(x, 0, 0,
 		   0, y, 0,
 		   0, 0, 1);
 }
 
-gmMatrix3 gmMatrix3::translate(double x, double y)
+gmMatrix3 gmMatrix3::translate(float x, float y)
 {
   return gmMatrix3(1, 0, 0,
 		   0, 1, 0,

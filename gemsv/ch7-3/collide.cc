@@ -6,7 +6,7 @@
 using std::cout;
 using std::endl;
 
-const float pi = 3.141592;
+const float pi = 3.141592f;
 
 #include "../../gemsiv/vec_mat/algebra3.h"           // See Graphics Gems IV, pg534-557
 typedef vec3          Point;    // Points are not Vectors

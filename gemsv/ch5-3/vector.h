@@ -20,7 +20,7 @@ class Vector
 	protected:
 		float fx,fy,fz;
 	public:
-		Vector() {fx=0.0;fy=0.0;fz=0.0;}		// constructor with no argument
+		Vector() {fx=0.f;fy=0.f;fz=0.f;}		// constructor with no argument
 		Vector(float x,float y,float z);			// constructor with coords
 		Vector(Vector& a);						// constructor with vector
 		void Set(float x,float y,float z);			// assign new values to vector
@@ -107,8 +107,8 @@ inline float Vector::Length(void)
 
 inline void Vector::Normalize(void)
 { 
-	if(Length()==0.0) std::cout<<"Error:normalize\n";
- 	else Scale(1.0/Length());
+	if(Length()==0.f) std::cout<<"Error:normalize\n";
+ 	else Scale(1.f/Length());
 }
 
 /****************** Operators *********************/
@@ -157,7 +157,7 @@ inline float Vector::operator[](short index)
 		case Yi: return fy;
 		case Zi: return fz;
 	}
-	return 0.0;					// if invalid index
+	return 0.f;					// if invalid index
 }
 /*************** End of Operators *****************/
 

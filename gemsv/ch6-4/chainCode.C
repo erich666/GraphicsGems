@@ -13,9 +13,9 @@
 
 chainCode::chainCode()
 {
-code = (char*)malloc(DEFAULT_CODE_LENGTH * sizeof(char));
-code[0] = '\0';
-length = DEFAULT_CODE_LENGTH;
+	code = (char*)malloc(DEFAULT_CODE_LENGTH * sizeof(char));
+	code[0] = '\0';
+	length = DEFAULT_CODE_LENGTH;
 }
 
 /*************************************************************/
@@ -26,7 +26,7 @@ length = DEFAULT_CODE_LENGTH;
 
 chainCode::~chainCode()
 {
-free(code);
+	free(code);
 }
 
 
@@ -41,14 +41,14 @@ free(code);
 
 void chainCode::add(char c)
 {
-int l = strlen(code);
+	size_t l = strlen(code);
 
-if (l >= length-1){
-    length *= 2;
-    code = (char*)realloc(code, length);
-    }
-code[l] = c;
-code[l+1] = '\0';
+	if (l >= length - 1) {
+		length *= 2;
+		code = (char*)realloc(code, length);
+	}
+	code[l] = c;
+	code[l + 1] = '\0';
 }
 
 
@@ -66,36 +66,36 @@ code[l+1] = '\0';
 
 chainCode* chainCode::postProcess()
 {
-int    i = 0, j;
-chainCode *filtCode;
-int    trueLength = strlen(code);
+	int    i = 0, j;
+	chainCode *filtCode;
+	size_t trueLength = strlen(code);
 
-filtCode = new chainCode();
-while (i<trueLength){
-    if (i+SCALE-1 < trueLength){
-        for (j=0; j<SCALE-1; j++)
-            if (code[i+j] != code[i+j+1])
-                break;
-        if (j == SCALE-1){
-            filtCode->add(code[i]);
-            i += SCALE;
-            continue;
-        }
-    }
+	filtCode = new chainCode();
+	while (i < trueLength) {
+		if (i + SCALE - 1 < trueLength) {
+			for (j = 0; j < SCALE - 1; j++)
+				if (code[i + j] != code[i + j + 1])
+					break;
+			if (j == SCALE - 1) {
+				filtCode->add(code[i]);
+				i += SCALE;
+				continue;
+			}
+		}
 
-    if (i+SCALE-2 < trueLength){
-        for (j=0; j<SCALE-2; j++)
-            if (code[i+j] != code[i+j+1])
-                break;
-        if (j == SCALE-2){
-            i += SCALE-1;
-            continue;
-            }
-        }
-    filtCode->add(code[i]);
-    i++;
-}
-return filtCode;
+		if (i + SCALE - 2 < trueLength) {
+			for (j = 0; j < SCALE - 2; j++)
+				if (code[i + j] != code[i + j + 1])
+					break;
+			if (j == SCALE - 2) {
+				i += SCALE - 1;
+				continue;
+			}
+		}
+		filtCode->add(code[i]);
+		i++;
+	}
+	return filtCode;
 }
 
 /*****************************************************************/
@@ -106,5 +106,5 @@ return filtCode;
 
 void chainCode::printSelf()
 {
-printf("\n%s", code);
+	printf("\n%s", code);
 }

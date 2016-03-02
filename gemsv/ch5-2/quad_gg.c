@@ -120,7 +120,7 @@ static boolean point_in_quad (QUAD *Quad, HIT *Hit)
 /*
 ** Search for an intersection between a facet and a ray
 */
-boolean hit_ray_quad (RAY *Ray, QUAD *Quad, HIT *Hit)
+boolean hit_ray_quad_gg(RAY *Ray, QUAD *Quad, HIT *Hit)
 {
     Point3     Point;
 

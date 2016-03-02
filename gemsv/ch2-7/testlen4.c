@@ -10,6 +10,8 @@
 #include <stdlib.h>	/* for atoi() */
 #include <math.h>
 
+int len4(int a, int b, int c, int d);
+
 main(argc, argv)
     char *argv[];
     {

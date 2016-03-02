@@ -37,6 +37,7 @@ get_polygon_normal(real normal[3],
     return normal;
 }
 
+double drand48();
 
 main(int argc, char *argv[])
 {

@@ -11,7 +11,7 @@
 // private function: RCD
 // - dot product of row i of matrix A and row j of matrix B
 
-inline double RCD(const gmMatrix4& A, const gmMatrix4& B, int i, int j)
+inline float RCD(const gmMatrix4& A, const gmMatrix4& B, int i, int j)
 {
   return A[i][0] * B[0][j] + A[i][1] * B[1][j] + A[i][2] * B[2][j] +
          A[i][3] * B[3][j];
@@ -20,7 +20,7 @@ inline double RCD(const gmMatrix4& A, const gmMatrix4& B, int i, int j)
 // private function: MINOR
 // - MINOR of M[r][c]; r in {0,1,2,3}-{r0,r1,r2}; c in {0,1,2,3}-{c0,c1,c2}
 
-inline double MINOR(const gmMatrix4& M,
+inline float MINOR(const gmMatrix4& M,
                     int r0, int r1, int r2, int c0, int c1, int c2)
 {
   return M[r0][c0] * (M[r1][c1] * M[r2][c2] - M[r2][c1] * M[r1][c2]) -
@@ -43,10 +43,10 @@ gmMatrix4::gmMatrix4(const gmMatrix4& M)
 	 M[3][0], M[3][1], M[3][2], M[3][3]);
 }
 
-gmMatrix4::gmMatrix4(double a00, double a01, double a02, double a03,
-		     double a10, double a11, double a12, double a13,
-		     double a20, double a21, double a22, double a23,
-		     double a30, double a31, double a32, double a33)
+gmMatrix4::gmMatrix4(float a00, float a01, float a02, float a03,
+		     float a10, float a11, float a12, float a13,
+		     float a20, float a21, float a22, float a23,
+		     float a30, float a31, float a32, float a33)
 {
   assign(a00, a01, a02, a03,
          a10, a11, a12, a13,
@@ -56,10 +56,10 @@ gmMatrix4::gmMatrix4(double a00, double a01, double a02, double a03,
 
 // ASSIGNMENT
 
-gmMatrix4& gmMatrix4::assign(double a00, double a01, double a02, double a03,
-		             double a10, double a11, double a12, double a13,
-		             double a20, double a21, double a22, double a23,
-		             double a30, double a31, double a32, double a33)
+gmMatrix4& gmMatrix4::assign(float a00, float a01, float a02, float a03,
+		             float a10, float a11, float a12, float a13,
+		             float a20, float a21, float a22, float a23,
+		             float a30, float a31, float a32, float a33)
 {
   m_[0][0] = a00; m_[0][1] = a01; m_[0][2] = a02; m_[0][3] = a03;
   m_[1][0] = a10; m_[1][1] = a11; m_[1][2] = a12; m_[1][3] = a13;
@@ -125,7 +125,7 @@ gmMatrix4& gmMatrix4::operator *=(const gmMatrix4& M)
   return *this;
 }
 
-gmMatrix4& gmMatrix4::operator *=(double d)
+gmMatrix4& gmMatrix4::operator *=(float d)
 {
   m_[0][0] *= d; m_[0][1] *= d; m_[0][2] *= d; m_[0][3] *= d;
   m_[1][0] *= d; m_[1][1] *= d; m_[1][2] *= d; m_[1][3] *= d;
@@ -134,9 +134,9 @@ gmMatrix4& gmMatrix4::operator *=(double d)
   return *this;
 }
 
-gmMatrix4& gmMatrix4::operator /=(double d)
+gmMatrix4& gmMatrix4::operator /=(float d)
 {
-  double di = 1 / d;
+  float di = 1 / d;
   m_[0][0] *= di; m_[0][1] *= di; m_[0][2] *= di; m_[0][3] *= di;
   m_[1][0] *= di; m_[1][1] *= di; m_[1][2] *= di; m_[1][3] *= di;
   m_[2][0] *= di; m_[2][1] *= di; m_[2][2] *= di; m_[2][3] *= di;
@@ -188,7 +188,7 @@ gmMatrix4 gmMatrix4::operator *(const gmMatrix4& M) const
 		   RCD(*this, M, 3, 2), RCD(*this, M, 3, 3));
 }
 
-gmMatrix4 gmMatrix4::operator *(double d) const
+gmMatrix4 gmMatrix4::operator *(float d) const
 {
   return gmMatrix4(m_[0][0] * d, m_[0][1] * d, m_[0][2] * d, m_[0][3] * d,
 		   m_[1][0] * d, m_[1][1] * d, m_[1][2] * d, m_[1][3] * d,
@@ -196,17 +196,17 @@ gmMatrix4 gmMatrix4::operator *(double d) const
 		   m_[3][0] * d, m_[3][1] * d, m_[3][2] * d, m_[3][3] * d);
 }
 
-gmMatrix4 gmMatrix4::operator /(double d) const
+gmMatrix4 gmMatrix4::operator /(float d) const
 {
   assert(!gmIsZero(d));
-  double di = 1 / d;
+  float di = 1 / d;
   return gmMatrix4(m_[0][0] * di, m_[0][1] * di, m_[0][2] * di, m_[0][3] * di,
 		   m_[1][0] * di, m_[1][1] * di, m_[1][2] * di, m_[1][3] * di,
 		   m_[2][0] * di, m_[2][1] * di, m_[2][2] * di, m_[2][3] * di,
 		   m_[3][0] * di, m_[3][1] * di, m_[3][2] * di, m_[3][3] * di);
 }
 
-gmMatrix4 operator *(double d, const gmMatrix4& M)
+gmMatrix4 operator *(float d, const gmMatrix4& M)
 {
   return gmMatrix4(M[0][0] * d, M[0][1] * d, M[0][2] * d, M[0][3] * d,
 		   M[1][0] * d, M[1][1] * d, M[1][2] * d, M[1][3] * d,
@@ -292,7 +292,7 @@ gmMatrix4 gmMatrix4::adjoint() const
   return A;
 }
 
-double gmMatrix4::determinant() const
+float gmMatrix4::determinant() const
 {
   return m_[0][0] * MINOR(*this, 1, 2, 3, 1, 2, 3) -
 	 m_[0][1] * MINOR(*this, 1, 2, 3, 0, 2, 3) +
@@ -324,19 +324,19 @@ gmMatrix4 gmMatrix4::identity()
 		   0, 0, 0, 1);
 }
 
-gmMatrix4 gmMatrix4::rotate(double angle, const gmVector3& axis)
+gmMatrix4 gmMatrix4::rotate(float angle, const gmVector3& axis)
 {
   gmMatrix4 m_;
-  double length = axis.length();
-  double a = axis[0] / length;
-  double b = axis[1] / length;
-  double c = axis[2] / length;
-  double aa = a * a;
-  double bb = b * b;
-  double cc = c * c;
-  double sine = sin(gmRadians(angle));
-  double cosine = cos(gmRadians(angle));
-  double omcos = 1 - cosine;
+  float length = axis.length();
+  float a = axis[0] / length;
+  float b = axis[1] / length;
+  float c = axis[2] / length;
+  float aa = a * a;
+  float bb = b * b;
+  float cc = c * c;
+  float sine = sin(gmRadians(angle));
+  float cosine = cos(gmRadians(angle));
+  float omcos = 1 - cosine;
 
   m_[0][0] = aa + (1 - aa) * cosine;
   m_[1][1] = bb + (1 - bb) * cosine;
@@ -353,7 +353,7 @@ gmMatrix4 gmMatrix4::rotate(double angle, const gmVector3& axis)
   return m_;
 }
 
-gmMatrix4 gmMatrix4::scale(double x, double y, double z)
+gmMatrix4 gmMatrix4::scale(float x, float y, float z)
 {
   return gmMatrix4(x, 0, 0, 0,
 		   0, y, 0, 0,
@@ -361,7 +361,7 @@ gmMatrix4 gmMatrix4::scale(double x, double y, double z)
 		   0, 0, 0, 1);
 }
 
-gmMatrix4 gmMatrix4::translate(double x, double y, double z)
+gmMatrix4 gmMatrix4::translate(float x, float y, float z)
 {
   return gmMatrix4(1, 0, 0, 0,
 		   0, 1, 0, 0,
@@ -404,116 +404,116 @@ gmMatrix4 gmMatrix4::hermiteBasis()
 		    1,  0,  0,  0);
 }
 
-gmMatrix4 gmMatrix4::tensedBSplineBasis(double tension)
+gmMatrix4 gmMatrix4::tensedBSplineBasis(float tension)
 {
   gmMatrix4 m;
-  double sixth = 1.0 / 6.0;
+  float sixth = 1.f / 6.f;
 
   m[0][0] = sixth * (-tension);
-  m[0][1] = sixth * (12.0 - 9.0 * tension);
-  m[0][2] = sixth * (9.0 * tension - 12.0);
+  m[0][1] = sixth * (12.f - 9.f * tension);
+  m[0][2] = sixth * (9.f * tension - 12.f);
   m[0][3] = sixth * tension;
 
-  m[1][0] = sixth * 3.0 * tension;
-  m[1][1] = sixth * (12.0 * tension - 18.0);
-  m[1][2] = sixth * (18.0 - 15.0 * tension);
-  m[1][3] = 0.0;
+  m[1][0] = sixth * 3.f * tension;
+  m[1][1] = sixth * (12.f * tension - 18.f);
+  m[1][2] = sixth * (18.f - 15.f * tension);
+  m[1][3] = 0.f;
 
-  m[2][0] = sixth * -3.0 * tension;
-  m[2][1] = 0.0;
-  m[2][2] = sixth * 3.0 * tension;
-  m[2][3] = 0.0;
+  m[2][0] = sixth * -3.f * tension;
+  m[2][1] = 0.f;
+  m[2][2] = sixth * 3.f * tension;
+  m[2][3] = 0.f;
 
   m[3][0] = sixth * tension;
-  m[3][1] = sixth * (6.0 - 2.0 * tension);
+  m[3][1] = sixth * (6.f - 2.f * tension);
   m[3][2] = sixth * tension;
-  m[3][3] = 0.0;
+  m[3][3] = 0.f;
 
   return m;
 }
 
-gmMatrix4 gmMatrix4::cardinalBasis(double tension)
+gmMatrix4 gmMatrix4::cardinalBasis(float tension)
 {
   gmMatrix4 m;
   
   m[0][0] = -tension;
-  m[0][1] = 2.0 - tension;
-  m[0][2] = tension - 2.0;
+  m[0][1] = 2.f - tension;
+  m[0][2] = tension - 2.f;
   m[0][3] = tension;
 
-  m[1][0] = 2.0 * tension;
-  m[1][1] = tension - 3.0;
-  m[1][2] = 3 - 2.0 * tension;
+  m[1][0] = 2.f * tension;
+  m[1][1] = tension - 3.f;
+  m[1][2] = 3 - 2.f * tension;
   m[1][3] = -tension;
 
   m[2][0] = -tension;
-  m[2][1] = 0.0;
+  m[2][1] = 0.f;
   m[2][2] = tension;
-  m[2][3] = 0.0;
+  m[2][3] = 0.f;
 
-  m[3][0] = 0.0;
-  m[3][1] = 1.0;
-  m[3][2] = 0.0;
-  m[3][3] = 0.0;
+  m[3][0] = 0.f;
+  m[3][1] = 1.f;
+  m[3][2] = 0.f;
+  m[3][3] = 0.f;
   
   return m;
 }
 
-gmMatrix4 gmMatrix4::tauBasis(double bias, double tension)
+gmMatrix4 gmMatrix4::tauBasis(float bias, float tension)
 {
   gmMatrix4 m;
   
-  m[0][0] = tension * (bias - 1.0);
-  m[0][1] = 2.0 - tension * bias;
-  m[0][2] = tension * (1.0 - bias) - 2.0;
+  m[0][0] = tension * (bias - 1.f);
+  m[0][1] = 2.f - tension * bias;
+  m[0][2] = tension * (1.f - bias) - 2.f;
   m[0][3] = tension * bias;
 
-  m[1][0] = tension * 2.0 * (1.0 - bias);
-  m[1][1] = tension * (3.0 * bias - 1.0) - 3.0;
-  m[1][2] = 3.0 - tension;
+  m[1][0] = tension * 2.f * (1.f - bias);
+  m[1][1] = tension * (3.f * bias - 1.f) - 3.f;
+  m[1][2] = 3.f - tension;
   m[1][3] = -tension * bias;
 
-  m[2][0] = tension * (bias - 1.0);
-  m[2][1] = tension * (1.0 - 2.0 * bias);
+  m[2][0] = tension * (bias - 1.f);
+  m[2][1] = tension * (1.f - 2.f * bias);
   m[2][2] = tension * bias;
-  m[2][3] = 0.0;
+  m[2][3] = 0.f;
 
-  m[3][0] = 0.0;
-  m[3][1] = 1.0;
-  m[3][2] = 0.0;
-  m[3][3] = 0.0;
+  m[3][0] = 0.f;
+  m[3][1] = 1.f;
+  m[3][2] = 0.f;
+  m[3][3] = 0.f;
   
   return m;
 }
 
-gmMatrix4 gmMatrix4::betaSplineBasis(double bias, double tension)
+gmMatrix4 gmMatrix4::betaSplineBasis(float bias, float tension)
 {
   gmMatrix4 m;
-  double bias2, bias3, d;
+  float bias2, bias3, d;
 
   bias2 = bias * bias;
   bias3 = bias * bias2;
-  d = 1.0 / (tension + 2.0 * bias3 + 4.0 * bias2 + 4.0 * bias + 2.0);
+  d = 1.f / (tension + 2.f * bias3 + 4.f * bias2 + 4.f * bias + 2.f);
 
-  m[0][0] = -d * 2.0 * bias3;
-  m[0][1] = d * 2.0 * (tension + bias3 + bias2 + bias);
-  m[0][2] = -d * 2.0 * (tension + bias2 + bias + 1.0);
-  m[0][3] = d * 2.0;
+  m[0][0] = -d * 2.f * bias3;
+  m[0][1] = d * 2.f * (tension + bias3 + bias2 + bias);
+  m[0][2] = -d * 2.f * (tension + bias2 + bias + 1.f);
+  m[0][3] = d * 2.f;
 
-  m[1][0] = d * 6.0 * bias3;
-  m[1][1] = -d * 3.0 * (tension + 2.0 * bias3 + 2.0 * bias2);
-  m[1][2] = d * 3.0 * (tension + 2 * bias2);
-  m[1][3] = 0.0;
+  m[1][0] = d * 6.f * bias3;
+  m[1][1] = -d * 3.f * (tension + 2.f * bias3 + 2.f * bias2);
+  m[1][2] = d * 3.f * (tension + 2 * bias2);
+  m[1][3] = 0.f;
   
-  m[2][0] = -d * 6.0 * bias3;
-  m[2][1] = d * 6.0 * (bias3 - bias);
-  m[2][2] = d * 6.0 * bias;
-  m[2][3] = 0.0;
+  m[2][0] = -d * 6.f * bias3;
+  m[2][1] = d * 6.f * (bias3 - bias);
+  m[2][2] = d * 6.f * bias;
+  m[2][3] = 0.f;
 
-  m[3][0] = d * 2.0 * bias3;
+  m[3][0] = d * 2.f * bias3;
   m[3][1] = d * (tension + 4 * (bias2 + bias));
-  m[3][2] = d * 2.0;
-  m[3][3] = 0.0;
+  m[3][2] = d * 2.f;
+  m[3][3] = 0.f;
 
   return m;
 }

@@ -93,9 +93,7 @@ double *h, *s, *l;
   *h /= 6;
 }
 
-void HSL_to_RGB( h, sl, l, r, g, b)
-double h, sl,l;
-byte *r, *g, *b;
+void HSL_to_RGB(double h, double sl, double l, byte* r, byte* g, byte* b)
 {
   double v;
 
@@ -111,7 +109,7 @@ byte *r, *g, *b;
     m = l + l - v;
     sv = (v - m ) / v;
     h *= 6.0;
-    sextant = h;
+    sextant = (int)h;
     fract = h - sextant;
     vsf = v * sv * fract;
     mid1 = 255 * (m + vsf);
@@ -119,34 +117,34 @@ byte *r, *g, *b;
     v *= 255; m *= 255;
     switch (sextant) {
       case 0:
-                *r = CORRECT(v); 
-                *g = CORRECT(mid1); 
-                *b = CORRECT(m); 
+                *r = (unsigned char)CORRECT(v); 
+                *g = (unsigned char)CORRECT(mid1); 
+                *b = (unsigned char)CORRECT(m); 
                 break;
       case 1:
-                *r = CORRECT(mid2); 
-                *g = CORRECT(v); 
-                *b = CORRECT(m); 
+                *r = (unsigned char)CORRECT(mid2); 
+                *g = (unsigned char)CORRECT(v); 
+                *b = (unsigned char)CORRECT(m); 
                 break;
       case 2:
-                *r = CORRECT(m); 
-                *g = CORRECT(v); 
-                *b = CORRECT(mid1); 
+                *r = (unsigned char)CORRECT(m); 
+                *g = (unsigned char)CORRECT(v); 
+                *b = (unsigned char)CORRECT(mid1); 
                 break;
       case 3:
-                *r = CORRECT(m); 
-                *g = CORRECT(mid2); 
-                *b = CORRECT(v); 
+                *r = (unsigned char)CORRECT(m); 
+                *g = (unsigned char)CORRECT(mid2); 
+                *b = (unsigned char)CORRECT(v); 
                 break;
       case 4:
-                *r = CORRECT(mid1); 
-                *g = CORRECT(m); 
-                *b = CORRECT(v); 
+                *r = (unsigned char)CORRECT(mid1); 
+                *g = (unsigned char)CORRECT(m); 
+                *b = (unsigned char)CORRECT(v); 
                 break;
       case 5:
-                *r = CORRECT(v); 
-                *g = CORRECT(m); 
-                *b = CORRECT(mid2); 
+                *r = (unsigned char)CORRECT(v); 
+                *g = (unsigned char)CORRECT(m); 
+                *b = (unsigned char)CORRECT(mid2); 
                 break;
     }
   }

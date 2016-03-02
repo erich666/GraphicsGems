@@ -8,6 +8,7 @@
 
 void ellipsoid_par_help (int n, int nv, int nf, vertex *ev, face *ef, vertex *octant)
 {
+#ifdef OPENMP
    int i, j, vv, ww, vv0, ww0;
    vertex *v, *o;
    face *f;
@@ -240,4 +241,5 @@ void ellipsoid_par_help (int n, int nv, int nf, vertex *ev, face *ef, vertex *oc
       ;
    }
 /* parallel */ }
+#endif
 }

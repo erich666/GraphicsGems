@@ -38,7 +38,7 @@ void aspc(double a, double b)           /* entry point */
 {
  Point pp, *p = &pp;
  Point qq, *q = &qq;
- srand(time(0));                        /* randomize */
+ srand((unsigned int)time(0));                        /* randomize */
  T(p)= a; gamma(p); T(q)=b; gamma(q);   /* set up */
  sample(p,q);                           /* sample */
 }

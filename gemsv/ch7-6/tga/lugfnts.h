@@ -50,7 +50,7 @@
 
 /* cnv.c */
 
-extern int
+extern void 
 read_lug_file(
 #ifdef USE_PROTOTYPES
         char *,
@@ -774,7 +774,7 @@ write_sgi_file(
 
 /* tga.c */
 
-extern void
+extern int
 read_tga_file(
 #ifdef USE_PROTOTYPES
         char *,
@@ -942,8 +942,7 @@ freebitmap(
 #endif
 );
 
-extern int
-copy_bitmap(
+void copy_bitmap(
 #ifdef USE_PROTOTYPES
         bitmap_hdr *,
         bitmap_hdr *

@@ -51,6 +51,7 @@
   else n = (a2 >= as) ? a2 - as : as - a2;                               \
 }
 
+void plot(int, int);
 
 void clip(int dir, int x1, int y1, int x2, int y2,
           int xl, int yb, int xr, int yt)

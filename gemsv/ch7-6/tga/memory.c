@@ -29,6 +29,7 @@
 #include "lug.h"
 
 extern int stop_on_error;
+void Error(int);
 
 char *Malloc(size)
 int size;

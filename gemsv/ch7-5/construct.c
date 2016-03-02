@@ -2,8 +2,13 @@
 #include <math.h>
 #include <string.h>	/* for memset() */
 
+int inserted(int segnum, int whichpt);
+int math_logstar_n(int n);
+int math_N(int n, int h);
+
 static int q_idx;
 static int tr_idx;
+
 
 /* Return a new node to be added into the query tree */
 static int newnode()
@@ -79,9 +84,7 @@ static int _min(yval, v0, v1)
 }
 
 
-int _greater_than(v0, v1)
-     point_t *v0;
-     point_t *v1;
+int _greater_than(point_t* v0, point_t* v1)
 {
   if (v0->y > v1->y + C_EPS)
     return TRUE;
@@ -92,16 +95,12 @@ int _greater_than(v0, v1)
 }
 
 
-int _equal_to(v0, v1)
-     point_t *v0;
-     point_t *v1;
+int _equal_to(point_t* v0, point_t* v1)
 {
   return (FP_EQUAL(v0->y, v1->y) && FP_EQUAL(v0->x, v1->x));
 }
 
-int _greater_than_equal_to(v0, v1)
-     point_t *v0;
-     point_t *v1;
+int _greater_than_equal_to(point_t* v0, point_t* v1)
 {
   if (v0->y > v1->y + C_EPS)
     return TRUE;
@@ -111,9 +110,7 @@ int _greater_than_equal_to(v0, v1)
     return (v0->x >= v1->x);
 }
 
-int _less_than(v0, v1)
-     point_t *v0;
-     point_t *v1;
+int _less_than(point_t* v0, point_t* v1)
 {
   if (v0->y < v1->y - C_EPS)
     return TRUE;
@@ -282,10 +279,7 @@ int is_collinear(segnum, v, is_swapped)
  * point v lie in. The return value is the trapezoid number 
  */
 
-int locate_endpoint(v, vo, r)
-     point_t *v;
-     point_t *vo;
-     int r;
+int locate_endpoint(point_t* v, point_t* vo, int r)
 {
   node_t *rptr = &qs[r];
   
@@ -991,8 +985,7 @@ int add_segment(segnum)
  * This is done to speed up the location-query for the endpoint when
  * the segment is inserted into the trapezoidation subsequently
  */
-static int find_new_roots(segnum)
-     int segnum;
+static int find_new_roots(int segnum)
 {
   segment_t *s = &seg[segnum];
   point_t vper;
@@ -1012,11 +1005,10 @@ static int find_new_roots(segnum)
   return 0;
 }
 
+int choose_segment();
 
 /* Main routine to perform trapezoidation */
-void construct_trapezoids(nseg, seg)
-     int nseg;
-     segment_t *seg;
+void construct_trapezoids(int nseg, segment_t seg[])
 {
   register int i;
   int root, h;

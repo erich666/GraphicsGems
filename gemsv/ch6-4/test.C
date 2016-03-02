@@ -48,13 +48,13 @@ char *mes2[]={"Error !",
 
 void printMessage(char** mes)
 {
-int i;
-if (!mes)
-    return;
-while(mes[i]){
-    printf("\n%s",mes[i]);
-    i++;
-}
+	int i = 0;
+	if (!mes)
+		return;
+	while (mes[i]) {
+		printf("\n%s", mes[i]);
+		i++;
+	}
 }
 
 /*************************************************************/

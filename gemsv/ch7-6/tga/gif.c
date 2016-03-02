@@ -29,6 +29,8 @@
 #include "lug.h"
 #include "lugfnts.h"
 
+void rm_compress();
+
 #define GIFHEADER               "GIF87a"
 #define NEWGIFHEADER            "GIF89a"
 #define GIFIMGSEPAR             ','
@@ -208,7 +210,7 @@ bitmap_hdr *image;
        * and continue adding values into ioutput.
        */
       while ( current > mask ) {
-        stack[count++] = sufix[current];
+        stack[count++] = (unsigned char)sufix[current];
         current = prefix[current];
       }
       k = current & mask;
@@ -445,6 +447,8 @@ bitmap_hdr *image;
 
 }
 
+void compress(int, FILE*, int (*)());
+
 void write_gif(handle, image)
 FILE *handle;
 bitmap_hdr *image;
@@ -485,7 +489,7 @@ bitmap_hdr *image;
    */
   VPRINTF(stdout, "Compressing raster information\n");
   ptr_image = image->r;
-  compress( codesize, handle, read_pixel );
+  compress( codesize, handle, read_pixel);
 
   /*
    * Block with a size of 0 bytes.

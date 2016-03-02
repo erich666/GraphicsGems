@@ -7,7 +7,7 @@
 
 #define TRUE 1
 #define FALSE 0
-#define BIG (1.0e12)
+#define BIG (1.0e12f)
 
 static Vect work[4];
 static Vect ctlPts[] = { {0,0}, {1,1}, {1,0}, {0,0}, };

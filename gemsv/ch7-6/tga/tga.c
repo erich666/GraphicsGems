@@ -29,9 +29,9 @@
 #include "lug.h"
 #include "lugfnts.h"
 
-void read_tga_file( name, bitmap )
-char *name;
-bitmap_hdr *bitmap;
+void rm_compress();
+
+int read_tga_file(char* name, bitmap_hdr* bitmap)
 {
   FILE *handle;
 
@@ -46,6 +46,7 @@ bitmap_hdr *bitmap;
 
   /* Close the file */
   Fclose( handle );
+  return 0;
 }
 
 void read_tga(handle, image)

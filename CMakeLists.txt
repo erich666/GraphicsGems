@@ -17,11 +17,11 @@ include_directories(.)
 
 add_library(FakeIrisGL fakeirisgl.h fakeirisgl.c)
 add_library(GraphicsGems GraphicsGems.h GraphicsGems.c)
-add_library(Getopt getopt.h getopt.c)
+add_library(GetOpt getopt.h getopt.c)
 
 #add_subdirectory(gems)
 #add_subdirectory(gemsii)
-add_subdirectory(gemsiii)
+#add_subdirectory(gemsiii)
 #add_subdirectory(gemsiv)
-#add_subdirectory(gemsv)
+add_subdirectory(gemsv)
 

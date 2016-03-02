@@ -14,106 +14,106 @@
 
 // ONE-ARGUMENT UTILITY FUNCTIONS
 
-inline double gmAbs(double f)
+inline float gmAbs(float f)
 {
   return (f >= 0) ? f : -f;
 }
 
-inline double gmCeil(double f)
+inline float gmCeil(float f)
 {
-  return (f == int(f)) ? f : (f > 0) ? double(int(f) + 1) : double(int(f));
+  return (f == int(f)) ? f : (f > 0) ? float(int(f) + 1) : float(int(f));
 }
 
-inline double gmCube(double f)
+inline float gmCube(float f)
 {
   return f * f * f;
 }
 
-inline double gmDegrees(double f)
+inline float gmDegrees(float f)
 {
   return f * gmRADTODEG;
 }
 
-inline double gmFloor(double f)
+inline float gmFloor(float f)
 {
-  return (f == int(f)) ? f : (f > 0) ? double(int(f)) : double(int(f) - 1);
+  return (f == int(f)) ? f : (f > 0) ? float(int(f)) : float(int(f) - 1);
 }
 
-inline double gmInv(double f)
+inline float gmInv(float f)
 {
-  return 1.0 / f;
+  return 1.f / f;
 }
 
-inline bool gmIsZero(double f)
+inline bool gmIsZero(float f)
 {
   return (gmAbs(f) < gmEPSILON);
 }
 
-inline double gmRadians(double f)
+inline float gmRadians(float f)
 {
   return f * gmDEGTORAD;
 }
 
-inline double gmRound(double f)
+inline float gmRound(float f)
 {
-  return (f >= 0) ? double(int(f + 0.5)) : double(- int(0.5 - f));
+  return (f >= 0) ? float(int(f + 0.5)) : float(- int(0.5 - f));
 }
 
-inline double gmSign(double f)
+inline float gmSign(float f)
 {
-  return (f < 0) ? -1.0 : 1.0;
+  return (f < 0) ? -1.f : 1.f;
 }
 
-inline double gmSmooth(double f)
+inline float gmSmooth(float f)
 {
-  return (3.0 - 2.0 * f) * f * f;
+  return (3.f - 2.f * f) * f * f;
 }
 
-inline double gmSqr(double f)
+inline float gmSqr(float f)
 {
   return f * f;
 }
 
-inline double gmTrunc(double f)
+inline float gmTrunc(float f)
 {
-  return double(int(f));
+  return float(int(f));
 }
 
-inline double gmZSign(double f)
+inline float gmZSign(float f)
 {
-  return (f > 0) ? 1.0 : (f < 0) ? -1.0 : 0.0;
+  return (f > 0) ? 1.f : (f < 0) ? -1.f : 0.f;
 }
 
 // TWO-ARGUMENT UTILITY FUNCTIONS
 
-inline bool gmFuzEQ(double f, double g)
+inline bool gmFuzEQ(float f, float g)
 {
   return (f <= g) ? (f >= g - gmEPSILON) : (f <= g + gmEPSILON);
 }
 
-inline bool gmFuzGEQ(double f, double g)
+inline bool gmFuzGEQ(float f, float g)
 {
   return (f >= g - gmEPSILON);
 }
 
-inline bool gmFuzLEQ(double f, double g)
+inline bool gmFuzLEQ(float f, float g)
 {
   return (f <= g + gmEPSILON);
 }
 
-inline double gmMax(double f, double g)
+inline float gmMax(float f, float g)
 {
   return (f > g) ? f : g;
 }
 
-inline double gmMin(double f, double g)
+inline float gmMin(float f, float g)
 {
   return (f < g) ? f : g;
 }
 
-inline void gmSwap(double& f, double& g)
+inline void gmSwap(float& f, float& g)
 {
-  double gmTmp = f; f = g; g = gmTmp;
+  float gmTmp = f; f = g; g = gmTmp;
 }
 
 inline void gmSwap(int& i, int& j)
@@ -123,28 +123,28 @@ inline void gmSwap(int& i, int& j)
 
 // MULTI-ARGUMENT UTILITY FUNCTIONS
 
-inline void gmClamp(double &f, double l, double h)
+inline void gmClamp(float &f, float l, float h)
 {
   if(f < l) f = l;
   if(f > h) f = h;
 }
 
-inline double gmLerp(double f, double l, double h)
+inline float gmLerp(float f, float l, float h)
 {
   return l + ((h - l) * f );
 }
 
-inline double gmMax(double f, double g, double h)
+inline float gmMax(float f, float g, float h)
 {
   return (f > g) ? gmMax(f, h) : gmMax(g, h);
 }
 
-inline double gmMin(double f, double g, double h)
+inline float gmMin(float f, float g, float h)
 {
   return (f < g) ? gmMin(f, h) : gmMin(g, h);
 }
 
-inline double gmSlide(double f, double l, double h)
+inline float gmSlide(float f, float l, float h)
 {
   return (f < 0) ? l : (f > 1) ? h : gmLerp(gmSmooth(f), l, h);
 }

@@ -49,9 +49,7 @@ static int (*read_lug_fnts[])() = {
                         read_tga_file
 };
 
-read_lug_file( name, bitmap )
-char *name;
-bitmap_hdr *bitmap;
+void read_lug_file(char* name, bitmap_hdr* bitmap )
 {
   ifunptr read_file;
 
@@ -83,7 +81,7 @@ char *str;
 {
   char dup[132];
   char *ptr;
-  int len = strlen( str );
+  size_t len = strlen( str );
   int indexx;
 
   /* Duplicates the string */

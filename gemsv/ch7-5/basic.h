@@ -64,7 +64,7 @@ struct global_s {
 
 #define EPS 0.000005
 
-#define INFINITY 1<<30
+//#define INFINITY 1<<30
 
 #define C_EPS 1.0e-7
 

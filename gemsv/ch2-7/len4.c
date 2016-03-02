@@ -24,15 +24,15 @@
 #define absv(x)	if (x < 0) x = -x
 #define inorder(x,y)	{int t; if ((t = a - b) < 0) {a -= t; b += t; } }
 
-int len4(a, b, c, d)
-    {
-    absv(a); absv(b);			/* get the absolute values */
-    absv(c); absv(d);			/* (component magnitudes) */
-    inorder(a, b); inorder(c, d);	/* everyone has a chance to play */
-    inorder(a, c); inorder(b, d);	/* (a,d) are big (winner, loser) */
-    inorder(b, c);			/* playoff for 2nd and 3rd slots */
-    a += (25*b + 19*c + 16*d)/60;	/* compute 4D approximate length */
+int len4(int a, int b, int c, int d)
+{
+	absv(a); absv(b);			/* get the absolute values */
+	absv(c); absv(d);			/* (component magnitudes) */
+	inorder(a, b); inorder(c, d);	/* everyone has a chance to play */
+	inorder(a, c); inorder(b, d);	/* (a,d) are big (winner, loser) */
+	inorder(b, c);			/* playoff for 2nd and 3rd slots */
+	a += (25 * b + 19 * c + 16 * d) / 60;	/* compute 4D approximate length */
 /*  a +=  (5*b +  4*c +  3*d)/12;	.. only .1% worse; easy to eval  */
-    a++;				/* Roundoff -> underestimation   */
-    return(a);				/* omit the above one bit jitter */
-    }
+	a++;				/* Roundoff -> underestimation   */
+	return(a);				/* omit the above one bit jitter */
+}

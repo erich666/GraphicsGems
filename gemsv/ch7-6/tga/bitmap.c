@@ -99,8 +99,7 @@ bitmap_hdr *image;
   return 0;
 }
 
-copy_bitmap( inbitmap, outbitmap)
-bitmap_hdr *inbitmap, *outbitmap;
+void copy_bitmap(bitmap_hdr* inbitmap, bitmap_hdr* outbitmap)
 {
   int totalsize = inbitmap->xsize * inbitmap->ysize;
 
