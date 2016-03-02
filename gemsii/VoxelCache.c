@@ -15,8 +15,6 @@
 
 typedef struct { int transparency_value; } TRIANGLE_REC;
 typedef struct { int i; } RAY_REC;
-struct SHADOW_TREE;
-typedef struct { struct SHADOW_TREE* cache_tree; } LIGHT_REC;
 
 typedef struct _stree {
     TRIANGLE_REC   *last_object;
@@ -24,6 +22,20 @@ typedef struct _stree {
     struct _stree  *refraction_ray;
     struct _stree  *reflection_ray;
 } SHADOW_TREE;
+typedef struct { SHADOW_TREE* cache_tree; } LIGHT_REC;
+
+int intersect_object(RAY_REC* ray, TRIANGLE_REC* last_object, TRIANGLE_REC** object) {
+	// User defined
+	return 0;
+}
+int intersect_objects_in_voxel_for_shadows(RAY_REC* ray, TRIANGLE_REC**last_voxel, TRIANGLE_REC** object) {
+	// User defined
+	return 0;
+}
+int traverse_voxels_for_shadows(RAY_REC* ray, TRIANGLE_REC** object, TRIANGLE_REC** voxel, float* shadow_percent) {
+	// User defined
+	return 0;
+}
 
 float check_shadowing(ray, light, path, Spawning_ray_level)
 RAY_REC   *ray;   /* ray from shading point to light source */
@@ -32,12 +44,12 @@ int        path;  /* bit table describing current position in vision ray tree */
 int        Spawning_ray_level; /* level of the ray spawning this shadow ray */
 {
     unsigned int  Mask;
-    SHADOW_TREE  *cache;
+    SHADOW_TREE *cache;
     int i, hit ;
     float shadow_percent;
     /* user needs to define cache, object, voxel structures */
 	TRIANGLE_REC* object;
-	int voxel;
+	TRIANGLE_REC* voxel;
 
     cache = light->cache_tree;
     Mask = 0x01;
@@ -64,8 +76,7 @@ int        Spawning_ray_level; /* level of the ray spawning this shadow ray */
             /* intersect_object_in_voxel_for_shadows() returns hit = TRUE */
             /* on first affirmed intersection with an opaque object. */
             /* It ignores transparent objects altogether. */
-            hit = intersect_objects_in_voxel_for_shadows( ray,
-                                         cache->last_voxel, &object);
+            hit = intersect_objects_in_voxel_for_shadows( ray, cache->last_voxel, &object);
             if (hit) {
                 cache->last_object = object;
                 return(1.0);
@@ -95,9 +106,9 @@ int        Spawning_ray_level; /* level of the ray spawning this shadow ray */
     else {
         /* The object was NOT transparent, cache the info. */
         cache->last_object = object;
-        cache->last_voxel  = voxel;
+        cache->last_voxel  = &voxel;
     }
-    return ( shadow_percent );
+    return shadow_percent;
 }
 
 /*

@@ -1,5 +1,5 @@
 
-add_library(c_format c_format.c)
+add_library(c_format getopt.c c_format.c)
 add_library(FastUpdate FastUpdate.c)
 add_library(Hilbert Hilbert.c)
 add_library(hot hot.c)

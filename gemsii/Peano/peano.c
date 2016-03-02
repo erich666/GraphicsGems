@@ -205,9 +205,7 @@ vector          coord;
 /*
  * determine the n-space coordinate of "point" on the peano curve
  */
-peano(coord, point)
-vector          coord;
-int             point;
+void peano(vector coord, int point)
 {
 	int             i;
 

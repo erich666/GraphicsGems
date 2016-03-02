@@ -12,10 +12,7 @@ static char SCCSid[] = "@(#)resolu.c 1.1 9/22/90 LBL";
 #include "color.h"
 
 
-fputresolu(ord, xres, yres, fp)		/* put x and y resolution */
-register int  ord;
-int  xres, yres;
-FILE  *fp;
+void fputresolu(int ord, int xres, int yres, FILE* fp)		/* put x and y resolution */
 {
 	if (ord&YMAJOR)
 		fprintf(fp, "%cY %d %cX %d\n",
@@ -28,9 +25,7 @@ FILE  *fp;
 }
 
 
-fgetresolu(xrp, yrp, fp)		/* get x and y resolution */
-int  *xrp, *yrp;
-FILE  *fp;
+int fgetresolu(int* xrp, int* yrp, FILE* fp)		/* get x and y resolution */
 {
 	char  buf[64], *xndx, *yndx;
 	register char  *cp;

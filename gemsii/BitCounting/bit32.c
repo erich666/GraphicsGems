@@ -19,7 +19,7 @@ int bit32on1(a)
   while( a != 0 )       /* until no bits remain, */
     {
     c++;                /* "tally" ho, then */
-    a = a &~ -a;        /* clear lowest bit */
+    // incorrect a = a &~ -a;        /* clear lowest bit */
     }
   return(c);
   }

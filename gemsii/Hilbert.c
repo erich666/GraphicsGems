@@ -1,6 +1,10 @@
 
 #include "fakeirisgl.h"
 
+#ifdef WIN32
+unsigned int sleep(unsigned int);
+#endif
+
 #define STEP_SIZE 4    /* # of pixels in each step */
 
 long coord[2];         /* X,Y for graphics calls */

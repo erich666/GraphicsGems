@@ -32,7 +32,7 @@
 				(c).z = (a).x*(b).y - (a).y*(b).x
 #define DotVector(a,b) (a).x*(b).x + (a).y*(b).y + (a).z*(b).z
 #define ScaleVector(c,s) (c).x*=(s), (c).y*=(s), (c).z*=(s)
-#define NormalizeVector(n,a) 	((n)=sqrt(DotVector(a,a)), \
+#define NormalizeVector(n,a) 	((n)=sqrtf(DotVector(a,a)), \
 				(n)?((a).x/=n, (a).y/=n, (a).z/=n):0)
 
 typedef struct {
@@ -80,7 +80,7 @@ void InitRad(TRadParams *p)
 	n = hRes*hRes;
 	hemicube.view.buffer = calloc(n, sizeof(unsigned long));
 	hemicube.view.wid=0;
-	hemicube.view.near = (float)params->worldSize*0.001;
+	hemicube.view.near = params->worldSize*0.001f;
 	hemicube.view.far = params->worldSize;
 	
 	/* take advantage of the symmetry in the delta form-factors */
@@ -270,7 +270,7 @@ static void ComputeFormfactors(unsigned long shootPatch)
 	TPoint3f	center;
 	TVector3f	normal, tangentU, tangentV, vec;
 	int face;
-	double		norm;
+	float norm;
 	TPatch*		sp;
 	double*		fp;
 	TElement*	ep;
@@ -307,7 +307,7 @@ static void ComputeFormfactors(unsigned long shootPatch)
 	up[4] = normal;
 	
 	/* position the hemicube slightly above the center of the shooting patch */
-	ScaleVector(normal, params->worldSize*0.0001);
+	ScaleVector(normal, params->worldSize*0.0001f);
 	AddVector(hemicube.view.camera, center, normal);
 	
 	/* clear the formfactors */

@@ -9,6 +9,13 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include "getopt.h"
+
+int isatty(int f);
+
+#ifdef WIN32
+#define fileno _fileno
+#endif
 
 static char psPreamble[] = "\
 %!PS-Adobe-2.0\n\

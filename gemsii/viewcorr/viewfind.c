@@ -132,12 +132,12 @@ ViewParms *view_parms;
 		halfx = (int) (2.0*view_parms->halfx - view_parms->xcenter);
 	}
 	else
-		halfx = view_parms->xcenter;
+		halfx = (int)view_parms->xcenter;
 	if (view_parms->halfy > view_parms->ycenter) {
 		halfy = (int) (2.0*view_parms->halfy - view_parms->ycenter);
 	}
 	else
-		halfy = view_parms->ycenter;
+		halfy = (int)view_parms->ycenter;
 	ds = view_parms->d_over_s;
 	if (ds < 0.0) {
 		V3Negate(&up);

@@ -56,7 +56,7 @@ unsigned char   r[MAXENTRY], g[MAXENTRY], b[MAXENTRY];
  * we can call fb_done() before exiting - this 
  * may or may not be necessary
  */
-inter()
+void inter(int i)
 {
 	quit = TRUE;
 }
@@ -94,10 +94,10 @@ dda_red()
 			/* define end of next ramp */
 		seed = RANDOM(seed);
 			/* assign a new (scaled) end point */
-		ry2 = MAXINDEX * (seed / 65535.0);
+		ry2 = MAXINDEX * (seed / 65535.f);
 		seed = RANDOM(seed);
 			/* get a new ramp length */
-		r_xsteps = (maxsteps * (seed / 65535.0));
+		r_xsteps = (maxsteps * (seed / 65535.f));
 			/* find the intensity increment per step */
 		if (r_xsteps != 0)
 			rinc = (ry2 - ry1) / r_xsteps;
@@ -130,9 +130,9 @@ dda_green()
 		gy1 = gy2;
 			/* define end of next ramp */
 		seed = RANDOM(seed);
-		gy2 = MAXINDEX * (seed / 65535.0);
+		gy2 = MAXINDEX * (seed / 65535.f);
 		seed = RANDOM(seed);
-		g_xsteps = (maxsteps * (seed / 65535.0));
+		g_xsteps = (maxsteps * (seed / 65535.f));
 			/* find the intensity increment per step */
 		if (g_xsteps != 0)
 			ginc = (gy2 - gy1) / g_xsteps;
@@ -165,9 +165,9 @@ dda_blue()
 		by1 = by2;
 			/* define end of next ramp */
 		seed = RANDOM(seed);
-		by2 = MAXINDEX * (seed / 65535.0);
+		by2 = MAXINDEX * (seed / 65535.f);
 		seed = RANDOM(seed);
-		b_xsteps = (maxsteps * (seed / 65535.0));
+		b_xsteps = (maxsteps * (seed / 65535.f));
 			/* find the intensity increment per step */
 		if (b_xsteps != 0)
 			binc = (by2 - by1) / b_xsteps;
@@ -194,7 +194,7 @@ save_lut()
 
 	getchar();		/* read leading newline char */
 	printf("Enter filename for lookup table:  ");
-	gets(filename);
+	fgets(filename, 40, stdin);
 	fp = fopen(filename, "w");
 
 	for (i=0; i<MAXINDEX; i++)
@@ -204,6 +204,17 @@ save_lut()
 
 } /* save_lut() */
 
+void fb_init() {
+	// TODO
+}
+
+void fb_setmap(int a, int b, char* c, char* d, char* e) {
+	// TODO
+}
+
+void fb_done() {
+	// TODO
+}
 main(argc, argv)
 int             argc;
 char           *argv[];
@@ -212,7 +223,7 @@ char           *argv[];
 	register int    i;
 	int             reply, delay;
 
-	int             inter();	 /* signal functions, see below */
+	void inter(int);	 /* signal functions, see below */
 	int             suspend();
 
 	signal(SIGINT, inter);		 /* traps <ctrl-C> */
@@ -252,7 +263,7 @@ char           *argv[];
 	}
 
 			/* generic routine to write frame buffer color map */
-	fb_setmap(r, g, b);
+	fb_setmap(0, MAXINDEX, r, g, b);
 
 			/* loop until <ctrl-C> is trapped */
 	while (!quit) {

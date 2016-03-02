@@ -4,6 +4,7 @@
 static char SCCSid[] = "@(#)ra_pr24.c 1.8 8/15/91 LBL";
 #endif
 
+
 /*
  *  program to convert between RADIANCE and 24-bit rasterfiles.
  */
@@ -12,9 +13,15 @@ static char SCCSid[] = "@(#)ra_pr24.c 1.8 8/15/91 LBL";
 #include  <stdio.h>
 #include  <math.h>
 
-#include  "rasterfile.h"
+#include "colrops.h"
+#include "header.h"
+#include "rasterfile.h"
+#include "resolu.h"
 
 #include  "color.h"
+
+extern BYTE	g_mant[256], g_nexp[256];
+void gambs_colrs(COLR* scan, int len);
 
 /* if needed: extern double  atof(), pow(); */
 
@@ -70,6 +77,36 @@ int	rf;
 	}
 						/* free scanline */
 	free((char *)scanout);
+}
+
+void gambs_colrs(COLR* scan, int len)         /* convert gamma bytes to colr scanline */
+{
+	register int    nexpo;
+
+	while (len-- > 0) {
+		nexpo = g_nexp[scan[0][RED]];
+		if (g_nexp[scan[0][GRN]] < nexpo)
+			nexpo = g_nexp[scan[0][GRN]];
+		if (g_nexp[scan[0][BLU]] < nexpo)
+			nexpo = g_nexp[scan[0][BLU]];
+		if (nexpo < g_nexp[scan[0][RED]])
+			scan[0][RED] = g_mant[scan[0][RED]]
+			>> (g_nexp[scan[0][RED]] - nexpo);
+		else
+			scan[0][RED] = g_mant[scan[0][RED]];
+		if (nexpo < g_nexp[scan[0][GRN]])
+			scan[0][GRN] = g_mant[scan[0][GRN]]
+			>> (g_nexp[scan[0][GRN]] - nexpo);
+		else
+			scan[0][GRN] = g_mant[scan[0][GRN]];
+		if (nexpo < g_nexp[scan[0][BLU]])
+			scan[0][BLU] = g_mant[scan[0][BLU]]
+			>> (g_nexp[scan[0][BLU]] - nexpo);
+		else
+			scan[0][BLU] = g_mant[scan[0][BLU]];
+		scan[0][EXP] = COLXS - nexpo;
+		scan++;
+	}
 }
 
 
@@ -140,7 +177,7 @@ char  *argv[];
 		exit(1);
 	}
 	if (i == argc-2 && freopen(argv[i+1], "w", stdout) == NULL) {
-		fprintf(stderr, "can't open output \"%s\"\n",
+		fprintf(stderr, "%s: can't open output \"%s\"\n",
 			progname, argv[i+1]);
 		exit(1);
 	}

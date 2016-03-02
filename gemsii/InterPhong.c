@@ -10,6 +10,7 @@ Daniel Thalmann, 1987
 *******************************************************/
 
 #include <math.h>
+#include <stdio.h>
 #include "GraphicsGems.h"
 
 #define RESANTI	3839

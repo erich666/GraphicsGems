@@ -213,12 +213,11 @@ Vector3 *a;
         }
 
 /* negates the input vector and returns it */
-Vector3 *V3Negate(v) 
-Vector3 *v;
+Vector3 *V3Negate(Vector3* v) 
 {
-        v->x = -v->x;  v->y = -v->y;  v->z = -v->z;
-        return(v);
-        }
+	v->x = -v->x;  v->y = -v->y;  v->z = -v->z;
+	return v;
+}
 
 /* normalizes the input vector and returns it */
 Vector3 *V3Normalize(v) 

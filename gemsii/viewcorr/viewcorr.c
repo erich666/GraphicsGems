@@ -187,8 +187,7 @@ double rot_x, rot_y, rot_z;
     V2MatMul(&tmpmat, &rotate, m);
 }
 
-propagate_rotate_change( view_parms )
-	ViewParms *view_parms;
+void propagate_rotate_change(ViewParms* view_parms )
 {
 	/* inverse is just the transpose of a rotate matrix */
 	TransposeMatrix3(&view_parms->view, &view_parms->viewinv);

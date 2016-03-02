@@ -10,6 +10,7 @@ static char SCCSid[] = "@(#)color.c 1.15 8/28/91 LBL";
  *     10/10/85
  */
 
+#include <math.h>
 #include  <stdio.h>
 
 #include  "color.h"
@@ -37,10 +38,7 @@ unsigned int len;
 }
 
 
-fwritecolrs(scanline, len, fp)		/* write out a colr scanline */
-register COLR  *scanline;
-int  len;
-register FILE  *fp;
+size_t fwritecolrs(COLR* scanline, int len, FILE* fp)		/* write out a colr scanline */
 {
 	register int  i, j, beg, cnt;
 	int  c2;
@@ -126,10 +124,7 @@ register FILE  *fp;
 }
 
 
-freadcolrs(scanline, len, fp)		/* read in an encoded colr scanline */
-register COLR  *scanline;
-int  len;
-register FILE  *fp;
+size_t freadcolrs(COLR* scanline, int len, FILE* fp)		/* read in an encoded colr scanline */
 {
 	register int  i, j;
 	int  code;
@@ -196,10 +191,7 @@ double  r, g, b;
 }
 
 
-fwritescan(scanline, len, fp)		/* write out a scanline */
-register COLOR  *scanline;
-int  len;
-FILE  *fp;
+size_t fwritescan(COLOR* scanline, int len, FILE* fp)		/* write out a scanline */
 {
 	COLR  *clrscan;
 	int  n;

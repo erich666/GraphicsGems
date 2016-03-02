@@ -376,6 +376,9 @@ double	v;
 	return (int)(v * MAXPIX + 0.5);
 }
 
+void read_pixel(int, int, Pixel*);
+void write_pixel(int, int, Pixel*);
+
 main()
 {
 	Pixel	p;

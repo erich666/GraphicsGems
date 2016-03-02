@@ -17,8 +17,7 @@ static BYTE	g_mant[256], g_nexp[256];
 static BYTE	g_bval[MAXGSHIFT+1][256];
 
 
-setcolrgam(g)			/* set gamma conversion */
-double	g;
+void setcolrgam(double g)			/* set gamma conversion */
 {
 	extern double	pow();
 	double	mult;
@@ -44,9 +43,7 @@ double	g;
 }
 
 
-colrs_gambs(scan, len)		/* convert scanline of colrs to gamma bytes */
-register COLR	*scan;
-int	len;
+void colrs_gambs(COLR* scan, int len)		/* convert scanline of colrs to gamma bytes */
 {
 	register int	i, expo;
 
@@ -89,51 +86,13 @@ int	len;
 	}
 }
 
-
-gambs_colrs(scan, len)		/* convert gamma bytes to colr scanline */
-register COLR	*scan;
-int	len;
-{
-	register int	nexpo;
-
-	while (len-- > 0) {
-		nexpo = g_nexp[scan[0][RED]];
-		if (g_nexp[scan[0][GRN]] < nexpo)
-			nexpo = g_nexp[scan[0][GRN]];
-		if (g_nexp[scan[0][BLU]] < nexpo)
-			nexpo = g_nexp[scan[0][BLU]];
-		if (nexpo < g_nexp[scan[0][RED]])
-			scan[0][RED] = g_mant[scan[0][RED]]
-					>> (g_nexp[scan[0][RED]]-nexpo);
-		else
-			scan[0][RED] = g_mant[scan[0][RED]];
-		if (nexpo < g_nexp[scan[0][GRN]])
-			scan[0][GRN] = g_mant[scan[0][GRN]]
-					>> (g_nexp[scan[0][GRN]]-nexpo);
-		else
-			scan[0][GRN] = g_mant[scan[0][GRN]];
-		if (nexpo < g_nexp[scan[0][BLU]])
-			scan[0][BLU] = g_mant[scan[0][BLU]]
-					>> (g_nexp[scan[0][BLU]]-nexpo);
-		else
-			scan[0][BLU] = g_mant[scan[0][BLU]];
-		scan[0][EXP] = COLXS - nexpo;
-		scan++;
-	}
-}
-
-
-shiftcolrs(scan, len, adjust)	/* shift a scanline of colors by 2^adjust */
-register COLR	*scan;
-register int	len;
-register int	adjust;
+void shiftcolrs(COLR* scan, int len, int adjust)	/* shift a scanline of colors by 2^adjust */
 {
 	while (len-- > 0) {
 		scan[0][EXP] += adjust;
 		scan++;
 	}
 }
-
 
 normcolrs(scan, len, adjust)	/* normalize a scanline of colrs */
 register COLR  *scan;

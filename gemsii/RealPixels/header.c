@@ -29,10 +29,7 @@ char  FMTSTR[] = "FORMAT=";
 int  FMTSTRL = 7;
 
 
-printargs(ac, av, fp)		/* print arguments to a file */
-int  ac;
-char  **av;
-FILE  *fp;
+void printargs(int ac, char** av, FILE* fp)		/* print arguments to a file */
 {
 	while (ac-- > 0) {
 		fputs(*av++, fp);
@@ -62,9 +59,7 @@ register char  *s;
 }
 
 
-fputformat(s, fp)		/* put out a format value */
-char  *s;
-FILE  *fp;
+void fputformat(char* s, FILE* fp)		/* put out a format value */
 {
 	fputs(FMTSTR, fp);
 	fputs(s, fp);
@@ -174,10 +169,7 @@ char	*pat, *str;
  * if fout is not NULL.
  */
 
-checkheader(fin, fmt, fout)
-FILE  *fin;
-char  *fmt;
-FILE  *fout;
+int checkheader(FILE* fin, char* fmt, FILE* fout)
 {
 	struct check	cdat;
 

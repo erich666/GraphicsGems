@@ -43,7 +43,7 @@ int CorrectCount( unsigned long a )
   while( a != 0 )
     {
     c++;
-    a = a & ~-a;
+    // not correct: there is no negative unsigned long: a = a & ~-a;
     }
   return( c );
   }

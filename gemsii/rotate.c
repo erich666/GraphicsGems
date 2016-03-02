@@ -14,9 +14,7 @@
  *  Gems III.                                                              *
  *                                                                         *
  *=========================================================================*/
-void Rand_rotation( x, M )
-float x[];
-Matrix3 *M;
+void Rand_rotation(float x[],Matrix3* M )
     {
     float  a, b, c, d, s;
     float  z, r, theta, omega;       
@@ -29,18 +27,18 @@ Matrix3 *M;
     /* to determine the amount of rotation, omega, about this axis.     */
 
     z = x[0];
-    r = sqrt( 1 - z * z );
-    theta = 2.0 * PI * x[1];
+    r = sqrtf( 1.f - z * z );
+    theta = 2.f * PI * x[1];
     omega = PI * x[2];
 
     /* Compute the unit quaternion (a,b,c,d) where a is the cosine of    */
     /* half the rotation angle and the axis vector (b,c,d) is determined */
     /* by "r", "theta" and "z" computed above.                           */
 
-    s = sin( omega );
-    a = cos( omega );
-    b = s * cos( theta ) * r;
-    c = s * sin( theta ) * r;
+    s = sinf( omega );
+    a = cosf( omega );
+    b = s * cosf( theta ) * r;
+    c = s * sinf( theta ) * r;
     d = s * z;
 
     /* Compute all the pairwise products of a, b, c, and d, except a * a. */
