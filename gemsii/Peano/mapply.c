@@ -16,7 +16,7 @@
 #include <math.h>
 #include "types.h"
 
-char           *image_file = "img";
+static char           *image_file = "img";
 
 int             r, g, b;
 unsigned char   eight_bit[FB_SIZE], twenty_four_bit[FB_SIZE][3], cmap[256][3];

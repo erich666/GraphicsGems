@@ -18,7 +18,7 @@
 #include <math.h>
 #include "types.h"
 
-char           *image_file="im_file";
+static char           *image_file="im_file";
 
 unsigned char   fb[FB_SIZE + 1][FB_SIZE + 1];
 FILE           *outfile;

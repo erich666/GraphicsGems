@@ -258,10 +258,7 @@ double *rootmeansqr;
 	*rootmeansqr = sqrt( sqrs / (datapts->numpts*2.0) );
 }
 
-iterate_view_parms( datapts, view_parms, num_iterations )
-ViewData *datapts;
-ViewParms *view_parms;
-int num_iterations;
+void iterate_view_parms(ViewData* datapts,ViewParms* view_parms, int num_iterations )
 {
     Matrix errors, jacobian, corrections;
     int i,j;
