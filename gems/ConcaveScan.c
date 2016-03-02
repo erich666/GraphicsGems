@@ -25,9 +25,10 @@
  *  Paul Heckbert	30 June 81, 18 Dec 89
  */
 
+#include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <math.h>
+#include <string.h>
 #include "GraphicsGems.h"
 
 #define ALLOC(ptr, type, n)  ASSERT(ptr = (type *)malloc((n)*sizeof(type)))

@@ -1,5 +1,5 @@
 
-add_library(c_format getopt.c c_format.c)
+add_library(c_format c_format.c)
 add_library(FastUpdate FastUpdate.c)
 add_library(Hilbert Hilbert.c)
 add_library(hot hot.c)
@@ -24,6 +24,8 @@ add_subdirectory(Peano)
 add_subdirectory(radiosity)
 add_subdirectory(RealPixels)
 add_subdirectory(viewcorr)
+
+target_link_libraries(c_format GetOpt)
 
 set_property(TARGET
 
