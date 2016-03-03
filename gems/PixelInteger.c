@@ -26,7 +26,7 @@ from "Graphics Gems", Academic Press, 1990
  * red = 6, green = 7, blue = 6.
  */
 
-void err(const char* msg, char c) {}
+void err(const char* msg, ...) {}
 
 void getplanes(int* r, int* g, int* b, int n, char* bias)
     {

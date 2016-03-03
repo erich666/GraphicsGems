@@ -30,7 +30,9 @@
  * Subrutinas para entrada y salida de ficheros.
  */
 
+#ifndef WIN32
 #include <unistd.h>
+#endif
 #include "lug.h"
 #include "lugfnts.h"
 
@@ -164,7 +166,7 @@ int *bytes;
 
     /* Read in chunks of BUFSIZ. */
     buffer = (char *) Malloc( BUFSIZ );
-    while ( (n = fread( buffer + bufsize, 1, BUFSIZ, handle )) == BUFSIZ ) {
+    while ( (n = (int)fread( buffer + bufsize, 1, BUFSIZ, handle )) == BUFSIZ ) {
       bufsize += BUFSIZ;
       buffer = (char *) realloc( buffer, bufsize + BUFSIZ );
     }

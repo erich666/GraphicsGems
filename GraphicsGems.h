@@ -46,7 +46,7 @@ typedef struct IntPoint3Struct {	/* 3d integer point */
 
 typedef struct Matrix4Struct {	/* 4-by-4 matrix */
 	double element[4][4];
-	} Matrix4;
+} Matrix4;
 
 typedef struct Box3dStruct {		/* 3d box */
 	Point3 min, max;

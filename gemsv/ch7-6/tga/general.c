@@ -28,7 +28,9 @@
 
 #include <ctype.h>
 #include <fcntl.h>
+#ifndef WIN32
 #include <unistd.h>
+#endif
 #include "lug.h"
 #include "lugfnts.h"
 

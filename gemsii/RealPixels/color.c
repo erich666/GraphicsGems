@@ -40,7 +40,7 @@ int fwritecolrs(COLR* scanline, int len, FILE* fp)		/* write out a colr scanline
 	int  c2;
 	
 	if (len < MINELEN)		/* too small to encode */
-		return(fwrite((char *)scanline,sizeof(COLR),len,fp) - len);
+		return (int)(fwrite((char *)scanline,sizeof(COLR),len,fp) - len);
 	if (len > 32767)		/* too big! */
 		return(-1);
 	putc(2, fp);			/* put magic header */

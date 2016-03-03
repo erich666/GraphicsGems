@@ -1,4 +1,5 @@
 
+#include <float.h>
 #define _USE_MATH_DEFINES
 #include <math.h>
 
@@ -65,8 +66,6 @@ canonical cube is centered about the origin, with faces at X=-1, X=1, Y=-1,
 Y=1, Z=-1, and Z=1.
 ****************************************************************************/
 
-//#define MAXFLOAT 666
-
 void cube_volume(min, max, ctm)
 vec3 min, max;			/* returned minimum and maximum of extent */
 mat4 ctm;			/* cumulative transformation */
@@ -78,8 +77,8 @@ mat4 ctm;			/* cumulative transformation */
       {-1, -1,  1},	{1, -1,  1},	{-1,  1,  1},	{1,  1,  1}
    };
 
-   min[0] = min[1] = min[2] = MAXFLOAT;
-   max[0] = max[1] = max[2] = -MAXFLOAT;
+   min[0] = min[1] = min[2] = FLT_MAX;
+   max[0] = max[1] = max[2] = -FLT_MAX;
 
    for (i=0; i<8; i++) {
       transform_point(point, corners[i], ctm);
@@ -106,8 +105,8 @@ int  num;			/* number of vertices in list */
    int  i;
    vec3 point;
 
-   min[0] = min[1] = min[2] = MAXFLOAT;
-   max[0] = max[1] = max[2] = -MAXFLOAT;
+   min[0] = min[1] = min[2] = FLT_MAX;
+   max[0] = max[1] = max[2] = -FLT_MAX;
 
    for (i=0; i<num; i++) {
       transform_point(point, verts[i], ctm);

@@ -1,9 +1,7 @@
 
 #include "fakeirisgl.h"
 
-#ifdef WIN32
 unsigned int sleep(unsigned int);
-#endif
 
 #define STEP_SIZE 4    /* # of pixels in each step */
 
@@ -73,8 +71,6 @@ long orient,*angle,level;
    step(*angle);
    peano(orient,angle,level);
 }
-
-void sleep(int);
 
 int main()
 {
