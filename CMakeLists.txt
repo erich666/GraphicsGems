@@ -19,6 +19,8 @@ add_library(FakeIrisGL fakeirisgl.h fakeirisgl.c)
 add_library(GraphicsGems GraphicsGems.h GraphicsGems.c)
 add_library(GetOpt getopt.h getopt.c)
 
+target_link_libraries(GraphicsGems m)
+
 add_subdirectory(gems)
 add_subdirectory(gemsii)
 add_subdirectory(gemsiii)

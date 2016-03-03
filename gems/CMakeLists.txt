@@ -56,9 +56,7 @@ set_property(TARGET
 		
 	PROPERTY FOLDER "GraphicsGems I")
 
+target_link_libraries(Label m)
 target_link_libraries(FitCurves GraphicsGems)
 target_link_libraries(NearestPoint GraphicsGems)
 
-#if(CMAKE_COMPILER_IS_GNUCC)
-#		target_link_libraries(collide m)
-#endif()
