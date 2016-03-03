@@ -18,6 +18,9 @@ include_directories(.)
 add_library(FakeIrisGL fakeirisgl.h fakeirisgl.c)
 add_library(GraphicsGems GraphicsGems.h GraphicsGems.c)
 add_library(GetOpt getopt.h getopt.c)
+if(MSVC)
+	add_library(m math.c)
+endif()
 
 target_link_libraries(GraphicsGems m)
 
