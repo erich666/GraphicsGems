@@ -30,11 +30,13 @@
  * Subrutinas para entrada y salida de ficheros.
  */
 
+#ifndef WIN32
+#include <unistd.h>
+#endif
 #include "lug.h"
 #include "lugfnts.h"
 
 extern int getpid();
-extern char *getenv();
 
 static char aux_file[80];      /* temporal file for uncompressing files */
 
@@ -94,9 +96,9 @@ char *mode;
   return handle;
 }
 
-exist_file( name )
-char *name;
+int exist_file(char* name)
 {
+#ifndef WIN32
   int len = strlen(name) - 1;
   char aux[132];
 
@@ -126,23 +128,24 @@ char *name;
   sprintf( aux, "%s.Z", name );
   if ( !access( aux, 0 ) )
     return FILE_WITH_COMPRESS;   /* we have a <name>.Z file */
-
+#endif
   /* Oopppsssss!, no file */
   return FILE_NO_EXIST;
 }
 
-Fclose( handle )
-FILE *handle;
+int Fclose(FILE* handle )
 {
   if ( handle != stdout && handle != stdin )
     return fclose( handle );
   else return 0;
 }
 
-rm_compress()
+void rm_compress()
 {
+#ifndef WIN32
   if ( access( aux_file, 0 ) == 0 )
     unlink( aux_file );
+#endif
 }
 
 char *read_file(handle, bytes)
@@ -163,7 +166,7 @@ int *bytes;
 
     /* Read in chunks of BUFSIZ. */
     buffer = (char *) Malloc( BUFSIZ );
-    while ( (n = fread( buffer + bufsize, 1, BUFSIZ, handle )) == BUFSIZ ) {
+    while ( (n = (int)fread( buffer + bufsize, 1, BUFSIZ, handle )) == BUFSIZ ) {
       bufsize += BUFSIZ;
       buffer = (char *) realloc( buffer, bufsize + BUFSIZ );
     }
@@ -171,7 +174,7 @@ int *bytes;
       n += bufsize;
     else
       n = bufsize;
-    *bytes = n;
+    *bytes = (int)n;
   }
 
   /* Return the buffer */
@@ -213,8 +216,7 @@ FILE *handle;
   putc( MSB(value), handle );
 }
 
-getshortMSBF( handle )
-FILE *handle;
+int getshortMSBF(FILE* handle )
 {
   int aux;
 
@@ -224,8 +226,7 @@ FILE *handle;
   return aux;
 }
 
-getshortLSBF( handle )
-FILE *handle;
+int getshortLSBF(FILE* handle )
 {
   int aux;
 

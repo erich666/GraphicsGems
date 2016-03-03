@@ -45,10 +45,13 @@ int PntOnLine(px,py,qx,qy,tx,ty)
 	 * the case where the line is of zero length. Remove this if
 	 * such a case is impossible.
 	 */
-	if ((px == qx) && (py == qy))
-		if ((tx == px) && (ty == py)) return 2;
-		else return 0;
-
+       if ((px == qx) && (py == qy)) {
+        if ((tx == px) && (ty == py)) {
+            return 2;
+        } else {
+            return 0;
+        }
+       }
 
     if ( ABS((qy-py)*(tx-px)-(ty-py)*(qx-px)) >=
         (MAX(ABS(qx-px), ABS(qy-py)))) return(0);

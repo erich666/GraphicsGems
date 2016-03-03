@@ -5,14 +5,18 @@ from "Graphics Gems", Academic Press, 1990
 user must provide copy() function.
 */
 
+void copy(int i, int j) {
+	// user provided
+}
+
 /*
  * Code fragment to advance from one element to the next.
  *
- * int reg;				/* current sequence element
- * reg = 1;				/* start in any non-zero state
- * if (reg & 1)				/* is the bottom bit set?
- * 	reg = (reg >>1) ^ MASK;		/* yes: toss out 1 bit; XOR in mask
- * else reg = reg >>1;			/* no: toss out 0 bit 
+ * int reg;				current sequence element
+ * reg = 1;				start in any non-zero state
+ * if (reg & 1)				is the bottom bit set?
+ * 	reg = (reg >>1) ^ MASK;		yes: toss out 1 bit; XOR in mask
+ * else reg = reg >>1;			no: toss out 0 bit
  */
 
 int randmasks[32];	/* Gotta fill this in yourself. */
@@ -30,8 +34,7 @@ int bitwidth (N)	/* find "bit-width" needed to represent N */
 
 }						/* end of bitwidth() */
 
-dissolve1 (height, width)	/* first version of the dissolve 								/* algorithm */
-	int height, width;	/* number of rows, columns */
+void dissolve1 (int height, int width)	/* first version of the dissolve algorithm */
 {
 	int pixels, lastnum;	/* number of pixels; */
 				/* last pixel's number */
@@ -74,8 +77,7 @@ dissolve1 (height, width)	/* first version of the dissolve 								/* algorithm 
 
 
 
-dissolve2 (height, width)	/* fast version of the dissolve algorithm */
-	int height, width;	/* number of rows, columns */
+void dissolve2 (int height, int width)	/* fast version of the dissolve algorithm */
 {
 	int rwidth, cwidth;	/* bit width for rows, for columns */
 	int regwidth;		/* "width" of sequence generator */
@@ -111,8 +113,7 @@ dissolve2 (height, width)	/* fast version of the dissolve algorithm */
 
 	    /* Compute the next sequence element */
 		if (element & 1)		/* is the low bit set? */
-		element = (element >>1)^mask; /* yes: shift value, /*
-						/* XOR in mask */
+		element = (element >>1)^mask; /* yes: shift value, XOR in mask */
 		else element = (element >>1); /* no: just shift the value */
 	} while (element != 1); 	/* loop until we return to */
 					/*  original element */

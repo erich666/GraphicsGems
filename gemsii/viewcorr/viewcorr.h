@@ -29,3 +29,6 @@ typedef struct ViewDataStruct {
 #else
 #define NUM_VIEW_PARMS 9
 #endif
+
+void propagate_rotate_change(ViewParms* view_parms);
+void iterate_view_parms(ViewData* datapts, ViewParms* view_parms, int num_iterations);

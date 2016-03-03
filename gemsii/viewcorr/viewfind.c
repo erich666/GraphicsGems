@@ -10,11 +10,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-#include "../GraphicsGems.h"
+#include "GraphicsGems.h"
 #include "matrix.h"
 #include "viewcorr.h"
 
-read_points_and_view( infile, datapts, view_parms )
+void read_points_and_view( infile, datapts, view_parms )
 FILE * infile;
 ViewData *datapts;
 ViewParms *view_parms;
@@ -71,7 +71,7 @@ ViewParms *view_parms;
     }
 }
 
-dump_points_and_view( dumpfile, datapts, view_parms )
+void dump_points_and_view( dumpfile, datapts, view_parms )
 FILE * dumpfile;
 ViewData *datapts;
 ViewParms *view_parms;
@@ -111,7 +111,7 @@ ViewParms *view_parms;
     }
 }
 
-dump_rayshade_parms( dumpfile, view_parms )
+void dump_rayshade_parms( dumpfile, view_parms )
 FILE * dumpfile;
 ViewParms *view_parms;
 {
@@ -132,12 +132,12 @@ ViewParms *view_parms;
 		halfx = (int) (2.0*view_parms->halfx - view_parms->xcenter);
 	}
 	else
-		halfx = view_parms->xcenter;
+		halfx = (int)view_parms->xcenter;
 	if (view_parms->halfy > view_parms->ycenter) {
 		halfy = (int) (2.0*view_parms->halfy - view_parms->ycenter);
 	}
 	else
-		halfy = view_parms->ycenter;
+		halfy = (int)view_parms->ycenter;
 	ds = view_parms->d_over_s;
 	if (ds < 0.0) {
 		V3Negate(&up);
@@ -165,8 +165,7 @@ ViewParms *view_parms;
 		 (1.0/(ds * view_parms->aspect))) * RTOD * 2.0);
 }
 
-main(argc, argv)
-	char **argv;
+int main(int argc, char** argv)
 {
 	ViewData datapts;
 	ViewParms view_parms;

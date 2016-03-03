@@ -43,6 +43,7 @@ void ortho2(float, float, float, float);
 void RGBcolor(int r, int g, int b);
 void circ();
 void v2d(double*);
+void v2i(int*);
 void v3f();
 void endline();
 void prefsize(int, int);
@@ -70,6 +71,7 @@ void keepaspect(int x, int y);
 void prefposition(int a, int b, int c, int d);
 void translate(float a, float b, float c);
 int qtest();
+void foreground();
 
 #ifdef __cplusplus
 }

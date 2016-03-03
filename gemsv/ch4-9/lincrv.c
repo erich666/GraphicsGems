@@ -22,9 +22,9 @@ static void lerp(Knot t, Knot a0, Knot a1, Vect p0, Vect p1, int m, Vect p)
     n+1 of them are provided. The work array must have room for n+1 points.
  */
 int DialASpline(Knot t, Knot a[], Vect p[], int m, int n, Vect work[],
-                    unsigned int Cn, Bool interp, Vect val)
+	int Cn, Bool interp, Vect val)
 {
-    register int i, j, k, h, lo, hi;
+    int i, j, k, h, lo, hi;
 
     if (Cn>n-1) Cn = n-1;       /* Anything greater gives one polynomial */
     for (k=0; t> a[k]; k++);    /* Find enclosing knot interval */

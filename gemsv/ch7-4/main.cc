@@ -2,19 +2,20 @@
 // Gems V: Spatial Partitioning of a Polygon by a Plane
 // by George Vanecek Jr, Sept. 1994
 
+#include <iostream>
 #include "polygon.h"
 
 static void printPolys( const char* const label, const List<Polygon>& pL )
 {
   if( pL.size() ) {
-    cout << "----------" << endl
-	 << pL.size() << " polygon(s) " << label << endl;
+    std::cout << "----------" << std::endl
+	 << pL.size() << " polygon(s) " << label << std::endl;
     forEachItemOnList( pL ) {
-      cout << "  Polygon:" << endl;
+      std::cout << "  Polygon:" << std::endl;
       const Polygon* const g = getItem(Polygon);
       forEachDEdgeOfPoly(d1,g) {
 	const Point& p = d1->srcPoint();
-	cout << "  " << p.x() << ' ' << p.y() << ' ' << p.z() << endl;
+	std::cout << "  " << p.x() << ' ' << p.y() << ' ' << p.z() << std::endl;
       }
     }
   }
@@ -36,9 +37,9 @@ int main( )
     Point( 2,3,0), Point( 1,6,0), Point( 0,6,0)
   };
   Polygon* g = new Polygon( 30, pts );
-  cout << "Before:" << endl;
+  std::cout << "Before:" << std::endl;
   forEachDEdgeOfPoly(d1,g)
-    cout << d1->srcPoint() << endl;
+    std::cout << d1->srcPoint() << std::endl;
   List<Polygon> above;
   List<Polygon> on;
   List<Polygon> below;

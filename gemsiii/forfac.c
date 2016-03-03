@@ -5,6 +5,7 @@ is computed and displayed.
 
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include <stdio.h>
 
 #define MIN   -2.0		/* Minimum value of a ct coordinate */
 #define MAX    1.0		/* Maximum value of a ct coordinate */
@@ -12,17 +13,16 @@ is computed and displayed.
 
 /* Calculate the form-factor of a cell centered at (u,v) with area a. */
 
-float formFactor(u, v, a)
-  float u, v, a;
+float formFactor(float u, float v, float a)
 {
   float	r = u*u + v*v + 1;
-  return (a * (u + v + 1) / (M_PI * r*r * sqrt(3.0)));
+  return (a * (u + v + 1) / ((float)M_PI * r*r * sqrtf(3.f)));
 }
 
 
 
 
-main ()
+int main ()
 {
   int	left, right, top, bottom,	/* Cell index boundaries */
 		row, column;		/* Current cell indices */
@@ -39,9 +39,9 @@ main ()
 
 /* Initialize cell values */
 
-  delta = (MAX - MIN) / SUBDIV;  halfDelta = delta / 2.0;
-  area  = delta * delta;         halfArea  = area / 2.0;
-  y = z = MAX - halfDelta;
+  delta = (MAX - MIN) / SUBDIV;  halfDelta = delta / 2.f;
+  area  = delta * delta;         halfArea  = area / 2.f;
+  y = z = (float)MAX - halfDelta;
 
 /* Calculate and display delta form factors */
 

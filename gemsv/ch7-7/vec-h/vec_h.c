@@ -369,7 +369,7 @@ void define(d, name_and_args, all_but_last, sep, last)
 int d;
 char *name_and_args, *all_but_last, *sep, *last;
 {
-    int i;
+    int i = 0;
 
     printf("#define ");
     printformatted(name_and_args, d, 0);
@@ -434,8 +434,7 @@ int d;
 
 #define MINDIM 2
 
-main(argc, argv)
-char **argv;
+int main(int argc, char** argv)
 {
     int i, d, maxdim;
 
@@ -457,8 +456,8 @@ char **argv;
 
     for (d = MINDIM; d <= maxdim; ++d)
 	for (i = 0; i < numberof(defs); ++i) {
-	    if (is_substring("%d-1", defs[i].name_and_args) && d-1 < MINDIM
-	     || is_substring("%d+1", defs[i].name_and_args) && d+1 > maxdim)
+	    if ((is_substring("%d-1", defs[i].name_and_args) && d-1 < MINDIM)
+	     || (is_substring("%d+1", defs[i].name_and_args) && d+1 > maxdim))
 		continue;
 	    if (!is_substring("%d", defs[i].name_and_args) && d != MINDIM)
 		continue;	/* don't redefine if it's the same */
@@ -469,8 +468,8 @@ char **argv;
 	}
     for (d = MINDIM; d <= maxdim; ++d)
 	for (i = 0; i < numberof(defs); ++i) {
-	    if (is_substring("%d-1", defs[i].name_and_args) && d-1 < MINDIM
-	     || is_substring("%d+1", defs[i].name_and_args) && d+1 > maxdim)
+	    if ((is_substring("%d-1", defs[i].name_and_args) && d-1 < MINDIM)
+	     || ((is_substring("%d+1", defs[i].name_and_args) && d+1 > maxdim)))
 		continue;
 	    if (!is_substring("%d", defs[i].name_and_args) && d != MINDIM)
 		continue;	/* don't redefine if it's the same */

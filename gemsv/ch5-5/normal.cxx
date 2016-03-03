@@ -1,8 +1,8 @@
-#include <iostream.h>
+#include <iostream>
 
 #include "global.h"
 
-ostream& operator<<(ostream& o, normal& n) {
+std::ostream& operator<<(std::ostream& o, normal& n) {
         o<<"normal {\n";
         n.out(o);
         o<<"turbulence "<<n.t<<"\n";

@@ -35,9 +35,9 @@ static void Mul32(UINT32 x, UINT32 y, UINT32 *hi, UINT32 *lo)
  */
 Rational ratapprox(float x, INT32 limit)
 {
-    float tooLargeToFix = ldexp(1.0, BITS);         /* 0x4f000000=2147483648.0 */
-    float tooSmallToFix = ldexp(1.0, -BITS);        /* 0x30000000=4.6566e-10 */
-    float halfTooSmallToFix = ldexp(1.0, -BITS-1);  /* 0x2f800000=2.3283e-10 */
+    float tooLargeToFix = ldexpf(1.f, BITS);         /* 0x4f000000=2147483648.f */
+    float tooSmallToFix = ldexpf(1.f, -BITS);        /* 0x30000000=4.6566e-10 */
+    float halfTooSmallToFix = ldexpf(1.f, -BITS-1);  /* 0x2f800000=2.3283e-10 */
     int expForInt = 24;     /* This exponent in float makes mantissa an INT32 */
     static Rational ratZero = {0, 1};
     INT32 sign = 1;
@@ -52,36 +52,36 @@ Rational ratapprox(float x, INT32 limit)
     Rational val;
     
     if (limit <= 0) return (ratZero);       /* Insist limit > 0 */
-    if (x < 0.0) {x = -x; sign = -1;}
+    if (x < 0.f) {x = -x; sign = -1;}
     val.numer = sign; val.denom = limit;
     /* Handle first non-zero term of continued fraction,
         rest prepared for integer GCD, sure to fit.
      */
-    if (x >= 1.0) {/* First continued fraction term is non-zero */
+    if (x >= 1.f) {/* First continued fraction term is non-zero */
             float rest;
-            if (x >= tooLargeToFix || (ck = x) >= limit)
+			if (x >= tooLargeToFix || (INT32)(ck = (UINT32)x) >= limit)
                 {val.numer = sign*limit; val.denom = 1; return (val);}
             flip = TRUE;        /* Keep denominator larger, for fast loop test */
             nk = 1;  dk = ck;   /* Make new numerator and denominator */
             rest = x - ck;
-            frexp(1.0,&scale);
+            frexp(1.f,&scale);
             scale = expForInt - scale;
-            ak = ldexp(rest, scale);
-            ak1 = ldexp(1.0, scale);
+            ak = (UINT32)ldexpf(rest, scale);
+            ak1 = (UINT32)ldexpf(1.f, scale);
         } else {/* First continued fraction term is zero */
             int n;
             UINT32 num = 1;
             if (x <= tooSmallToFix) {       /* Is x too tiny to be 1/INT32 ? */
                 if (x <= halfTooSmallToFix) return (ratZero);
-                if (limit > (UINT32)(0.5/x)) return (val);
+                if (limit > (INT32)(0.5f/x)) return (val);
                 else return (ratZero);
             }
-            /* Treating 1.0 and x as integers, divide 1/x in a peculiar way
+            /* Treating 1.f and x as integers, divide 1/x in a peculiar way
                 to get accurate remainder
              */
             frexp(x,&scale);
             scale = expForInt - scale;
-            ak1 = ldexp(x, scale);
+            ak1 = (UINT32)ldexpf(x, scale);
             n = (scale<BITS)?scale:BITS;    /* Stay within UINT32 arithmetic */
             num <<= n;
             ck = num/ak1;                   /* First attempt at 1/x */
@@ -93,8 +93,8 @@ Rational ratapprox(float x, INT32 limit)
                 ak = num%ak1;               /* Reduce remainder */
             }
             /* All done with divide */
-            if (ck >= limit) {              /* Is x too tiny to be 1/limit ? */
-                if (2*limit > ck)
+            if ((INT32)ck >= limit) {              /* Is x too tiny to be 1/limit ? */
+                if (2*limit > (INT32)ck)
                     return (val);
                 else return (ratZero);
             }

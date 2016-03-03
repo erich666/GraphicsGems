@@ -7,7 +7,7 @@
 #include "dedge.h"
 
 DEdge::DEdge( const Point& srcP, DEdge* const last )
-: sP(srcP), nxt(NULL), sPW(NOWHERE)
+: nxt(NULL), sP(srcP), sPW(NOWHERE)
 {
   last->nxt = this;
   prv       = last;

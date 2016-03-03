@@ -22,7 +22,7 @@ Exit:
   areas - relative areas of sub-triangles of polygon
 *******************************************************************/
 
-triangle_areas (vertices, vcount, areas)
+void triangle_areas (vertices, vcount, areas)
   	Point3 vertices[];
 	int vcount;
   	float areas[];
@@ -65,7 +65,7 @@ Exit:
   p - position in polygon
 *********************************************************************/
 
-square_to_polygon (vertices, vcount, areas, s, t, p)
+void square_to_polygon (vertices, vcount, areas, s, t, p)
  	Point3 vertices[];
   	int vcount;
   	float areas[];

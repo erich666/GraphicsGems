@@ -49,6 +49,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include "GraphicsGems.h"
+#include "getopt.h"
 
 static char	_Program[] = "fzoom";
 static char	_Version[] = "0.30";
@@ -155,7 +156,7 @@ FILE *f;
 
 	while(t == NULL) {			/* nothing in the buffer */
 		if(fgets(lnbuf, sizeof(lnbuf), f)) {	/* read a line */
-			if(p = strchr(lnbuf, '#')) {	/* clip any comment */
+			if((p = strchr(lnbuf, '#'))) {	/* clip any comment */
 				*p = '\0';
 			}
 			t = strtok(lnbuf, delim);	/* get first token */
@@ -250,9 +251,9 @@ int xsize, ysize;
 	Image *image;
 	ASSERT(xsize > 0 && ysize > 0);
 
-	if(image = (Image *)malloc(sizeof(Image)))
+	if((image = (Image *)malloc(sizeof(Image))))
 	{
-		if(image->data = (Pixel *)calloc(ysize, xsize))
+		if((image->data = (Pixel *)calloc(ysize, xsize)))
 		{
 			image->xsize = xsize;
 			image->ysize = ysize;
@@ -283,13 +284,10 @@ Image *image;
 	Returns type of file based on its name.
 	Returns the empty string if filename has no extension 
 */
-char*
-fileextension(f)
-char* f;
+char* fileextension(char* f)
 {
 	/* Get a filename's extension string. */
-	int i;
-	for(i = strlen(f) - 1; i > 0; i--)
+	for(size_t i = strlen(f) - 1; i > 0; i--)
 	{
 		if(f[i] == '.')
 			return f + i + 1;
@@ -500,7 +498,7 @@ char* f;
 	int i;
 	for(i = 0; i < sizeof(gImageHandlers) / sizeof(gImageHandlers[0]); i++)
 	{
-		if(stricmp(gImageHandlers[i].filetype, fileextension(f)) == 0)
+		if(strcmp(gImageHandlers[i].filetype, fileextension(f)) == 0)
 			return &gImageHandlers[i];
 	}
 	return NULL;
@@ -517,7 +515,7 @@ Image *
 load_image(f)		/* read image from file */
 char *f;
 {
-	Image *image;
+	Image *image = NULL;
 	FILE* fp;
 	ImageHandler* handler;
 
@@ -527,7 +525,7 @@ char *f;
 	if(fp == NULL)
 		return NULL;
 
-	if(handler = find_imagehandler(f))
+	if((handler = find_imagehandler(f)))
 		image = handler->reader(fp);
 
 	fclose(fp);
@@ -555,7 +553,7 @@ Image* image;
 	fp = fopen(f, "wb");
 	if(fp != NULL)
 	{
-		if(handler = find_imagehandler(f))
+		if((handler = find_imagehandler(f)))
 			nRet = handler->writer(fp, image);
 
 		fclose(fp);

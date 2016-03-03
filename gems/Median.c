@@ -1,8 +1,8 @@
 /*
-Median Finding on a 3-by-3 Grid
-by Alan Paeth
-from "Graphics Gems", Academic Press, 1990
-*/
+ Median Finding on a 3-by-3 Grid
+ by Alan Paeth
+ from "Graphics Gems", Academic Press, 1990
+ */
 
 #define s2(a,b) {register int t; if ((t=b-a)<0) {a+=t; b-=t;}}
 #define mn3(a,b,c) s2(a,b); s2(a,c);
@@ -11,17 +11,16 @@ from "Graphics Gems", Academic Press, 1990
 #define mnmx4(a,b,c,d) s2(a,b); s2(c,d); s2(a,c); s2(b,d);
 #define mnmx5(a,b,c,d,e) s2(a,b); s2(c,d); mn3(a,c,e); mx3(b,d,e);
 #define mnmx6(a,b,c,d,e,f) s2(a,d); s2(b,e); s2(c,f);\
-                            mn3(a,b,c); mx3(d,e,f);
-med3x3(b1, b2, b3)
-    int *b1, *b2, *b3;
-/*
- * Find median on a 3x3 input box of integers.
- * b1, b2, b3 are pointers to the left-hand edge of three
- * parallel scan-lines to form a 3x3 spatial median.
- * Rewriting b2 and b3 as b1 yields code which forms median
- * on input presented as a linear array of nine elements.
- */
-    {
+mn3(a,b,c); mx3(d,e,f);
+int med3x3(int* b1, int* b2, int* b3)
+{
+    /*
+     * Find median on a 3x3 input box of integers.
+     * b1, b2, b3 are pointers to the left-hand edge of three
+     * parallel scan-lines to form a 3x3 spatial median.
+     * Rewriting b2 and b3 as b1 yields code which forms median
+     * on input presented as a linear array of nine elements.
+     */
     register int r1, r2, r3, r4, r5, r6;
     r1 = *b1++; r2 = *b1++; r3 = *b1++;
     r4 = *b2++; r5 = *b2++; r6 = *b2++;
@@ -33,7 +32,7 @@ med3x3(b1, b2, b3)
     r1 = *b3++;
     mnmx3(r1, r2, r3);
     return(r2);
-    }
+}
 
 
 /* t2(i,j) transposes elements in A[] such that A[i] <= A[j] */
@@ -41,20 +40,19 @@ med3x3(b1, b2, b3)
 #define t2(i, j) s2(A[i-1], A[j-1])
 
 
-int median25(A)
-    int A[25];
-    {
-/*
- * median25(A) partitions the array A[0..24] such that element
- * A[12] is the median and subarrays A[0..11] and A[13..24]
- * are partitions containing elements of smaller and larger
- * value (rank), respectively.
- *
- * The exchange table lists element indices on the range 1..25,
- * this accounts for the "-1" offsets in the macro t2 and in
- * the final return value used to adjust subscripts to C-code
- * conventions (array indices begin at zero).
- */
+int median25(int A[25])
+{
+    /*
+     * median25(A) partitions the array A[0..24] such that element
+     * A[12] is the median and subarrays A[0..11] and A[13..24]
+     * are partitions containing elements of smaller and larger
+     * value (rank), respectively.
+     *
+     * The exchange table lists element indices on the range 1..25,
+     * this accounts for the "-1" offsets in the macro t2 and in
+     * the final return value used to adjust subscripts to C-code
+     * conventions (array indices begin at zero).
+     */
     t2( 1, 2); t2( 4, 5); t2( 3, 5); t2( 3, 4); t2( 7, 8);
     t2( 6, 8); t2( 6, 7); t2(10,11); t2( 9,11); t2( 9,10);
     t2(13,14); t2(12,14); t2(12,13); t2(16,17); t2(15,17);
@@ -76,4 +74,4 @@ int median25(A)
     t2(13,18); t2( 8,18); t2( 8,11); t2(13,19); t2( 8,13);
     t2(11,19); t2(13,21); t2(11,21); t2(11,13);
     return(A[13-1]);
-    }
+}

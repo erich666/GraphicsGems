@@ -47,10 +47,7 @@ static double middlelon;		/* longitude at center of map */
 static double bigC, cone_const, r0;	/* See the reference */
 
 static
-calc_q_msq(lat, qp, msqp)
-double lat;
-double *qp;
-double *msqp;
+void calc_q_msq( double lat, double *qp, double *msqp)
 /*
  * Given latitude, calculate 'q' [eq 3-12] 
  * if msqp is != NULL, m^2  [eq. 12-15].
@@ -71,13 +68,7 @@ double *msqp;
 	}
 }
 
-
-
-
-albers_setup(southlat, northlat, originlon, originlat)
-double southlat, northlat;
-double originlon;
-double originlat;
+void albers_setup(double southlat, double northlat, double originlon, double originlat)
 /*
  * Pre-compute a bunch of variables which are used by the 
  * albers_project()
@@ -105,9 +96,7 @@ double originlat;
 
 /***************************************************************/
 
-albers_project(lon, lat, xp, yp)
-double lon, lat;
-double *xp, *yp;
+void albers_project(double lon, double lat, double *xp, double *yp)
 /*
  * Project lon/lat (in radians) according to albers_setup and 
  * return the results via xp, yp. Units of *xp and *yp are same

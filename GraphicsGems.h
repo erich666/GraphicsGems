@@ -46,7 +46,7 @@ typedef struct IntPoint3Struct {	/* 3d integer point */
 
 typedef struct Matrix4Struct {	/* 4-by-4 matrix */
 	double element[4][4];
-	} Matrix4;
+} Matrix4;
 
 typedef struct Box3dStruct {		/* 3d box */
 	Point3 min, max;
@@ -114,15 +114,15 @@ if (!(x)) fprintf(stderr," Assert failed: x\n");
 /* useful constants */
 /********************/
 
-#define PI		3.141592	/* the venerable pi */
-#define PITIMES2	6.283185	/* 2 * pi */
-#define PIOVER2		1.570796	/* pi / 2 */
-#define E		2.718282	/* the venerable e */
-#define SQRT2		1.414214	/* sqrt(2) */
-#define SQRT3		1.732051	/* sqrt(3) */
-#define GOLDEN		1.618034	/* the golden ratio */
-#define DTOR		0.017453	/* convert degrees to radians */
-#define RTOD		57.29578	/* convert radians to degrees */
+#define PI		3.141592f	/* the venerable pi */
+#define PITIMES2	6.283185f	/* 2 * pi */
+#define PIOVER2		1.570796f	/* pi / 2 */
+#define E		2.718282f	/* the venerable e */
+#define SQRT2		1.414214f	/* sqrt(2) */
+#define SQRT3		1.732051f	/* sqrt(3) */
+#define GOLDEN		1.618034f	/* the golden ratio */
+#define DTOR		0.017453f	/* convert degrees to radians */
+#define RTOD		57.29578f	/* convert radians to degrees */
 
 
 /************/
@@ -154,6 +154,8 @@ extern Point3 *V3MulPointByMatrix4(), *V3MulVectorByMatrix4();
 extern Matrix4 *V3MatMul();
 
 extern double RegulaFalsi(), NewtonRaphson(), findroot();
+
+Vector3 *V3Negate(Vector3* v);
 
 #endif
 

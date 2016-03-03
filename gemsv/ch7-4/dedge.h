@@ -11,7 +11,7 @@
 class DEdge {			// Directed Edge
 public:
   DEdge ( const Point& srcP )
-  : sP(srcP), nxt(this), prv(this), sPW(NOWHERE) { }
+  : nxt(this), prv(this), sP(srcP), sPW(NOWHERE) { }
   DEdge*           next( ) const { return nxt; }
   DEdge*           prev( ) const { return prv; }
   const Point& srcPoint( ) const { return sP; }

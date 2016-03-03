@@ -6,6 +6,7 @@
 #include <math.h>
 #include "GraphicsGems.h"
 #include "unmatrix.h"
+#include "../gems/MatrixInvert.h"
 
 /* unmatrix - Decompose a non-degenerate 4x4 transformation matrix into
  * 	the sequence of transformations that produced it.

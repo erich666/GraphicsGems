@@ -67,7 +67,7 @@ code1 = new chainCode();
 
 f_size.x = 2 + SCALE*size->x + 2;
 f_size.y = 2 + SCALE*size->y + 2;
-fatmap = malloc(f_size.x * f_size.y * sizeof(char));
+fatmap = (char*)malloc(f_size.x * f_size.y * sizeof(char));
 for (i=0; i<f_size.x * f_size.y; i++)
     fatmap[i] = WHITE;
 for (j=0; j<size->y; j++)

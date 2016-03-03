@@ -1,9 +1,9 @@
-#include <iostream.h>
+#include <iostream>
 #include <math.h>
 
 #include "global.h"
 
-ostream& operator<<(ostream& o, pigment& p) {
+std::ostream& operator<<(std::ostream& o, pigment& p) {
         o<<"pigment {\n";
         p.out(o);
         o<<"turbulence "<<p.t<<"\n"<<"octaves "<<p.o<<"\n";
@@ -14,7 +14,7 @@ ostream& operator<<(ostream& o, pigment& p) {
         return o;
 }
 
-ostream& operator<<(ostream& o, colormap& m) {
+std::ostream& operator<<(std::ostream& o, colormap& m) {
         o<<"color_map{\n";
         for(register int i=0; i<m.nI; i++) {
                 o<<"    ["<<m.I[i].b<<", "<<m.I[i].e;
@@ -24,6 +24,6 @@ ostream& operator<<(ostream& o, colormap& m) {
         return o;
 }
 
-ostream& operator<<(ostream& o, colormapped& m) {
+std::ostream& operator<<(std::ostream& o, colormapped& m) {
         o<<"undefined colormapped {\n"<<m.cm<<"}\n"; return o;
 }

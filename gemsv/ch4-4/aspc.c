@@ -9,7 +9,7 @@ typedef struct point { double t,x,y,z; } Point;
 #define Y(p)    ((p)->y)
 #define Z(p)    ((p)->z)
 
-extern void gamma(Point* p);            /* user supplied */
+extern void gammad(Point* p);            /* user supplied */
 extern void line(Point* p, Point* q);   /* user supplied */
 
 static int flat(Point* p, Point* q, Point* r);
@@ -19,7 +19,7 @@ static void sample(Point* p, Point* q)
  Point rr, *r=&rr;
  double t = 0.45 + 0.1 * (rand()/(double) RAND_MAX);
  T(r) = T(p) + t*(T(q)-T(p));
- gamma(r);
+ gammad(r);
  if (flat(p,q,r)) line(p,q); else { sample(p,r); sample(r,q); }
 }
 
@@ -38,7 +38,7 @@ void aspc(double a, double b)           /* entry point */
 {
  Point pp, *p = &pp;
  Point qq, *q = &qq;
- srand(time(0));                        /* randomize */
- T(p)= a; gamma(p); T(q)=b; gamma(q);   /* set up */
+ srand((unsigned int)time(0));                        /* randomize */
+ T(p)= a; gammad(p); T(q)=b; gammad(q);   /* set up */
  sample(p,q);                           /* sample */
 }

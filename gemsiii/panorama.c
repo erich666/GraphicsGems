@@ -1,7 +1,7 @@
 /*
  * Panoramic virtual screen implementation code fragment.
  *
- * Copyright (C) 1991, F. Kenton Musgrave 
+ * Copyright (C) 1991, F. Kenton Musgrave
  * All rights reserved.
  *
  * This code is an extension of Rayshade 4.0
@@ -9,13 +9,107 @@
  * All rights reserved.
  */
 
-/* Various declarations and vector routines are a part of Rayshade; most are
- * easy enough to do yourself.
- */
+ /* Various declarations and vector routines are a part of Rayshade; most are
+  * easy enough to do yourself.
+  */
 
-RSViewing()
+#include <math.h>
+#include <stdbool.h>
+#include <stdlib.h>
+
+typedef float RSMatrix[4][4];
+typedef struct {
+	float x;
+	float y;
+	float z;
+} Vector;
+typedef struct {
+	int lookp;
+	Vector pos;
+	Vector dir;
+	float lookdist;
+	Vector up;
+	float hfov;
+	float vfov;
+} CAMERA;
+CAMERA Camera;
+typedef struct {
+	Vector scrni;
+	Vector scrnj;
+	int xres;
+	int yres;
+	Vector scrnx;
+	Vector scrny;
+	int hincr;
+	Vector firstray;
+	Vector* horizdir;
+	Vector* eyepts;
+	Vector* vertdir;
+	int background;
+} SCREEN;
+SCREEN Screen;
+typedef struct {
+	int panorama;
+	bool stereo;
+	int eyesep;
+} OPTIONS;
+OPTIONS Options;
+typedef struct {
+	Vector origin;
+	Vector dir;
+} Ray;
+typedef struct { int r; int g; int b; } Pixel;
+typedef struct { int nodes; } HitList;
+typedef struct { int r; int g; int b; } Color;
+typedef struct { int EyeRays; } STATS;
+STATS Stats;
+
+#define RL_PANIC 1
+#define UNSET 1
+#define LEFT 1
+#define FAR_AWAY 1
+#define EPSILON 0.00001f
+
+void VecSub(int lookp, Vector pos, Vector* dir) {
+	// TODO
+}
+
+float VecNormalize(Vector* vector) {
+	// TODO
+	return 1.f;
+}
+
+float VecNormCross(Vector* dir, Vector* up, Vector* scrni) {
+	// TODO
+	return 1.f;
+}
+
+float deg2rad(float deg) {
+	// TODO
+	return 1.f;
+}
+void RLerror(int i, char* message) {
+	// TODO
+}
+
+void VecScale(float f, Vector v, Vector* res) {
+	// TODO
+}
+
+void RotationMatrix(float a, float b, float c, float d, RSMatrix* m) {
+	// TODO
+}
+
+void VecTransform(Vector* v, RSMatrix* m) {
+	// TODO
+}
+
+void VecAdd(Vector a, Vector b, Vector* res) {
+	// TODO
+}
+void RSViewing()
 {
-	Float magnitude;
+	float magnitude;
 	RSMatrix trans;
 	Vector eyeOffset;
 	int x, y;
@@ -32,8 +126,7 @@ RSViewing()
 	/* construct screen "x" (horizontal) direction vector */
 	if (!Options.panorama) {
 		/* standard virtual screen setup */
-		magnitude = 2.*Camera.lookdist * tan(deg2rad(0.5*Camera.hfov)) /
-					Screen.xres;
+		magnitude = 2.f*Camera.lookdist * tanf(deg2rad(0.5f*Camera.hfov)) / Screen.xres;
 		VecScale(magnitude, Screen.scrni, &Screen.scrnx);
 	} else {
 		/* For panorama option, we need an array of screen "x" vectors
@@ -42,46 +135,42 @@ RSViewing()
 		 * about the "up" vector) and point the "scrnx" vector to the
 		 * edge of the screen.
 		 */
-		Camera.lookdist = 1.;
+		Camera.lookdist = 1.f;
 		magnitude = -deg2rad(Camera.hfov);
-		Screen.hincr = magnitude / Screen.xres;
+		Screen.hincr = (int)(magnitude / Screen.xres);
 		Screen.scrnx = Camera.dir;
-	        RotationMatrix( Camera.up.x, Camera.up.y, Camera.up.z,
-				-0.5*magnitude, &trans );
+	        RotationMatrix( Camera.up.x, Camera.up.y, Camera.up.z, -0.5f*magnitude, &trans );
 		VecTransform( &Screen.scrnx, &trans );
 	}
 
 	/* construct screen "y" (vertical) direction vector */
-	magnitude = 2.*Camera.lookdist * tan(deg2rad(0.5*Camera.vfov)) /
-				Screen.yres;
+	magnitude = 2.f*Camera.lookdist * tanf(deg2rad(0.5f*Camera.vfov)) / Screen.yres;
 	VecScale(magnitude, Screen.scrnj, &Screen.scrny);
 
 	if (!Options.panorama) {
 		/* Construct ray direction for standard virtual screen */
-		Screen.firstray.x -= 0.5*(Screen.xres*Screen.scrnx.x +
+		Screen.firstray.x -= 0.5f*(Screen.xres*Screen.scrnx.x +
 				     	  Screen.yres*Screen.scrny.x);
-		Screen.firstray.y -= 0.5*(Screen.xres*Screen.scrnx.y +
+		Screen.firstray.y -= 0.5f*(Screen.xres*Screen.scrnx.y +
 				     	  Screen.yres*Screen.scrny.y);
-		Screen.firstray.z -= 0.5*(Screen.xres*Screen.scrnx.z +
+		Screen.firstray.z -= 0.5f*(Screen.xres*Screen.scrnx.z +
 				     	  Screen.yres*Screen.scrny.z);
 	} else {
 		/* Panorama option: requires that we allocate & fill horizontal
 		 * and vertical direction arrays.
 		 */
-		Screen.horizdir = (Vector *)Malloc((Screen.xres+1) *
-						   sizeof(Vector));
+		Screen.horizdir = (Vector *)malloc((Screen.xres+1) * sizeof(Vector));
 
 		/* Set eye separation for stereo rendering */
 		if (Options.stereo) {
 			if (Options.eyesep == UNSET)
 				RLerror(RL_PANIC,
 				 	 "No eye separation specified.\n");
-			Screen.eyepts = (Vector *)Malloc((Screen.xres+1) *
-						   	 sizeof(Vector));
+			Screen.eyepts = (Vector *)malloc((Screen.xres+1) * sizeof(Vector));
 			if (Options.stereo == LEFT)
-				magnitude = .5 * Options.eyesep;
+				magnitude = 0.5f * Options.eyesep;
 			else
-				magnitude =  -.5 * Options.eyesep;
+				magnitude =  -0.5f * Options.eyesep;
 			eyeOffset.x = magnitude * Screen.scrni.x;
 			eyeOffset.y = magnitude * Screen.scrni.y;
 			eyeOffset.z = magnitude * Screen.scrni.z;
@@ -95,39 +184,38 @@ RSViewing()
 		 */
 		for ( x=0; x<=Screen.xres; x++ ) {
 			Screen.horizdir[x] = Screen.scrnx;
-	        	RotationMatrix( Camera.up.x, Camera.up.y, Camera.up.z,
-					x*Screen.hincr, &trans );
+	        	RotationMatrix( Camera.up.x, Camera.up.y, Camera.up.z, (float)(x*Screen.hincr), &trans );
 			VecTransform( &Screen.horizdir[x], &trans );
 			/* Offset the eyepoints for stereo panorama */
 			if (Options.stereo) {
 				Screen.eyepts[x] = eyeOffset;
 				VecTransform( &Screen.eyepts[x], &trans );
-				VecAdd( Screen.eyepts[x], Camera.pos,
-					&Screen.eyepts[x] );
+				VecAdd( Screen.eyepts[x], Camera.pos, &Screen.eyepts[x] );
 			}
 		}
 
 		/* The vertical ("y") array varies as the tangent of "scrny". */
-		Screen.vertdir = (Vector *)Malloc((Screen.yres+1) *
-						  sizeof(Vector));
+		Screen.vertdir = (Vector *)malloc((Screen.yres+1) * sizeof(Vector));
 		for ( y=0; y<=Screen.yres; y++ ) {
 			Screen.vertdir[y] = Screen.scrny;
-			magnitude = 0.5*Camera.vfov -
-				    Camera.vfov * ((Float)y/Screen.yres);
-			magnitude = tan(deg2rad(magnitude));
+			magnitude = 0.5f * Camera.vfov - Camera.vfov * ((float)y/Screen.yres);
+			magnitude = tanf(deg2rad(magnitude));
 			VecScale(-magnitude, Screen.scrnj, &Screen.vertdir[y]);
 		}
 	}
 
 } /* RSViewing() */
 
+void TraceRay(Ray* ray, HitList* hitlist, float epsilon, float* dist) {
+	// TODO
+}
 
-SampleScreen(x, y, ray, color)
-Float x, y;		/* Screen position to sample */
-Ray *ray;		/* ray, with origin and medium properly set */
-Pixel *color;		/* resulting color */
+void SampleScreen(float x, float y, Ray* ray, Pixel* color)
+//float x, y;		/* Screen position to sample */
+//Ray *ray;		/* ray, with origin and medium properly set */
+//Pixel *color;		/* resulting color */
 {
-	Float dist;
+	float dist;
 	HitList hitlist;
 	Color ctmp, fullintens;
 	extern void ShadeRay();
@@ -146,11 +234,14 @@ Pixel *color;		/* resulting color */
 		if (Options.stereo)
 			ray->origin = Screen.eyepts[ix];
 		ray->dir.x = Screen.horizdir[ix].x +
-			     (Screen.horizdir[ix+1].x - Screen.horizdir[ix].x)
-			     * (x-ix) +
+			(Screen.horizdir[ix + 1].x - Screen.horizdir[ix].x)
+			* x;
+#if 0
+			* (x - ix);// +
 			     Screen.vertdir[iy].x +
 			     (Screen.horizdir[iy+1].x - Screen.horizdir[iy].x)
 			     * (y-iy);
+#endif
 		ray->dir.y = Screen.horizdir[ix].y +
 			     (Screen.horizdir[ix+1].y - Screen.horizdir[ix].y)
 			     * (x-ix) +
@@ -177,7 +268,7 @@ Pixel *color;		/* resulting color */
 	/*
 	 * Do the actual ray trace.
 	 */
-	fullintens.r = fullintens.g = fullintens.b = 1.;
+	fullintens.r = fullintens.g = fullintens.b = 1;
 	dist = FAR_AWAY;
 	hitlist.nodes = 0;
 	(void)TraceRay(ray, &hitlist, EPSILON, &dist);

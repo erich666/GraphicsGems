@@ -48,12 +48,15 @@
  *
  */
 
+
+
 #include <math.h>
 #include "BezierCode.h"   /* arbitrary name, see above */
  
 #define SQRT2      1.4142135623730951
 #define ONE_OVER15 0.0666666666666667
 #define ABS(x)     (x)<0?-(x):(x)
+
 
 /* Forward declarations: */
 static double destructive_length_1a(BezierCurve *b, double eps);
@@ -63,6 +66,12 @@ static double destructive_length_2r(BezierCurve *b, double eps);
 static double destructive_length_3a(BezierCurve *b, double La0, double eps);
 static double destructive_length_3r(BezierCurve *b, double La0, double eps); 
 
+double degree(BezierCurve *b);
+BezierCurve *DiffBezierCurve(BezierCurve *b); 
+double sum_of_length(BezierCurve *b);
+double length_of_sum(BezierCurve *b);
+void FreeBezierCurve(BezierCurve *b);
+BezierCurve *destructive_subdiv(BezierCurve *b); 
 
 
 /*********************************************************************
@@ -86,9 +95,11 @@ static double destructive_length_3r(BezierCurve *b, double La0, double eps);
  *
  *------------------------------------------------------------------
  */
-double BezierLength1a(b, eps)
+double BezierLength1a(BezierCurve* b, double eps)
+#if 0
      BezierCurve *b;            /* The Bezier Curve */
      double eps;                /* The given tolerance */
+#endif
 {
   BezierCurve *db;
 

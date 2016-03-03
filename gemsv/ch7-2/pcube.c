@@ -73,16 +73,17 @@ polygon_contains_point_3d(int nverts, const real verts[/* nverts */][3],
     FOR(i,nverts) {
 	v = verts[i];
 	w = verts[(i+1)%nverts];
-	if (xdirection = seg_contains_point(v[xaxis], w[xaxis], point[xaxis])) {
-	    if (seg_contains_point(v[yaxis], w[yaxis], point[yaxis])) {
-		if (xdirection * (point[xaxis]-v[xaxis])*(w[yaxis]-v[yaxis]) <= 
-		    xdirection * (point[yaxis]-v[yaxis])*(w[xaxis]-v[xaxis]))
-		    count += xdirection;
-	    } else {
-		if (v[yaxis] <= point[yaxis])
-		    count += xdirection;
-	    }
-	}
+        xdirection = seg_contains_point(v[xaxis], w[xaxis], point[xaxis]);
+        if(xdirection) {
+            if (seg_contains_point(v[yaxis], w[yaxis], point[yaxis])) {
+                if (xdirection * (point[xaxis]-v[xaxis])*(w[yaxis]-v[yaxis]) <=
+                    xdirection * (point[yaxis]-v[yaxis])*(w[xaxis]-v[xaxis]))
+                    count += xdirection;
+            } else {
+                if (v[yaxis] <= point[yaxis])
+                    count += xdirection;
+            }
+        }
     }
     return count;
 }

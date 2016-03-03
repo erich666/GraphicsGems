@@ -1,9 +1,5 @@
 /* Copyright (c) 1991 Regents of the University of California */
 
-#ifndef lint
-static char SCCSid[] = "@(#)ra_pr24.c 1.8 8/15/91 LBL";
-#endif
-
 /*
  *  program to convert between RADIANCE and 24-bit rasterfiles.
  */
@@ -12,13 +8,19 @@ static char SCCSid[] = "@(#)ra_pr24.c 1.8 8/15/91 LBL";
 #include  <stdio.h>
 #include  <math.h>
 
-#include  "rasterfile.h"
+#include "colrops.h"
+#include "header.h"
+#include "rasterfile.h"
+#include "resolu.h"
 
 #include  "color.h"
 
+extern BYTE	g_mant[256], g_nexp[256];
+void gambs_colrs(COLR* scan, int len);
+
 /* if needed: extern double  atof(), pow(); */
 
-double	gamma = 2.0;			/* gamma correction */
+double	ra_gamma = 2.0;			/* gamma correction */
 
 int  bradj = 0;				/* brightness adjustment */
 
@@ -27,8 +29,7 @@ char  *progname;
 int  xmax, ymax;
 
 
-quiterr(err)		/* print message and exit */
-char  *err;
+void quiterr(char* err)		/* print message and exit */
 {
 	if (err != NULL) {
 		fprintf(stderr, "%s: %s\n", progname, err);
@@ -72,6 +73,36 @@ int	rf;
 	free((char *)scanout);
 }
 
+void gambs_colrs(COLR* scan, int len)         /* convert gamma bytes to colr scanline */
+{
+	register int    nexpo;
+
+	while (len-- > 0) {
+		nexpo = g_nexp[scan[0][RED]];
+		if (g_nexp[scan[0][GRN]] < nexpo)
+			nexpo = g_nexp[scan[0][GRN]];
+		if (g_nexp[scan[0][BLU]] < nexpo)
+			nexpo = g_nexp[scan[0][BLU]];
+		if (nexpo < g_nexp[scan[0][RED]])
+			scan[0][RED] = g_mant[scan[0][RED]]
+			>> (g_nexp[scan[0][RED]] - nexpo);
+		else
+			scan[0][RED] = g_mant[scan[0][RED]];
+		if (nexpo < g_nexp[scan[0][GRN]])
+			scan[0][GRN] = g_mant[scan[0][GRN]]
+			>> (g_nexp[scan[0][GRN]] - nexpo);
+		else
+			scan[0][GRN] = g_mant[scan[0][GRN]];
+		if (nexpo < g_nexp[scan[0][BLU]])
+			scan[0][BLU] = g_mant[scan[0][BLU]]
+			>> (g_nexp[scan[0][BLU]] - nexpo);
+		else
+			scan[0][BLU] = g_mant[scan[0][BLU]];
+		scan[0][EXP] = COLXS - nexpo;
+		scan++;
+	}
+}
+
 
 void ra2pr()			/* convert Radiance scanlines to 24-bit rasterfile */
 {
@@ -102,9 +133,7 @@ void ra2pr()			/* convert Radiance scanlines to 24-bit rasterfile */
 }
 
 
-main(argc, argv)
-	int  argc;
-char  *argv[];
+int main(int argc, char** argv)
 {
 	struct rasterfile  head;
 	int  reverse = 0;
@@ -116,7 +145,7 @@ char  *argv[];
 		if (argv[i][0] == '-')
 			switch (argv[i][1]) {
 			case 'g':
-				gamma = atof(argv[++i]);
+				ra_gamma = atof(argv[++i]);
 				break;
 			case 'e':
 				if (argv[i+1][0] != '+' && argv[i+1][0] != '-')
@@ -140,11 +169,11 @@ char  *argv[];
 		exit(1);
 	}
 	if (i == argc-2 && freopen(argv[i+1], "w", stdout) == NULL) {
-		fprintf(stderr, "can't open output \"%s\"\n",
+		fprintf(stderr, "%s: can't open output \"%s\"\n",
 			progname, argv[i+1]);
 		exit(1);
 	}
-	setcolrgam(gamma);
+	setcolrgam(ra_gamma);
 	if (reverse) {
 		/* get header */
 		if (fread((char *)&head, sizeof(head), 1, stdin) != 1)

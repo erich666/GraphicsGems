@@ -54,7 +54,7 @@ dir2.z = xdir->z * xdir->z;
 if (dir2.z > dir2.y && dir2.z > dir2.x && dir2.z > MRG_ZERO)
     {
     /* then get a point on the XY plane */
-    invdet = 1.0 / xdir->z;
+    invdet = 1.f / xdir->z;
     /* solve < pl1.x * xpt.x + pl1.y * xpt.y = - pl1.w >
              < pl2.x * xpt.x + pl2.y * xpt.y = - pl2.w > */
     Vect3Init(pl1->y * pl2->w - pl2->y * pl1->w,
@@ -63,25 +63,25 @@ if (dir2.z > dir2.y && dir2.z > dir2.x && dir2.z > MRG_ZERO)
 else if (dir2.y > dir2.x && dir2.y > MRG_ZERO)
     {
     /* then get a point on the XZ plane */
-    invdet = -1.0 / xdir->y;	/*** correction ***/
+    invdet = -1.f / xdir->y;	/*** correction ***/
     /* solve < pl1.x * xpt.x + pl1.z * xpt.z = -pl1.w >
              < pl2.x * xpt.x + pl2.z * xpt.z = -pl2.w > */
-    Vect3Init(pl1->z * pl2->w - pl2->z * pl1->w, 0.0,
+    Vect3Init(pl1->z * pl2->w - pl2->z * pl1->w, 0.f,
               pl2->x * pl1->w - pl1->x * pl2->w, *xpt)
     }
 else if (dir2.x > MRG_ZERO)
     {
     /* then get a point on the YZ plane */
-    invdet = 1.0 / xdir->x;
+    invdet = 1.f / xdir->x;
     /* solve < pl1.y * xpt.y + pl1.z * xpt.z = - pl1.w >
              < pl2.y * xpt.y + pl2.z * xpt.z = - pl2.w > */
-    Vect3Init(0.0, pl1->z * pl2->w - pl2->z * pl1->w,
+    Vect3Init(0.f, pl1->z * pl2->w - pl2->z * pl1->w,
               pl2->y * pl1->w - pl1->y * pl2->w, *xpt)
     }
 else /* xdir is zero, then no point of intersection exists */
     return FALSE;
 Vect3Muls(invdet, *xpt, *xpt)
-invdet = 1.0 / (float)sqrt(dir2.x + dir2.y + dir2.z);
+invdet = 1.f / (float)sqrt(dir2.x + dir2.y + dir2.z);
 Vect3Muls(invdet, *xdir, *xdir)
 return TRUE;
 }

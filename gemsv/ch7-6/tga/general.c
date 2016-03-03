@@ -26,8 +26,17 @@
  *
  */
 
+#include <ctype.h>
+#include <fcntl.h>
+#ifndef WIN32
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#endif
 #include "lug.h"
 #include "lugfnts.h"
+
+#ifndef WIN32
 
 int LUGverbose = 0;
 
@@ -35,8 +44,7 @@ int LUGverbose = 0;
  * Return the number of bits ( -1 ) to represent a given
  * number of colors ( ex: 256 colors => 7 ).
  */
-no_bits( colors )
-int colors;
+int no_bits(int colors)
 {
   register int bits= 0;
 
@@ -116,7 +124,7 @@ int size;
   }else ptr = out;
 
   while ( size-- ) {
-    *ptr++ = *in++;
+    *ptr++ = (unsigned char)*in++;
   }
 
   return out;
@@ -160,14 +168,13 @@ int size;
   }
 
   while ( size-- ) {
-    *ptr++ = ((float)*in++) / 255.;
+    *ptr++ = ((float)*in++) / 255.f;
   }
 
   return out;
 }
 
-Atoi( string )
-char *string;
+int Atoi(char* string)
 {
   int aux = -1234;
 
@@ -191,17 +198,6 @@ char *string;
   return aux;
 }
 
-isnumber( c )
-char *c;
-{
-  while ( *c )
-    if ( !isdigit(*c++) )
-      return 0;
-
-  return 1;
-}
-
-
 /*
  * Compress and uncompress subroutines.
  */
@@ -212,7 +208,7 @@ char *name, *aux_file;
 #ifndef MSDOS
   int pid, handle;
 
-  if ( pid = fork() ) {
+  if ( (pid = fork()) ) {
     /*
      * Parent wait until the REAL 'end of days'
      * of the child.
@@ -224,9 +220,9 @@ char *name, *aux_file;
     close( 1 );
     dup( handle );
 #ifdef USE_GNU_GZIP
-    execlp( "gzip", "gzip", "-dc", name, 0 );
+    execlp( "gzip", "gzip", "-dc", name, (char*)0 );
 #else
-    execlp( "compress", "compress", "-dc", name, 0 );
+    execlp( "compress", "compress", "-dc", name, (char*)0 );
 #endif  /* USE_GNU_GZIP */
   }
 #else  /* MSDOS */
@@ -251,7 +247,7 @@ char *name;
 #ifndef MSDOS
   int pid;
 
-  if ( pid = fork() ) {
+  if ( (pid = fork()) ) {
     /*
      * Parent wait until the REAL 'end of days'
      * of the child.
@@ -263,9 +259,9 @@ char *name;
      * Lets go baby ...
      */
 #ifdef USE_GNU_GZIP
-    execlp( "gzip", "gzip", "-9", name, 0 );
+    execlp( "gzip", "gzip", "-9", name, (char*)0 );
 #else
-    execlp( "compress", "compress", name, 0 );
+    execlp( "compress", "compress", name, (char*)0 );
 #endif  /* USE_GNU_GZIP */
   }
 #else  /* MSDOS */
@@ -280,8 +276,7 @@ char *name;
 #endif  /* MSDOS */
 }
 
-compute_levels( no_colors )
-int no_colors;
+int compute_levels(int no_colors)
 {
   int n = 7;
 
@@ -291,3 +286,6 @@ int no_colors;
 
   return n;
 }
+
+#endif
+

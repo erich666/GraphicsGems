@@ -61,13 +61,12 @@ char *lug_errlist[] = {
                         NULL
 };
 
-char *lugerrmsg( code )
+char *lugerrmsg(int code)
 {
   return lug_errlist[ code ];
 }
 
-Error(code)
-int code;
+void Error(int code)
 {
   int static last = 0;
 

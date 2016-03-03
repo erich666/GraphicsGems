@@ -4,6 +4,8 @@ by D.G. Hook and P.R. McAree
 from "Graphics Gems", Academic Press, 1990
 */
 
+#include "sturm.h"
+
 /*
  * main.c
  *
@@ -17,11 +19,11 @@ from "Graphics Gems", Academic Press, 1990
 /*
  * a driver program for a root solver.
  */
-main()
+int main()
 {
 	poly	sseq[MAX_ORDER];
 	double 	min, max, roots[MAX_ORDER];
-	int		i, j, order, nroots, nchanges, np, atmin, atmax;
+	int		i, j, np, order, nroots, nchanges, atmin, atmax;
 
 	/*
 	 * get the details...
@@ -42,7 +44,7 @@ main()
 	/*
 	 * build the Sturm sequence
 	 */
-	np = buildsturm(order, sseq);
+	np = (int)buildsturm(order, sseq);
 
 	printf("Sturm sequence for:\n");
 

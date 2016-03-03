@@ -1,6 +1,6 @@
-#include <iostream.h>
+#include <iostream>
 #include <math.h>
-
+#include <vector>
 #include "global.h"
 #include "voronoi.h"                            // D-DIM. VORONOI TEMPLATE
 
@@ -12,18 +12,21 @@ struct cell : public VECTOR<3> {                // 3-DIMENSIONAL VORONOI-CELL
         long t;                                 // LOCAL TRAVERSE CODE (WORK)
         cell *b;                                // BACK (voronoi::disperse)
         cell() {t=0L;}
-        cell(vector& v, object *o=(object*)0) {
+        cell(const vector& v, object *o=(object*)0) {
                 double x[3]; x[0]=v[0]; x[1]=v[1]; x[2]=v[2];
                 *((VECTOR<3>*)this)=VECTOR<3>(x); p=v; {if(o)lh+=o;} t=0L;
         }
-        int operator&(vector& p) {              // CELL CONTAINS POINT p
+        int operator&(const vector& p) {              // CELL CONTAINS POINT p
                 for(cell*n=ln.first();n;n=ln.next())
                         if(!(halfspace(this->p,n->p)&p)) return 0;
                 return 1;
         }
-        int operator&(object& o) {              // CELL INTERSECTS OBJECT o
-                for(cell*n=ln.first();n;n=ln.next())
-                        if(!(o&halfspace(this->p,n->p))) return 0;
+        int operator&(const object& o) {              // CELL INTERSECTS OBJECT o
+            for(cell*n=ln.first();n;n=ln.next()) {
+                halfspace tmp(this->p, n->p);
+                if(!(o & tmp)) return 0;
+                    //if(!(o & halfspace(this->p,n->p))) return 0;
+            }
                 return 1;
         }
 };
@@ -76,7 +79,7 @@ void voronoi::disperse(object *o, cell *C) {
                         if(n->t==traverse) continue;    // ALREADY TRAVERSED
                         if(o && !(*n&(*o))) continue;   // PARTIAL TRAVERSE
                         go=1; break;                    // GO ON
-                } while(n=c->ln.next());                // UNTIL NOT ALL DONE
+                } while((n=c->ln.next()));                // UNTIL NOT ALL DONE
                 if(go) {                                // STEP FORWARDS
                         n->b=c;                         // ESTABLISH BACK LINK
                         c=n; n=c->ln.first(); continue; // LET'S GO AHEAD
@@ -96,7 +99,7 @@ void voronoi::preprocess(list<object*> *lo) {           // PREPROCESSING
                         {(*lc)+=new cell(*p,o); n++; delete p;}
                 delete lp;
         }
-        for(o=lightsources.first(); o; o=lightsources.next()) { // LIGHTSRC.S
+        for(auto o=lightsources.first(); o; o=lightsources.next()) { // LIGHTSRC.S
                 list<vector*> *lp=o->particles();
                 for(vector* p=lp->first(); p; p=lp->next()) 
                         {(*lc)+=new cell(*p); n++; delete p;}
@@ -115,24 +118,24 @@ void voronoi::preprocess(list<object*> *lo) {           // PREPROCESSING
                 cm=cm+C[i]->p;
                 if(lexcmp((const void**)&C[i],          // MULTIPLE PARTICLE
                           (const void**)&p)==0) {
-                        for(o=C[i]->lh.first(); o; o=C[i]->lh.next())
+                        for(auto o=C[i]->lh.first(); o; o=C[i]->lh.next())
                                 p->lh+=o;
                         delete C[i];
                 } else {(*lv)+=C[i]; p=C[i];}           // SINGLE (YET)
         }
         cm=cm/(double)n;                                // CENTER OF MASS
         delete C;
-        VECTOR<3>*b[4]; for(i=0;i<4;i++) b[i]=new cell; // BOUNDARY CELLS
+        VECTOR<3>*b[4]; for(auto i=0;i<4;i++) b[i]=new cell; // BOUNDARY CELLS
         VORONOI<3> V(lv,b);                             // VERTEX STRUCTURE
-        for(i=0;i<4;i++) {                              // BOUNDARY CELLS
+        for(auto i=0;i<4;i++) {                              // BOUNDARY CELLS
                 cell* c=(cell*)b[i];
                 c->p=vector((*c)[0],(*c)[1],(*c)[2]);   // UPDATE
         }
         V(initcells);                                   // 3D VORONOI-CELLS
         traverse=0L;                                    // INITIALIZE disperse
         double ddmin; register int first=1;             // INITIALIZE SEARCH
-        for(c=(cell*)lv->first();c;c=(cell*)lv->next()) {
-                for(o=c->lh.first();o;o=c->lh.next())   // BUILD OBJECT LISTS
+        for(auto c=(cell*)lv->first();c;c=(cell*)lv->next()) {
+                for(auto o=c->lh.first();o;o=c->lh.next())   // BUILD OBJECT LISTS
                         disperse(o,c);                  // PARTIAL TRAVERSE
                 vector u=c->p-cm; double dd=u%u;        // DISTANCE^2 FROM cm
                 if(first || dd<ddmin)                   // FIND CLOSEST TO cm
@@ -140,7 +143,7 @@ void voronoi::preprocess(list<object*> *lo) {           // PREPROCESSING
                 first=0;
         }
         n=1<<(lmax+1);
-        s=new cell*[n]; for(i=0;i<n;i++) s[i]=this->C;  // START FOR firstlist
+        s=new cell*[n]; for(auto i=0;i<n;i++) s[i]=this->C;  // START FOR firstlist
         delete lv; // ???
 }
 
@@ -153,15 +156,16 @@ void voronoi::step() {                                  // ONE STEP ALONG RAY r
                 vector v=(n->p+a->p)*.5-r->o;
                 double t=(v%u)/d;                       // t AT INTERSECTION
                 if(t<=this->t) continue;                // WOULD BE A BACK STEP
-                if(t<EPS)                               // r->o ON BISECTOR PL.
+            if(t<EPS) {                               // r->o ON BISECTOR PL.
                         if(u%r->d>0.) {tmin=EPS; nmin=n; continue;}
                         else continue;
+            }
                 if(!tmin || t<tmin) {tmin=t; nmin=n;}   // CLOSER INTERSECTION
         }
         this->t=tmin; a=nmin;
 }
 
-list<object*>* voronoi::firstlist(ray& r) {
+list<object*>* voronoi::firstlist(const ray& r) {
         register int i=r.c>=0?r.c:(1<<(lmax+1))-1;      // INDEX INTO s
         a=s[i];                                         // INITIALIZE step()
         if(!((*a)&r.o)) {                               // COHERENCE FAILED

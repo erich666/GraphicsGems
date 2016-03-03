@@ -31,6 +31,7 @@ void reshapeviewport() {}
 void swapbuffers() {}
 void bgnline() {}
 void v2d(double* d) {}
+void v2i(int* i) {}
 void prefsize(int i, int j) {}
 long winopen(const char* cp) { return 0;  }
 void cpack(int i) {}
@@ -40,5 +41,5 @@ void qenter(int i, short s) {}
 void winset(int i) {}
 void winclose(int i) {}
 //void drawbody(float m[4][4]) {}
-
+void foreground() {}
 

@@ -1,8 +1,8 @@
-#include <iostream.h>
+#include <iostream>
 #include <math.h>
 #include "global.h"
 
-ostream& operator<<(ostream& o, finish& f) {
+std::ostream& operator<<(std::ostream& o, finish& f) {
         o<<"finish {\n";
         o<<"diffuse "<<f.kd<<"  "<<"brilliance "<<f.kb<<"\n";
         o<<"crand "<<f.kc<<"  "<<"ambient "<<f.ka<<"\n";
@@ -17,7 +17,7 @@ ostream& operator<<(ostream& o, finish& f) {
 
 extern vector norm(vector& v);
 
-intensity finish::surfoptics(color& c, vector& n, ray& r, intersect& i){
+intensity finish::surfoptics(color& c, vector& n, const ray& r, intersect& i){
         intensity I(this->ka, this->ka, this->ka);
         for(lightsource *ls=lightsources.first(); ls; ls=lightsources.next()) {
                 list<light*>* L=ls->illum(i);

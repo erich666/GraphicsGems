@@ -129,17 +129,17 @@ long check_line(Point3 p1, Point3 p2, long outcode_diff)
 {
 
    if ((0x01 & outcode_diff) != 0)
-      if (check_point(p1,p2,( .5-p1.x)/(p2.x-p1.x),0x3e) == INSIDE) return(INSIDE);
+      if (check_point(p1,p2,( 0.5f-p1.x)/(p2.x-p1.x),0x3e) == INSIDE) return(INSIDE);
    if ((0x02 & outcode_diff) != 0)
-      if (check_point(p1,p2,(-.5-p1.x)/(p2.x-p1.x),0x3d) == INSIDE) return(INSIDE);
+      if (check_point(p1,p2,(-0.5f-p1.x)/(p2.x-p1.x),0x3d) == INSIDE) return(INSIDE);
    if ((0x04 & outcode_diff) != 0) 
-      if (check_point(p1,p2,( .5-p1.y)/(p2.y-p1.y),0x3b) == INSIDE) return(INSIDE);
+      if (check_point(p1,p2,( 0.5f-p1.y)/(p2.y-p1.y),0x3b) == INSIDE) return(INSIDE);
    if ((0x08 & outcode_diff) != 0) 
-      if (check_point(p1,p2,(-.5-p1.y)/(p2.y-p1.y),0x37) == INSIDE) return(INSIDE);
+      if (check_point(p1,p2,(-0.5f-p1.y)/(p2.y-p1.y),0x37) == INSIDE) return(INSIDE);
    if ((0x10 & outcode_diff) != 0) 
-      if (check_point(p1,p2,( .5-p1.z)/(p2.z-p1.z),0x2f) == INSIDE) return(INSIDE);
+      if (check_point(p1,p2,( 0.5f-p1.z)/(p2.z-p1.z),0x2f) == INSIDE) return(INSIDE);
    if ((0x20 & outcode_diff) != 0) 
-      if (check_point(p1,p2,(-.5-p1.z)/(p2.z-p1.z),0x1f) == INSIDE) return(INSIDE);
+      if (check_point(p1,p2,(-0.5f-p1.z)/(p2.z-p1.z),0x1f) == INSIDE) return(INSIDE);
    return(OUTSIDE);
 }
 

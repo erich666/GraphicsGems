@@ -5,7 +5,7 @@
 #define _BASIC_H_
 
 #ifndef _IOSTREAM_H
-#include <ostream.h>
+//#include <ostream.h>
 #endif
 
 #ifndef __MATH_H__

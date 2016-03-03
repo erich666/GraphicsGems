@@ -7,7 +7,7 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
-#include <stream.h>
+#include <iostream>
 #include <string.h>
 #include <math.h>
 
@@ -20,7 +20,7 @@ class Vector
 	protected:
 		float fx,fy,fz;
 	public:
-		Vector() {fx=0.0;fy=0.0;fz=0.0;}		// constructor with no argument
+		Vector() {fx=0.f;fy=0.f;fz=0.f;}		// constructor with no argument
 		Vector(float x,float y,float z);			// constructor with coords
 		Vector(Vector& a);						// constructor with vector
 		void Set(float x,float y,float z);			// assign new values to vector
@@ -37,17 +37,17 @@ class Vector
 		float Length(void);						// length of vector
 		void Normalize(void);					// normalize vector
 
-		void operator=(Vector& a);				// operator: assignment
+		void operator=(const Vector& a);				// operator: assignment
 		Vector operator*(float t);				// operator: scaling
-		Vector operator+(Vector& a);			// operator: addition 
-		Vector operator-(Vector& a);			// operator: subtraction
+		Vector operator+(const Vector& a);			// operator: addition
+		Vector operator-(const Vector& a);			// operator: subtraction
 		Vector operator+(void);					// unary +
 		Vector operator-(void);					// unary -
-		void operator+=(Vector& a);				// operator: +=
-		void operator-=(Vector& a);				// operator: -=
+		void operator+=(const Vector& a);				// operator: +=
+		void operator-=(const Vector& a);				// operator: -=
 		void operator*=(float t);				// operator: *= (scaling)
-		float operator*(Vector& a);				// operator: dot product
-		Vector operator%(Vector& a);			// operator: cross product
+		float operator*(const Vector& a);				// operator: dot product
+		Vector operator%(const Vector& a);			// operator: cross product
 		float operator[](short index);			// if short=0 then X, short=1 then Y, else Z, see constants above
 		void print(void);						// print coords
 
@@ -107,12 +107,12 @@ inline float Vector::Length(void)
 
 inline void Vector::Normalize(void)
 { 
-	if(Length()==0.0) cout<<"Error:normalize\n";
- 	else Scale(1.0/Length());
+	if(Length()==0.f) std::cout<<"Error:normalize\n";
+ 	else Scale(1.f/Length());
 }
 
 /****************** Operators *********************/
-inline void Vector::operator=(Vector& a)	// assignment
+inline void Vector::operator=(const Vector& a)	// assignment
 { fx=a.fx; fy=a.fy; fz=a.fz; }
 
 inline Vector Vector::operator+(void)		// unary +
@@ -121,28 +121,28 @@ inline Vector Vector::operator+(void)		// unary +
 inline Vector Vector::operator*(float t)		// scaling
 { Vector temp; temp.Set(fx*t,fy*t,fz*t); return temp; }
 
-inline Vector Vector::operator+(Vector& a)
+inline Vector Vector::operator+(const Vector& a)
 { Vector sum; sum.Set(fx+a.fx,fy+a.fy,fz+a.fz); return sum; }
 
-inline Vector Vector::operator-(Vector& a)
+inline Vector Vector::operator-(const Vector& a)
 { Vector sum; sum.Set(fx-a.fx,fy-a.fy,fz-a.fz); return sum; }
 
 inline Vector Vector::operator-(void)			// unary -
 { Vector neg; neg.Set(-fx,-fy,-fz); return neg; }
 
-inline void Vector::operator+=(Vector& a)
+inline void Vector::operator+=(const Vector& a)
 { Set(fx+a.fx,fy+a.fy,fz+a.fz); }
 
-inline void Vector::operator-=(Vector& a)
+inline void Vector::operator-=(const Vector& a)
 { Set(fx-a.fx,fy-a.fy,fz-a.fz); }
 
 inline void Vector::operator*=(float t)		// scaling
 { Set(fx*t,fy*t,fz*t); }
 
-inline float Vector::operator*(Vector& a)		// dot product
+inline float Vector::operator*(const Vector& a)		// dot product
 { return fx*a.fx+fy*a.fy+fz*a.fz; }
 
-inline Vector Vector::operator%(Vector& a)		// cross product
+inline Vector Vector::operator%(const Vector& a)		// cross product
 {
 	Vector cross;
 	cross.Set(fy*a.fz-fz*a.fy,fz*a.fx-fx*a.fz,fx*a.fy-fy*a.fx);
@@ -157,12 +157,12 @@ inline float Vector::operator[](short index)
 		case Yi: return fy;
 		case Zi: return fz;
 	}
-	return 0.0;					// if invalid index
+	return 0.f;					// if invalid index
 }
 /*************** End of Operators *****************/
 
 inline void Vector::print(void)
 {
-	cout<<form("x:%.6f y:%.6f z:%.6f\n",fx,fy,fz);
+	//std::cout<<form("x:%.6f y:%.6f z:%.6f\n",fx,fy,fz);
 }
 #endif

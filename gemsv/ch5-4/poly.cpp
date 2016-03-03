@@ -76,7 +76,7 @@ int polynomial::roots_between(double a, double b, double *roots)
   return 0;
 }
 
-polynomial operator+(polynomial& p, polynomial& q)
+polynomial operator+(const polynomial& p, const polynomial& q)
 {
   polynomial sum;
 
@@ -92,7 +92,7 @@ polynomial operator+(polynomial& p, polynomial& q)
   return sum;
 }
 
-polynomial operator-(polynomial& p, polynomial& q)
+polynomial operator-(const polynomial& p, const polynomial& q)
 {
   polynomial dif;
 
@@ -108,7 +108,7 @@ polynomial operator-(polynomial& p, polynomial& q)
   return dif;
 }
 
-polynomial operator*(polynomial& p, polynomial& q)
+polynomial operator*(const polynomial& p, const polynomial& q)
 {
   polynomial prod;
 
@@ -119,7 +119,7 @@ polynomial operator*(polynomial& p, polynomial& q)
   return prod;
 }
 
-polynomial operator*(double s, polynomial& p)
+polynomial operator*(double s, const polynomial& p)
 {
   polynomial scale;
 

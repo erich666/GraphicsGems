@@ -9,6 +9,8 @@
 #define	M_PI_2	1.57079632679489661923
 #endif
 
+void ellipsoid_par_help(int n, int nv, int nf, vertex *ev, face *ef, vertex *octant);
+
 typedef struct slot { float cos, sin; enum { None, Only, Done } flag; } slot;
 
 static int n_max = 0;         /* current maximum degree of subdivision */
@@ -44,9 +46,9 @@ void ellipsoid_init (int n)
          l += m, m += 2, h = n_max / i - 1;
          for (t1 = t0+i - 2, j = 1; j < i; j++, k++, t0++, t1--) {
             if (t0->flag == None) {
-               theta = (M_PI_2 * j) / i;
-               t0->cos = t1->sin = cos (theta);
-               t0->sin = t1->cos = sin (theta);
+               theta = ((float)M_PI_2 * j) / i;
+               t0->cos = t1->sin = cosf(theta);
+               t0->sin = t1->cos = sinf(theta);
                t0->flag = t1->flag = Only;
             }
             if (t0->flag == Only) {
@@ -76,12 +78,12 @@ static void ellipsoid_octant (int n, float a, float b, float c)
    vertex *o = octant;
    slot *table_th, *table_ph;
 
-   a_1 = 1.0 / a; b_1 = 1.0 / b; c_1 = 1.0 / c;
+   a_1 = 1.f / a; b_1 = 1.f / b; c_1 = 1.f / c;
    o = octant;
    table_th = table;
    table_ph = table + ((n-1)*(n-2))/2;
 
-   SetV (o, 0.0, 0.0, c, 0.0, 0.0, 1.0), o++;         /* i = 0, j = 0 */
+   SetV (o, 0.f, 0.f, c, 0.f, 0.f, 1.f), o++;         /* i = 0, j = 0 */
    for (i = 1; i < n; i++, table_ph++) {
       cos_ph = table_ph->cos;
       sin_ph = table_ph->sin;
@@ -91,8 +93,8 @@ static void ellipsoid_octant (int n, float a, float b, float c)
 
       px = sin_ph * a;
       nx = sin_ph * a_1;
-      rnorm = 1.0 / sqrt (nx*nx + nznz);              /* 0 < i < n, j = 0 */
-      SetV (o, px, 0.0, pz, nx*rnorm, 0.0, nz*rnorm), o++;
+      rnorm = 1.f / sqrtf (nx*nx + nznz);              /* 0 < i < n, j = 0 */
+      SetV (o, px, 0.f, pz, nx*rnorm, 0.f, nz*rnorm), o++;
       for (j = i; --j > 0; table_th++) {
          tmp = table_th->cos * sin_ph;
          px = tmp * a;
@@ -100,15 +102,15 @@ static void ellipsoid_octant (int n, float a, float b, float c)
          tmp = table_th->sin * sin_ph;
          py = tmp * b;
          ny = tmp * b_1;
-         rnorm = 1.0 / sqrt (nx*nx + ny*ny + nznz);   /* 0 < i < n, 0 < j < i */
+         rnorm = 1.f / sqrtf (nx*nx + ny*ny + nznz);   /* 0 < i < n, 0 < j < i */
          SetV (o, px, py, pz, nx*rnorm, ny*rnorm, nz*rnorm), o++;
       }
       py = sin_ph * b;
       ny = sin_ph * b_1;
-      rnorm = 1.0 / sqrt (ny*ny + nznz);              /* 0 < i < n, j = i */
-      SetV (o, 0.0, py, pz, 0.0, ny*rnorm, nz*rnorm), o++;
+      rnorm = 1.f / sqrtf (ny*ny + nznz);              /* 0 < i < n, j = i */
+      SetV (o, 0.f, py, pz, 0.f, ny*rnorm, nz*rnorm), o++;
    }
-   SetV (o, a, 0.0, 0.0, 1.0, 0.0, 0.0), o++;         /* i = n, j = 0 */
+   SetV (o, a, 0.f, 0.f, 1.f, 0.f, 0.f), o++;         /* i = n, j = 0 */
    for (j = i; --j > 0; table_th++) {
       tmp = table_th->cos;
       px = tmp * a;
@@ -116,10 +118,10 @@ static void ellipsoid_octant (int n, float a, float b, float c)
       tmp = table_th->sin;
       py = tmp * b;
       ny = tmp * b_1;
-      rnorm = 1.0 / sqrt (nx*nx + ny*ny);             /* i = n, 0 < j < i */
-      SetV (o, px, py, 0.0, nx*rnorm, ny*rnorm, 0.0), o++;
+      rnorm = 1.f / sqrtf (nx*nx + ny*ny);             /* i = n, 0 < j < i */
+      SetV (o, px, py, 0.f, nx*rnorm, ny*rnorm, 0.f), o++;
    }
-   SetV (o, 0.0, b, 0.0, 0.0, 1.0, 0.0);              /* i = n, j = i */
+   SetV (o, 0.f, b, 0.f, 0.f, 1.f, 0.f);              /* i = n, j = i */
 }
 
 /*
@@ -151,7 +153,7 @@ void ellipsoid_seq (object *ellipsoid, int n, float a, float b, float c)
    int i, j, ko, kv, kw, kv0, kw0;
 
    /* Check parameters for validity. */
-   if (n <= 0 || n_max < n || a <= 0.0 || b <= 0.0 || c <= 0.0) {
+   if (n <= 0 || n_max < n || a <= 0.f || b <= 0.f || c <= 0.f) {
       ellipsoid->nv = 0; ellipsoid->v = NULL;
       ellipsoid->nf = 0; ellipsoid->f = NULL;
       return;
@@ -241,7 +243,7 @@ void ellipsoid_par (object *ellipsoid, int n, float a, float b, float c)
    face *ef;
 
    /* Check parameters for validity. */
-   if (n <= 0 || n_max < n || a <= 0.0 || b <= 0.0 || c <= 0.0) {
+   if (n <= 0 || n_max < n || a <= 0.f || b <= 0.f || c <= 0.f) {
       ellipsoid->nv = 0; ellipsoid->v = NULL;
       ellipsoid->nf = 0; ellipsoid->f = NULL;
       return;

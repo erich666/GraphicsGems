@@ -1,16 +1,14 @@
 /* Copyright (c) 1991 Regents of the University of California */
 
-#ifndef lint
-static char SCCSid[] = "@(#)color.c 1.15 8/28/91 LBL";
-#endif
-
 /*
  *  color.c - routines for color calculations.
  *
  *     10/10/85
  */
 
-#include  <stdio.h>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #include  "color.h"
 
@@ -22,7 +20,6 @@ char *
 tempbuffer(len)			/* get a temporary buffer */
 unsigned int len;
 {
-	extern char  *malloc(), *realloc();
 	static char  *tempbuf = NULL;
 	static int  tempbuflen = 0;
 
@@ -37,16 +34,13 @@ unsigned int len;
 }
 
 
-fwritecolrs(scanline, len, fp)		/* write out a colr scanline */
-register COLR  *scanline;
-int  len;
-register FILE  *fp;
+int fwritecolrs(COLR* scanline, int len, FILE* fp)		/* write out a colr scanline */
 {
 	register int  i, j, beg, cnt;
 	int  c2;
 	
 	if (len < MINELEN)		/* too small to encode */
-		return(fwrite((char *)scanline,sizeof(COLR),len,fp) - len);
+		return (int)(fwrite((char *)scanline,sizeof(COLR),len,fp) - len);
 	if (len > 32767)		/* too big! */
 		return(-1);
 	putc(2, fp);			/* put magic header */
@@ -90,10 +84,7 @@ register FILE  *fp;
 }
 
 
-oldreadcolrs(scanline, len, fp)		/* read in an old colr scanline */
-	register COLR  *scanline;
-int  len;
-register FILE  *fp;
+int oldreadcolrs(COLR* scanline, int len, FILE* fp)		/* read in an old colr scanline */
 {
 	int  rshift;
 	register int  i;
@@ -122,14 +113,11 @@ register FILE  *fp;
 			rshift = 0;
 		}
 	}
-	return(0);
+	return 0;
 }
 
 
-freadcolrs(scanline, len, fp)		/* read in an encoded colr scanline */
-register COLR  *scanline;
-int  len;
-register FILE  *fp;
+int freadcolrs(COLR* scanline, int len, FILE* fp)		/* read in an encoded colr scanline */
 {
 	register int  i, j;
 	int  code;
@@ -196,10 +184,7 @@ double  r, g, b;
 }
 
 
-fwritescan(scanline, len, fp)		/* write out a scanline */
-register COLOR  *scanline;
-int  len;
-FILE  *fp;
+size_t fwritescan(COLOR* scanline, int len, FILE* fp)		/* write out a scanline */
 {
 	COLR  *clrscan;
 	int  n;
@@ -221,9 +206,7 @@ FILE  *fp;
 }
 
 
-colr_color(col, clr)		/* convert short to float color */
-	register COLOR  col;
-register COLR  clr;
+void colr_color(COLOR col, COLR clr)		/* convert short to float color */
 {
 	double  f;
 
@@ -238,17 +221,14 @@ register COLR  clr;
 }
 
 
-freadscan(scanline, len, fp)		/* read in a scanline */
-register COLOR  *scanline;
-int  len;
-FILE  *fp;
+int freadscan(COLOR* scanline, int len, FILE* fp)		/* read in a scanline */
 {
-	register COLR  *clrscan;
+	COLR  *clrscan;
 
 	if ((clrscan = (COLR *)tempbuffer(len*sizeof(COLR))) == NULL)
-		return(-1);
+		return -1;
 	if (freadcolrs(clrscan, len, fp) < 0)
-		return(-1);
+		return -1 ;
 					/* convert scanline */
 	colr_color(scanline[0], clrscan[0]);
 	while (--len > 0) {
@@ -261,13 +241,11 @@ FILE  *fp;
 		else
 			colr_color(scanline[0], clrscan[0]);
 	}
-	return(0);
+	return 0;
 }
 
 
-bigdiff(c1, c2, md)			/* c1 delta c2 > md? */
-register COLOR  c1, c2;
-double  md;
+int bigdiff(COLOR c1, COLOR c2, double md)			/* c1 delta c2 > md? */
 {
 	register int  i;
 

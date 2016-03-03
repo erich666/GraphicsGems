@@ -43,7 +43,7 @@ int CorrectCount( unsigned long a )
   while( a != 0 )
     {
     c++;
-    a = a & ~-a;
+    // not correct: there is no negative unsigned long: a = a & ~-a;
     }
   return( c );
   }
@@ -54,7 +54,7 @@ void Error( unsigned long i, int count, char *fn )
                 fn, i, count, CorrectCount( i ) );
   }
 
-test( int (*count)(unsigned long), char *fn )
+void test( int (*count)(unsigned long), char *fn )
   {
   unsigned long i;
   unsigned int j, k;
@@ -139,7 +139,7 @@ test( int (*count)(unsigned long), char *fn )
   }
 
 
-void main( void )
+int main( void )
   {
   test( bit32on1, "bit32on1" );
   test( bit32on2, "bit32on2" );

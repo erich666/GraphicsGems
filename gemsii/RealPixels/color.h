@@ -13,6 +13,8 @@
  *  three single byte mantissas and a common exponent.
  */
 
+#include <stdio.h>
+
 #define  RED		0
 #define  GRN		1
 #define  BLU		2
@@ -95,3 +97,6 @@ typedef float  COLOR[3];	/* red, green, blue */
 					(cc)[RED],(cc)[GRN],(cc)[BLU])
 
 /* if needed: extern double  ldexp(), atof(); */
+
+int freadcolrs(COLR* scanline, int len, FILE* fp);
+int fwritecolrs(COLR* scanline, int len, FILE* fp);

@@ -12,6 +12,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "poly.h"
 
 #define SWAP(a, b, temp)	{temp = a; a = b; b = temp;}
@@ -91,7 +92,7 @@ register Poly_box *box;
 
     /* if result ended up in p2 then copy it to p1 */
     if (p==&p2)
-	bcopy(&p2, p1, sizeof(Poly)-(POLY_NMAX-p2.n)*sizeof(Poly_vert));
+		memcpy(p1, &p2, sizeof(Poly)-(POLY_NMAX-p2.n)*sizeof(Poly_vert));
     return POLY_CLIP_PARTIAL;
 }
 

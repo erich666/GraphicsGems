@@ -5,12 +5,9 @@
 	date:		October 27, 1989
 */
 
-#ifndef lint
-static char	sccsid[] = "%W% %G%";		/* SCCS info */
-#endif lint
-	
 #include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
 #ifdef sequent
 #include <strings.h>
 #else
@@ -20,16 +17,9 @@ static char	sccsid[] = "%W% %G%";		/* SCCS info */
 
 /******************************************************************************/
 
-/* return values */
-extern void	free();
-extern char	*malloc();
-
-/******************************************************************************/
-
-utah_read_close(ufp)
-UTAH_FILE	*ufp;
+int utah_read_close(UTAH_FILE *ufp)
 {
-	return(0);
+	return 0;
 }
 
 /******************************************************************************/
@@ -70,10 +60,7 @@ int	*ht, *wd;
 
 /******************************************************************************/
 
-utah_read_pixels(ufp, pixels)
-
-UTAH_FILE 	*ufp;
-unsigned char	pixels[][3];
+int utah_read_pixels(UTAH_FILE *ufp, unsigned char pixels[][3])
 {
 	static unsigned	n = 0;
 	static unsigned char	*r = NULL, *g = NULL, *b = NULL;
@@ -81,7 +68,7 @@ unsigned char	pixels[][3];
 
 	/* allocate storage */
 	width = ufp->xmax + 1;
-	if (width > n) {
+	if (width > (int)n) {
 		if (n > 0) {
 			free((char *)r);
 			free((char *)g);
@@ -108,10 +95,7 @@ unsigned char	pixels[][3];
 
 /******************************************************************************/
 
-utah_read_rgb(ufp, r, g, b)
-
-UTAH_FILE	*ufp;
-unsigned char	r[], g[], b[];
+int utah_read_rgb(UTAH_FILE *ufp, unsigned char	r[], unsigned char g[], unsigned char b[])
 {
 	rle_pixel	*rows[3];
 
@@ -127,9 +111,7 @@ unsigned char	r[], g[], b[];
 
 /******************************************************************************/
 
-utah_write_close(ufp)
-
-UTAH_FILE	*ufp;
+int utah_write_close(UTAH_FILE	*ufp)
 {
 	if (!ufp) return(-1);
 	rle_puteof(ufp);
@@ -167,15 +149,12 @@ int	ht, wd;
   	rle_put_setup(ufp);
 
 	/* normal termination */
-	return(ufp);
+	return ufp;
 }
 
 /******************************************************************************/
 
-utah_write_pixels(ufp, pixels)
-
-UTAH_FILE	*ufp;
-unsigned char	pixels[][3];
+int utah_write_pixels(UTAH_FILE *ufp, unsigned char	pixels[][3])
 {
 	static unsigned	n = 0;
 	static unsigned char	*r = NULL, *g = NULL, *b = NULL;
@@ -183,7 +162,7 @@ unsigned char	pixels[][3];
 
 	/* allocate storage */
 	width = ufp->xmax + 1;
-	if (width > n) {
+	if (width > (int)n) {
 		if (n > 0) {
 			free((char *)r);
 			free((char *)g);
@@ -204,15 +183,12 @@ unsigned char	pixels[][3];
 
 	/* write this row */
 	utah_write_rgb(ufp, r, g, b);
-	return(0);
+	return 0;
 }
 
 /******************************************************************************/
 
-utah_write_rgb(ufp, r, g, b)
-
-UTAH_FILE	*ufp;
-unsigned char	r[], g[], b[];
+int utah_write_rgb(UTAH_FILE *ufp, unsigned char r[], unsigned char g[], unsigned char b[])
 {
 	rle_pixel	*rows[3];
 	int		width;

@@ -49,9 +49,7 @@ static int (*read_lug_fnts[])() = {
                         read_tga_file
 };
 
-read_lug_file( name, bitmap )
-char *name;
-bitmap_hdr *bitmap;
+void read_lug_file(char* name, bitmap_hdr* bitmap )
 {
   ifunptr read_file;
 
@@ -78,12 +76,11 @@ char *str;
   return ptr;
 }
 
-get_index_function( str )
-char *str;
+int get_index_function(char* str)
 {
   char dup[132];
   char *ptr;
-  int len = strlen( str );
+  size_t len = strlen( str );
   int indexx;
 
   /* Duplicates the string */
@@ -93,7 +90,7 @@ char *str;
   if ( dup[len-2] == '.' && dup[len-1] == 'Z' )
     dup[len-2] = 0;
 
-  while ( ptr = strrchr( dup, '.' ) ) {
+  while((ptr = strrchr( dup, '.' ))) {
     /*
      * If the extension exists then we return the index
      * to the read/write function else continue ( and
@@ -107,10 +104,10 @@ char *str;
   return DEFAULT_FORMAT;
 }
 
-get_real_index_function( str )
+int get_real_index_function( str )
 char *str;
 {
-  register int i = 0;
+  int i = 0;
 
   while ( lug_ff_ext[i] ) {
     if ( strstr( str, lug_ff_ext[i] ) )

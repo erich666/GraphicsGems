@@ -1,6 +1,6 @@
 
 #include	<math.h>
-#include	"../GraphicsGems.h"
+#include	"GraphicsGems.h"
 
 /* ----	inttor - Intersect a ray with a torus. ------------------------	*/
 /*									*/

@@ -63,7 +63,7 @@ modp(u, v, r)
  *	build up a sturm sequence for a polynomial in smat, returning
  * the number of polynomials in the sequence
  */
-int
+ptrdiff_t
 buildsturm(ord, sseq)
 	int		ord;
 	poly	*sseq;
@@ -101,7 +101,7 @@ buildsturm(ord, sseq)
 
 	sp->coef[0] = -sp->coef[0];	/* reverse the sign */
 
-	return(sp - sseq);
+	return sp - sseq;
 }
 
 /*
@@ -197,12 +197,7 @@ numchanges(np, sseq, a)
  * described in sseq to isolate intervals in which roots occur,
  * the roots are returned in the roots array in order of magnitude.
  */
-void sbisect(np, sseq, min, max, atmin, atmax, roots)
-	int		np;
-	poly	*sseq;
-	double	min, max;
-	int		atmin, atmax;
-	double	*roots;
+void sbisect(int np, poly* sseq, double min, double max, int atmin, int atmax, double* roots)
 {
 	double	mid;
 	int		n1 = 0, n2 = 0, its, atmid, nroot;

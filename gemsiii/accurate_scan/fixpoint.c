@@ -39,6 +39,7 @@ int fp_fraction(fixpoint x)
 /* return fraction part, as a double */
 double fp_fraction_double(fixpoint x)
 {
+#pragma warning ( disable : 4146)
   if (x < 0) return(-(TwosComplement(x) & LOMASK) / ((double) (1 << LOBITS)));
   else return((x & LOMASK) / ((double) (1 << LOBITS)));
 }

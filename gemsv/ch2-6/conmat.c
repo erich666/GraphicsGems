@@ -340,9 +340,9 @@ void TransformConic(Conic *ConicP,TMat *TMatP)
    double D;
    int i,j;
 
-   /* Compute M' = Inv(TMat).M.Transpose(Inv(TMat))
-
-   /* compute the transformation using matrix muliplication */
+   // Compute M' = Inv(TMat).M.Transpose(Inv(TMat))
+       
+   //   compute the transformation using matrix muliplication
    ConMat[0][0] = ConicP->A;
    ConMat[0][1] = ConMat[1][0] = ConicP->B;
    ConMat[1][1] = ConicP->C;
@@ -671,7 +671,7 @@ Ellipse Elp2={{4.0,3.0},2.0,1.0,0.0};
 Ellipse Elp3={{1.0,1.0},2.0,1.0,M_PI_2};
 Ellipse Elp4={{1.0,1.0},2.0,0.5,0.0};
 
-void main(void)
+int main(void)
    {
    Point IntPts[12];
    int IntCount;

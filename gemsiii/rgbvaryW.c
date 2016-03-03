@@ -19,10 +19,17 @@
 
 ****************************************************************************/
 
+#include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
 /* even with windows.h defined, still needs work - uses deprecated data types */
+#if WIN32
 #include <windows.h>
+// From wingdi.h
+#define BI_RGB        0L
+
+int* DibXY(LPBITMAPINFOHEADER, int, int );
+void ErrMsg(char*);
 
 /* remove the next line after the first run */
 #define GENTABLE 1
@@ -130,7 +137,9 @@ void jitter_init()
 }
 #endif
 
-BOOL VaryDIB24(HANDLE hdib)
+typedef int* HPBYTE;
+
+bool VaryDIB24(HANDLE hdib)
 {
     LPBITMAPINFOHEADER lpbi;
     HPBYTE hpbyBits;
@@ -138,21 +147,21 @@ BOOL VaryDIB24(HANDLE hdib)
     int x,y;
 
     /* Get pointer to bits */
-    if (!hdib) return FALSE;
+    if (!hdib) return false;
     lpbi = (LPBITMAPINFOHEADER)GlobalLock(hdib);
     GlobalUnlock(hdib);
 
     if (lpbi->biBitCount != 24)
     {
        ErrMsg("Jitter only applies to 24bpp images.");
-       return FALSE;
+       return false;
     }
 
     /* Make sure it is not compressed */
     if (lpbi->biCompression != BI_RGB)
     {
        ErrMsg("Jitter only works on uncompressed images.");
-       return FALSE;
+       return false;
     }
 
 #ifdef GENTABLE
@@ -208,5 +217,6 @@ range */
         hpbyBits += wNextScan;
     }
 
-    return TRUE;
+    return true;
 }
+#endif

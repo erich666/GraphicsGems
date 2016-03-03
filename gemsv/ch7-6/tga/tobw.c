@@ -90,8 +90,7 @@ bitmap_hdr *outbitmap;
   }
 }
 
-to_raw_bw(inbitmap, outbitmap)
-bitmap_hdr *inbitmap, *outbitmap;
+int to_raw_bw(bitmap_hdr *inbitmap, bitmap_hdr *outbitmap)
 {
   bitmap_hdr bwbitmap;
   int totalsize = inbitmap->xsize * inbitmap->ysize;
@@ -196,14 +195,13 @@ bitmap_hdr *image;
   return buffer;
 }
 
-isagrayscaled( bitmap )
-bitmap_hdr *bitmap;
+int isagrayscaled(bitmap_hdr *bitmap)
 {
   if ( bitmap->depth > 8 ) {
     /* A true color bitmap is NOT! a gray scaled image */
     return 0;
   }else {
-    register i;
+    int i;
     color_map *ptr;
 
     /* 

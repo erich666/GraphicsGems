@@ -9,24 +9,25 @@
 #ifdef __STDC__
 extern double log2(double);
 #else
-extern double log2();
+//extern double log2();
 #endif
 
 static int choose_idx;
 static int permute[SEGSIZE];
 
+long lrand48();
+
 /* Generate a random permutation of the segments 1..n */
-int generate_random_ordering(n)
-     int n;
+int generate_random_ordering(int n)
 {
-  struct timeval tval;
-  struct timezone tzone;
+  //struct timeval tval;
+  //struct timezone tzone;
   register int i;
   int m, st[SEGSIZE], *p;
   
   choose_idx = 1;
-  gettimeofday(&tval, &tzone);
-  srand48(tval.tv_sec);
+  //gettimeofday(&tval, &tzone);
+  //srand48(tval.tv_sec);
 
   for (i = 0; i <= n; i++)
     st[i] = i;
@@ -47,7 +48,6 @@ int generate_random_ordering(n)
 /* segments in S */
 int choose_segment()
 {
-  int i;
 /*  
 #ifdef DEBUG
   fprintf(stderr, "choose_segment: %d\n", permute[choose_idx]);
@@ -69,9 +69,7 @@ int choose_segment()
 }
 
 
-int inserted(segnum, whichpt)
-     int segnum;
-     int whichpt;
+int inserted(int segnum, int whichpt)
 {
   int n1, n2;
 
@@ -116,8 +114,7 @@ int read_segments(infile)
 
 
 /* Get log*n for given n */
-int math_logstar_n(n)
-     int n;
+int math_logstar_n(int n)
 {
   register int i;
   double v;
@@ -129,9 +126,7 @@ int math_logstar_n(n)
 }
   
 
-int math_N(n, h)
-     int n;
-     int h;
+int math_N(int n, int h)
 {
   register int i;
   double v;

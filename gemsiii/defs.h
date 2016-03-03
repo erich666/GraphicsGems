@@ -6,8 +6,10 @@
 
 typedef struct {
   char *name;       
-  double frame[4][4];} Polyhedron;
+  double frame[4][4];
+} Polyhedron;
 
 typedef struct {
   char *name;
-  int id;} Display;
+  int id;
+} Display;

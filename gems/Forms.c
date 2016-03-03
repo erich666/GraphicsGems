@@ -18,21 +18,21 @@ efficiency.
 #define N 4			/* size of matrices to deal with */
 int     M[N][N] =		/* Bezier weights */
 {
-      1,   0,   0,   0,
-     -3,   3,   0,   0,
-      3,  -6,   3,   0,
-     -1,   3,  -3,   1,
+      {1,   0,   0,   0},
+     {-3,   3,   0,   0},
+      {3,  -6,   3,   0},
+     {-1,   3,  -3,   1},
 };
+
 int     T[N][N] =	/* re-parameterization xform for top half */
 {
-      1,  -1,   1,  -1,
-      0,   2,  -4,   6,
-      0,   0,   4, -12,
-      0,   0,   0,   8
+      {1,  -1,   1,  -1},
+      {0,   2,  -4,   6},
+      {0,   0,   4, -12},
+      {0,   0,   0,   8}
 };
-Gcd (a, b)			/*returns greatest common denominator */
-int     a,			/* of (a,b) */
-       	b;
+
+int Gcd(int a, int b)			/*returns greatest common denominator */
 {
     int		i,
             	r;
@@ -53,18 +53,15 @@ int     a,			/* of (a,b) */
 		return (Gcd (b, r));
 }
 
-subarray (src, dest, n, k)		/* strike out kth row/column */
-	int  	*src,				/* 	source array of n indices */
-	*dest,				/* dest array formed by deleting k  */
-	n,
-	k;
+void subarray (int* src, int* dest, int n, int k)		/* strike out kth row/column */
 {
 	int     i;
 	for (i = 0; i < n; i++, src++)
 		if (i != k)			/* skip over k */
 			*dest++ = *src;
 }
-determinant (A, I, J, n, parity)/* actually gets a sub-determinant */
+
+int determinant (A, I, J, n, parity)/* actually gets a sub-determinant */
 	int     A[N][N],			/* input = entire matrix */
 	I[N],				/* row sub-array we want */
 	J[N],				/* col sub-array we want */
@@ -98,7 +95,7 @@ determinant (A, I, J, n, parity)/* actually gets a sub-determinant */
 		det = -det;
 	return (det);
 }
-adjoint (A, Aadj)			/* returns determinant of A */
+int adjoint (A, Aadj)			/* returns determinant of A */
 int     A[N][N],			/* input matrix */
         Aadj[N][N];			/* output = adjoint of A */
 {					/* must have N >= 3 */
@@ -136,7 +133,7 @@ int     A[N][N],			/* input matrix */
     return (det);
 }
 
-matmult (A, B, C)				/* C = A*B */
+void matmult (A, B, C)				/* C = A*B */
 int     A[N][N],
         B[N][N],
         C[N][N];
@@ -156,7 +153,8 @@ int     A[N][N],
 		}
     }
 }
-print_mat (string, mat, n)
+
+void print_mat (string, mat, n)
 char   *string;
 int     mat[N][N],
          n;
@@ -167,11 +165,11 @@ int     mat[N][N],
     for (i = 0; i < n; i++)
     {
 		for (j = 0; j < n; j++)
-	    printf (" %8ld", mat[i][j]);
+	    printf (" %8d", mat[i][j]);
 	printf ("\n");
     }
 }
-main ()
+int main ()
 {
 	int     i,
 		j,

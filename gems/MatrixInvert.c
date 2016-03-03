@@ -4,6 +4,9 @@ by Richard Carling
 from "Graphics Gems", Academic Press, 1990
 */
 
+#include <stdio.h>
+#include <stdlib.h>
+
 #define SMALL_NUMBER	1.e-8
 
 #include "GraphicsGems.h"
@@ -47,12 +50,9 @@ double a1, a2, a3, b1, b2, b3, c1, c2, c3;
 }
 
 /*
- * double = det4x4( matrix )
- * 
  * calculate the determinant of a 4x4 matrix.
  */
-
-double det4x4( m ) Matrix4 *m;
+double det4x4( Matrix4* m )
 {
     double ans;
     double a1, a2, a3, a4, b1, b2, b3, b4, c1, c2, c3, c4, d1, d2, d3, 			d4;
@@ -98,7 +98,7 @@ double det4x4( m ) Matrix4 *m;
  *                     ij
  */
 
-adjoint( in, out ) Matrix4 *in; Matrix4 *out;
+void adjoint(Matrix4 *in, Matrix4 *out)
 {
     double a1, a2, a3, a4, b1, b2, b3, b4;
     double c1, c2, c3, c4, d1, d2, d3, d4;
@@ -153,7 +153,7 @@ adjoint( in, out ) Matrix4 *in; Matrix4 *out;
  *         det A
  */
 
-inverse( in, out ) Matrix4 *in, *out;
+void inverse(Matrix4* in, Matrix4* out )
 {
     int i, j;
     double det, det4x4();

@@ -1,3 +1,4 @@
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -29,7 +30,7 @@ int Gauss(MATX ain, VECT bin, int n, VECT v)
     for (k= 0; k <= last-1; k++) {
         big= 0.0;
         for (i= k; i <= last; i++) {
-            absv= abs(a[sub[i]][k]);
+            absv= fabs(a[sub[i]][k]);
             if (absv > big)
                { big= absv; index= i; }
             }
@@ -69,7 +70,7 @@ void PrintSolution(VECT v, int vectorsize, char which)
 {   int k;
     printf("Solution vector %c\n", which);
     for(k = 0; k < vectorsize; k++)
-        if (abs(v[k]) < 1.0E6) printf("%14.6f  ",v[k]);
+        if (fabs(v[k]) < 1.0E6) printf("%14.6f  ",v[k]);
         else printf("%14.6e  ", v[k]);
     printf("\n");
 }
@@ -173,7 +174,7 @@ void FirstOrderLeastSquares(int npoints, VECT xv, VECT yv)
      for(k=0; k < npoints; k++) {
         xt = zeta[k] -(pt[k].x*xv[0] + pt[k].y*xv[1] + xv[2]);
         yt =  eta[k] -(pt[k].x*yv[0] + pt[k].y*yv[1] + yv[2]);
-        printf("%4d   %12.6   %12.6\n", xt, yt);
+        printf("%f12.6   %f12.6\n", xt, yt);
         }
 }
 

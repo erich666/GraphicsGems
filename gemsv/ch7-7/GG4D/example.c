@@ -106,8 +106,7 @@ Example4()
 	V4MatPrint(stdout, &m);
 }
 
-void
-main()
+int main()
 {
 	Example1();
 	putchar('\n');

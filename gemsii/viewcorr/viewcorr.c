@@ -9,11 +9,11 @@
  */
 #include <stdio.h>
 #include <math.h>
-#include "../GraphicsGems.h"
+#include "GraphicsGems.h"
 #include "matrix.h"
 #include "viewcorr.h"
 
-store_u_partials( xyz, eR, view_parms, ptnum, jacobian )
+void store_u_partials( xyz, eR, view_parms, ptnum, jacobian )
 Point3 *xyz, *eR;
 Matrix jacobian;
 ViewParms *view_parms;
@@ -48,7 +48,7 @@ int ptnum;
 #endif
 }
 
-store_v_partials( xyz, eR, view_parms, ptnum, jacobian )
+void store_v_partials( xyz, eR, view_parms, ptnum, jacobian )
 Point3 *xyz, *eR;
 Matrix jacobian;
 ViewParms *view_parms;
@@ -86,7 +86,7 @@ int ptnum;
 #endif
 }
 
-build_jacobian( datapts, view_parms, jacobian )
+void build_jacobian( datapts, view_parms, jacobian )
 ViewData *datapts;
 Matrix jacobian;
 ViewParms *view_parms;
@@ -169,7 +169,7 @@ int pos_sin_index, neg_sin_index;
 	m->element[neg_sin_index][pos_sin_index] = -sin_theta;
 }
 
-build_rotate( m, rot_x, rot_y, rot_z )
+void build_rotate( m, rot_x, rot_y, rot_z )
 Matrix3 *m;
 double rot_x, rot_y, rot_z;
 {
@@ -187,8 +187,7 @@ double rot_x, rot_y, rot_z;
     V2MatMul(&tmpmat, &rotate, m);
 }
 
-propagate_rotate_change( view_parms )
-	ViewParms *view_parms;
+void propagate_rotate_change(ViewParms* view_parms )
 {
 	/* inverse is just the transpose of a rotate matrix */
 	TransposeMatrix3(&view_parms->view, &view_parms->viewinv);
@@ -223,7 +222,7 @@ ViewParms *view_parms;
     return;
 }
 
-screen_project(datapt, view_parms, screenpt)
+void screen_project(datapt, view_parms, screenpt)
 Point3 *datapt;
 ViewParms *view_parms;
 Point2 *screenpt;
@@ -239,7 +238,7 @@ Point2 *screenpt;
 		     / xyz.z) + view_parms->ycenter;
 }
 
-measure_errors( datapts, view_parms, errors, rootmeansqr )
+void measure_errors( datapts, view_parms, errors, rootmeansqr )
 	ViewData *datapts;
 Matrix errors;
 ViewParms *view_parms;
@@ -259,10 +258,7 @@ double *rootmeansqr;
 	*rootmeansqr = sqrt( sqrs / (datapts->numpts*2.0) );
 }
 
-iterate_view_parms( datapts, view_parms, num_iterations )
-ViewData *datapts;
-ViewParms *view_parms;
-int num_iterations;
+void iterate_view_parms(ViewData* datapts,ViewParms* view_parms, int num_iterations )
 {
     Matrix errors, jacobian, corrections;
     int i,j;

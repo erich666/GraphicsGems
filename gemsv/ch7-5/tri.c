@@ -2,9 +2,14 @@
 #include <memory.h>
 #include <time.h>
 
+void construct_trapezoids(int nseg, segment_t seg[]);
+int generate_random_ordering(int n);
+int monotonate_trapezoids(int n);
+void triangulate_monotone_polygons(int nmonpoly, int op[][3]);
+int locate_endpoint(point_t v, point_t vo, int r);
+int _greater_than_equal_to(point_t* v0, point_t* v1);
 
-static int initialise(nseg)
-     int nseg;
+static int initialise(int nseg)
 {
   register int i;
 
@@ -119,8 +124,7 @@ int triangulate_polygon(n, vertices, triangles)
  * on the boundary is not consistent!!!
  */
 
-int is_point_inside_polygon(vertex)
-     double vertex[2];
+int is_point_inside_polygon(double vertex[2])
 {
   point_t v;
   int trnum, rseg;

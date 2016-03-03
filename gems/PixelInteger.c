@@ -26,9 +26,9 @@ from "Graphics Gems", Academic Press, 1990
  * red = 6, green = 7, blue = 6.
  */
 
-getplanes(r, g, b, n, bias)
-    int *r, *g, *b;
-    char *bias;
+void err(const char* msg, ...) {}
+
+void getplanes(int* r, int* g, int* b, int n, char* bias)
     {
     int i, code[NCODE];
     if(strlen(bias) != NCODE )

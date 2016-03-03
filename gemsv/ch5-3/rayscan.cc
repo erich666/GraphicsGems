@@ -6,7 +6,7 @@
 #include "vector.h"
 
 #define EPSILON 1e-6            /* a small number */
-#define INFINITY 1e8            /* a large number */
+//#define INFINITY 1e8            /* a large number */
 enum StatusFlag {OnScanline,OffScanline,Interval,NeverAgain};
 
 struct FirstHitStatus
@@ -48,7 +48,7 @@ struct FirstHitStatus SphereComputeFirstHitStatus(Vector &Ns,float ds,
     else
     {
         Vector D,H,Cc,Nd;                          /* Cc=Circle Origo */
-        float sintheta,costheta,centerdist;
+        float sintheta,costheta;
         float cr2,d2,t1,t2,t3,V1v,V1u,V2v,V2u;     /* squared circle radius */
         Cc=Sphcen-Ns*signed_dist;                               
         cr2=Sr*Sr-signed_dist*signed_dist;         /* the * is dot-product */
@@ -74,11 +74,11 @@ struct FirstHitStatus SphereComputeFirstHitStatus(Vector &Ns,float ds,
         t1=LeftMost[Ui]-Eyepos[Ui];                /* some constants */
         t2=Eyepos[Vi]-LeftMost[Vi];
         t3=V1u*ScanLineDir[Vi]-V1v*ScanLineDir[Ui];
-        if(t3!=0.0)                                /* V1 parallel to ScanLineDir ? */
+        if(t3!=0.f)                                /* V1 parallel to ScanLineDir ? */
         {
             FHstatus.IntervalMax=(int)floor((V1v*t1+V1u*t2)/t3);
             t3=V2u*ScanLineDir[Vi]-V2v*ScanLineDir[Ui];
-            if(t3==0.0) FHstatus.IntervalMin=0;
+            if(t3==0.f) FHstatus.IntervalMin=0;
             else FHstatus.IntervalMin=(int)ceil((V2v*t1+V2u*t2)/t3);
         }
         else                                      /* V1 parallel to ScanLineDir */
@@ -111,23 +111,23 @@ struct FirstHitStatus SphereComputeFirstHitStatus(Vector &Ns,float ds,
 #define PROJECTPOINT(x,y,z)                                              \
     switch(Ui)                                                           \
     {                                                                    \
-        case Xi:u=x; break;                                              \
-        case Yi:u=y; break;                                              \
-        case Zi:u=z; break;                                              \
+        case Xi:u=(float)x; break;                                              \
+        case Yi:u=(float)y; break;                                              \
+        case Zi:u=(float)z; break;                                              \
     }                                                                    \
     switch(Vi)                                                           \
     {                                                                    \
-        case Xi:v=x; break;                                              \
-        case Yi:v=y; break;                                              \
-        case Zi:v=z; break;                                              \
+        case Xi:v=(float)x; break;                                              \
+        case Yi:v=(float)y; break;                                              \
+        case Zi:v=(float)z; break;                                              \
     }                                                                    \
     denom=ScanLineDir[Ui]*(Eyepos[Vi]-v)-ScanLineDir[Vi]*(Eyepos[Ui]-u); \
-    if(denom==0.0)                                                       \
+    if(denom==0.f)                                                       \
     {                                                                    \
-        if(ScanLineDir[Ui]!=0.0) alpha=(u-Eyepos[Ui])/ScanLineDir[Ui];   \
+        if(ScanLineDir[Ui]!=0.f) alpha=(u-Eyepos[Ui])/ScanLineDir[Ui];   \
         else alpha=(v-Eyepos[Vi])/ScanLineDir[Vi];                       \
-        if(alpha>0.0) realIntervalMax=width-1;                           \
-        else realIntervalMin=0;                                          \
+        if(alpha>0.f) realIntervalMax=(float)(width-1);                  \
+        else realIntervalMin=0.f;                                          \
     }                                                                    \
     else                                                                 \
     {                                                                    \
@@ -173,11 +173,11 @@ struct FirstHitStatus PolyComputeFirstHitStatus(Vector Ns,float ds,
     for(int i=0;i<NrVert;i++)
     {
         dist=Ns.X()*x[i]+Ns.Y()*y[i]+Ns.Z()*z[i]+ds;
-        if(dist==0.0)
+        if(dist==0.f)
         {       /* point i is on the plane, project it on the scanline */
             PROJECTPOINT(x[i],y[i],z[i]);
         }
-        else if((prevdist<0.0 && dist>0.0) || (prevdist>0.0 && dist<0.0))
+        else if((prevdist<0.f && dist>0.f) || (prevdist>0.f && dist<0.f))
         /* intersection */
         {
             isect.Set(x[i],y[i],z[i]);

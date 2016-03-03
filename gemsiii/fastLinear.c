@@ -23,10 +23,14 @@
 #define HRES 768  /*  horizontal resolution, adjust this as necessary */
 #define VRES 512  /*  vertical resolution, adjust this as necessary   */
 
-void FastLinearRend( xmin,xmax,ymin,ymax, xleft,xright, r0,g0,b0,z0, x0,y0,
-             dr_by_dx, dr_by_dy, dg_by_dx, dg_by_dy, db_by_dx, db_by_dy,
-             dz_by_dx, dz_by_dy, screen_buffer_ptr, z_buffer_ptr)
-
+void FastLinearRend( int xmin,int xmax,int ymin,int ymax,
+		int* xleft,int* xright,
+		float r0,float g0,float b0,
+		float z0,
+		int x0,int y0,
+        float dr_by_dx, float dr_by_dy, float dg_by_dx, float dg_by_dy, float db_by_dx, float db_by_dy, float dz_by_dx, float dz_by_dy,
+		int* screen_buffer_ptr, float* z_buffer_ptr)
+#if 0
 int xmin,     /*  The extent of the polygon being rendered:                 */
     xmax,     /*  xmin and xmax give the x-values of the leftmost and       */
     ymin,     /*  rightmost pixels of the polygon, and ymin and ymax the    */
@@ -59,7 +63,7 @@ int *  screen_buffer_ptr;    /* Pointer to the frame buffer base address   */
 
 float *  z_buffer_ptr;       /* Pointer to the z-buffer base address */
                              /* The buffer-size is HRES*VRES         */
-
+#endif
 {
       float r,g,b,z,         /* current r g b z values */
             r1,g1,b1,z1;     /* r g b z values at position x0, y */
@@ -79,7 +83,7 @@ float *  z_buffer_ptr;       /* Pointer to the z-buffer base address */
                              /*  24-bit rgb x-direction offsets  */
 
       /* find r1, g1, b1, z1, the rgbz value at (x0,ymin) */
-      dy = (ymin - y0);
+      dy = (float)(ymin - y0);
       r1 = r0 + dr_by_dy * dy;
       g1 = g0 + dg_by_dy * dy;
       b1 = b0 + db_by_dy * dy;
@@ -87,7 +91,7 @@ float *  z_buffer_ptr;       /* Pointer to the z-buffer base address */
 
       /* find the merged 24-bit rgb x-offset values along a scanline  */
       for (x = xmin; x <= xmax; x++) {
-          dx = (x - x0);
+          dx = (float)(x - x0);
           r = dr_by_dx * dx;
           g = dg_by_dx * dx;
           b = db_by_dx * dx;
@@ -100,7 +104,7 @@ float *  z_buffer_ptr;       /* Pointer to the z-buffer base address */
           col = ((int)r1) + (((int)g1)<<8) + (((int)b1)<<16);
 
           /* and find the z value at (xleft[y],y) */
-          dx  = xleft[y] - x0;
+          dx  = (float)(xleft[y] - x0);
           z   = z1 + dz_by_dx * dx;
 
           /* then render the scanline */

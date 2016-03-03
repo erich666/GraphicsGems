@@ -20,9 +20,7 @@
 static void pixelproc(int x, int y, Poly_vert *point);
 void pixelproc();
 
-main(ac, av)
-int ac;
-char **av;
+int main(int ac, char** av)
 {
     int i;
     Poly p;

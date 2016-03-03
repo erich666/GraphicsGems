@@ -1,9 +1,5 @@
 /* Copyright (c) 1988 Regents of the University of California */
 
-#ifndef lint
-static char SCCSid[] = "@(#)noise3.c 2.1 11/12/91 LBL";
-#endif
-
 /*
  *  noise3.c - noise functions for random textures.
  *
@@ -33,7 +29,7 @@ static char SCCSid[] = "@(#)noise3.c 2.1 11/12/91 LBL";
 
 double  *noise3(), fnoise3(), frand();
 
-static  interpolate();
+static  void interpolate();
 
 static long  xlim[3][2];
 static double  xarg[3];
@@ -54,9 +50,9 @@ register double  xnew[3];
 	if (x[0]==xnew[0] && x[1]==xnew[1] && x[2]==xnew[2])
 		return(f);
 	x[0] = xnew[0]; x[1] = xnew[1]; x[2] = xnew[2];
-	xlim[0][0] = floor(x[0]); xlim[0][1] = xlim[0][0] + 1;
-	xlim[1][0] = floor(x[1]); xlim[1][1] = xlim[1][0] + 1;
-	xlim[2][0] = floor(x[2]); xlim[2][1] = xlim[2][0] + 1;
+	xlim[0][0] = (long)floor(x[0]); xlim[0][1] = xlim[0][0] + 1;
+	xlim[1][0] = (long)floor(x[1]); xlim[1][1] = xlim[1][0] + 1;
+	xlim[2][0] = (long)floor(x[2]); xlim[2][1] = xlim[2][0] + 1;
 	xarg[0] = x[0] - xlim[0][0];
 	xarg[1] = x[1] - xlim[1][0];
 	xarg[2] = x[2] - xlim[2][0];
@@ -66,7 +62,7 @@ register double  xnew[3];
 
 
 static
-interpolate(f, i, n)
+void interpolate(f, i, n)
 double  f[4];
 register int  i, n;
 {
@@ -113,8 +109,8 @@ double  p[3];
 						/* get starting cube */
 	s = (long)(1.0/EPSILON);
 	for (i = 0; i < 3; i++) {
-		t[i] = s*p[i];
-		beg[i] = s*floor(p[i]);
+		t[i] = (long)(s*p[i]);
+		beg[i] = (long)(s*floor(p[i]));
 	}
 	for (j = 0; j < 8; j++) {
 		for (i = 0; i < 3; i++) {

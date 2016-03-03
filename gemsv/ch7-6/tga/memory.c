@@ -29,6 +29,7 @@
 #include "lug.h"
 
 extern int stop_on_error;
+void Error(int);
 
 char *Malloc(size)
 int size;
@@ -48,8 +49,7 @@ int size;
   return ptr;
 }
 
-Free( ptr )
-void *ptr;
+void Free(void* ptr )
 {
   if ( ptr != NULL )
     free( ptr );

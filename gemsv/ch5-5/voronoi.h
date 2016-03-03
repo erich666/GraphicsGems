@@ -14,7 +14,7 @@ public:
 //      D-DIMENSIONAL VECTOR TEMPLATE
 
 template <int D> class VECTOR {
-        friend ostream& operator<<(ostream& o, VECTOR<D>& v);
+        //friend std::ostream& operator<<(std::ostream& o, const VECTOR& v);
         double x[D];                                            // COORDINATES
 public:
         VECTOR() {for(register int i=0; i<D; i++) x[i]=0.;}
@@ -22,27 +22,27 @@ public:
         VECTOR(double x[D], PERMUTATION<D>& p) {
                 for(register int i=0; i<D; i++) this->x[i]=x[p[i]];
         }
-        double operator[](int i) {return x[i];}
-        void operator-=(VECTOR<D>& v) {
+        double operator[](int i) const  {return x[i];}
+        void operator-=(const VECTOR<D>& v) {
                 for(register int i=0; i<D; i++) x[i]-=v.x[i];
         }
-        VECTOR<D> operator*(double d) {
+        VECTOR<D> operator*(double d) const {
                 VECTOR<D> w; for(register int i=0; i<D; i++) w.x[i]=x[i]*d;
                 return w;
         }
-        VECTOR<D> operator/(double d) {
+        VECTOR<D> operator/(double d) const {
                 VECTOR<D> w; for(register int i=0; i<D; i++) w.x[i]=x[i]/d;
                 return w;
         }
-        double operator*(VECTOR<D>& v) {
+        double operator*(const VECTOR<D>& v) const {
                 double d=0.; for(register int i=0; i<D; i++) d+=x[i]*v.x[i];
                 return d;
         }
-        VECTOR<D> operator+(VECTOR<D>& v) {
+        VECTOR<D> operator+(const VECTOR<D>& v) const {
                 VECTOR<D> w; for(register int i=0; i<D;i++) w.x[i]=x[i]+v.x[i];
                 return w;
         }
-        VECTOR<D> operator-(VECTOR<D>& v) {
+        VECTOR<D> operator-(const VECTOR<D>& v) const {
                 VECTOR<D> w; for(register int i=0; i<D;i++) w.x[i]=x[i]-v.x[i];
                 return w;
         }
@@ -51,19 +51,19 @@ public:
 //      D-DIMENSIONAL SQUARE MATRIX TEMPLATE
 
 template <int D> class MATRIX {
-        friend ostream& operator<<(ostream& o, MATRIX<D>& A);
+        //friend std::ostream& operator<<(std::ostream& o, MATRIX<D>& A);
         VECTOR<D> a[D];                                         // ROWS
 public:
         MATRIX(VECTOR<D> a[D]) {for(register int i=0;i<D;i++) this->a[i]=a[i];}
         MATRIX(double a[D][D]) {
                 for(register int i=0; i<D; i++) this->a[i]=VECTOR<D>(a[i]);
         }
-        VECTOR<D> operator*(VECTOR<D>& x) {
+        VECTOR<D> operator*(const VECTOR<D>& x) {
                 double y[D];
                 for(register int i=0; i<D; i++) y[i]=a[i]*x;
                 return VECTOR<D>(y);
         }
-        int operator()(VECTOR<D>& x, VECTOR<D>& b) {    // SOLVE (*this)x=b
+        int operator()(VECTOR<D>& x, const VECTOR<D>& b) {    // SOLVE (*this)x=b
 //              GAUSSIAN ELIMINATION METHOD
                 const double EPS=1e-10;
                 VECTOR<D> B[D]; double c[D]; PERMUTATION<D> p; 
@@ -86,7 +86,8 @@ public:
                         for(j=D-1; j>i; j--) c[p[i]]-=B[p[i]][j]*c[p[j]];
                         c[p[i]]/=B[p[i]][i];
                 }
-                x=VECTOR<D>(c,p); return 1;
+                x = VECTOR<D>(c,p);
+                return 1;
         }
 };
 
@@ -128,16 +129,16 @@ public:
 //      VORONOI-DIAGRAM TEMPLATE
 
 template <int D> class VORONOI {
-        friend ostream& operator<<(ostream& o, VORONOI<D>& v);
+        //friend std::ostream& operator<<(std::ostream& o, VORONOI<D>& v);
         VECTOR<D> C;                                    // CENTROID
         VECTOR<D> *b[D+1], B[D+1];                      // BOUNDING SIMPLEX
         VERTEX<D> *c;                                   // CLOSEST TO CENTROID
-        double ll(VECTOR<D>& v) {return v*v;}           // LENGTH SQUARE
-        double dd(VECTOR<D>& v, VECTOR<D>& w) {         // DISTANCE SQUARE
+        double ll(const VECTOR<D>& v) {return v*v;}           // LENGTH SQUARE
+        double dd(const VECTOR<D>& v, VECTOR<D>& w) {         // DISTANCE SQUARE
                 VECTOR<D> d=v-w; return d*d;
         }
         void normals(int d, double n[D+1][D]) { // NORMAL VECTORS FOR bound()
-                register int i, j;
+                int i;
                 if(d==2) {
                         n[0][0]=1.0; n[0][1]=1.0;
                         n[1][0]=-1.0; n[1][1]=1.0;
@@ -157,9 +158,10 @@ template <int D> class VORONOI {
         list<VERTEX<D>*> *ln;                   // NEW VERTICES
         void create();                          // CREATE NEW VERTICES
         int samering(VERTEX<D>*v, int iv, VERTEX<D>*w, int iw) {
-                for(register int i=(iv+1)%(D+1);i!=iv;i=(i+1)%(D+1)) {
+                for(int i=(iv+1)%(D+1);i!=iv;i=(i+1)%(D+1)) {
                         VECTOR<D> *p=v->p[i];
-                        for(register int j=(iw+1)%(D+1);j!=iw;j=(j+1)%(D+1))
+						int j;
+                        for(j=(iw+1)%(D+1);j!=iw;j=(j+1)%(D+1))
                                 if(w->p[j]==p) {j=-1; break;}
                         if(j>=0) return 0;
                 }
@@ -305,10 +307,13 @@ template <int D> void VORONOI<D>::create() {
 }
 
 template <int D> void VORONOI<D>::link() {
-        register int i, j, n, iv, iw;
+	int n = 0;
+        int i, j, iv, iw;
         VERTEX<D> *v, *w;
-        n=0; for(v=ln->first(); v; v=ln->next()) n++;
-        VERTEX<D> *N[n];
+        for(v=ln->first(); v; v=ln->next()) n++;
+        //VERTEX<D> *N[n];
+		std::vector<VERTEX<D>*> N;
+		N.resize(n);
         n=0; for(v=ln->first(); v; v=ln->next()) N[n++]=v;
         for(i=0; i<n-1; i++) {
                 v=N[i];

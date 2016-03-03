@@ -37,8 +37,9 @@ get_polygon_normal(real normal[3],
     return normal;
 }
 
+double drand48();
 
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
 	int i, j, k, ntris, ins=0;
 	real tri[3][3], normal[3];
@@ -56,7 +57,7 @@ main(int argc, char *argv[])
 		full = polygon_intersects_cube(3, tri, normal, 0, 0);
 		if(fast != full)
 		{
-			printf("fast = %d, full = %d\n", fast, full);
+			printf("fast = %ld, full = %ld\n", fast, full);
 			printf("\t(%f,%f,%f)\n\t,(%f,%f,%f)\n\t,(%f,%f,%f)\n",
 				tri[0][0], tri[0][1], tri[0][2],
 				tri[1][0], tri[1][1], tri[1][2],

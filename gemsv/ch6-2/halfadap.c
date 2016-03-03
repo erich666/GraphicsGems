@@ -18,7 +18,7 @@ unsigned char **path;	   /* space filling curve path */
  * move() is a macro to move along the space filling curve using the
  *        the information stored in path[].
  */
-extern genspacefill();
+extern int genspacefill();
 
 #define TRUE    1
 #define FALSE   0
@@ -130,9 +130,9 @@ void spacefilterwindow(int **picture, int **out, int maxclustersize,
 
       /* detect sudden change */
       if ( (convolution >= 0 && lastconvolution <=0 
-            && abs(convolution-lastconvolution)>thresh)
+            && labs(convolution-lastconvolution)>thresh)
          ||(convolution <= 0  && lastconvolution >=0 
-            && abs(convolution-lastconvolution)>thresh)) 
+            && labs(convolution-lastconvolution)>thresh)) 
         edge=TRUE; /* force output dots */
     }    
 

@@ -4,6 +4,8 @@
 #ifndef _POINT_H_
 #define _POINT_H_
 
+#include <ostream>
+
 #ifndef _BASIC_H_
   #include "basic.h"
 #endif
@@ -29,7 +31,7 @@ protected:
 inline Point& Point::operator +=( const Point& p )
 { x() += p.x(), y() += p.y(), z() += p.z(); return *this; }
 
-inline ostream& operator << ( ostream& outs, const Point& p )
+inline std::ostream& operator << ( std::ostream& outs, const Point& p )
 {
   outs << '(' << p.x() << ' ' << p.y() << ' ' << p.z() << ')';
   return outs;

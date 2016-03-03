@@ -1,5 +1,5 @@
-#include <iostream.h>
+#include <iostream>
 
 #include "global.h"
 
-ostream& operator<<(ostream& o, texture& t) {t.out(o); return o;}
+std::ostream& operator<<(std::ostream& o, texture& t) {t.out(o); return o;}

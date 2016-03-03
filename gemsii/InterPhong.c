@@ -10,6 +10,7 @@ Daniel Thalmann, 1987
 *******************************************************/
 
 #include <math.h>
+#include <stdio.h>
 #include "GraphicsGems.h"
 
 #define RESANTI	3839
@@ -18,6 +19,10 @@ Daniel Thalmann, 1987
 #define NIL 	0
 
 #define	Trunc(v)	((int)floor(v))
+
+void ipabort(const char* msg) {
+    printf("%s", msg);
+}
 
 /* normalize vector, return in pn */
 #define	unity(v,pn)	{ double len ; \
@@ -158,7 +163,7 @@ BlockPoly	*ptpoly;
 			edge2 = tripedtrie->ptedtrie;
 		} 
 		else 
-			abort(" Odd number of edges on scanline");
+			ipabort(" Odd number of edges on scanline");
 
 		dxx = edge2->x - edge1->x;	/* distance between edges
 						   on current scanline */

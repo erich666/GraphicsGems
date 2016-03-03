@@ -213,12 +213,11 @@ Vector3 *a;
         }
 
 /* negates the input vector and returns it */
-Vector3 *V3Negate(v) 
-Vector3 *v;
+Vector3 *V3Negate(Vector3* v) 
 {
-        v->x = -v->x;  v->y = -v->y;  v->z = -v->z;
-        return(v);
-        }
+	v->x = -v->x;  v->y = -v->y;  v->z = -v->z;
+	return v;
+}
 
 /* normalizes the input vector and returns it */
 Vector3 *V3Normalize(v) 
@@ -390,8 +389,7 @@ int i, j, k;
 
 /* binary greatest common divisor by Silver and Terzian.  See Knuth */
 /* both inputs must be >= 0 */
-gcd(u, v)
-int u, v;
+int gcd(int u, int v)
 {
 int t, f;
         if ((u<0) || (v<0)) return(1); /* error if u<0 or v<0 */

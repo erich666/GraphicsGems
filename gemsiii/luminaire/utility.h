@@ -8,7 +8,7 @@
 // ******************************************************************
 
 #include <math.h>
-#include <stream.h>
+//#include <stream.h>
 
 class point;
 class vector;
@@ -103,7 +103,7 @@ inline void rotation_matrix::set_identity()
     data[3][0] = data[3][1] = data[3][2] = 0.0;
 }
 
-void rotation_matrix::set_xyz_to_uvw(const vector& u, const vector& v,
+inline void rotation_matrix::set_xyz_to_uvw(const vector& u, const vector& v,
                                      const vector& w)
 {
       this->set_identity();

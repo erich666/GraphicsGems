@@ -12,7 +12,7 @@ typedef struct {			/* quaternion type */
 	double w, x, y, z;
 } Quaternion;
 
-slerp(alpha, a, b, q, spin)
+void slerp(alpha, a, b, q, spin)
 	double alpha;			/* interpolation parameter (0 to 1) */
 	Quaternion *a, *b;		/* start and end unit quaternions */
 	Quaternion *q;			/* output interpolated quaternion */

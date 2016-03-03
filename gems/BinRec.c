@@ -39,9 +39,7 @@ int n, a, *b, *r;
     if (*r>n-*b) *r = n-*b;
 }
 
-main(ac, av)
-int ac;
-char **av;
+int main(int ac, char** av)
 {
     int nframes, i, start_frame, repeat_count;
     if (ac!=2) {

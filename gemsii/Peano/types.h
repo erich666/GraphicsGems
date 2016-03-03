@@ -37,3 +37,4 @@ int	dimensions;			/* number of dimensions being filled */
 int	precision;			/* number of bits of precision used */
 byte	bytemask; 			/* masks "dimensions" bits */
 
+void peano(vector coord, int point);

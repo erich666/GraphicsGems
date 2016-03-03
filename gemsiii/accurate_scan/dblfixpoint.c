@@ -1,3 +1,4 @@
+#include <inttypes.h>
 #include <stdio.h>
 #include "fixpoint.h"
 
@@ -9,7 +10,7 @@ static int verbose = 0;
 number = hi + lo * 2^(-2m)
 */
 
-int fp_dblnegative(dblfixpoint x) { return (x.neg); }
+uint64_t fp_dblnegative(dblfixpoint x) { return (x.neg); }
 
 dblfixpoint fp_dblnegate(dblfixpoint x)
 { x.neg = !x.neg;   return x; }
@@ -45,7 +46,8 @@ dblfixpoint fp_dblmultiply(fixpoint x, fixpoint y)
 
 int fp_dbllessthan(dblfixpoint x, dblfixpoint y)
 {
-  int bothneg, xneg, yneg;
+  int bothneg;
+  int64_t xneg, yneg;
   xneg = fp_dblnegative(x);
   yneg = fp_dblnegative(y);
   bothneg = xneg && yneg;
@@ -63,17 +65,17 @@ int fp_dbllessthan(dblfixpoint x, dblfixpoint y)
 
 fixpoint fp_trunc(dblfixpoint a)
 {
-  int hi = (a.hi << LOBITS);
-  int lo = (a.lo >> LOBITS);
+  int64_t hi = (a.hi << LOBITS);
+  int64_t lo = (a.lo >> LOBITS);
 
   if ((hi >> LOBITS) != a.hi) {
-	 printf("fp_trunc() Overflow converting hibits 0x%08x to 0x%08x fixpoint in (%d,%d) bits\n", a.hi, hi, HIBITS, LOBITS);
+	 printf("fp_trunc() Overflow converting hibits 0x%" PRIu64 " to 0x%" PRIu64 " fixpoint in (%d,%d) bits\n", a.hi, hi, HIBITS, LOBITS);
   }
 
   if (a.neg)
-	 return (-(hi + lo));
+	 return (fixpoint)(-(hi + lo));
   else
-	 return (hi + lo);
+	 return (fixpoint)(hi + lo);
 }
 
 
@@ -116,8 +118,9 @@ dblfixpoint fp_dbladd(dblfixpoint a, dblfixpoint b)
   if ((a.neg && b.neg) || (!a.neg && !b.neg)) {
 	 int carry;
 	 answer.neg = a.neg;
-	 answer.lo = add_with_carry(a.lo, b.lo, 0, &carry);
+	 answer.lo = add_with_carry((unsigned int)a.lo, (unsigned int)b.lo, 0, &carry);
 
+#pragma warning(disable : 4293) // This shift seems not right
 	 if (verbose && ((answer.lo >> 2*LOBITS) || carry))
 	        printf("  Lobits overflow (ok, put into hibits).\n");
 
@@ -127,7 +130,7 @@ dblfixpoint fp_dbladd(dblfixpoint a, dblfixpoint b)
   }
   else {
 	 if (a.neg) {
-		unsigned int tmp;
+		uint64_t tmp;
 		if (verbose) printf("\tCase: a.neg, b.pos, a<b, swapping\n");
 		a.neg = 0; b.neg =1;
 		tmp = a.hi; a.hi = b.hi; b.hi = tmp;

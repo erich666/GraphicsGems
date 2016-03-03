@@ -24,7 +24,7 @@ void rand_rotation( float x[], Matrix3 *M )
     {
     float theta = x[0] * PITIMES2; /* Rotation about the pole (Z).      */
     float phi   = x[1] * PITIMES2; /* For direction of pole deflection. */
-    float z     = x[2] * 2.0;      /* For magnitude of pole deflection. */
+    float z     = x[2] * 2.f;      /* For magnitude of pole deflection. */
 
     /* Compute a vector V used for distributing points over the sphere  */
     /* via the reflection I - V Transpose(V).  This formulation of V    */
@@ -32,17 +32,17 @@ void rand_rotation( float x[], Matrix3 *M )
     /* the reflected points will be uniform on the sphere.  Note that V */
     /* has length sqrt(2) to eliminate the 2 in the Householder matrix. */
 
-    float r  = sqrt( z );
-    float Vx = sin( phi ) * r;
-    float Vy = cos( phi ) * r;
-    float Vz = sqrt( 2.0 - z );    
+    float r  = sqrtf( z );
+    float Vx = sinf( phi ) * r;
+    float Vy = cosf( phi ) * r;
+    float Vz = sqrtf( 2.f - z );    
 
     /* Compute the row vector S = Transpose(V) * R, where R is a simple */
     /* rotation by theta about the z-axis.  No need to compute Sz since */
     /* it's just Vz.                                                    */
 
-    float st = sin( theta );
-    float ct = cos( theta );
+    float st = sinf( theta );
+    float ct = cosf( theta );
     float Sx = Vx * ct - Vy * st;
     float Sy = Vx * st + Vy * ct;
 

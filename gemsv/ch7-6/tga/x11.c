@@ -26,6 +26,8 @@
  *
  */
 
+#if 0
+
 #include "lug.h"
 #include "lugfnts.h"
 
@@ -364,4 +366,5 @@ int *cmap_flag;
 
   return used_colors;
 }
+#endif
 

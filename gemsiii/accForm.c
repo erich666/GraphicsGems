@@ -28,7 +28,7 @@ static float quadArea() ;
 #define Z    2
 
 /* set vector v to zero */
-#define VZERO(v)        (v[X] = v[Y] = v[Z] = 0.0)
+#define VZERO(v)        (v[X] = v[Y] = v[Z] = 0.f)
 /* increment vector v by vector dv */
 #define VINCR(v, dv)    (v[X] += dv[X], v[Y] += dv[Y], v[Z] += dv[Z])
 /* scale vector v by a constant c */
@@ -42,15 +42,15 @@ static float quadArea() ;
                          v[Y] = s[Z] * t[X] - s[X] * t[Z], \
                          v[Z] = s[X] * t[Y] - s[Y] * t[X])
 /* compute the length of vector v */
-#define VNORM(v)        (sqrt(VDOT(v, v)))
+#define VNORM(v)        (sqrtf(VDOT(v, v)))
 /* subtract vector t from vector s and assign the result to v */
 #define VSUB(v, s, t)   (v[X] = s[X] - t[X], \
                          v[Y] = s[Y] - t[Y], \
                          v[Z] = s[Z] - t[Z])
 /* compute the average of vectors s and t */
-#define VAVG2(v, s, t)  (v[X] = 0.5 * (s[X] + t[X]), \
-                         v[Y] = 0.5 * (s[Y] + t[Y]), \
-                         v[Z] = 0.5 * (s[Z] + t[Z]))
+#define VAVG2(v, s, t)  (v[X] = 0.5f * (s[X] + t[X]), \
+                         v[Y] = 0.5f * (s[Y] + t[Y]), \
+                         v[Z] = 0.5f * (s[Z] + t[Z]))
 
 typedef float Vector[3];
 typedef Vector Point;
@@ -88,23 +88,19 @@ static float eps_F, eps_A;
 	control the recursive subdivision of the source: no region of
 	area less than or equal to 'minA' will be subdivided.
 */
-float computeContribution(Pr, Nr, rho, S, Ns, Bs, eps_B, minA)
-Point Pr;
-Normal Nr, Ns;
-float rho, Bs, eps_B, minA;
-Quad S;
+float computeContribution(Point Pr, Normal Nr, float rho, Quad S, Normal Ns, float Bs, float eps_B, float minA)
 {
     Vector v;
     float computeFormFactor();
 
-    if(VDOT(Nr, Ns) >= 0.0)
+    if(VDOT(Nr, Ns) >= 0.f)
         /* the receiving point is oriented away from the source */
-        return 0.0;
+        return 0.f;
     
     VSUB(v, Pr, S[0]);
-    if(VDOT(Ns, v) <= 0.0)
+    if(VDOT(Ns, v) <= 0.f)
         /* the receiving point is behind the source */
-        return 0.0;
+        return 0.f;
 
     eps_F = eps_B / (rho * Bs);
 
@@ -134,9 +130,9 @@ Quad S;
     float Frs, vis, computeUnoccludedFormFactor(), quadArea();
 
     vis = computeVisibility(Pr, S);
-    if(vis <= 0.0)
-        Frs = 0.0;
-    else if(vis >= 1.0)
+    if(vis <= 0.f)
+        Frs = 0.f;
+    else if(vis >= 1.f)
         Frs = computeUnoccludedFormFactor(Pr, Nr, S);
     else {
         Frs = computeUnoccludedFormFactor(Pr, Nr, S);
@@ -144,7 +140,7 @@ Quad S;
             return(Frs * vis);
         else {
             splitQuad(S, dS);
-            Frs = 0.0;
+            Frs = 0.f;
             for(j = 0; j < 4; j++)
                 Frs += computeFormFactor(Pr, Nr, dS[j], Ns);
         }
@@ -171,26 +167,26 @@ Quad S;
     float f, c;
     Vector s, t, sxt, s0;
 
-    f = 0.0;
+    f = 0.f;
     VSUB(s, S[3], Pr);
-    c = 1.0 / VNORM(s);
+    c = 1.f / VNORM(s);
     VSCALE(s, c);
     VCOPY(s0, s);
     for(i = 0; i < 4; i++) {
         if(i < 3) {
             VSUB(t, S[i], Pr);
-            c = 1.0 / VNORM(t);
+            c = 1.f / VNORM(t);
             VSCALE(t, c);
         } else
             VCOPY(t, s0);
         VCROSS(sxt, s, t);
-        c = 1.0 / VNORM(sxt);
+        c = 1.f / VNORM(sxt);
         VSCALE(sxt, c);
-        f -= acos(VDOT(s, t)) * VDOT(sxt, Nr);
+        f -= acosf(VDOT(s, t)) * VDOT(sxt, Nr);
         VCOPY(s, t);
     }
     
-    return((float)(f / (2.0 * M_PI)));
+    return((float)(f / (2.f * M_PI)));
 }
 
 /*

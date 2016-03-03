@@ -6,11 +6,15 @@ from "Graphics Gems", Academic Press, 1990
 user provides "setpixel()" function for output.
 */
 
+void setpixel(int x, int y) {
+	// user provided
+}
+
 #define swap(a,b)           {a^=b; b^=a; a^=b;}
 #define absolute(i,j,k)     ( (i-j)*(k = ( (i-j)<0 ? -1 : 1)))
 
 /* non-zero flag indicates the pixels needing swap back. */
-plot(x, y, flag) int x, y, flag;
+void plot(int x, int y, int flag)
 {
 	if (flag)
 		setpixel(y, x);

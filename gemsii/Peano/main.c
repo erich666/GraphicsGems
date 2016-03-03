@@ -18,7 +18,7 @@
 #include <math.h>
 #include "types.h"
 
-char           *image_file="im_file";
+static char           *image_file="im_file";
 
 unsigned char   fb[FB_SIZE + 1][FB_SIZE + 1];
 FILE           *outfile;
@@ -28,7 +28,7 @@ vector          gcoord, glast_coord;
 /* 
  * draws horizontal and vertical lines into "fb" with color "index"
  */
-draw_line(x1, y1, x2, y2, index)
+void draw_line(x1, y1, x2, y2, index)
 unsigned        x1, y1, x2, y2, index;
 {
 	unsigned int i;
@@ -61,7 +61,7 @@ unsigned        x1, y1, x2, y2, index;
 /*
  * recursive routine to call "peano()"
  */
-recurse(coord, last_coord, iterations, level)
+void recurse(coord, last_coord, iterations, level)
 vector          coord, last_coord;
 int             iterations, level;
 {
@@ -96,10 +96,7 @@ int             iterations, level;
 } /* recurse() */
 
 
-main(argc, argv)
-	int             argc;
-char           *argv[];
-
+int main(int argc, char** argv)
 {
 	int             i;
 

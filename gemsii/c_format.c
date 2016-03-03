@@ -9,6 +9,13 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include "getopt.h"
+
+int isatty(int f);
+
+#ifdef WIN32
+#define fileno _fileno
+#endif
 
 static char psPreamble[] = "\
 %!PS-Adobe-2.0\n\
@@ -120,7 +127,7 @@ char *s;
 	char *p = ps_buf;
 	int c;
 
-	while(c = *s++) {
+	while((c = *s++)) {
 		if((c == '(') || (c == ')') || (c == '\\')) {
 			*p++ = '\\';
 		}
@@ -524,9 +531,7 @@ options:\n\
 	exit(1);
 }
 
-main(argc, argv)
-int argc;
-char **argv;
+int main(int argc, char** argv)
 {
 	FILE *f;
 	register int c;
@@ -577,7 +582,7 @@ char **argv;
 		if((p[0] == '-') && (p[1] == '\0')) {
 			list(stdin, stdout);
 		} else {
-			if(f = fopen(p, "r")) {
+			if((f = fopen(p, "r"))) {
 				list(f, stdout);
 				fclose(f);
 			} else {

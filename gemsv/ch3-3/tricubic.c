@@ -50,20 +50,20 @@ float           TriCubic (Point p, float *volume, int xDim, int yDim, int zDim)
 
   /* factors for Catmull-Rom interpolation */
 
-  u[0] = -0.5 * CUBE (dx) + SQR (dx) - 0.5 * dx;
-  u[1] = 1.5 * CUBE (dx) - 2.5 * SQR (dx) + 1;
-  u[2] = -1.5 * CUBE (dx) + 2 * SQR (dx) + 0.5 * dx;
-  u[3] = 0.5 * CUBE (dx) - 0.5 * SQR (dx);
+  u[0] = -0.5f * CUBE (dx) + SQR (dx) - 0.5f * dx;
+  u[1] =  1.5f * CUBE (dx) - 2.5f * SQR (dx) + 1;
+  u[2] = -1.5f * CUBE (dx) + 2 * SQR (dx) + 0.5f * dx;
+  u[3] =  0.5f * CUBE (dx) - 0.5f * SQR (dx);
 
-  v[0] = -0.5 * CUBE (dy) + SQR (dy) - 0.5 * dy;
-  v[1] = 1.5 * CUBE (dy) - 2.5 * SQR (dy) + 1;
-  v[2] = -1.5 * CUBE (dy) + 2 * SQR (dy) + 0.5 * dy;
-  v[3] = 0.5 * CUBE (dy) - 0.5 * SQR (dy);
+  v[0] = -0.5f * CUBE (dy) + SQR (dy) - 0.5f * dy;
+  v[1] =  1.5f * CUBE (dy) - 2.5f * SQR (dy) + 1;
+  v[2] = -1.5f * CUBE (dy) + 2 * SQR (dy) + 0.5f * dy;
+  v[3] =  0.5f * CUBE (dy) - 0.5f * SQR (dy);
 
-  w[0] = -0.5 * CUBE (dz) + SQR (dz) - 0.5 * dz;
-  w[1] = 1.5 * CUBE (dz) - 2.5 * SQR (dz) + 1;
-  w[2] = -1.5 * CUBE (dz) + 2 * SQR (dz) + 0.5 * dz;
-  w[3] = 0.5 * CUBE (dz) - 0.5 * SQR (dz);
+  w[0] = -0.5f * CUBE (dz) + SQR (dz) - 0.5f * dz;
+  w[1] =  1.5f * CUBE (dz) - 2.5f * SQR (dz) + 1;
+  w[2] = -1.5f * CUBE (dz) + 2 * SQR (dz) + 0.5f * dz;
+  w[3] =  0.5f * CUBE (dz) - 0.5f * SQR (dz);
 
   for (k = 0; k < 4; k++)
   {

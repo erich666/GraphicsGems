@@ -1,9 +1,11 @@
 
-#include <gl/gl.h>     /* SGI Graphics Library assumed */
+#include "fakeirisgl.h"
+
+unsigned int sleep(unsigned int);
 
 #define STEP_SIZE 4    /* # of pixels in each step */
 
-long coord[2];         /* X,Y for graphics calls */
+int coord[2];         /* X,Y for graphics calls */
 
 void step(long angle)
 {
@@ -70,8 +72,7 @@ long orient,*angle,level;
    peano(orient,angle,level);
 }
 
-
-void main()
+int main()
 {
 long initial_angle;
 

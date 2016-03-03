@@ -4,7 +4,7 @@ by Alan Paeth
 from "Graphics Gems", Academic Press, 1990
 */
 
-remap8(R, G, B, R2, G2, B2)
+int remap8(R, G, B, R2, G2, B2)
     float R, G, B, *R2, *G2, *B2;
     {
 /*

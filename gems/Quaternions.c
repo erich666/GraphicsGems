@@ -6,7 +6,7 @@ from "Graphics Gems", Academic Press, 1990
 
 extern double P[3], Q[4], M[4][4];
 
-set_obs_position(x,y,z)
+void set_obs_position(x,y,z)
 float	x, y, z;
 {
 int	i;
@@ -26,7 +26,7 @@ int	i;
   	for (i = 1; i < 4; i++) Q[i] = 0.;
 }
 
-translate_quaternion(x,i,w)
+void translate_quaternion(x,i,w)
 float	x;
 int	i, w;
 {
@@ -55,7 +55,7 @@ float	A, B, D, E, F;
   }
 }
 
-rotate_quaternion(x,y,i,w)
+void rotate_quaternion(x,y,i,w)
 float	x, y;
 int	i, w;
 {
@@ -84,7 +84,7 @@ float	E, F, R1;
 }
 
 
-Evaluate_matrix()
+void Evaluate_matrix()
 {
 float	e, f, r[4];
 int	i, j, k;

@@ -37,9 +37,7 @@ static	Vector2		V2SubII();
 
 #ifdef TESTMODE
 
-DrawBezierCurve(n, curve)
-int n;
-BezierCurve curve;
+void DrawBezierCurve(int n, BezierCurve curve)
 {
 	/* You'll have to write this yourself. */
 }
@@ -57,7 +55,7 @@ BezierCurve curve;
  *   ascii output, etc. 
  *
  */
-main()
+int main()
 {
     static Point2 d[7] = {	/*  Digitized points */
 	{ 0.0, 0.0 },

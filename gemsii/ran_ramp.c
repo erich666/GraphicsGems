@@ -56,7 +56,7 @@ unsigned char   r[MAXENTRY], g[MAXENTRY], b[MAXENTRY];
  * we can call fb_done() before exiting - this 
  * may or may not be necessary
  */
-inter()
+void inter(int i)
 {
 	quit = TRUE;
 }
@@ -67,7 +67,7 @@ inter()
  * animation at any time and dump the color map to 
  * a file
  */
-suspend()
+void suspend()
 {
 	stop = TRUE;
 }
@@ -78,7 +78,7 @@ suspend()
  * lookup table
  */
 
-dda_red()
+int dda_red()
 {
 
 	register int    temp;
@@ -94,10 +94,10 @@ dda_red()
 			/* define end of next ramp */
 		seed = RANDOM(seed);
 			/* assign a new (scaled) end point */
-		ry2 = MAXINDEX * (seed / 65535.0);
+		ry2 = MAXINDEX * (seed / 65535.f);
 		seed = RANDOM(seed);
 			/* get a new ramp length */
-		r_xsteps = (maxsteps * (seed / 65535.0));
+		r_xsteps = (maxsteps * (seed / 65535.f));
 			/* find the intensity increment per step */
 		if (r_xsteps != 0)
 			rinc = (ry2 - ry1) / r_xsteps;
@@ -116,7 +116,7 @@ dda_red()
  * lookup table
  */
 
-dda_green()
+int dda_green()
 {
 
 	register int    temp;
@@ -130,9 +130,9 @@ dda_green()
 		gy1 = gy2;
 			/* define end of next ramp */
 		seed = RANDOM(seed);
-		gy2 = MAXINDEX * (seed / 65535.0);
+		gy2 = MAXINDEX * (seed / 65535.f);
 		seed = RANDOM(seed);
-		g_xsteps = (maxsteps * (seed / 65535.0));
+		g_xsteps = (maxsteps * (seed / 65535.f));
 			/* find the intensity increment per step */
 		if (g_xsteps != 0)
 			ginc = (gy2 - gy1) / g_xsteps;
@@ -151,7 +151,7 @@ dda_green()
  * lookup table
  */
 
-dda_blue()
+int dda_blue()
 {
 
 	register int    temp;
@@ -165,9 +165,9 @@ dda_blue()
 		by1 = by2;
 			/* define end of next ramp */
 		seed = RANDOM(seed);
-		by2 = MAXINDEX * (seed / 65535.0);
+		by2 = MAXINDEX * (seed / 65535.f);
 		seed = RANDOM(seed);
-		b_xsteps = (maxsteps * (seed / 65535.0));
+		b_xsteps = (maxsteps * (seed / 65535.f));
 			/* find the intensity increment per step */
 		if (b_xsteps != 0)
 			binc = (by2 - by1) / b_xsteps;
@@ -186,7 +186,7 @@ dda_blue()
  * save the lookup table to a file
  */
 
-save_lut()
+void save_lut()
 {
 	FILE           *fp, *fopen();
 	char            filename[40];
@@ -194,7 +194,7 @@ save_lut()
 
 	getchar();		/* read leading newline char */
 	printf("Enter filename for lookup table:  ");
-	gets(filename);
+	fgets(filename, 40, stdin);
 	fp = fopen(filename, "w");
 
 	for (i=0; i<MAXINDEX; i++)
@@ -204,7 +204,18 @@ save_lut()
 
 } /* save_lut() */
 
-main(argc, argv)
+void fb_init() {
+	// TODO
+}
+
+void fb_setmap(int a, int b, unsigned char* c, unsigned char* d, unsigned char* e) {
+	// TODO
+}
+
+void fb_done() {
+	// TODO
+}
+int main(argc, argv)
 int             argc;
 char           *argv[];
 {
@@ -212,11 +223,11 @@ char           *argv[];
 	register int    i;
 	int             reply, delay;
 
-	int             inter();	 /* signal functions, see below */
-	int             suspend();
+	void inter(int);	 /* signal functions, see below */
+	//int             suspend();
 
 	signal(SIGINT, inter);		 /* traps <ctrl-C> */
-	signal(SIGTSTP, suspend);	 /* traps <ctrl-Z> */
+	//signal(SIGTSTP, suspend);	 /* traps <ctrl-Z> */
 
 	printf("Please enter seed: ");
 	scanf("%d", &seed);
@@ -252,7 +263,7 @@ char           *argv[];
 	}
 
 			/* generic routine to write frame buffer color map */
-	fb_setmap(r, g, b);
+	fb_setmap(0, MAXINDEX, r, g, b);
 
 			/* loop until <ctrl-C> is trapped */
 	while (!quit) {
@@ -264,7 +275,7 @@ char           *argv[];
 			if (reply == 'y')
 				save_lut();
 					/* returns when job running again */
-			kill(getpid(), SIGSTOP);
+			// Not on Windows kill(getpid(), SIGSTOP);
 			stop = FALSE;
 			fb_init();	/* get back in action */
 		}

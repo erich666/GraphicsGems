@@ -1,9 +1,13 @@
-
 /*
  * solve.h
  *
  *	some useful constants and types.
  */
+
+#pragma once
+
+#include <stddef.h>
+
 #define	 	MAX_ORDER  		12	
 /* maximum order for a polynomial */
 	
@@ -33,7 +37,7 @@ typedef  	struct	p {
 extern 	int		modrf();
 extern 	int		numroots();
 extern 	int		numchanges();
-extern 	int		buildsturm();
+extern 	ptrdiff_t buildsturm();
 
 extern 	double	evalpoly();
 	

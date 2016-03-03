@@ -1,9 +1,18 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 /*#include <starbase.c.h>*/	/* ancient HP graphics API - good luck! */
 
 #include "fixpoint.h"
+
+void fill_color(int a, float b, float c, float d) {}
+void intrectangle(int a, int b, int c, int d, int e) {}
+void make_picture_current(int a) {}
+void intvdc_extent(int a, int b, int c, int d, int e) {}
+void clear_view_surface(int a) {}
+void drawing_mode(int a, int b) {}
+void mapping_mode(int a, bool b) {}
 
 extern void printnbits();
 extern void subpixel_triangle(fixpoint x0, fixpoint y0,
@@ -21,7 +30,7 @@ extern void triangle(int x0, int y0, int x1, int y1, int x2, int y2);
   */
 
 static int fildes;
-static struct color {float r, g, b;};
+struct color {float r, g, b;};
 int verbose = 0;
 
 #define SIZE 200
@@ -111,26 +120,26 @@ InitScreen()
 	if(!driver) driver = getenv("OUTDRIVER");
 	if (!driver ) driver = "hp98731";
 	
-	fildes = gopen(sb_dev,OUTDEV,driver,INIT|INT_XFORM);
-	interior_style(fildes,INT_SOLID,FALSE);
+	// ANCIENT fildes = gopen(sb_dev,OUTDEV,driver,INIT|INT_XFORM);
+	// ANCIENT interior_style(fildes,INT_SOLID,FALSE);
 	
 	intvdc_extent(fildes,0,0,SIZE, SIZE);
-	mapping_mode(fildes,FALSE);
+	mapping_mode(fildes,false);
 	
 	drawing_mode(fildes,6);	  /* xor mode */
 	
-	clear_control(fildes, CLEAR_VIEWPORT);
+	// ANCIENT clear_control(fildes, CLEAR_VIEWPORT);
 	fill_color(fildes, 1.0, 1.0, 1.0);
 	
 	return(fildes);
 }
 
 
-void
+int
 main()
 {
   int i, j;
-  int nsubpixels = 1 << (HIBITS+LOBITS);
+#pragma warning(disable : 4293)
   fixpoint zero, maxpix;
 
   zero = 0;

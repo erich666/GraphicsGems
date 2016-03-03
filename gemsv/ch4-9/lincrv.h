@@ -7,5 +7,5 @@ typedef float Knot;
 typedef int Bool;
 
 int DialASpline(Knot t, Knot a[], Vect p[], int m, int n, Vect work[],
-                unsigned int Cn, Bool interp, Vect val);
+                int Cn, Bool interp, Vect val);
 

@@ -4,23 +4,22 @@
  */
 #include	<stdlib.h>
 #include	<stdio.h>
-#include	"../GraphicsGems.h"
+#include	"GraphicsGems.h"
 #include	"line.h"
 
+void cross_calc(CONTOUR* poly, SEGMENT* l, CLIST** psol, short* nsol, short nsmax);
 void clip(CONTOUR	*p, SEGMENT	*l);
 
 #define DEBUG
 #ifdef DEBUG
-move(x, y)
-	long	x, y;
+void move(long x, long y)
 {
-	printf("(%d,%d) ->", x, y);
+	printf("(%ld,%ld) ->", x, y);
 }
 
-cont(x, y)
-	long	x, y;
+void cont(long x, long y)
 {
-	printf("(%d,%d)\n", x, y);
+	printf("(%ld,%ld)\n", x, y);
 }
 
 #endif

@@ -29,6 +29,8 @@
 #include "lug.h"
 #include "lugfnts.h"
 
+void rm_compress();
+
 #define GIFHEADER               "GIF87a"
 #define NEWGIFHEADER            "GIF89a"
 #define GIFIMGSEPAR             ','
@@ -53,7 +55,7 @@ bitmap_hdr *image;
 {
   int xsize, ysize;
   byte *globalcmap, *localcmap;
-  int mask;
+  int mask = 0;
   int codesize;
   int totalsize;
   int globalcolors, localcolors;
@@ -103,7 +105,7 @@ void read_gif_file( name, bitmap )
 	char *name;
 bitmap_hdr *bitmap;
 {
-	FILE *handle;
+	FILE *handle = NULL;
 
 	/* Open the file descriptor */
 	if ( name != NULL )
@@ -208,7 +210,7 @@ bitmap_hdr *image;
        * and continue adding values into ioutput.
        */
       while ( current > mask ) {
-        stack[count++] = sufix[current];
+        stack[count++] = (unsigned char)sufix[current];
         current = prefix[current];
       }
       k = current & mask;
@@ -244,7 +246,7 @@ bitmap_hdr *image;
   free( stack );
 }
 
-read_code( buffer, mask, offset, codesize )
+int read_code( buffer, mask, offset, codesize )
 byte *buffer;
 int mask;
 int *offset;
@@ -268,7 +270,7 @@ int codesize;
   return( aux & mask );
 }
 
-push_gif(buffer, indexx)
+int push_gif(buffer, indexx)
 byte *buffer;
 int indexx;
 {
@@ -303,7 +305,7 @@ int *mask;
 {
   /* int swidth, sheight; */
   byte buffer[7];
-  byte *cmap;
+  byte *cmap = NULL;
   int cmapflag;
   int bitsperpixel;
   /* int background; */
@@ -341,7 +343,7 @@ int *width, *height;
 {
   /* int left, right; */
   byte buffer[10];
-  byte *cmap;
+  byte *cmap = NULL;
   int cmapflag;
   int interlace;
   int bitsperpixel;
@@ -445,6 +447,8 @@ bitmap_hdr *image;
 
 }
 
+void compress(int, FILE*, int (*)());
+
 void write_gif(handle, image)
 FILE *handle;
 bitmap_hdr *image;
@@ -485,7 +489,7 @@ bitmap_hdr *image;
    */
   VPRINTF(stdout, "Compressing raster information\n");
   ptr_image = image->r;
-  compress( codesize, handle, read_pixel );
+  compress( codesize, handle, read_pixel);
 
   /*
    * Block with a size of 0 bytes.
@@ -563,7 +567,7 @@ bitmap_hdr *image;
   Fwrite( buffer, 10, 1, handle);
 }
 
-read_pixel()
+int read_pixel()
 {
   static int size;
   static byte *base, *ptr;

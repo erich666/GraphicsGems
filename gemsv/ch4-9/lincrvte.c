@@ -7,7 +7,7 @@
 
 #define TRUE 1
 #define FALSE 0
-#define BIG (1.0e12)
+#define BIG (1.0e12f)
 
 static Vect work[4];
 static Vect ctlPts[] = { {0,0}, {1,1}, {1,0}, {0,0}, };
@@ -27,7 +27,7 @@ static int eh = 0;
 enum Flavor{PLY, LAG, BEZ, CAT, BSP, NFLAVORS};
 char fnames[][4] = {"PLY", "LAG", "BEZ", "CAT", "BSP"};
 
-void main(void)
+int main(void)
 {
     int i;
     int flavor = PLY;

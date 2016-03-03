@@ -9,10 +9,9 @@
 #include "matrix.h"
 
 
-double 
-InvertMatrix(mat,actual_size)
-Matrix mat;			/* Holds the original and inverse */
-int actual_size;	/* Actual size of matrix in use, (high_subscript+1)*/
+double InvertMatrix(Matrix mat,int actual_size)
+/* mat: Holds the original and inverse */
+/* actual_size: Actual size of matrix in use, (high_subscript+1)*/
 {
     int i,j,k;
 					/* Locations of pivot elements */
@@ -120,9 +119,7 @@ int actual_size;	/* Actual size of matrix in use, (high_subscript+1)*/
     return(determ);
 }
 
-Matrix
-NewMatrix(cols, rows)
-int cols,rows;
+Matrix NewMatrix(int cols, int rows)
 {
     int i;
     Matrix newM;
@@ -132,9 +129,7 @@ int cols,rows;
     return newM;
 }
 
-FreeMatrix(mat, rows)
-Matrix mat;
-int rows;
+void FreeMatrix(Matrix mat, int rows)
 {
     int i;
     for(i = 0; i < rows; i++)
@@ -142,9 +137,7 @@ int rows;
     free(mat);
 }
 
-TransposeMatrix(inM, outM, cols, rows)
-Matrix inM, outM;
-int cols,rows;
+void TransposeMatrix(Matrix inM, Matrix outM, int cols, int rows)
 {
     int tempI, tempJ;
     for(tempI=0; tempI < rows; tempI++)
@@ -152,9 +145,7 @@ int cols,rows;
 	    outM[tempI][tempJ] = inM[tempJ][tempI];    
 }
 
-MultMatrix(firstM, secondM, outM, firstrows, cols, secondcols)
-Matrix firstM, secondM, outM;
-int firstrows, cols, secondcols;
+void MultMatrix(Matrix firstM, Matrix secondM, Matrix outM, int firstrows, int cols, int secondcols)
 {
     int i,j,k;
     double sum;

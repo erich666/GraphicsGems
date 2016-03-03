@@ -16,9 +16,9 @@
 #include "poly.h"
 
 static void scanline(int y, Poly_vert *l, Poly_vert *r, Window *win, void (*pixelproc)(), unsigned long mask);
-static incrementalize_y(register double *p1, register double *p2, register double *p, register double *dp, int y, register unsigned long mask);
-static incrementalize_x(register double *p1, register double *p2, register double *p, register double *dp, int x, register unsigned long mask);
-static increment(register double *p, register double *dp, register unsigned long mask);
+static void incrementalize_y(register double *p1, register double *p2, register double *p, register double *dp, int y, register unsigned long mask);
+static void incrementalize_x(register double *p1, register double *p2, register double *p, register double *dp, int x, register unsigned long mask);
+static void increment(register double *p, register double *dp, register unsigned long mask);
 
 /*
  * poly_scan: Scan convert a polygon, calling pixelproc at each pixel with an
@@ -41,10 +41,10 @@ static increment(register double *p, register double *dp, register unsigned long
  * sx=x+.5 and sy=y+.5, since sampling is done at pixel centers.
  */
 
-void poly_scan(p, win, pixelproc)
-register Poly *p;		/* polygon */
-Window *win;			/* 2-D screen space clipping window */
-void (*pixelproc)();		/* procedure called at each pixel */
+void poly_scan(Poly* p, Window* win, void (*pixelproc)())
+/* polygon */
+/* 2-D screen space clipping window */
+/* procedure called at each pixel */
 {
     register int i, li, ri, y, ly, ry, top, rem;
     register unsigned long mask;
@@ -80,7 +80,7 @@ void (*pixelproc)();		/* procedure called at each pixel */
 	    rem--;
 	    i = li-1;			/* step ccw down left side */
 	    if (i<0) i = p->n-1;
-	    incrementalize_y(&p->vert[li], &p->vert[i], &l, &dl, y, mask);
+	    incrementalize_y((double*)&p->vert[li], (double*)&p->vert[i], (double*)&l, (double*)&dl, y, mask);
 	    ly = (int)floor(p->vert[i].sy+.5);
 	    li = i;
 	}
@@ -88,18 +88,19 @@ void (*pixelproc)();		/* procedure called at each pixel */
 	    rem--;
 	    i = ri+1;			/* step cw down right edge */
 	    if (i>=p->n) i = 0;
-	    incrementalize_y(&p->vert[ri], &p->vert[i], &r, &dr, y, mask);
+	    incrementalize_y((double*)&p->vert[ri], (double*)&p->vert[i], (double*)&r, (double*)&dr, y, mask);
 	    ry = (int)floor(p->vert[i].sy+.5);
 	    ri = i;
 	}
 
 	while (y<ly && y<ry) {	    /* do scanlines till end of l or r edge */
-	    if (y>=win->y0 && y<=win->y1)
-		if (l.sx<=r.sx) scanline(y, &l, &r, win, pixelproc, mask);
-		else		scanline(y, &r, &l, win, pixelproc, mask);
+        if (y>=win->y0 && y<=win->y1) {
+            if (l.sx<=r.sx) scanline(y, &l, &r, win, pixelproc, mask);
+            else		scanline(y, &r, &l, win, pixelproc, mask);
+        }
 	    y++;
-	    increment(&l, &dl, mask);
-	    increment(&r, &dr, mask);
+	    increment((double*)&l, (double*)&dl, mask);
+	    increment((double*)&r, (double*)&dr, mask);
 	}
     }
 }
@@ -122,10 +123,10 @@ void (*pixelproc)();
     rx = (int)floor(r->sx-.5);
     if (rx>win->x1) rx = win->x1;
     if (lx>rx) return;
-    incrementalize_x(l, r, &p, &dp, lx, mask);
+    incrementalize_x((double*)l, (double*)r, (double*)&p, (double*)&dp, lx, mask);
     for (x=lx; x<=rx; x++) {		/* scan in x, generating pixels */
 	(*pixelproc)(x, y, &p);
-	increment(&p, &dp, mask);
+	increment((double*)&p, (double*)&dp, mask);
     }
 }
 
@@ -134,7 +135,7 @@ void (*pixelproc)();
  * p1 and p2 in p, put change with respect to y in dp
  */
 
-static incrementalize_y(p1, p2, p, dp, y, mask)
+static void incrementalize_y(p1, p2, p, dp, y, mask)
 register double *p1, *p2, *p, *dp;
 register unsigned long mask;
 int y;
@@ -157,7 +158,7 @@ int y;
  * p1 and p2 in p, put change with respect to x in dp
  */
 
-static incrementalize_x(p1, p2, p, dp, x, mask)
+static void incrementalize_x(p1, p2, p, dp, x, mask)
 register double *p1, *p2, *p, *dp;
 register unsigned long mask;
 int x;
@@ -175,7 +176,7 @@ int x;
 	}
 }
 
-static increment(p, dp, mask)
+static void increment(p, dp, mask)
 register double *p, *dp;
 register unsigned long mask;
 {

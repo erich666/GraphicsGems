@@ -7,6 +7,8 @@
 /*    if (Lam2 < Lam1) Excess = - Excess; */
 
 /* NEW */
+#if 0
      double Lam;
      Lam = (Lam2 - Lam1 > 0) ? Lam2 - Lam1 : Lam2 - Lam1 + 4*HalfPi;
      if (Lam > 2*HalfPi) Excess= -Excess; 
+#endif

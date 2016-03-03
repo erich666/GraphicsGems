@@ -355,7 +355,7 @@ long int whole_r, whole_g, whole_b, whole_w;
 }
 
 
-Mark(cube, label, tag)
+void Mark(cube, label, tag)
 struct box *cube;
 int label;
 unsigned char *tag;
@@ -368,7 +368,7 @@ register int r, g, b;
 	    tag[(r<<10) + (r<<6) + r + (g<<5) + g + b] = label;
 }
 
-main()
+int main()
 {
 struct box	cube[MAXCOLOR];
 unsigned char	*tag;
@@ -384,10 +384,10 @@ float		vv[MAXCOLOR], temp;
 	printf("no. of colors:\n");
 	scanf("%d", &K);
 
-	Hist3d(wt, mr, mg, mb, gm2); printf("Histogram done\n");
+	Hist3d((long*)wt, (long*)mr, (long*)mg, (long*)mb, (float*)gm2); printf("Histogram done\n");
 	free(Ig); free(Ib); free(Ir);
 
-	M3d(wt, mr, mg, mb, gm2);    printf("Moments done\n");
+	M3d((long*)wt, (long*)mr, (long*)mg, (long*)mb, (float*)gm2);    printf("Moments done\n");
 
 	cube[0].r0 = cube[0].g0 = cube[0].b0 = 0;
 	cube[0].r1 = cube[0].g1 = cube[0].b1 = 32;

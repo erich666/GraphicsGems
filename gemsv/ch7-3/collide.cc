@@ -1,7 +1,14 @@
 // -*- C++ -*-
 // by Bill Bouma and George Vanecek Jr. Aug, 1994.
 // Compile by: g++ -O2 -s -o cull cull.cc algebra3.o -lm
-#include "algebra3.h"           // See Graphics Gems IV, pg534-557
+
+#include <iostream>
+using std::cout;
+using std::endl;
+
+const float pi = 3.141592f;
+
+#include "../../gemsiv/vec_mat/algebra3.h"           // See Graphics Gems IV, pg534-557
 typedef vec3          Point;    // Points are not Vectors
 typedef vec3          Vector;   // Vectors are not Points
 typedef unsigned int  Index;    // Array Indices
@@ -13,7 +20,7 @@ public:
                       const Vector&      nV,
                       const Counter      nPs,
                       const Point* const p )
-  : id(pId), pts(p), nPts(nPs), normalVector(nV){ }
+  : id(pId), nPts(nPs), pts(p), normalVector(nV){ }
   const Vector& normal( ) const { return normalVector; }
   char            name( ) const { return id; }
   Counter      nPoints( ) const { return nPts; }
@@ -34,7 +41,7 @@ public:
                      const mat4&          m,
                      const Counter        nP,
                      const Polygon* const ps )
-  : id(pId), r(rv), v(vv), w(wv), R(m), polys(ps), nPolys(nP) { }
+  : id(pId), polys(ps), nPolys(nP), r(rv), v(vv), w(wv), R(m) { }
   const Polygon&    polygon( const Index i ) const { return polys[i]; }
   void                 cull( const MovingPolyhedron& ) const;
 private:

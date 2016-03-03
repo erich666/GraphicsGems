@@ -4,6 +4,8 @@
 #ifndef _POLYGON_H_
 #define _POLYGON_H_
 
+#include <vector>
+
 #ifndef _LIST_H_
 #include "list.h"
 #endif
@@ -25,11 +27,13 @@ public:
 
 private:
   Polygon( DEdge* const, const Plane& );
-  Where   classifyPoints( const Plane&, Counter&, DEdge*[] );
+  //Where   classifyPoints( const Plane&, Counter&, DEdge*[] );
+  Where   classifyPoints( const Plane&, Counter&, std::vector<DEdge*>& );
   void    addBridge     ( DEdge* const, DEdge* const );
-  void    complexCut    ( const Plane&, const Counter, DEdge* const [],
-			  List<Polygon>&, List<Polygon>& );
-  static void sortDEdges( const Counter, DEdge* const [], const Vector& );
+  //void    complexCut    ( const Plane&, const Counter, DEdge* const [], List<Polygon>&, List<Polygon>& );
+  void    complexCut    ( const Plane&, const Counter, std::vector<DEdge*>, List<Polygon>&, List<Polygon>& );
+  //static void sortDEdges( const Counter, DEdge* const [], const Vector& );
+  static void sortDEdges( const Counter, std::vector<DEdge*>, const Vector& );
   void    maximize      ( DEdge* const );
   void    split         ( const Plane&, DEdge* const );
 

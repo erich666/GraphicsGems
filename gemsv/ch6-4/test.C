@@ -13,7 +13,7 @@
 extern chainCode* encode(pt2 *size, char *bitmap);
 
 
-char *mes1[]={"VECTORIZE",
+const char *mes1[]={"VECTORIZE",
               "by Jean-Francois Doue",
               " ",
               "This program transforms a bitmap image into a chain code",
@@ -34,7 +34,7 @@ char *mes1[]={"VECTORIZE",
               "\n",
               0};
 
-char *mes2[]={"Error !",
+const char *mes2[]={"Error !",
               "Your file cannot be opened",
               0};
 
@@ -46,15 +46,15 @@ char *mes2[]={"Error !",
 /*                                                           */
 /*************************************************************/
 
-void printMessage(char** mes)
+void printMessage(const char** mes)
 {
-int i;
-if (!mes)
-    return;
-while(mes[i]){
-    printf("\n%s",mes[i]);
-    i++;
-}
+	int i = 0;
+	if (!mes)
+		return;
+	while (mes[i]) {
+		printf("\n%s", mes[i]);
+		i++;
+	}
 }
 
 /*************************************************************/
@@ -65,7 +65,7 @@ while(mes[i]){
 /*                                                           */
 /*************************************************************/
 
-main(int argc, char** argv)
+int main(int argc, char** argv)
 {
 pt2     size;
 int     i, fileN = 0;
@@ -104,7 +104,7 @@ while (fileN < argc -1){
 
     /* read the data from the bitmap image*/
     i = 0;
-    bitmap = malloc(size.x * size.y * sizeof(char));
+    bitmap = (char*)malloc(size.x * size.y * sizeof(char));
     while (!feof(input)){
         fscanf(input,"%c", &c);
         if (c == '0' || c == '1'){

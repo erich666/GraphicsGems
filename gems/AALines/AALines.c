@@ -16,6 +16,8 @@
 */
 
 #include <math.h>
+#include <stddef.h>
+#include <stdlib.h>
 #include "AALines.h"
 
 #define SWAPVARS(v1,v2) ( temp=v1, v1=v2, v2=temp )
@@ -29,9 +31,9 @@
   )
 
 /* HARDWARE ASSUMPTIONS:
-/*    * 32-bit, signed ints
-/*    * 8-bit pixels, with initialized color table
-/*    * pixels are memory mapped in a rectangular fashion */
+    * 32-bit, signed ints
+    * 8-bit pixels, with initialized color table
+    * pixels are memory mapped in a rectangular fashion */
 
 /* FIXED-POINT DATA TYPE */
 #ifndef FX_FRACBITS
@@ -41,19 +43,19 @@
 #endif
 
 /* ASSUMED MACROS:
-/*   SWAPVARS(v1,v2) -- swaps the contents of two variables
-/*   PIXADDR(x,y) -- returns address of pixel at (x,y)
-/*   COVERAGE(FXdist) -- lookup macro for pixel coverage 
+ *   SWAPVARS(v1,v2) -- swaps the contents of two variables
+ *   PIXADDR(x,y) -- returns address of pixel at (x,y)
+ *   COVERAGE(FXdist) -- lookup macro for pixel coverage
         given perpendicular distance; takes a fixed-point
         integer and returns an integer in the range [0,255]
-/*   SQRTFUNC(FXval) -- lookup macro for sqrt(1/(1+FXval^2))
+ *   SQRTFUNC(FXval) -- lookup macro for sqrt(1/(1+FXval^2))
         accepts and returns fixed-point numbers
-/*   FIXMUL(FX1,FX2) -- multiplies two fixed-point numbers
+ *   FIXMUL(FX1,FX2) -- multiplies two fixed-point numbers
         and returns the product as a fixed-point number   */
 
 /* BLENDING FUNCTION:
-/*  'cover' is coverage -- in the range [0,255]
-/*  'back' is background color -- in the range [0,255] */
+ *  'cover' is coverage -- in the range [0,255]
+ *  'back' is background color -- in the range [0,255] */
 #define BLEND(cover,back) ((((255-(cover))*(back))>>8)+(cover))
 
 /* LINE DIRECTION bits and tables */
@@ -62,8 +64,8 @@
 
 
 /* pixel increment values 
-/*   -- assume PIXINC(dx,dy) is a macro such that:
-/*   PIXADDR(x0,y0) + PIXINC(dx,dy) = PIXADDR(x0+dx,y0+dy)  */
+ *   -- assume PIXINC(dx,dy) is a macro such that:
+ *   PIXADDR(x0,y0) + PIXINC(dx,dy) = PIXADDR(x0+dx,y0+dy)  */
 static int adj_pixinc[4] = 
       { PIXINC(1,0), PIXINC(0,1), PIXINC(1,0), PIXINC(0,-1) };
 static int diag_pixinc[4] = 
@@ -79,8 +81,7 @@ FX Pmax;
 
 /***************  FUNCTION ANTI_LINE  ***************/
 
-void Anti_Line ( X1, Y1, X2, Y2 )
-int X1, Y1, X2, Y2;
+void Anti_Line (int X1, int Y1, int X2, int Y2 )
 {
 int 	Bvar, 	/* decision variable for Bresenham's */
     	Bainc,   /* adjacent-increment for 'Bvar' */
@@ -92,7 +93,7 @@ FX 		Pmid,  	/* perp distance at Bresenham's pixel */
    		Poinc; 	/* orthogonal-increment for 'Pnow'--also equals 'k' */
 char 	*mid_addr,   /* pixel address for Bresenham's pixel */
      	*now_addr;   /* pixel address for current pixel */
-int 	addr_ainc,   /* adjacent pixel address offset */
+size_t 	addr_ainc,   /* adjacent pixel address offset */
     	addr_dinc,   /* diagonal pixel address offset */
     	addr_oinc;   /* orthogonal pixel address offset */
 int dx,dy,dir;    	/* direction and deltas */
@@ -157,13 +158,13 @@ do
   	if ( Bvar < 0 )
     	{
     	Bvar += Bainc;
-    	mid_addr = (char *) ((int)mid_addr + addr_ainc);
+    	mid_addr = (char *) ((size_t)mid_addr + addr_ainc);
     	Pmid += Painc;
     	}
   	else
     	{
     	Bvar += Bdinc;
-    	mid_addr = (char *) ((int)mid_addr + addr_dinc);
+    	mid_addr = (char *) ((size_t)mid_addr + addr_dinc);
     	Pmid += Pdinc;
     	}
 

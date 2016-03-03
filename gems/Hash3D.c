@@ -11,6 +11,7 @@ and the bit operations are defined in the language.
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 #include "GraphicsGems.h"		
 
@@ -39,7 +40,7 @@ typedef struct {  /* linked list of voxels (object pointers) */
 RefVoxel table[HSIZE];  /* Table of pointers to Voxels */
 
 
-checkrange(z) double z;
+void checkrange(double z)
 {
   if (z < 0 || z >= RANGE)
 	fprintf(stderr,"%f out of range\n",z), 		exit(1);
@@ -55,7 +56,7 @@ double getcoord()
   return z;
 }
 
-main()
+int main()
 {
   Triple a;
   while (TRUE) {

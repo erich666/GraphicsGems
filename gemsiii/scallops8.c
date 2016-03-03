@@ -19,6 +19,7 @@
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #define  XMIN		0		/* limits of the frame buffer */
 #define  XMAX		63
@@ -32,7 +33,7 @@
 unsigned char  *Pt_Frame;	  /* Global pointer to start of frame buffer */
 
 
-main()
+int main()
 {
   int  xc, yc, r, ny, nc, k, j;
   unsigned char  val_fill, val_erode;

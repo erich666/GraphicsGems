@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
-#include "../GraphicsGems.h"
+#include "GraphicsGems.h"
 #include "partition.h"
 
 static FACE *getFace(/* void */);
@@ -47,10 +47,9 @@ char *string;
       return;
    }
 
-   (void) printf("begin dump of %s at 0x%x\n",string,face);
+   printf("begin dump of %s at 0p%p\n",string,face);
    for (vtrav= face->vhead; vtrav != NULL_VERTEX; vtrav= vtrav->vnext) {
-      (void) printf("   0x%x: (%lf %lf %lf)\n",vtrav,
-		    vtrav->xx,vtrav->yy,vtrav->zz);
+      printf("   0x%p: (%lf %lf %lf)\n",vtrav, vtrav->xx,vtrav->yy,vtrav->zz);
    }
    (void) printf("end %s\n",string);
 } /* dumpFace() */
