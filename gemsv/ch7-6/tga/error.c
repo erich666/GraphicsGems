@@ -61,7 +61,7 @@ char *lug_errlist[] = {
                         NULL
 };
 
-char *lugerrmsg( code )
+char *lugerrmsg(int code)
 {
   return lug_errlist[ code ];
 }

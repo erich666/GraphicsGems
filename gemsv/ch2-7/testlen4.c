@@ -12,8 +12,7 @@
 
 int len4(int a, int b, int c, int d);
 
-int main(argc, argv)
-    char *argv[];
+int main(int argc, char** argv)
     {
     long a, b, c, d, l;
     double l2;

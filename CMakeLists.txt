@@ -4,7 +4,7 @@ project(GraphicsGems)
 
 if(CMAKE_COMPILER_IS_GNUCXX)
 	set(CMAKE_CXX_STANDARD 11)
-	#add_definitions(-std=c++11)
+	add_definitions(-Werror)
 endif()
 
 if(MSVC)

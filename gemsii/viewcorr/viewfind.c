@@ -165,8 +165,7 @@ ViewParms *view_parms;
 		 (1.0/(ds * view_parms->aspect))) * RTOD * 2.0);
 }
 
-int main(argc, argv)
-	char **argv;
+int main(int argc, char** argv)
 {
 	ViewData datapts;
 	ViewParms view_parms;

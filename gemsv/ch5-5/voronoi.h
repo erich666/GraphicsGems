@@ -14,7 +14,7 @@ public:
 //      D-DIMENSIONAL VECTOR TEMPLATE
 
 template <int D> class VECTOR {
-        friend std::ostream& operator<<(std::ostream& o, VECTOR<D>& v);
+        //friend std::ostream& operator<<(std::ostream& o, const VECTOR& v);
         double x[D];                                            // COORDINATES
 public:
         VECTOR() {for(register int i=0; i<D; i++) x[i]=0.;}
@@ -51,7 +51,7 @@ public:
 //      D-DIMENSIONAL SQUARE MATRIX TEMPLATE
 
 template <int D> class MATRIX {
-        friend std::ostream& operator<<(std::ostream& o, MATRIX<D>& A);
+        //friend std::ostream& operator<<(std::ostream& o, MATRIX<D>& A);
         VECTOR<D> a[D];                                         // ROWS
 public:
         MATRIX(VECTOR<D> a[D]) {for(register int i=0;i<D;i++) this->a[i]=a[i];}
@@ -129,7 +129,7 @@ public:
 //      VORONOI-DIAGRAM TEMPLATE
 
 template <int D> class VORONOI {
-        friend std::ostream& operator<<(std::ostream& o, VORONOI<D>& v);
+        //friend std::ostream& operator<<(std::ostream& o, VORONOI<D>& v);
         VECTOR<D> C;                                    // CENTROID
         VECTOR<D> *b[D+1], B[D+1];                      // BOUNDING SIMPLEX
         VERTEX<D> *c;                                   // CLOSEST TO CENTROID

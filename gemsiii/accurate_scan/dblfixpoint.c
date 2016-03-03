@@ -1,3 +1,4 @@
+#include <inttypes.h>
 #include <stdio.h>
 #include "fixpoint.h"
 
@@ -68,7 +69,7 @@ fixpoint fp_trunc(dblfixpoint a)
   int64_t lo = (a.lo >> LOBITS);
 
   if ((hi >> LOBITS) != a.hi) {
-	 printf("fp_trunc() Overflow converting hibits 0x%08llx to 0x%08llx fixpoint in (%d,%d) bits\n", a.hi, hi, HIBITS, LOBITS);
+	 printf("fp_trunc() Overflow converting hibits 0x%" PRIu64 " to 0x%" PRIu64 " fixpoint in (%d,%d) bits\n", a.hi, hi, HIBITS, LOBITS);
   }
 
   if (a.neg)

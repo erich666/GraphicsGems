@@ -30,6 +30,8 @@
 #include <fcntl.h>
 #ifndef WIN32
 #include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 #endif
 #include "lug.h"
 #include "lugfnts.h"
@@ -218,9 +220,9 @@ char *name, *aux_file;
     close( 1 );
     dup( handle );
 #ifdef USE_GNU_GZIP
-    execlp( "gzip", "gzip", "-dc", name, 0 );
+    execlp( "gzip", "gzip", "-dc", name, (char*)0 );
 #else
-    execlp( "compress", "compress", "-dc", name, 0 );
+    execlp( "compress", "compress", "-dc", name, (char*)0 );
 #endif  /* USE_GNU_GZIP */
   }
 #else  /* MSDOS */
@@ -257,9 +259,9 @@ char *name;
      * Lets go baby ...
      */
 #ifdef USE_GNU_GZIP
-    execlp( "gzip", "gzip", "-9", name, 0 );
+    execlp( "gzip", "gzip", "-9", name, (char*)0 );
 #else
-    execlp( "compress", "compress", name, 0 );
+    execlp( "compress", "compress", name, (char*)0 );
 #endif  /* USE_GNU_GZIP */
   }
 #else  /* MSDOS */
