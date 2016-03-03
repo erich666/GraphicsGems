@@ -16,9 +16,9 @@
 #include "poly.h"
 
 static void scanline(int y, Poly_vert *l, Poly_vert *r, Window *win, void (*pixelproc)(), unsigned long mask);
-static incrementalize_y(register double *p1, register double *p2, register double *p, register double *dp, int y, register unsigned long mask);
-static incrementalize_x(register double *p1, register double *p2, register double *p, register double *dp, int x, register unsigned long mask);
-static increment(register double *p, register double *dp, register unsigned long mask);
+static void incrementalize_y(register double *p1, register double *p2, register double *p, register double *dp, int y, register unsigned long mask);
+static void incrementalize_x(register double *p1, register double *p2, register double *p, register double *dp, int x, register unsigned long mask);
+static void increment(register double *p, register double *dp, register unsigned long mask);
 
 /*
  * poly_scan: Scan convert a polygon, calling pixelproc at each pixel with an
@@ -94,9 +94,10 @@ void poly_scan(Poly* p, Window* win, void (*pixelproc)())
 	}
 
 	while (y<ly && y<ry) {	    /* do scanlines till end of l or r edge */
-	    if (y>=win->y0 && y<=win->y1)
-		if (l.sx<=r.sx) scanline(y, &l, &r, win, pixelproc, mask);
-		else		scanline(y, &r, &l, win, pixelproc, mask);
+        if (y>=win->y0 && y<=win->y1) {
+            if (l.sx<=r.sx) scanline(y, &l, &r, win, pixelproc, mask);
+            else		scanline(y, &r, &l, win, pixelproc, mask);
+        }
 	    y++;
 	    increment((double*)&l, (double*)&dl, mask);
 	    increment((double*)&r, (double*)&dr, mask);
@@ -134,7 +135,7 @@ void (*pixelproc)();
  * p1 and p2 in p, put change with respect to y in dp
  */
 
-static incrementalize_y(p1, p2, p, dp, y, mask)
+static void incrementalize_y(p1, p2, p, dp, y, mask)
 register double *p1, *p2, *p, *dp;
 register unsigned long mask;
 int y;
@@ -157,7 +158,7 @@ int y;
  * p1 and p2 in p, put change with respect to x in dp
  */
 
-static incrementalize_x(p1, p2, p, dp, x, mask)
+static void incrementalize_x(p1, p2, p, dp, x, mask)
 register double *p1, *p2, *p, *dp;
 register unsigned long mask;
 int x;
@@ -175,7 +176,7 @@ int x;
 	}
 }
 
-static increment(p, dp, mask)
+static void increment(p, dp, mask)
 register double *p, *dp;
 register unsigned long mask;
 {

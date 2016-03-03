@@ -23,9 +23,7 @@
  *	type	type of clip operation desired CLIP_NORMAL means
  *		clip everything inside the contour
  */
-def_contour(x, y, n, no, type)
-long	x[], y[];
-int	n, no, type;
+void def_contour(long x[], long y[], int	n, int no, int type)
 {
 	short	i;
 	long	dx1, dx2, dy1, dy2;

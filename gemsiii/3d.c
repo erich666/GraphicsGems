@@ -59,13 +59,11 @@ void CopyMatrix3D(double Matrix3D[4][4], double frame[4][4]) {
 	// TODO
 }
 
-ModifyObject(display, obj, dx, dy, state)
-     Display *display;
-     Polyhedron *obj;
-     int dx, dy, state;
-{double Tx, Ty, Tz, n[3], dr, denom, cos_theta, sin_theta;
- double Matrix3D[4][4], TmpMat[4][4], TransToOrigin[4][4], Rmat[4][4];
- static double Radius=100.0;
+void ModifyObject(Display* display, Polyhedron* obj, int dx, int dy, int state)
+{
+    double Tx, Ty, Tz, n[3], dr, denom, cos_theta, sin_theta;
+    double Matrix3D[4][4], TmpMat[4][4], TransToOrigin[4][4], Rmat[4][4];
+    static double Radius=100.0;
 
  /* Example of interactive method: apply rolling ball to
   *  object's orientation as long as mouse Button1 is 

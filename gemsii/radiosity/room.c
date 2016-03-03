@@ -46,45 +46,45 @@ TRadParams	params = {
 };
 
 TPoint3f roomPoints[] = {
-	0.f, 0.f, 0.f,
-	216.f, 0.f, 0.f,
-	216.f, 0.f, 215.f,
-	0.f, 0.f, 215.f,
-	0.f, 221.f, 0.f,
-	216.f, 221.f, 0.f,
-	216.f, 221.f, 215.f,
-	0.f, 221.f, 215.f,
+	{0.f, 0.f, 0.f},
+	{216.f, 0.f, 0.f},
+	{216.f, 0.f, 215.f},
+	{0.f, 0.f, 215.f},
+	{0.f, 221.f, 0.f},
+	{216.f, 221.f, 0.f},
+	{216.f, 221.f, 215.f},
+	{0.f, 221.f, 215.f},
 
-	85.5f, 220.f, 90.f,
-	130.5f, 220.f, 90.f,
-	130.5f, 220.f, 130.f,
-	85.5f, 220.f, 130.f,
+	{85.5f, 220.f, 90.f},
+	{130.5f, 220.f, 90.f},
+	{130.5f, 220.f, 130.f},
+	{85.5f, 220.f, 130.f},
 
-	53.104f, 0.f, 64.104f,
-	109.36f, 0.f, 96.604f,
-	76.896f, 0.f, 152.896f,
-	20.604f, 0.f, 120.396f,
-	53.104f, 65.f, 64.104f,
-	109.36f, 65.f, 96.604f,
-	76.896f, 65.f, 152.896f,
-	20.604f, 65.f, 120.396f,
+	{53.104f, 0.f, 64.104f},
+	{109.36f, 0.f, 96.604f},
+	{76.896f, 0.f, 152.896f},
+	{20.604f, 0.f, 120.396f},
+	{53.104f, 65.f, 64.104f},
+	{109.36f, 65.f, 96.604f},
+	{76.896f, 65.f, 152.896f},
+	{20.604f, 65.f, 120.396f},
 
-	134.104f, 0.f, 67.104f,
-	190.396f, 0.f, 99.604f,
-	157.896f, 0.f, 155.896f,
-	101.604f, 0.f, 123.396f,
-	134.104f, 130.f, 67.104f,
-	190.396f, 130.f, 99.604f,
-	157.896f, 130.f, 155.896f,
-	101.604f, 130.f, 123.396f
+	{134.104f, 0.f, 67.104f},
+	{190.396f, 0.f, 99.604f},
+	{157.896f, 0.f, 155.896f},
+	{101.604f, 0.f, 123.396f},
+	{134.104f, 130.f, 67.104f},
+	{190.396f, 130.f, 99.604f},
+	{157.896f, 130.f, 155.896f},
+	{101.604f, 130.f, 123.396f}
 };
 
-static TSpectra red = { 0.80, 0.10, 0.075 };
-static TSpectra yellow = { 0.9, 0.8, 0.1 };
-static TSpectra blue = { 0.075, 0.10, 0.35 };
-static TSpectra white = { 1.0, 1.0, 1.0 };
-static TSpectra lightGrey = { 0.9, 0.9, 0.9 };
-static TSpectra black = { 0.0, 0.0, 0.0 };
+static TSpectra red = { {0.80, 0.10, 0.075} };
+static TSpectra yellow = { {0.9, 0.8, 0.1} };
+static TSpectra blue = { {0.075, 0.10, 0.35} };
+static TSpectra white = { {1.0, 1.0, 1.0} };
+static TSpectra lightGrey = { {0.9, 0.9, 0.9} };
+static TSpectra black = { {0.0, 0.0, 0.0} };
 
 /* Assume a right-handed coordinate system */
 /* Polygon vertices follow counter-clockwise order when viewing from front */
@@ -222,7 +222,7 @@ void InitParams()
 	params.displayView.wid=0;
 }
 
-void main()
+int main()
 {
 	InitParams();
 	InitRad(&params);

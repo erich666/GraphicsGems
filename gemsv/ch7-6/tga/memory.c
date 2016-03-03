@@ -49,8 +49,7 @@ int size;
   return ptr;
 }
 
-Free( ptr )
-void *ptr;
+void Free(void* ptr )
 {
   if ( ptr != NULL )
     free( ptr );

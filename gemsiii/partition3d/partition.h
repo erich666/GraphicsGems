@@ -52,6 +52,6 @@ void partitionFaceWithPlane(/* double aa, double bb, double cc, double dd,
 			       FACE **faceNeg, FACE **facePos
 		             */
 			   );
-#endif _PARTITION_INCLUDED
+#endif //_PARTITION_INCLUDED
 
 

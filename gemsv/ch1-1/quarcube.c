@@ -30,7 +30,7 @@ int ferrari();
 int neumark();
 void errors();
 
-main()
+int main()
 {
    double a,b,c,d;
    double rts[4];

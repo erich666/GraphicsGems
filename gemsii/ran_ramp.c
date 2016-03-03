@@ -67,7 +67,7 @@ void inter(int i)
  * animation at any time and dump the color map to 
  * a file
  */
-suspend()
+void suspend()
 {
 	stop = TRUE;
 }
@@ -78,7 +78,7 @@ suspend()
  * lookup table
  */
 
-dda_red()
+int dda_red()
 {
 
 	register int    temp;
@@ -116,7 +116,7 @@ dda_red()
  * lookup table
  */
 
-dda_green()
+int dda_green()
 {
 
 	register int    temp;
@@ -151,7 +151,7 @@ dda_green()
  * lookup table
  */
 
-dda_blue()
+int dda_blue()
 {
 
 	register int    temp;
@@ -186,7 +186,7 @@ dda_blue()
  * save the lookup table to a file
  */
 
-save_lut()
+void save_lut()
 {
 	FILE           *fp, *fopen();
 	char            filename[40];
@@ -208,14 +208,14 @@ void fb_init() {
 	// TODO
 }
 
-void fb_setmap(int a, int b, char* c, char* d, char* e) {
+void fb_setmap(int a, int b, unsigned char* c, unsigned char* d, unsigned char* e) {
 	// TODO
 }
 
 void fb_done() {
 	// TODO
 }
-main(argc, argv)
+int main(argc, argv)
 int             argc;
 char           *argv[];
 {
@@ -224,7 +224,7 @@ char           *argv[];
 	int             reply, delay;
 
 	void inter(int);	 /* signal functions, see below */
-	int             suspend();
+	//int             suspend();
 
 	signal(SIGINT, inter);		 /* traps <ctrl-C> */
 	//signal(SIGTSTP, suspend);	 /* traps <ctrl-Z> */

@@ -107,7 +107,7 @@ void VecTransform(Vector* v, RSMatrix* m) {
 void VecAdd(Vector a, Vector b, Vector* res) {
 	// TODO
 }
-RSViewing()
+void RSViewing()
 {
 	float magnitude;
 	RSMatrix trans;

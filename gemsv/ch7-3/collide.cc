@@ -20,7 +20,7 @@ public:
                       const Vector&      nV,
                       const Counter      nPs,
                       const Point* const p )
-  : id(pId), pts(p), nPts(nPs), normalVector(nV){ }
+  : id(pId), nPts(nPs), pts(p), normalVector(nV){ }
   const Vector& normal( ) const { return normalVector; }
   char            name( ) const { return id; }
   Counter      nPoints( ) const { return nPts; }
@@ -41,7 +41,7 @@ public:
                      const mat4&          m,
                      const Counter        nP,
                      const Polygon* const ps )
-  : id(pId), r(rv), v(vv), w(wv), R(m), polys(ps), nPolys(nP) { }
+  : id(pId), polys(ps), nPolys(nP), r(rv), v(vv), w(wv), R(m) { }
   const Polygon&    polygon( const Index i ) const { return polys[i]; }
   void                 cull( const MovingPolyhedron& ) const;
 private:

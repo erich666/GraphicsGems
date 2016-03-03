@@ -51,13 +51,13 @@ typedef long int          count_int;
 #include "lugfnts.h"
 #include <ctype.h>
 
-static output();
-static cl_block();
-static cl_hash();
-static writeerr();
-static char_init();
-static char_out();
-static flush_char();
+static void output();
+static void cl_block();
+static void cl_hash();
+static void writeerr();
+static void char_init();
+static void char_out();
+static void flush_char();
 
 static int n_bits;                        /* number of bits/code */
 static int maxbits = GIFBITS;                /* user settable max # bits/code */
@@ -75,7 +75,6 @@ static unsigned short codetab [HSIZE];
 #define CodeTabOf(i)    codetab[i]
 
 static code_int hsize = HSIZE;                 /* for dynamic table sizing */
-static count_int fsize;
 
 /*
  * To save much memory, we overlay the table used by compress() with those
@@ -91,7 +90,6 @@ static count_int fsize;
 #define de_stack               ((char_type *)&tab_suffixof((code_int)1<<GIFBITS))
 
 static code_int free_ent = 0;                  /* first unused entry */
-static int exit_stat = 0;
 
 /*
  * block compression parameters -- after all codes are used up,
@@ -252,8 +250,7 @@ unsigned long masks[] = { 0x0000, 0x0001, 0x0003, 0x0007, 0x000F,
                                   0x1FFF, 0x3FFF, 0x7FFF, 0xFFFF };
 
 static
-output( code )
-code_int  code;
+void output(code_int code)
 {
     cur_accum &= masks[ cur_bits ];
 
@@ -314,7 +311,7 @@ code_int  code;
  * Clear out the hash table
  */
 static
-cl_block ()             /* table clear for block compress */
+void cl_block ()             /* table clear for block compress */
 {
 
         cl_hash ( (count_int) hsize );
@@ -325,7 +322,7 @@ cl_block ()             /* table clear for block compress */
 }
 
 static
-cl_hash(hsize)          /* reset code table */
+void cl_hash(hsize)          /* reset code table */
 register count_int hsize;
 {
 
@@ -360,7 +357,7 @@ register count_int hsize;
 }
 
 static
-writeerr()
+void writeerr()
 {
         printf( "error writing output file\n" );
         exit(1);
@@ -381,7 +378,7 @@ static int a_count;
  * Set up the 'byte output' routine
  */
 static
-char_init()
+void char_init()
 {
         a_count = 0;
 }
@@ -396,7 +393,7 @@ static char accum[ 256 ];
  * characters, flush the packet to disk.
  */
 static
-char_out( c )
+void char_out( c )
 int c;
 {
         accum[ a_count++ ] = c;
@@ -408,7 +405,7 @@ int c;
  * Flush the packet to disk, and reset the accumulator
  */
 static
-flush_char()
+void flush_char()
 {
         if( a_count > 0 ) {
                 fputc( a_count, g_outfile );

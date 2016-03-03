@@ -22,7 +22,7 @@
 /*
  * build "rho" array
  */
-build_rho(point)
+void build_rho(point)
 int             point;
 {
 	int	i, mask=bytemask;
@@ -38,7 +38,7 @@ int             point;
 /*
  * find principal position of "a_byte" 
  */
-principal_pos(a_byte)
+int principal_pos(a_byte)
 byte            a_byte;
 {
 	int             nth_bit, i=1;
@@ -57,7 +57,7 @@ byte            a_byte;
 /*
  * build "sigma" array
  */
-build_sigma()
+void build_sigma()
 {
 	int             i, bit;
 
@@ -75,7 +75,7 @@ build_sigma()
 /*
  * build "tau" array 
  */
-build_tau()
+void build_tau()
 {
 	int             parity, bit, i, j;
 	byte            temp_byte;
@@ -107,7 +107,7 @@ build_tau()
 /*
  * build "tilde_sigma" array 
  */
-build_tilde_sigma()
+void build_tilde_sigma()
 {
 	int             i, shift=0;
 
@@ -124,7 +124,7 @@ build_tilde_sigma()
 /*
  * build "tilde_tau" array 
  */
-build_tilde_tau()
+void build_tilde_tau()
 {
 	int             i, shift=0;
 
@@ -141,7 +141,7 @@ build_tilde_tau()
 /*
  * build "omega" array 
  */
-build_omega()
+void build_omega()
 {
 	int             i;
 
@@ -155,7 +155,7 @@ build_omega()
 /*
  * build "alpha" array 
  */
-build_alpha()
+void build_alpha()
 {
 	int             i;
 
@@ -168,7 +168,7 @@ build_alpha()
 /*
  * initialize "array" to zeros 
  */
-zero(array)
+void zero(array)
 
 	r_array         array;
 
@@ -184,7 +184,7 @@ zero(array)
 /*
  * convert "alpha" array into n_space coordinate vector 
  */
-v_convert(alph, coord)
+void v_convert(alph, coord)
 r_array         alph;
 vector          coord;
 {

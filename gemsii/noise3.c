@@ -1,9 +1,5 @@
 /* Copyright (c) 1988 Regents of the University of California */
 
-#ifndef lint
-static char SCCSid[] = "@(#)noise3.c 2.1 11/12/91 LBL";
-#endif
-
 /*
  *  noise3.c - noise functions for random textures.
  *
@@ -33,7 +29,7 @@ static char SCCSid[] = "@(#)noise3.c 2.1 11/12/91 LBL";
 
 double  *noise3(), fnoise3(), frand();
 
-static  interpolate();
+static  void interpolate();
 
 static long  xlim[3][2];
 static double  xarg[3];
@@ -66,7 +62,7 @@ register double  xnew[3];
 
 
 static
-interpolate(f, i, n)
+void interpolate(f, i, n)
 double  f[4];
 register int  i, n;
 {

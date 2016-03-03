@@ -18,7 +18,7 @@ Transforms an object space point into world coordinates using the provided
 cumulative transformation matrix.
 ****************************************************************************/
 
-transform_point(world, local, ctm)
+void transform_point(world, local, ctm)
 vec3 world;			/* returned world space point */
 vec3 local;			/* provided local space point */
 mat4 ctm;			/* cumulative transformation matrix */
@@ -39,7 +39,7 @@ values in X, Y, and Z.  If a new maximum or minimum is found, the
 min and max variables are updated.
 ****************************************************************************/
 
-update_min_and_max(min, max, point)
+void update_min_and_max(min, max, point)
 vec3 min, max;			/* provided extent that is to be modified */
 vec3 point;			/* world space point to be tested */
 {
@@ -65,17 +65,17 @@ canonical cube is centered about the origin, with faces at X=-1, X=1, Y=-1,
 Y=1, Z=-1, and Z=1.
 ****************************************************************************/
 
-#define MAXFLOAT 666
+//#define MAXFLOAT 666
 
-cube_volume(min, max, ctm)
+void cube_volume(min, max, ctm)
 vec3 min, max;			/* returned minimum and maximum of extent */
 mat4 ctm;			/* cumulative transformation */
 {
    int         i;
    vec3        point;
    static vec3 corners[8] = {
-      -1, -1, -1,	1, -1, -1,	-1,  1, -1,	1,  1, -1,
-      -1, -1,  1,	1, -1,  1,	-1,  1,  1,	1,  1,  1
+      {-1, -1, -1},	{1, -1, -1},	{-1,  1, -1},	{1,  1, -1},
+      {-1, -1,  1},	{1, -1,  1},	{-1,  1,  1},	{1,  1,  1}
    };
 
    min[0] = min[1] = min[2] = MAXFLOAT;
@@ -97,7 +97,7 @@ Each vertex is transformed into world space, and then compared to the current
 minimum and maximum values, which are updated if a new extremum is found.
 ****************************************************************************/
 
-polygons_volume(min, max, ctm, verts, num)
+void polygons_volume(min, max, ctm, verts, num)
 vec3 min, max;			/* returned minimum and maximum of extent */
 mat4 ctm;			/* cumulative transformation */
 vec3 verts[];			/* list of vertices from polygons */
@@ -147,7 +147,7 @@ the minimum and maximum values of the current dimension.  The canonical
 cylinder has a radius of 1.0 from the Y axis, and ranges from Z=-1 to Z=1.
 ****************************************************************************/
 
-cylinder_volume(vec3 min, vec3 max, mat4 ctm)
+void cylinder_volume(vec3 min, vec3 max, mat4 ctm)
 #if 0
 vec3 min, max;			/* returned minimum and maximum of extent */
 mat4 ctm;			/* cumulative transformation matrix */
@@ -198,7 +198,7 @@ cone to compute the minimum and maximum extents.  The canonical cone has
 a base of radius 1.0 at Z=-1 and an apex at the point 0,1,0.
 ****************************************************************************/
 
-cone_volume(min, max, ctm)
+void cone_volume(min, max, ctm)
 vec3 min, max;			/* returned minimum and maximum of extent */
 mat4 ctm;			/* cumulative transformation matrix */
 {
@@ -242,7 +242,7 @@ dimension.  The conic has a base of radius 1.0 at Z=-1 and a top in the Y=1
 plane with a radius r around the Y axis.
 ****************************************************************************/
 
-conic_volume(vec3 min, vec3 max, mat4 ctm, float r)
+void conic_volume(vec3 min, vec3 max, mat4 ctm, float r)
 #if 0
 vec3  min, max;			/* returned minimum and maximum of extent */
 mat4  ctm;			/* cumulative transformation matrix */
@@ -302,7 +302,7 @@ Finally, these points are sorted to find the minimum and maximum extents.
 The canonical sphere has a radius of 1.0 and is centered at the origin.
 ****************************************************************************/
 
-sphere_volume(min, max, ctm)
+void sphere_volume(min, max, ctm)
 vec3 min, max;			/* returned minimum and maximum of extent */
 mat4 ctm;			/* cumulative transformation matrix */
 {

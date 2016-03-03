@@ -1168,7 +1168,7 @@ void PipelineCompute(int16 count, MAT3fvec from,
 /* ------------------------------------------------------------------ */
 
 
-void main(int argc, char **argv)
+int main(int argc, char **argv)
 {
 	int16 i, j;
 	int16 datasize, num_lights, scale_factor;
@@ -1185,7 +1185,7 @@ void main(int argc, char **argv)
 
 	if (argc < 7) {
 		printf("Usage: ZRndv10 <bf> <tr> <clip> <phong> <datafile> <outputfile>\n");
-		return;
+		return 0;
 	}
 	if (strcmp(argv[1], "-bf"))
 		BFCULL = 0;

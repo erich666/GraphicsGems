@@ -45,7 +45,7 @@ Exit:
 	tx, ty - transformed point
 *****************************************************************************/
 
-Transform ( mode, dout, xout, yout, x, y, tx, ty )
+void Transform ( mode, dout, xout, yout, x, y, tx, ty )
 	int	mode;
 	int	dout, xout, yout;
 	int	x, y;
@@ -110,7 +110,7 @@ Exit:
 	xy - the computed path points list
 *****************************************************************************/
 
-Shape3P ( xi, yi, xy )
+void Shape3P ( xi, yi, xy )
 	int	xi, yi;
 	int	xy[][2];
 {
@@ -123,7 +123,7 @@ Shape3P ( xi, yi, xy )
 }
 
 
-Shape4PD ( xi, yi, xy )
+void Shape4PD ( xi, yi, xy )
 	int	xi, yi;
 	int	xy[][2];
 {
@@ -138,7 +138,7 @@ Shape4PD ( xi, yi, xy )
 }
 
 
-Shape4PU ( xi, yi, xy )
+void Shape4PU ( xi, yi, xy )
 	int	xi, yi;
 	int	xy[][2];
 {
@@ -153,7 +153,7 @@ Shape4PU ( xi, yi, xy )
 }
 
 
-Shape5PB ( xi, yi, sign, xy )
+void Shape5PB ( xi, yi, sign, xy )
 	int	xi, yi;
 	int	sign;
 	int	xy[][2];
@@ -172,7 +172,7 @@ Shape5PB ( xi, yi, sign, xy )
 }
 
 
-Shape5PT ( xi, yi, sign, xy )
+void Shape5PT ( xi, yi, sign, xy )
 	int	xi, yi;
 	int	sign;
 	int	xy[][2];
@@ -190,7 +190,7 @@ Shape5PT ( xi, yi, sign, xy )
 }
 
 
-Shape6P ( xi, yi, sign, xy )
+void Shape6P ( xi, yi, sign, xy )
 	int	xi, yi;
 	int	sign;
 	int	xy[][2];
@@ -349,7 +349,7 @@ Exit:
 	p - eventually corrected path points list
 *****************************************************************************/
 
-Correct ( x, y, w, h, np, p )
+void Correct ( x, y, w, h, np, p )
 	int	x, y, w, h;
 	int	np;
 	int	p[][2];
@@ -392,7 +392,7 @@ Exit:
 	pts  - the connection point list
 *****************************************************************************/
 
-ComputeCon ( startObj, endObj, outPad, inPad, nump, pts )
+void ComputeCon ( startObj, endObj, outPad, inPad, nump, pts )
 	Obj	*startObj;
 	Obj	*endObj;
 	Pad	*outPad;

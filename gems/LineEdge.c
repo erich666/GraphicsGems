@@ -26,15 +26,13 @@ from "Graphics Gems", Academic Press, 1990
         } \
     }
 
-vertex(I)
-IntPoint2   *I;
+void vertex( IntPoint2   *I)
 {
     /* Note: replace printf with code to process vertex, if desired */
     printf("vertex at %d %d\n", I->x, I->y);
 }
 
-left(I)
-IntPoint2   *I;
+void left( IntPoint2   *I)
 {
 
     /* Note: replace printf with code to process leftward */ 	
@@ -42,7 +40,7 @@ IntPoint2   *I;
     printf("left from %d %d\n", I->x, I->y);
 }
 
-up(I)
+void up(I)
 IntPoint2   *I;
 {
     /* Note: replace printf with code to process upward */
@@ -50,24 +48,21 @@ IntPoint2   *I;
     printf("up from %d %d\n", I->x, I->y);
 }
 
-right(I)
-IntPoint2   *I;
+void right( IntPoint2   *I)
 {
     /* Note: replace printf with code to process rightward */
 	/* intersection, if desired */
     printf("right from %d %d\n", I->x, I->y);
 }
 
-down(I)
-IntPoint2   *I;
+void down(IntPoint2   *I)
 {
     /* Note: replace printf with code to process downward */
 	/* intersection, if desired */
     printf("down from %d %d\n", I->x, I->y);
 }
 
-find_intersections(Pptr, Qptr)
-	IntPoint2   *Pptr, *Qptr;       /* P and Q as described in gem text */
+void find_intersections(IntPoint2   *Pptr, IntPoint2 *Qptr)       /* P and Q as described in gem text */
 {
 	IntPoint2   P, Q;           /* P and Q, dereferenced for speed */
 	IntPoint2   C;              /* current grid point */

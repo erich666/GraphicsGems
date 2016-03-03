@@ -1,15 +1,15 @@
 /*
-/* When Spawning a Refraction Ray:
-/* Mask = 0x01 << Spawning_ray_level;
-/* path = path | Mask;               /* Turn on correct bit. */
-/* trace( / refraction ray / );
-/* path = path & ~Mask;
-/* 
-/* When Spawning Reflection Ray:
-/* Mask = 0x01 << Spawning_ray_level;
-/* path = path & ~Mask;              /* Turn off correct bit. */
-/* trace( / reflection ray / );
-/**/
+ * When Spawning a Refraction Ray:
+ * Mask = 0x01 << Spawning_ray_level;
+ * path = path | Mask;                Turn on correct bit.
+ * trace( / refraction ray / );
+ * path = path & ~Mask;
+ *
+ * When Spawning Reflection Ray:
+ * Mask = 0x01 << Spawning_ray_level;
+ * path = path & ~Mask;              Turn off correct bit.
+ * trace( / reflection ray / );
+ */
 
 #include <stddef.h>
 

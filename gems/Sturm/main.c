@@ -19,7 +19,7 @@ from "Graphics Gems", Academic Press, 1990
 /*
  * a driver program for a root solver.
  */
-main()
+int main()
 {
 	poly	sseq[MAX_ORDER];
 	double 	min, max, roots[MAX_ORDER];

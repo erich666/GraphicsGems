@@ -12,7 +12,7 @@
 
 int len4(int a, int b, int c, int d);
 
-main(argc, argv)
+int main(argc, argv)
     char *argv[];
     {
     long a, b, c, d, l;
@@ -24,5 +24,5 @@ main(argc, argv)
     l = len4(a,b,c,d);
     l2 = hypot(hypot((double)(a),(double)(b)),
 	       hypot((double)(c),(double)(d)));
-    printf("(%d,%d,%d,%d) = %d (%g)\n", a, b, c, d, l, l/l2);
+    printf("(%ld,%ld,%ld,%ld) = %ld (%g)\n", a, b, c, d, l, l/l2);
     }

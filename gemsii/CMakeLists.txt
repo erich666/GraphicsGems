@@ -32,6 +32,6 @@ set_property(TARGET
 	c_format FastUpdate Hilbert hot InterPhong inverse noise3 quantizer
 	ran_ramp RayCPhdron rotate rotate8x8 sparse unmatrix VoxelCache xlines
 
-	BitCounting dither intersect inv_cmap Peano radiosity RealPixels viewcorr
+	BitCounting dither intersect inv_cmap Peano PeanoMain PeanoMapply radiosity RealPixels viewcorr
 
 	PROPERTY FOLDER "GraphicsGems II")

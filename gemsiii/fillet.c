@@ -41,10 +41,9 @@ float   dot2();
 
 void    moveto();   /* External draw routine */
 void    lineto();   /* External draw routine */
-void    drawarc();
-float   linetopoint();
-void    pointperp();
-void    fillet();
+float   linetopoint(float a,float b,float c,point p);
+void pointperp(float* x, float* y, float a, float b, float c, point p);
+void fillet(point* p1, point* p2, point* p3, point* p4, float r, float* xc, float* yc, float* pa, float* aa);
 
 float cross2(v1,v2)
       point v1, v2;

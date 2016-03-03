@@ -135,12 +135,11 @@ InitScreen()
 }
 
 
-void
+int
 main()
 {
   int i, j;
 #pragma warning(disable : 4293)
-  int nsubpixels = 1 << (HIBITS+LOBITS);
   fixpoint zero, maxpix;
 
   zero = 0;

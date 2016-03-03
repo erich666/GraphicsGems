@@ -55,7 +55,7 @@ bitmap_hdr *image;
 {
   int xsize, ysize;
   byte *globalcmap, *localcmap;
-  int mask;
+  int mask = 0;
   int codesize;
   int totalsize;
   int globalcolors, localcolors;
@@ -105,7 +105,7 @@ void read_gif_file( name, bitmap )
 	char *name;
 bitmap_hdr *bitmap;
 {
-	FILE *handle;
+	FILE *handle = NULL;
 
 	/* Open the file descriptor */
 	if ( name != NULL )
@@ -246,7 +246,7 @@ bitmap_hdr *image;
   free( stack );
 }
 
-read_code( buffer, mask, offset, codesize )
+int read_code( buffer, mask, offset, codesize )
 byte *buffer;
 int mask;
 int *offset;
@@ -270,7 +270,7 @@ int codesize;
   return( aux & mask );
 }
 
-push_gif(buffer, indexx)
+int push_gif(buffer, indexx)
 byte *buffer;
 int indexx;
 {
@@ -305,7 +305,7 @@ int *mask;
 {
   /* int swidth, sheight; */
   byte buffer[7];
-  byte *cmap;
+  byte *cmap = NULL;
   int cmapflag;
   int bitsperpixel;
   /* int background; */
@@ -343,7 +343,7 @@ int *width, *height;
 {
   /* int left, right; */
   byte buffer[10];
-  byte *cmap;
+  byte *cmap = NULL;
   int cmapflag;
   int interlace;
   int bitsperpixel;
@@ -567,7 +567,7 @@ bitmap_hdr *image;
   Fwrite( buffer, 10, 1, handle);
 }
 
-read_pixel()
+int read_pixel()
 {
   static int size;
   static byte *base, *ptr;

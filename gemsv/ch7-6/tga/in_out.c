@@ -30,6 +30,7 @@
  * Subrutinas para entrada y salida de ficheros.
  */
 
+#include <unistd.h>
 #include "lug.h"
 #include "lugfnts.h"
 
@@ -130,8 +131,7 @@ int exist_file(char* name)
   return FILE_NO_EXIST;
 }
 
-Fclose( handle )
-FILE *handle;
+int Fclose(FILE* handle )
 {
   if ( handle != stdout && handle != stdin )
     return fclose( handle );
@@ -160,7 +160,7 @@ int *bytes;
     /* Read it */
     Fread(buffer, (int) (*bytes), 1, handle);
   }else {                       /* Oops!  It's a pipe. */
-    size_t n = 0, bufsize = 0;
+    int n = 0, bufsize = 0;
 
     /* Read in chunks of BUFSIZ. */
     buffer = (char *) Malloc( BUFSIZ );
@@ -214,8 +214,7 @@ FILE *handle;
   putc( MSB(value), handle );
 }
 
-getshortMSBF( handle )
-FILE *handle;
+int getshortMSBF(FILE* handle )
 {
   int aux;
 
@@ -225,8 +224,7 @@ FILE *handle;
   return aux;
 }
 
-getshortLSBF( handle )
-FILE *handle;
+int getshortLSBF(FILE* handle )
 {
   int aux;
 

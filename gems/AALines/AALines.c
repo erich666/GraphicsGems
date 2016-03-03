@@ -15,8 +15,9 @@
       AATables.c -- Initialize lookup tables.
 */
 
-#include <stddef.h>
 #include <math.h>
+#include <stddef.h>
+#include <stdlib.h>
 #include "AALines.h"
 
 #define SWAPVARS(v1,v2) ( temp=v1, v1=v2, v2=temp )
@@ -42,19 +43,19 @@
 #endif
 
 /* ASSUMED MACROS:
-/*   SWAPVARS(v1,v2) -- swaps the contents of two variables
-/*   PIXADDR(x,y) -- returns address of pixel at (x,y)
-/*   COVERAGE(FXdist) -- lookup macro for pixel coverage 
+ *   SWAPVARS(v1,v2) -- swaps the contents of two variables
+ *   PIXADDR(x,y) -- returns address of pixel at (x,y)
+ *   COVERAGE(FXdist) -- lookup macro for pixel coverage
         given perpendicular distance; takes a fixed-point
         integer and returns an integer in the range [0,255]
-/*   SQRTFUNC(FXval) -- lookup macro for sqrt(1/(1+FXval^2))
+ *   SQRTFUNC(FXval) -- lookup macro for sqrt(1/(1+FXval^2))
         accepts and returns fixed-point numbers
-/*   FIXMUL(FX1,FX2) -- multiplies two fixed-point numbers
+ *   FIXMUL(FX1,FX2) -- multiplies two fixed-point numbers
         and returns the product as a fixed-point number   */
 
 /* BLENDING FUNCTION:
-/*  'cover' is coverage -- in the range [0,255]
-/*  'back' is background color -- in the range [0,255] */
+ *  'cover' is coverage -- in the range [0,255]
+ *  'back' is background color -- in the range [0,255] */
 #define BLEND(cover,back) ((((255-(cover))*(back))>>8)+(cover))
 
 /* LINE DIRECTION bits and tables */
@@ -63,8 +64,8 @@
 
 
 /* pixel increment values 
-/*   -- assume PIXINC(dx,dy) is a macro such that:
-/*   PIXADDR(x0,y0) + PIXINC(dx,dy) = PIXADDR(x0+dx,y0+dy)  */
+ *   -- assume PIXINC(dx,dy) is a macro such that:
+ *   PIXADDR(x0,y0) + PIXINC(dx,dy) = PIXADDR(x0+dx,y0+dy)  */
 static int adj_pixinc[4] = 
       { PIXINC(1,0), PIXINC(0,1), PIXINC(1,0), PIXINC(0,-1) };
 static int diag_pixinc[4] = 

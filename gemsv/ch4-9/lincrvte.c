@@ -27,7 +27,7 @@ static int eh = 0;
 enum Flavor{PLY, LAG, BEZ, CAT, BSP, NFLAVORS};
 char fnames[][4] = {"PLY", "LAG", "BEZ", "CAT", "BSP"};
 
-void main(void)
+int main(void)
 {
     int i;
     int flavor = PLY;

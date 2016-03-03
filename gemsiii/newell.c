@@ -47,7 +47,7 @@ typedef float Plane[4];
 **      plane  - normalized (unit normal) plane equation
 */
 
-PlaneEquation(verts, nverts, plane)
+void PlaneEquation(verts, nverts, plane)
 Point *verts;
 int nverts;
 Plane plane;

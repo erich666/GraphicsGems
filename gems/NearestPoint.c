@@ -40,7 +40,7 @@ int		MAXDEPTH = 64;	/*  Maximum depth for recursion */
  *	arbitrary point in the plane, find the point on the curve
  *	closest to that arbitrary point.
  */
-main()
+int main()
 {
    
  static Point2 bezCurve[4] = {	/*  A cubic Bezier curve	*/
@@ -333,8 +333,7 @@ static int ControlPolygonFlatEnough(V, degree)
     double  det, dInv;
     double  a1, b1, c1, a2, b2, c2;
 
-    /* Derive the implicit equation for line connecting first *'
-    /*  and last control points */
+    /* Derive the implicit equation for line connecting first and last control points */
     a = V[0].y - V[degree].y;
     b = V[degree].x - V[0].x;
     c = V[0].x * V[degree].y - V[degree].x * V[0].y;

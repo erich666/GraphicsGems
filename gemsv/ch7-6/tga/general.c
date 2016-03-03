@@ -27,6 +27,8 @@
  */
 
 #include <ctype.h>
+#include <fcntl.h>
+#include <unistd.h>
 #include "lug.h"
 #include "lugfnts.h"
 
@@ -38,8 +40,7 @@ int LUGverbose = 0;
  * Return the number of bits ( -1 ) to represent a given
  * number of colors ( ex: 256 colors => 7 ).
  */
-no_bits( colors )
-int colors;
+int no_bits(int colors)
 {
   register int bits= 0;
 
@@ -169,8 +170,7 @@ int size;
   return out;
 }
 
-Atoi( string )
-char *string;
+int Atoi(char* string)
 {
   int aux = -1234;
 
@@ -194,17 +194,6 @@ char *string;
   return aux;
 }
 
-isnumber( c )
-char *c;
-{
-  while ( *c )
-    if ( !isdigit(*c++) )
-      return 0;
-
-  return 1;
-}
-
-
 /*
  * Compress and uncompress subroutines.
  */
@@ -215,7 +204,7 @@ char *name, *aux_file;
 #ifndef MSDOS
   int pid, handle;
 
-  if ( pid = fork() ) {
+  if ( (pid = fork()) ) {
     /*
      * Parent wait until the REAL 'end of days'
      * of the child.
@@ -254,7 +243,7 @@ char *name;
 #ifndef MSDOS
   int pid;
 
-  if ( pid = fork() ) {
+  if ( (pid = fork()) ) {
     /*
      * Parent wait until the REAL 'end of days'
      * of the child.
@@ -283,8 +272,7 @@ char *name;
 #endif  /* MSDOS */
 }
 
-compute_levels( no_colors )
-int no_colors;
+int compute_levels(int no_colors)
 {
   int n = 7;
 

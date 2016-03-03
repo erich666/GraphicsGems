@@ -1,9 +1,5 @@
 /* Copyright (c) 1991 Regents of the University of California */
 
-#ifndef lint
-static char SCCSid[] = "@(#)header.c 1.4 4/22/91 LBL";
-#endif
-
 /*
  *  header.c - routines for reading and writing information headers.
  *
@@ -39,7 +35,7 @@ void printargs(int ac, char** av, FILE* fp)		/* print arguments to a file */
 }
 
 
-isformat(s)			/* is line a format line? */
+int isformat(s)			/* is line a format line? */
 char  *s;
 {
 	return(!strncmp(s,FMTSTR,FMTSTRL));
@@ -66,11 +62,9 @@ void fputformat(char* s, FILE* fp)		/* put out a format value */
 	putc('\n', fp);
 }
 
+struct check;
 
-getheader(fp, f, p)		/* get header from file */
-FILE  *fp;
-int  (*f)();
-char  *p;
+int getheader(FILE* fp, void (*f)(char*, struct check*), struct check* p)		/* get header from file */
 {
 	char  buf[MAXLINE];
 
@@ -79,7 +73,7 @@ char  *p;
 		if (fgets(buf, sizeof(buf), fp) == NULL)
 			return(-1);
 		if (buf[0] == '\n')
-			return(0);
+			return 0;
 		if (buf[MAXLINE-2] != '\n') {
 			ungetc(buf[MAXLINE-2], fp);	/* prevent false end */
 			buf[MAXLINE-2] = '\0';
@@ -97,9 +91,7 @@ struct check {
 
 
 static
-mycheck(s, cp)			/* check a header line for format info. */
-char  *s;
-register struct check  *cp;
+void mycheck(char* s, struct check* cp)			/* check a header line for format info. */
 {
 	if (!strncmp(s,FMTSTR,FMTSTRL))
 		formatval(cp->fs, s);

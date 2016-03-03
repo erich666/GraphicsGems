@@ -1,10 +1,5 @@
 /* Copyright (c) 1991 Regents of the University of California */
 
-#ifndef lint
-static char SCCSid[] = "@(#)ra_pr24.c 1.8 8/15/91 LBL";
-#endif
-
-
 /*
  *  program to convert between RADIANCE and 24-bit rasterfiles.
  */
@@ -34,8 +29,7 @@ char  *progname;
 int  xmax, ymax;
 
 
-quiterr(err)		/* print message and exit */
-char  *err;
+void quiterr(char* err)		/* print message and exit */
 {
 	if (err != NULL) {
 		fprintf(stderr, "%s: %s\n", progname, err);
@@ -139,9 +133,7 @@ void ra2pr()			/* convert Radiance scanlines to 24-bit rasterfile */
 }
 
 
-main(argc, argv)
-	int  argc;
-char  *argv[];
+int main(int argc, char** argv)
 {
 	struct rasterfile  head;
 	int  reverse = 0;

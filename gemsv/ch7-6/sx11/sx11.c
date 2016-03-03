@@ -11,7 +11,7 @@
 char *MY_NAME;
 
 
-usage()
+void usage()
 {
   char *msg = "\n\
 %s: Usage: %s [-v!] <input_file> [<input_file>]\n\n\
@@ -32,7 +32,7 @@ the number of colors.\n\n";
   exit( 1 );
 }
 
-print_copyright()
+void print_copyright()
 {
   char *msg = "\
 sx11 ( v.1.0 ) - show several image file formats\n\n\
@@ -60,7 +60,7 @@ Supported input formats:\n\n\
   exit( 1 );
 }
 
-main(argc, argv)
+int main(argc, argv)
 int argc;
 char **argv;
 {

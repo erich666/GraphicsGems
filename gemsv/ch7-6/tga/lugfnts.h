@@ -29,6 +29,7 @@
 #ifndef MY_DEFINE_PROTOTYPES
 
 #define MY_DEFINE_PROTOTYPES
+#define USE_PROTOTYPES
 
 /*
  * We need some of the lug header definitions.
@@ -1028,13 +1029,6 @@ Atoi(
 
 extern double
 Atod(
-#ifdef USE_PROTOTYPES
-        char *
-#endif
-);
-
-extern int
-isnumber(
 #ifdef USE_PROTOTYPES
         char *
 #endif

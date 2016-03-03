@@ -14,9 +14,9 @@ char screen[100]="/dev/screen/";
 int watchmode=0;
 
 void bank_switch(int a, int b, int c) {}
-void dcblock_write(int a, int b, int c, int d, int e, char* f, int g) {}
+void dcblock_write(int a, int b, int c, int d, int e, unsigned char* f, int g) {}
 
-main(int argc, char** argv)
+int main(int argc, char** argv)
 {
     FILE *f;
     int width, height, w, h;

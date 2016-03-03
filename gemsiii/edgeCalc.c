@@ -69,17 +69,17 @@ typedef struct  {
 #define HRES 768 /* horizontal resolution */
 
 int rl[11][5] = {  /* Array used to select pixeltype/edgetype combinations */
- 0,  0, 0, 1, -1,  /* at which an xl or xr value should be set.     */
--1,  0, 1, 1, -1,  /*  1 indicates where xr is set  */
- 0,  0, 0, 0, -1,  /* -1 indicates where xl is set  */
- 1, -1, 0, 1, -1,
- 0,  0, 0, 1,  0,
- 0, -1, 1, 1, -1,
- 0,  0, 0, 0,  0,
- 0,  0, 0, 1,  0,
- 0, -1, 0, 0,  0,
- 0,  0, 0, 0, -1,
- 0,  0, 1, 0,  0,
+ {0,  0, 0, 1, -1},  /* at which an xl or xr value should be set.     */
+{-1,  0, 1, 1, -1},  /*  1 indicates where xr is set  */
+ {0,  0, 0, 0, -1},  /* -1 indicates where xl is set  */
+ {1, -1, 0, 1, -1},
+ {0,  0, 0, 1,  0},
+ {0, -1, 1, 1, -1},
+ {0,  0, 0, 0,  0},
+ {0,  0, 0, 1,  0},
+ {0, -1, 0, 0,  0},
+ {0,  0, 0, 0, -1},
+ {0,  0, 1, 0,  0},
 };
 
 

@@ -13,7 +13,7 @@
 extern chainCode* encode(pt2 *size, char *bitmap);
 
 
-char *mes1[]={"VECTORIZE",
+const char *mes1[]={"VECTORIZE",
               "by Jean-Francois Doue",
               " ",
               "This program transforms a bitmap image into a chain code",
@@ -34,7 +34,7 @@ char *mes1[]={"VECTORIZE",
               "\n",
               0};
 
-char *mes2[]={"Error !",
+const char *mes2[]={"Error !",
               "Your file cannot be opened",
               0};
 
@@ -46,7 +46,7 @@ char *mes2[]={"Error !",
 /*                                                           */
 /*************************************************************/
 
-void printMessage(char** mes)
+void printMessage(const char** mes)
 {
 	int i = 0;
 	if (!mes)

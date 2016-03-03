@@ -184,11 +184,11 @@ int main ()
     }
 
     for (depth = 1; depth <= max_depth; depth++) {
-        printf ("depth = %3d: nv = %8d, nf = %8d, init = %8d, seq = %8d, par = %8d",
+        printf ("depth = %3d: nv = %8d, nf = %8d, init = %8ld, seq = %8ld, par = %8ld",
             depth, 4*depth*depth + 2, 8*depth*depth,
             timing[depth-1].init, timing[depth-1].seq, timing[depth-1].par);
         if (depth <= SPH_MAXDEPTH)
-            printf (", libsphere = %8d", timing[depth-1].libsphere);
+            printf (", libsphere = %8ld", timing[depth-1].libsphere);
         printf ("\n");
     }
 

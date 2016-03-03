@@ -11,7 +11,8 @@
 #define OVERFLOWMASK (SIGNBIT | ~(HIMASK | LOMASK))
 
 typedef int fixpoint;
-typedef struct {unsigned int hi, lo, neg;} dblfixpoint;
+#include <stdint.h>
+typedef struct {uint64_t hi, lo, neg;} dblfixpoint;
 
 extern int fp_error;
 extern  fixpoint fp_max();

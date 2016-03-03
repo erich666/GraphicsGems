@@ -22,7 +22,7 @@ float formFactor(float u, float v, float a)
 
 
 
-main ()
+int main ()
 {
   int	left, right, top, bottom,	/* Cell index boundaries */
 		row, column;		/* Current cell indices */

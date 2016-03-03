@@ -5,16 +5,16 @@
  */
 
 /*  	Jitter.c - Sampling jitter generation routines.  	    
-/*
-/*	Description:
-/*	    Jitter.c contains the routines for generation of sampling  
-/*	    jitter using look-up tables.
-/*
-/*	Contents:
-/*	    Jitter1	Generate random jitter function 1.
-/*	    Jitter2	Generate random jitter function 2.			
-/*	    JitterInit	Initialize look-up tables.
-/* */
+ *
+ *	Description:
+ *	    Jitter.c contains the routines for generation of sampling
+ *	    jitter using look-up tables.
+ *
+ *	Contents:
+ *	    Jitter1	Generate random jitter function 1.
+ *	    Jitter2	Generate random jitter function 2.
+ *	    JitterInit	Initialize look-up tables.
+ * */
 
 #define			NRAN	1024	/* Random number table length	*/
 

@@ -367,7 +367,7 @@ public:
         solid(color& c) {this->c=c; setq(c);}
         void out(std::ostream& o) {o<<"color "<<c<<"\n";}
         pigment* copy() {solid *p=new solid; *p=*this; return p;}
-        color paint(vector& p) {return c;}
+        color paint(const vector& p) {return c;}
 };
 
 class checker : public pigment {
@@ -378,7 +378,7 @@ public:
         checker(color& c1, color& c2) {this->c1=c1; this->c2=c2;}
         void out(std::ostream& o) {o<<"checker color "<<c1<<" color "<<c2<<"\n";}
         pigment* copy() {checker *p=new checker; *p=*this; return p;}
-        color paint(vector& p)
+        color paint(const vector& p)
                 {return (((int)p[0]+(int)p[1]+(int)p[2])%2)?c2:c1;}
 };
 
@@ -396,7 +396,7 @@ public:
         hexagon(color& c1, color& c2, color& c3)
                 {this->c1=c1; this->c2=c2; this->c3=c3;}
         pigment* copy() {hexagon *p=new hexagon; *p=*this; return p;}
-        color paint(vector& p) {return c1;}
+        color paint(const vector& p) {return c1;}
 };
 
 struct colormapitem {
@@ -634,7 +634,7 @@ public:
                 o<<T<<"}\n";
         }
         texture* copy() {tiles* t=new tiles; *t=*this; return t;}
-        intensity shade(ray& r, intersect& i)
+        intensity shade(const ray& r, intersect& i)
                 {return texture::shade(r,i);}
 };
 
@@ -685,6 +685,7 @@ class method {
                 {return (list<object*>*)0;}             // BRUTE-FORCE METHOD
 public:
         method() {lo=new list<object*>;}
+    virtual ~method() {}
         virtual void preprocess(list<object*> *l)
                 {delete lo; lo=l;}                      // NO PREPROCESSING
         intersect operator()(const ray& r) {                  // GENERAL SCHEME
@@ -692,7 +693,7 @@ public:
                 for(list<object*>*lo=firstlist(r); lo; lo=nextlist()) {
                         for(object *o=lo->first(); o; o=lo->next()) {
                                 list<intersect*> *li=o->test(r);
-                                if(i=li->first()) {
+                                if(((i=li->first()))) {
                                         if(!imin.o || i->t<imin.t )
                                                 imin=*i;
                                 }

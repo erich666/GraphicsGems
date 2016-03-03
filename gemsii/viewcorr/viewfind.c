@@ -14,7 +14,7 @@
 #include "matrix.h"
 #include "viewcorr.h"
 
-read_points_and_view( infile, datapts, view_parms )
+void read_points_and_view( infile, datapts, view_parms )
 FILE * infile;
 ViewData *datapts;
 ViewParms *view_parms;
@@ -71,7 +71,7 @@ ViewParms *view_parms;
     }
 }
 
-dump_points_and_view( dumpfile, datapts, view_parms )
+void dump_points_and_view( dumpfile, datapts, view_parms )
 FILE * dumpfile;
 ViewData *datapts;
 ViewParms *view_parms;
@@ -111,7 +111,7 @@ ViewParms *view_parms;
     }
 }
 
-dump_rayshade_parms( dumpfile, view_parms )
+void dump_rayshade_parms( dumpfile, view_parms )
 FILE * dumpfile;
 ViewParms *view_parms;
 {
@@ -165,7 +165,7 @@ ViewParms *view_parms;
 		 (1.0/(ds * view_parms->aspect))) * RTOD * 2.0);
 }
 
-main(argc, argv)
+int main(argc, argv)
 	char **argv;
 {
 	ViewData datapts;

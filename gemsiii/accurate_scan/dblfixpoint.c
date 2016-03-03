@@ -67,7 +67,7 @@ fixpoint fp_trunc(dblfixpoint a)
   int lo = (a.lo >> LOBITS);
 
   if ((hi >> LOBITS) != a.hi) {
-	 printf("fp_trunc() Overflow converting hibits 0x%08x to 0x%08x fixpoint in (%d,%d) bits\n", a.hi, hi, HIBITS, LOBITS);
+	 printf("fp_trunc() Overflow converting hibits 0x%08llx to 0x%08x fixpoint in (%d,%d) bits\n", a.hi, hi, HIBITS, LOBITS);
   }
 
   if (a.neg)

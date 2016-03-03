@@ -48,7 +48,7 @@ FILE *f;
 
 	while(t == NULL) {			/* nothing in the buffer */
 		if(fgets(lnbuf, sizeof(lnbuf), f)) {	/* read a line */
-			if(p = strchr(lnbuf, '#')) {	/* clip any comment */
+			if((p = strchr(lnbuf, '#'))) {	/* clip any comment */
 				*p = '\0';
 			}
 			t = strtok(lnbuf, delim);	/* get first token */
@@ -523,9 +523,7 @@ banner()
 	printf("%s v%s -- %s\n", _Program, _Version, _Copyright);
 }
 
-main(argc, argv)
-int argc;
-char *argv[];
+int main(int argc, char** argv)
 {
 	register int c;
 	extern int optind;

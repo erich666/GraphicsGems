@@ -139,13 +139,10 @@ long
     return ( DO_INTERSECT );
     } /* lines_intersect */
 
-/* A main program to test the function.
- */
-
-main()
+int main()
 {
-    long x1, x2, x3, x4, y1, y2, y3, y4;
-    long x, y;
+    long int x1, x2, x3, x4, y1, y2, y3, y4;
+    long int x, y;
 
     for (;;) {
         printf( "X1, Y1: " );

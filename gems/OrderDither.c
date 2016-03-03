@@ -31,10 +31,9 @@ from "Graphics Gems", Academic Press, 1990
 #include <stdio.h>
 
 
-dithervalue(x, y, size)
-register int x, y, size;
+int dithervalue(int x, int y, int size)
 {
-	register int d;
+	int d;
 	/*
 	 * calculate the dither value at a particular
 	 * (x, y) over the size of the matrix.
@@ -51,17 +50,16 @@ register int x, y, size;
 		 * This whole thing interleaves a checkerboard bit pattern
 		 * and y's bits, which is the value you want.
 		 */
-		d = (d <<1 | (x&1 ^ y&1))<<1 | y&1;
+		d = (d <<1 | (x&1 ^ y&1))<<1 | (y&1);
 		x >>= 1;
 		y >>= 1;
 	}
-	return(d);
+	return d;
 }
 
-printdither (size, range)
-register int size, range;
+void printdither (int size, int range)
 {
-	register int l = (1 << size), i;
+	int l = (1 << size), i;
      /*
       * print a dithering matrix.
       * l is the length on a side.
@@ -86,9 +84,7 @@ register int size, range;
 	puts("\n}; ");
 }
 
-main(argc, argv)
-	int argc;
-char **argv;
+int main(int argc, char**argv)
 {
 	register int size, range;
 

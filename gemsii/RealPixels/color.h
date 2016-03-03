@@ -98,5 +98,5 @@ typedef float  COLOR[3];	/* red, green, blue */
 
 /* if needed: extern double  ldexp(), atof(); */
 
-size_t fwritecolrs(COLR* scanline, int len, FILE* fp);
-size_t freadcolrs(COLR* scanline, int len, FILE* fp);
+int freadcolrs(COLR* scanline, int len, FILE* fp);
+int fwritecolrs(COLR* scanline, int len, FILE* fp);

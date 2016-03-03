@@ -20,7 +20,7 @@ static long arctantab[32] = {  /* MS 4 integral bits for radians */
 	32, 16, 8, 4, 2, 1, 0, 0,
 };
 
-CordicRotate(px, py, theta)
+void CordicRotate(px, py, theta)
 long *px, *py;
 register long theta;	/* Assume that abs(theta) <= pi */
 {
@@ -51,7 +51,7 @@ register long theta;	/* Assume that abs(theta) <= pi */
 
 
 
-CordicPolarize(argx, argy)
+void CordicPolarize(argx, argy)
 long *argx, *argy;	/* We assume these are already in the */
 					/*  right half plane */
 {

@@ -56,9 +56,7 @@ int size;
   }
 }
 
-void RGB_to_HSL( r1, g1, b1, h, s, l)
-byte r1, g1, b1;
-double *h, *s, *l;
+void RGB_to_HSL(byte r1, byte g1, byte b1, double* h, double* s, double* l)
 {
   double v;
   double m;

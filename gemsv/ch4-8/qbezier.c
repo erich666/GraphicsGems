@@ -38,11 +38,11 @@ void BezierCurve(int NumCtlPoints, BezArray c, Point *pt, float t)
     n = NumCtlPoints -1;  u =t;
     b[0].x = c[0].x;
     b[0].y = c[0].y;
- /* b[0].z = c[0].z; */      /* for 3-D curves */
+ /* b[0].z = c[0].z; for 3-D curves */
     for(k =1; k <=n; k++) {
         b[k].x = c[k].x *u;
         b[k].y = c[k].y *u;
-        /* b[k].z = c[k].z *u   /* for 3-D curves */
+        /* b[k].z = c[k].z *u   for 3-D curves */
         u =u*t;
         };
 
@@ -61,7 +61,7 @@ int   k;
 PtArray pn;
 BezArray bc;
 Point pt;
-void main ()
+int main ()
 {
     pn[0].x = 100;  pn[0].y = 20;
     pn[1].x = 120;  pn[1].y = 40;

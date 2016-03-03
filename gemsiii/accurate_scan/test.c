@@ -16,7 +16,7 @@ void mapping_mode(int a, bool b) {}
 void drawing_mode(int a, int b) {}
 void double_buffer(int a, bool b, int c) {}
 void intrectangle(int a, int b, int c, int d, int e) {}
-fp_fix(double a);
+int fp_fix(double a);
 void clear_view_surface(int a) {}
 void make_picture_current(int a) {}				
 void dbuffer_switch(int a, int b) {} 
@@ -145,7 +145,7 @@ draw_point (int ix, int iy)
 
 #define CENTER 0.5f
 
-main (int argc, char *argv[])
+int main(int argc, char *argv[])
 {
     int xi[MAXVERTICES], yi[MAXVERTICES];
     struct color tc[MAXTRIANGLES];

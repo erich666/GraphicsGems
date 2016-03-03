@@ -1,7 +1,3 @@
-#ifndef lint
-static char SCCSid[] = "@(#)resolu.c 1.1 9/22/90 LBL";
-#endif
-
 /*
  * Read and write image resolutions.
  */

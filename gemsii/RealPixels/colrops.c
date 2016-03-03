@@ -1,9 +1,5 @@
 /* Copyright (c) 1990 Regents of the University of California */
 
-#ifndef lint
-static char SCCSid[] = "@(#)colrops.c 1.3 11/9/90 LBL";
-#endif
-
 /*
  * Integer operations on COLR scanlines
  */
@@ -94,7 +90,7 @@ void shiftcolrs(COLR* scan, int len, int adjust)	/* shift a scanline of colors b
 	}
 }
 
-normcolrs(scan, len, adjust)	/* normalize a scanline of colrs */
+void normcolrs(scan, len, adjust)	/* normalize a scanline of colrs */
 register COLR  *scan;
 int  len;
 int  adjust;

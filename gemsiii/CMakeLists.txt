@@ -8,7 +8,6 @@ add_library(bzrinter bzrinter.c)
 add_library(circlexc circlexc.c)
 add_library(con2d con2d.c)
 add_library(contour contour.c)
-add_library(cyclic cyclic.c)
 add_library(edgeCalc edgeCalc.c)
 add_library(fastBitmap fastBitmap.c)
 add_library(fastLinear fastLinear.c)
@@ -34,7 +33,6 @@ add_library(pt2plane pt2plane.c)
 add_library(quatspin quatspin.c)
 add_library(rand_rotation rand_rotation.c)
 add_library(rgbvary rgbvary.c)
-add_library(rgbvaryW rgbvaryW.c)
 add_library(scallops8 scallops8.c)
 add_library(sqfinal sqfinal.c)
 add_library(sqrt sqrt.c)
@@ -51,12 +49,18 @@ add_subdirectory(simplex)
 
 set_property(TARGET
 
-	3d accForm bitmap bounding_volumes bsp bzrinter circlexc con2d contour cyclic
+	3d accForm bitmap bounding_volumes bsp bzrinter circlexc con2d contour 
 	edgeCalc fastBitmap fastLinear fastSpan fillet filter filter_rcg forfac hemis insectc
 	intell intqdr motblur ndline newell panorama parelarc PIR pl2plane planeSets
-	Polyintr pt2plane quatspin rand_rotation rgbvary rgbvaryW scallops8 sqfinal sqrt
+	Polyintr pt2plane quatspin rand_rotation rgbvary scallops8 sqfinal sqrt
 	triangleCube urot zdepth
 
 	accurate_scan accurate_exhaust accurate_test alloc exttest luminaire partition3d simplex
 
 	PROPERTY FOLDER "GraphicsGems III")
+
+if(MSVC)
+	add_library(rgbvaryW rgbvaryW.c)
+	set_property(TARGET rgbvaryW PROPERTY FOLDER "GraphicsGems III")
+endif()
+

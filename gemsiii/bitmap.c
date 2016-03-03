@@ -124,7 +124,7 @@ void
 scale_bitmap_7_of_16(dst, src)
 Bitmap *dst, *src;
 {
-	static init_flag = 0;
+	static int init_flag = 0;
 	register long bitbuf = 0;
 	register int bits;
 	register int x, y, i, j, xwords;

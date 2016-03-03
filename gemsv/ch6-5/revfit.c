@@ -12,7 +12,7 @@
 #define ESTABLISHED     127
 #define MAXRUN          2000          /* max no of pixel edges in a line */
 
-extern DrawPixelEdge(int x, int y, int V_H); /* a user supplied function */
+extern void DrawPixelEdge(int x, int y, int V_H); /* a user supplied function */
                                              /* for drawing a PixelEdge  */
 
 /**********************************************************************\

@@ -39,8 +39,7 @@ double  x;
  * A method to compute the gamma() function.
  *
  */  
-double  gamma (x)
-double  x;
+double gammad(double x)
 {
   double  result,
           abgam ();
@@ -51,12 +50,9 @@ double  x;
 /* 
  * A method to compute the beta() function.
  */  
-double  beta (m, n)
-double  m,
-        n;
+double  beta(double m, double n)
 {
-  double  gamma ();
-  return (gamma (m)*gamma (n)/gamma (m + n));
+  return gammad(m) * gammad(n) / gammad(m + n);
 }
 
 
@@ -296,16 +292,16 @@ double a1,a2,a3,n,e,u,v;
  * A procedure to test some of the above code
  * 
  */ 
-main () {
-  printf (" gamma(1)= 1.0 = %12.10lf\n", gamma (1.0));
-  printf (" gamma(1/2)^2= Pi =%12.10lf\n", gamma (0.5)*gamma (0.5));
-  printf (" gamma(2)= 1.0 = %12.10lf\n", gamma (2.0));
-  printf (" gamma(3)= 2.0 = %12.10lf\n", gamma (3.0));
-  printf (" gamma(4)= 6.0 = %12.10lf\n", gamma (4.0));
+int main () {
+  printf (" gamma(1)= 1.0 = %12.10lf\n", gammad(1.0));
+  printf (" gamma(1/2)^2= Pi =%12.10lf\n", gammad(0.5)*gammad(0.5));
+  printf (" gamma(2)= 1.0 = %12.10lf\n", gammad(2.0));
+  printf (" gamma(3)= 2.0 = %12.10lf\n", gammad(3.0));
+  printf (" gamma(4)= 6.0 = %12.10lf\n", gammad(4.0));
   printf("\n");
-  printf ("beta(1,1)= 1.0 = %12.10lf\n", beta (1.0, 1.0));
-  printf ("beta(1,1/2)= 2.0 = %12.10lf\n", beta (1.0, 0.5));
-  printf ("beta(1/2,1/2)= Pi = %12.10lf\n", beta (0.5, 0.5));
+  printf ("beta(1,1)= 1.0 = %12.10lf\n", beta(1.0, 1.0));
+  printf ("beta(1,1/2)= 2.0 = %12.10lf\n", beta(1.0, 0.5));
+  printf ("beta(1/2,1/2)= Pi = %12.10lf\n", beta(0.5, 0.5));
   printf("\n");
   printf ("sq ellipsoid volume/pi= 4/3 = %12.10lf\n",
                       sqellipvol(1., 1., 1., 1., 1.)/M_PI);

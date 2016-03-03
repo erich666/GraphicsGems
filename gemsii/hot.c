@@ -66,9 +66,9 @@
  * RGB to YIQ encoding matrix.
  */
 double code_matrix[3][3] = {
-	 0.2989,	 0.5866,	 0.1144,
-	 0.5959,	-0.2741,	-0.3218,
-	 0.2113,	-0.5227,	 0.3113,
+	 {0.2989,	 0.5866,	 0.1144},
+	 {0.5959,	-0.2741,	-0.3218},
+	 {0.2113,	-0.5227,	 0.3113},
 };
 
 #define	PEDESTAL	7.5		/* 7.5 IRE black pedestal */
@@ -129,7 +129,7 @@ int	pix_encode(), hot();
  * Chroma is always scaled to remain consistent with Y.
  */
 
-build_tab()
+void build_tab()
 {
 	register double	f;
 	register int	pv;
@@ -379,7 +379,7 @@ double	v;
 void read_pixel(int, int, Pixel*);
 void write_pixel(int, int, Pixel*);
 
-main()
+int main()
 {
 	Pixel	p;
 	int	row, col;

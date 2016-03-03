@@ -14,7 +14,7 @@ void setpixel(int x, int y) {
 #define absolute(i,j,k)     ( (i-j)*(k = ( (i-j)<0 ? -1 : 1)))
 
 /* non-zero flag indicates the pixels needing swap back. */
-plot(x, y, flag) int x, y, flag;
+void plot(int x, int y, int flag)
 {
 	if (flag)
 		setpixel(y, x);

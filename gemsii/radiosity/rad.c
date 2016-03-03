@@ -46,7 +46,7 @@ static THemicube hemicube;	/* one hemi-cube */
 static double *formfactors;	/* a form-factor array which has the same length as the number of elements */
 static double totalEnergy;	/* total emitted energy; used for convergence checking */
 
-static const TSpectra black = { 0, 0, 0 };	/* for initialization */
+static const TSpectra black = { {0, 0, 0} };	/* for initialization */
 static int FindShootPatch(unsigned long *shootPatch);
 static void SumFactors(double* formfs, int xRes, int yRes, 
 	unsigned long* buf, double* deltaFactors);

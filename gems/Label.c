@@ -45,8 +45,7 @@ register int n;
  * (tight method is similar)
  */
 
-loose_label(min, max)
-double min, max;
+void loose_label(double min, double max)
 {
     char str[6], temp[20];
     int nfrac;
@@ -97,9 +96,7 @@ int round;
     return nf*expt(10., expv);
 }
 
-main(ac, av)
-	int ac;
-char **av;
+int main(int ac,char** av)
 {
 	double min, max;
 

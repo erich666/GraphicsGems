@@ -79,7 +79,7 @@ void voronoi::disperse(object *o, cell *C) {
                         if(n->t==traverse) continue;    // ALREADY TRAVERSED
                         if(o && !(*n&(*o))) continue;   // PARTIAL TRAVERSE
                         go=1; break;                    // GO ON
-                } while(n=c->ln.next());                // UNTIL NOT ALL DONE
+                } while((n=c->ln.next()));                // UNTIL NOT ALL DONE
                 if(go) {                                // STEP FORWARDS
                         n->b=c;                         // ESTABLISH BACK LINK
                         c=n; n=c->ln.first(); continue; // LET'S GO AHEAD
@@ -156,9 +156,10 @@ void voronoi::step() {                                  // ONE STEP ALONG RAY r
                 vector v=(n->p+a->p)*.5-r->o;
                 double t=(v%u)/d;                       // t AT INTERSECTION
                 if(t<=this->t) continue;                // WOULD BE A BACK STEP
-                if(t<EPS)                               // r->o ON BISECTOR PL.
+            if(t<EPS) {                               // r->o ON BISECTOR PL.
                         if(u%r->d>0.) {tmin=EPS; nmin=n; continue;}
                         else continue;
+            }
                 if(!tmin || t<tmin) {tmin=t; nmin=n;}   // CLOSER INTERSECTION
         }
         this->t=tmin; a=nmin;
