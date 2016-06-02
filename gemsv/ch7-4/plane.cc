@@ -1,6 +1,10 @@
 // -*- C++ -*-
 //  plane.cc by George Vanecek Jr., June 1994
 //
+//  bug fixes 2016.1.21 Glenn Burkhardt
+//      - fix index out of bounds error
+//      - correct computation of epsilon; need 'n' and 'd' before computing
+//
 
 #include "plane.h"
 
@@ -11,14 +15,15 @@ Plane::Plane( const Counter nPoints, const Point points[] )
   assert( nPoints > 2 );
   Vector avrPnt = Point(0,0,0);
   for( Index i = 0; i < nPoints; ++i ) {
-    avrPnt += points[i-1];
-    n      += Vector(points[i-1]) ^ Vector(points[i]);
-    updateEpsilon( points[i] );
+    avrPnt += points[i];
+    n      += Vector(points[i]) ^ Vector(points[(i+1) % nPoints]);
   }
-  avrPnt += points[nPoints-1];
-  n      += Vector(points[nPoints-1]) ^ Vector(points[0]);
+
   n.normalize();
   d = normal() * ((-1.0 / nPoints) * avrPnt );
+
+  for( Index i = 0; i < nPoints; ++i )
+      updateEpsilon( points[i] );
 }
 
 // Compute the intersection point with the transversal line (p,q).

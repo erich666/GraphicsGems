@@ -1,8 +1,14 @@
 // -*- C++ -*-
 // vector.h by George Vanecek Jr. June 1994
+//
+//  bug fixes 2016.1.21 Glenn Burkhardt
+//      - correct 'normalize', use sqrt(magnitude) instead of square
+//
 
 #ifndef _VECTOR_H_
 #define _VECTOR_H_
+
+#include <math.h>
 
 #ifndef _POINT_H_
 #include "point.h"
@@ -39,7 +45,7 @@ inline Vector Vector::operator ^ ( const Vector& v ) const
 
 inline void Vector::normalize()
 { 
-  const double n = *this * *this;
+  const double n = sqrt(*this * *this);
   assert( n != 0.0 );
   x() /= n;
   y() /= n;
