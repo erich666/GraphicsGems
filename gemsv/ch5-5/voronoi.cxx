@@ -124,7 +124,7 @@ void voronoi::preprocess(list<object*> *lo) {           // PREPROCESSING
                 } else {(*lv)+=C[i]; p=C[i];}           // SINGLE (YET)
         }
         cm=cm/(double)n;                                // CENTER OF MASS
-        delete C;
+        delete[] C;
         VECTOR<3>*b[4]; for(auto i=0;i<4;i++) b[i]=new cell; // BOUNDARY CELLS
         VORONOI<3> V(lv,b);                             // VERTEX STRUCTURE
         for(auto i=0;i<4;i++) {                              // BOUNDARY CELLS
