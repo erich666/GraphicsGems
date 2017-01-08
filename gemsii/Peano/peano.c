@@ -17,7 +17,13 @@
 
 #include "types.h"
 
-
+// global variables from types.h
+r_array	rho, sigma, tau, tilde_sigma, tilde_tau, omega, alpha;
+int	dimensions;
+int	precision;
+byte bytemask;
+int J[MAX_PRECISION];
+byte bitmask[MAX_DIMENSIONS];
 
 /*
  * build "rho" array

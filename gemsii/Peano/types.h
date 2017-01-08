@@ -1,5 +1,5 @@
 /* types.h */
-/* types and #define's for peano curve algorithm */
+/* types and #define's for 	peano curve algorithm */
 
 /* copyright Ken Musgrave */
 /* June 1986 */
@@ -26,15 +26,15 @@ typedef byte	r_array[MAX_PRECISION];	/* vector of type "r" in algo */
 
 /* global variable section */
 
-int	J[MAX_PRECISION]; 		/* storage for principal positions */
+extern int	J[MAX_PRECISION]; 		/* storage for principal positions */
 
 					/* global arrays */
-r_array	rho, sigma, tau, tilde_sigma, tilde_tau, omega, alpha;
+extern r_array	rho, sigma, tau, tilde_sigma, tilde_tau, omega, alpha;
 
-byte	bitmask[MAX_DIMENSIONS];	/* to be filled with bit masks */
+extern byte	bitmask[MAX_DIMENSIONS];	/* to be filled with bit masks */
 
-int	dimensions;			/* number of dimensions being filled */
-int	precision;			/* number of bits of precision used */
-byte	bytemask; 			/* masks "dimensions" bits */
+extern int	dimensions;			/* number of dimensions being filled */
+extern int	precision;			/* number of bits of precision used */
+extern byte	bytemask; 			/* masks "dimensions" bits */
 
 void peano(vector coord, int point);
