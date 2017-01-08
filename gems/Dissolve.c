@@ -77,7 +77,7 @@ void dissolve1 (unsigned long int height, unsigned long int width)	/* first vers
 
 
 
-void dissolve2 (int height, int width)	/* fast version of the dissolve algorithm */
+void dissolve2 (unsigned long int height, unsigned long int width)	/* fast version of the dissolve algorithm */
 {
 	int rwidth, cwidth;	/* bit width for rows, for columns */
 	int regwidth;		/* "width" of sequence generator */
