@@ -59,7 +59,7 @@ float	*m2;
 {
 register int ind, r, g, b;
 int	     inr, ing, inb, table[256];
-register long int i;
+int i;
 		
 	for(i=0; i<256; ++i) table[i]=i*i;
 	Qadd = (unsigned short int *)malloc(sizeof(short int)*size);
@@ -136,7 +136,7 @@ float    line2, area2[33];
 }
 
 
-long int Vol(cube, mmt) 
+long int Vol(cube, mmt)
 /* Compute sum over a box of any given statistic */
 struct box *cube;
 long int mmt[33][33][33];
@@ -374,8 +374,9 @@ struct box	cube[MAXCOLOR];
 unsigned char	*tag;
 unsigned char	lut_r[MAXCOLOR], lut_g[MAXCOLOR], lut_b[MAXCOLOR];
 int		next;
-register long int	i, weight;
-register int	k;
+int	i;
+long int weight;
+int	k;
 float		vv[MAXCOLOR], temp;
 
 	/* input R,G,B components into Ir, Ig, Ib;

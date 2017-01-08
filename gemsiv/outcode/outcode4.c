@@ -14,7 +14,7 @@
 
 void test4() {
 
-	int iw = 0, ix = 0, iy = 0, iz = 0;
+	long int iw = 0, ix = 0, iy = 0, iz = 0;
 	float x = 0.f, y = 0.f, z = 0.f, w = 0.f;
 	long abs_w;
 	unsigned long outcode, diff, t;

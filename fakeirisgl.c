@@ -33,7 +33,7 @@ void bgnline() {}
 void v2d(double* d) {}
 void v2i(int* i) {}
 void prefsize(int i, int j) {}
-long winopen(const char* cp) { return 0;  }
+int winopen(const char* cp) { return 0;  }
 void cpack(int i) {}
 int getvaluator(int i) { return 0; }
 void qreset() {}

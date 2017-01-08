@@ -120,7 +120,8 @@ fixpoint fp_multiply(fixpoint x, fixpoint y)
            (xhi * ylo) + (xlo * yhi) +
 			  (((xlo * ylo) >> LOBITS) & LOMASK);
 
-  if (answer & ~(HIMASK | LOMASK)) { 
+#if 0 // will never execute
+    if (answer & (~(HIMASK | LOMASK))) {
 	 if (fp_print_error)
 		printf ("ERROR: fp_multiply() answer = 0x%08x, overflow 0x%08x\n",
 				  answer, (answer & ~(HIMASK | LOMASK)));
@@ -128,6 +129,7 @@ fixpoint fp_multiply(fixpoint x, fixpoint y)
 	 abort();
 	 return(0);
   }
+#endif
 
   /* Also, it can fill up the high order (sign) bit, which is overflow. */
   if (answer & SIGNBIT) {

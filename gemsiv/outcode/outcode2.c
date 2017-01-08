@@ -14,7 +14,7 @@
 
 void test() {
 	float x = 0.f, y = 0.f, xmin = 0.f, xmax = 0.f, ymin = 0.f, ymax = 0.f;
-	int iy, ixmin, ixmax, iymin, iymax, ix, ax, ay;
+	long int iy, ixmin, ixmax, iymin, iymax, ix, ax, ay;
 	unsigned long outcode;
 
 /* these values typically would be calculated once and cached */

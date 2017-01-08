@@ -99,7 +99,7 @@ char *mode;
 int exist_file(char* name)
 {
 #ifndef WIN32
-  int len = strlen(name) - 1;
+  long int len = strlen(name) - 1;
   char aux[132];
 
   /* No characters ?! */

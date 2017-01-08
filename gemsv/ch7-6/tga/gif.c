@@ -391,7 +391,7 @@ byte *unblock( handle )
 FILE *handle;
 {
   long position;
-  int totalsize;
+  long int totalsize;
   byte *out, *ptr;
   int size;
   int count = 0;

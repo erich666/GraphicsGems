@@ -1132,7 +1132,7 @@ putshortLSBF(
 extern char *
 Malloc(
 #ifdef USE_PROTOTYPES
-        int
+        long int
 #endif
 );
 
