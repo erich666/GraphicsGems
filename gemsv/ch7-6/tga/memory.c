@@ -31,8 +31,7 @@
 extern int stop_on_error;
 void Error(int);
 
-char *Malloc(size)
-int size;
+char *Malloc(long int size)
 {
   char *ptr;
 

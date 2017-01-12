@@ -47,7 +47,7 @@ void v2i(int*);
 void v3f();
 void endline();
 void prefsize(int, int);
-long winopen(const char*);
+int winopen(const char*);
 void doublebuffer();
 void RGBmode();
 void gconfig();

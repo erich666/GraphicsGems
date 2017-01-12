@@ -24,7 +24,7 @@ int bit32on1(a)
   return(c);
   }
 
-int bit32on2(a)
+long int bit32on2(a)
   unsigned long a;                              /* a: 32  1-bit tallies */
   {
   a = (a&0x55555555) + ((a>>1) &(0x55555555));  /* a: 16  2-bit tallies */
@@ -33,10 +33,10 @@ int bit32on2(a)
 /* a %= 255; return(a); may replace what follows */
   a = (a&0x000F000F) + ((a>>8) &(0x000F000F));  /* a:  2 16-bit tallies */
   a = (a&0x0000001F) + ((a>>16)&(0x0000001F));  /* a:  1 32-bit tally */
-  return(a);
+  return a;
   }
 
-int bit32on3(a)
+long int bit32on3(a)
     unsigned long a;
     {
     unsigned long mask, sum;
@@ -51,7 +51,7 @@ int bit32on3(a)
     sum += (a>>=1) & mask;
     sum += (a>>=1) & mask;
     sum %= (mask = 31);         /* casting out mod 31 (save that constant) */
-    return(sum ? sum : mask);   /* return bits (zero indicated 31 bits on) */
+    return sum ? sum : mask;   /* return bits (zero indicated 31 bits on) */
     }
 
 

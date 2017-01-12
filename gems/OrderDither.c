@@ -50,7 +50,7 @@ int dithervalue(int x, int y, int size)
 		 * This whole thing interleaves a checkerboard bit pattern
 		 * and y's bits, which is the value you want.
 		 */
-		d = (d <<1 | (x&1 ^ y&1))<<1 | (y&1);
+		d = (d <<1 | ((x&1) ^ (y&1)))<<1 | (y&1);
 		x >>= 1;
 		y >>= 1;
 	}

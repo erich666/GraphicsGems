@@ -5,7 +5,7 @@ from "Graphics Gems", Academic Press, 1990
 user must provide copy() function.
 */
 
-void copy(int i, int j) {
+void copy(unsigned long int i, unsigned long int j) {
 	// user provided
 }
 
@@ -34,16 +34,16 @@ int bitwidth (N)	/* find "bit-width" needed to represent N */
 
 }						/* end of bitwidth() */
 
-void dissolve1 (int height, int width)	/* first version of the dissolve algorithm */
+void dissolve1 (unsigned long int height, unsigned long int width)	/* first version of the dissolve algorithm */
 {
-	int pixels, lastnum;	/* number of pixels; */
+	unsigned long int pixels, lastnum;	/* number of pixels; */
 				/* last pixel's number */
 	int regwidth;		/* "width" of sequence generator */
 	register long mask;	/* mask to XOR with to*/
 					/* create sequence */
 	register unsigned long element; 
 					/* one element of random sequence */
-	register int row, column;
+	unsigned long int row, column;
 					/* row and column numbers for a pixel */
 
 	  /* Find smallest register which produces enough pixel numbers */
@@ -77,7 +77,7 @@ void dissolve1 (int height, int width)	/* first version of the dissolve algorith
 
 
 
-void dissolve2 (int height, int width)	/* fast version of the dissolve algorithm */
+void dissolve2 (unsigned long int height, unsigned long int width)	/* fast version of the dissolve algorithm */
 {
 	int rwidth, cwidth;	/* bit width for rows, for columns */
 	int regwidth;		/* "width" of sequence generator */
@@ -86,7 +86,7 @@ void dissolve2 (int height, int width)	/* fast version of the dissolve algorithm
 							/* from element */
 	register int colmask; /* mask to extract column from element */
 	register unsigned long element; /* one element of random */ 								    /* sequence */
-	register int row, column;    /* row and column for one pixel */
+	unsigned long int row, column;    /* row and column for one pixel */
 
 
 	  /* Find the mask to produce all rows and columns. */

@@ -10,7 +10,7 @@
 #include <stdlib.h>	/* for atoi() */
 #include <math.h>
 
-int len4(int a, int b, int c, int d);
+long int len4(long int a, long int b, long int c, long int d);
 
 int main(int argc, char** argv)
     {

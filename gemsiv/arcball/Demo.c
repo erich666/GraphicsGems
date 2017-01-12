@@ -44,7 +44,7 @@ void scene_Draw(BallData *ball)
 
 int main(void)
 {
-    int gid;
+    long int gid;
     short active;    /* TRUE if window is attached */
     Device dev;
     short val;

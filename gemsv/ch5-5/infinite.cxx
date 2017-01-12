@@ -1,3 +1,4 @@
+#if 0
 #include <iostream>
 #include <math.h>
 
@@ -5,3 +6,4 @@
 
 static list<int> li;
 
+#endif

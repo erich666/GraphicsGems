@@ -75,10 +75,10 @@ void InsertPoints(Subdivision& mesh)
 	}
 }
 
-long createWindow()
+int createWindow()
 {
 	prefsize(512, 512);
-	long w = winopen("Delaunay Triangulation");
+	int w = winopen("Delaunay Triangulation");
 	doublebuffer();
 	RGBmode();
 	gconfig();
@@ -131,7 +131,7 @@ void getMouse (long window, float cx, float cy, float zoom,
 
 void display(Subdivision& mesh, Real left, Real bottom, Real right, Real top)
 {
-	long wid;
+	int wid;
 	float cx, cy, zoom, xsize, ysize;
 
 	wid = createWindow();
