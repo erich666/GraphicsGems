@@ -186,4 +186,5 @@ void spacefilterwindow(int **picture, int **out, int maxclustersize,
     move(windowx,windowy);
     move(frontx,fronty);
   } /* while */
+  free(cluster);
 }
