@@ -201,15 +201,15 @@ void do_rank1(HMatrix M, HMatrix Q)
 {
     float v1[3], v2[3], s;
     int col;
-    mat_copy(Q,=,mat_id,4);
     /* If rank(M) is 1, we should find a non-zero column in M */
     col = find_max_col(M);
-    if (col<0) return; /* Rank is 0 */
+    if (col<0) {mat_copy(Q,=,mat_id,4); return;} /* Rank is 0 */
     v1[0] = M[0][col]; v1[1] = M[1][col]; v1[2] = M[2][col];
     make_reflector(v1, v1); reflect_cols(M, v1);
     v2[0] = M[2][0]; v2[1] = M[2][1]; v2[2] = M[2][2];
     make_reflector(v2, v2); reflect_rows(M, v2);
     s = M[2][2];
+    mat_copy(Q,=,mat_id,4);
     if (s<0.f) Q[2][2] = -1.f;
     reflect_cols(Q, v1); reflect_rows(Q, v2);
 }
