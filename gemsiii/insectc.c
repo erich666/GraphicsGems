@@ -59,8 +59,12 @@ if(By>0) {
 
 Cx = x1-x3;
 Cy = y1-y3;
-d = By*Cx - Bx*Cy;					/* alpha numerator*/
+
 f = Ay*Bx - Ax*By;					/* both denominator*/
+
+if(f==0) return PARALLEL;
+
+d = By*Cx - Bx*Cy;					/* alpha numerator*/
 if(f>0) {						/* alpha tests*/
   if(d<0 || d>f) return DONT_INTERSECT;
   } else {
@@ -76,7 +80,6 @@ if(f>0) {						/* beta tests*/
 
 /*compute intersection coordinates*/
 
-if(f==0) return PARALLEL;
 num = d*Ax;						/* numerator */
 offset = SAME_SIGNS(num,f) ? f/2 : -f/2;		/* round direction*/
 *x = x1 + (num+offset) / f;				/* intersection x */
