@@ -201,6 +201,9 @@ for (i=0; i<8; i++) {
 /* GO BACK TO A LOWER RESOLUTION BY FILTERING THE 4x CODE */
 
 code1 = code4.postProcess();
+
+free(fatmap);
+
 return code1;
 }
 
