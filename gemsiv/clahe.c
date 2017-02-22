@@ -220,10 +220,10 @@ void MakeHistogram (kz_pixel_t* pImage, unsigned int uiXRes,
     for (i = 0; i < uiNrGreylevels; i++) pulHistogram[i] = 0L; /* clear histogram */
 
     for (i = 0; i < uiSizeY; i++) {
-	pImagePointer = &pImage[uiSizeX];
-	while (pImage < pImagePointer) pulHistogram[pLookupTable[*pImage++]]++;
-	pImagePointer += uiXRes;
-	pImage = &pImagePointer[uiSizeX];
+		pImagePointer = &pImage[uiSizeX];
+		while (pImage < pImagePointer) pulHistogram[pLookupTable[*pImage++]]++;
+		pImagePointer += uiXRes;
+		pImage = &pImagePointer[-uiSizeX];	/* go to beginning of next row */
     }
 }
 
@@ -238,8 +238,8 @@ void MapHistogram (unsigned long* pulHistogram, kz_pixel_t Min, kz_pixel_t Max,
     const unsigned long ulMin = (unsigned long) Min;
 
     for (i = 0; i < uiNrGreylevels; i++) {
-	ulSum += pulHistogram[i]; pulHistogram[i]=(unsigned long)(ulMin+ulSum*fScale);
-	if (pulHistogram[i] > Max) pulHistogram[i] = Max;
+		ulSum += pulHistogram[i]; pulHistogram[i]=(unsigned long)(ulMin+ulSum*fScale);
+		if (pulHistogram[i] > Max) pulHistogram[i] = Max;
     }
 }
 
