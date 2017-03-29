@@ -101,7 +101,10 @@ static void BSPclassifyLineInterior(const POINT *from,const POINT *to,
 
       if ( (sign1 == NEGATIVE && sign2 == POSITIVE) || 
 	   (sign1 == POSITIVE && sign2 == NEGATIVE) ) {	/* split! */
-	 SIGN check= anyEdgeIntersectWithPlane(from->xx,from->yy,from->zz,
+#ifndef NDEBUG
+          SIGN check =
+#endif
+          anyEdgeIntersectWithPlane(from->xx,from->yy,from->zz,
 					       to->xx,to->yy,to->zz,
 					       plane,&ixx,&iyy,&izz);
 	 POINT iPoint;
