@@ -61,7 +61,7 @@ extern void vLerp(/* double alpha, Vertex *Va, *Vb, *Vout */);
 extern void renderPixel(/* int x, y, Vertex *V,
 						int area, unsigned mask[], 
 						Surface *object */);
-void renderScanline(Vertex* left, Vertex* right, int y, Surface* object);
+void renderScanline(Vertex* Vl, Vertex* Vr, int y, Surface* object);
 void computePixelMask(int x, unsigned mask[]);
 int Coverage(int x);
 
