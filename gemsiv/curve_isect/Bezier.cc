@@ -12,7 +12,9 @@
 #endif
 #define log2(x) (log(x)/log(2.))
 
-//extern "C" void qsort( char *base, int nel, size_t width, int (*compar)(void *, void *));
+#ifndef GCC
+extern "C" void qsort( char *base, int nel, size_t width, int (*compar)(const void *, const void *));
+#endif
 
 int compare_doubles( const void *a, const void *b )
     {
