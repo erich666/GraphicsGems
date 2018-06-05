@@ -16,7 +16,7 @@ std::ostream& operator<<(std::ostream& o, pigment& p) {
 
 std::ostream& operator<<(std::ostream& o, colormap& m) {
         o<<"color_map{\n";
-        for(register int i=0; i<m.nI; i++) {
+        for(int i=0; i<m.nI; i++) {
                 o<<"    ["<<m.I[i].b<<", "<<m.I[i].e;
                 o<<"  "<<m.I[i].cb<<"  "<<m.I[i].ce<<"]\n";
         }

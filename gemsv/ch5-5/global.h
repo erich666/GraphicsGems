@@ -417,12 +417,12 @@ public:
         virtual ~colormap() {delete I;}
         colormap& operator=(colormap& m) {
                 delete I; I=new colormapitem[m.nI];
-                for(register int i=0; i<m.nI; i++) I[i]=m.I[i]; nI=m.nI;
+                for(int i=0; i<m.nI; i++) I[i]=m.I[i]; nI=m.nI;
                 return *this;
         }
         void operator+=(colormapitem& J) {
                 colormapitem *K=new colormapitem[nI+1];
-                for(register int i=0; i<nI; i++) K[i]=I[i];
+                for(int i=0; i<nI; i++) K[i]=I[i];
                 K[nI]=J; delete I; I=K; nI=nI+1; 
         }
         colormap* copy() {colormap*p=new colormap; *p=*this; return p;}

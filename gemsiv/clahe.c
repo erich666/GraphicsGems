@@ -123,7 +123,7 @@ int CLAHE (kz_pixel_t* pImage, unsigned int uiXRes, unsigned int uiYRes,
 	}
 	else {
 	    if (uiY == uiNrY) {				  /* special case: bottom row */
-		uiSubY = uiYSize+1 >> 1;	uiYU = uiNrY-1;	 uiYB = uiYU;
+            uiSubY = (uiYSize+1) >> 1;	uiYU = uiNrY-1;	 uiYB = uiYU;
 	    }
 	    else {					  /* default values */
 		uiSubY = uiYSize; uiYU = uiY - 1; uiYB = uiYU + 1;
@@ -135,7 +135,7 @@ int CLAHE (kz_pixel_t* pImage, unsigned int uiXRes, unsigned int uiYRes,
 	    }
 	    else {
 		if (uiX == uiNrX) {			  /* special case: right column */
-		    uiSubX = uiXSize+1 >> 1;  uiXL = uiNrX - 1; uiXR = uiXL;
+            uiSubX = (uiXSize+1) >> 1;  uiXL = uiNrX - 1; uiXR = uiXL;
 		}
 		else {					  /* default values */
 		    uiSubX = uiXSize; uiXL = uiX - 1; uiXR = uiXL + 1;

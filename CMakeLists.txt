@@ -2,13 +2,20 @@ cmake_minimum_required(VERSION 3.2)
 
 project(GraphicsGems)
 
-if(CMAKE_COMPILER_IS_GNUCXX)
+if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 	set(CMAKE_CXX_STANDARD 11)
 	add_definitions(-Werror)
+endif()
+if(CMAKE_COMPILER_IS_GNUCC)
+        add_definitions(-DGCC)
 endif()
 
 if(MSVC)
 	add_definitions(-D_CRT_SECURE_NO_WARNINGS=1)
+endif()
+
+if(APPLE)
+    add_definitions(-DAPPLE)
 endif()
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)

@@ -8,6 +8,7 @@
 
 #include	"GraphicsGems.h"
 #include	<math.h>
+#include        <float.h>
 
 /* ---- intcyl - Intersect a ray with a cylinder. --------------------- */
 /*									*/
@@ -53,6 +54,9 @@ boolean intcyl	(raybase,raycos,base,axis,radius,in,out)
 	double		t, s;		/* Distances along the ray	*/
 	Vector3		n, D, O;
 	double		ln;
+#ifndef HUGE
+#define HUGE FLT_MAX
+#endif
 const	double		pinf = HUGE;	/* Positive infinity		*/
 
 
