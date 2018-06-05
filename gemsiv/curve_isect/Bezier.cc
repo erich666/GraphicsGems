@@ -13,12 +13,12 @@
 #define log2(x) (log(x)/log(2.))
 
 #ifndef GCC
-extern "C" void qsort( char *base, int nel, size_t width, int (*compar)(const void *, const void *));
+extern "C" void qsort( void *base, size_t nel, size_t width, int (*compar)(const void *, const void *));
 #endif
 
 int compare_doubles( const void *a, const void *b )
     {
-    register double *A = (double *)a, *B = (double *)b;
+    double *A = (double *)a, *B = (double *)b;
     return( *A > *B )?1:(*A < *B ? -1 : 0 );
     }
 

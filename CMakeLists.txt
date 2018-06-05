@@ -2,9 +2,11 @@ cmake_minimum_required(VERSION 3.2)
 
 project(GraphicsGems)
 
-if(CMAKE_COMPILER_IS_GNUCXX)
+if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 	set(CMAKE_CXX_STANDARD 11)
 	add_definitions(-Werror)
+endif()
+if(CMAKE_COMPILER_IS_GNUCC)
         add_definitions(-DGCC)
 endif()
 

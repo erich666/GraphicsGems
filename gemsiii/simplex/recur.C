@@ -21,7 +21,7 @@ int bitCount(int i) {
 	return 0;
 }
 
-void rec_subsimplex(register float* dst_vtx,
+void rec_subsimplex(float* dst_vtx,
                     const float* const src_vtx,
                     int n,
                     int s,

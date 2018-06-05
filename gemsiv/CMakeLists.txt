@@ -42,7 +42,7 @@ set_property(TARGET
 	ptpoly_haines ptpoly_weiler vec_mat ray vert_norm	
 	PROPERTY FOLDER "GraphicsGems IV")
 
-if(CMAKE_COMPILER_IS_GNUCC)
+if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 		target_link_libraries(collide m)
 		target_link_libraries(implicit m)
 endif()

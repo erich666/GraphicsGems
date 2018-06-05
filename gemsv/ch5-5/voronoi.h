@@ -3,11 +3,11 @@
 template <int D> class PERMUTATION {
         int n[D];                                               // ELEMENTS
 public:
-        PERMUTATION() {for(register int i=0; i<D; i++) n[i]=i;}
+        PERMUTATION() {for(int i=0; i<D; i++) n[i]=i;}
         int operator[](int i) {return n[i];}
         void operator()(int i, int j) {                         // SWAP
                 if(i==j) return;
-                register int t=n[i]; n[i]=n[j]; n[j]=t;
+                int t=n[i]; n[i]=n[j]; n[j]=t;
         }
 };
 
@@ -17,33 +17,33 @@ template <int D> class VECTOR {
         //friend std::ostream& operator<<(std::ostream& o, const VECTOR& v);
         double x[D];                                            // COORDINATES
 public:
-        VECTOR() {for(register int i=0; i<D; i++) x[i]=0.;}
-        VECTOR(double x[D]) {for(register int i=0; i<D; i++) this->x[i]=x[i];}
+        VECTOR() {for(int i=0; i<D; i++) x[i]=0.;}
+        VECTOR(double x[D]) {for(int i=0; i<D; i++) this->x[i]=x[i];}
         VECTOR(double x[D], PERMUTATION<D>& p) {
-                for(register int i=0; i<D; i++) this->x[i]=x[p[i]];
+                for(int i=0; i<D; i++) this->x[i]=x[p[i]];
         }
         double operator[](int i) const  {return x[i];}
         void operator-=(const VECTOR<D>& v) {
-                for(register int i=0; i<D; i++) x[i]-=v.x[i];
+                for(int i=0; i<D; i++) x[i]-=v.x[i];
         }
         VECTOR<D> operator*(double d) const {
-                VECTOR<D> w; for(register int i=0; i<D; i++) w.x[i]=x[i]*d;
+                VECTOR<D> w; for(int i=0; i<D; i++) w.x[i]=x[i]*d;
                 return w;
         }
         VECTOR<D> operator/(double d) const {
-                VECTOR<D> w; for(register int i=0; i<D; i++) w.x[i]=x[i]/d;
+                VECTOR<D> w; for(int i=0; i<D; i++) w.x[i]=x[i]/d;
                 return w;
         }
         double operator*(const VECTOR<D>& v) const {
-                double d=0.; for(register int i=0; i<D; i++) d+=x[i]*v.x[i];
+                double d=0.; for(int i=0; i<D; i++) d+=x[i]*v.x[i];
                 return d;
         }
         VECTOR<D> operator+(const VECTOR<D>& v) const {
-                VECTOR<D> w; for(register int i=0; i<D;i++) w.x[i]=x[i]+v.x[i];
+                VECTOR<D> w; for(int i=0; i<D;i++) w.x[i]=x[i]+v.x[i];
                 return w;
         }
         VECTOR<D> operator-(const VECTOR<D>& v) const {
-                VECTOR<D> w; for(register int i=0; i<D;i++) w.x[i]=x[i]-v.x[i];
+                VECTOR<D> w; for(int i=0; i<D;i++) w.x[i]=x[i]-v.x[i];
                 return w;
         }
 };
@@ -54,20 +54,20 @@ template <int D> class MATRIX {
         //friend std::ostream& operator<<(std::ostream& o, MATRIX<D>& A);
         VECTOR<D> a[D];                                         // ROWS
 public:
-        MATRIX(VECTOR<D> a[D]) {for(register int i=0;i<D;i++) this->a[i]=a[i];}
+        MATRIX(VECTOR<D> a[D]) {for(int i=0;i<D;i++) this->a[i]=a[i];}
         MATRIX(double a[D][D]) {
-                for(register int i=0; i<D; i++) this->a[i]=VECTOR<D>(a[i]);
+                for(int i=0; i<D; i++) this->a[i]=VECTOR<D>(a[i]);
         }
         VECTOR<D> operator*(const VECTOR<D>& x) {
                 double y[D];
-                for(register int i=0; i<D; i++) y[i]=a[i]*x;
+                for(int i=0; i<D; i++) y[i]=a[i]*x;
                 return VECTOR<D>(y);
         }
         int operator()(VECTOR<D>& x, const VECTOR<D>& b) {    // SOLVE (*this)x=b
 //              GAUSSIAN ELIMINATION METHOD
                 const double EPS=1e-10;
                 VECTOR<D> B[D]; double c[D]; PERMUTATION<D> p; 
-                register int i, j, k;
+                int i, j, k;
                 for(i=0; i<D; i++) {B[i]=a[i]; c[i]=b[i];}      // COPY
                 for(i=0; i<D; i++) {                            // THROUGH ROWS
                         double a, amax=0., e, emain;
@@ -103,7 +103,7 @@ template <int D> struct VERTEX {
         long t;                                         // TRAVERSE CODE (WORK)
 private:
         void initialize(VECTOR<D>* f[D+1]) {
-                register int i;
+                int i;
                 for(i=0; i<D+1; i++) {p[i]=f[i]; v[i]=(VERTEX<D>*)0;}
                 this->b=-1; this->i=0; this->t=0L;
                 VECTOR<D> A[D]; double b[D];
@@ -121,7 +121,7 @@ public:
         VERTEX(VECTOR<D>* f[D+1]) {initialize(f);}      // FORMING POINTS
         VERTEX(VECTOR<D> *q, VERTEX<D> *v, int i) {     // POINT q AND RING i
                 VECTOR<D> *f[D+1]; f[0]=q;
-                for(register int j=1; j<D+1; j++) f[j]=v->p[(j+i)%(D+1)];
+                for(int j=1; j<D+1; j++) f[j]=v->p[(j+i)%(D+1)];
                 initialize(f);
         }
 };
@@ -179,11 +179,11 @@ template <int D> class VORONOI {
         static void donothing(VERTEX<D>*v){}    // FOR REINITIALIZE traverse
 public:
         VORONOI(list<VECTOR<D>*>* l) {
-                for(register int i=0; i<D+1; i++) b[i]=&B[i];
+                for(int i=0; i<D+1; i++) b[i]=&B[i];
                 build(l);
         }
         VORONOI(list<VECTOR<D>*>* l, VECTOR<D> *b[D+1]) {
-                for(register int i=0; i<D+1; i++) this->b[i]=b[i];
+                for(int i=0; i<D+1; i++) this->b[i]=b[i];
                 build(l);
         }
         void operator()(void (*f)(VERTEX<D>* v));       // TRAVERSE VERTICES
@@ -191,7 +191,7 @@ public:
 };
 
 template <int D> void VORONOI<D>::bound(list<VECTOR<D>*>* l) {
-        register int i, j;
+        int i, j;
 
 //      NORMAL VECTORS FOR FACES OF BOUNDING SIMPLEX
 
@@ -201,7 +201,7 @@ template <int D> void VORONOI<D>::bound(list<VECTOR<D>*>* l) {
 
 //      MAXIMAL DISTANCES IN DIRECTION OF NORMALS
 
-        double d, dmax[D+1], dmin[D+1]; register int first=1;
+        double d, dmax[D+1], dmin[D+1]; int first=1;
         for(VECTOR<D>* p=l->first(); p; p=l->next()) {
                 for(i=0; i<D+1; i++) {
                         d=n[i]*(*p);
@@ -231,7 +231,7 @@ template <int D> void VORONOI<D>::bound(list<VECTOR<D>*>* l) {
 }
 
 template <int D> void VORONOI<D>::find() {
-        register int i, j;
+        int i, j;
         double P[D+1][D+1]; for(j=0; j<D+1; j++) P[D][j]=1.;
         double q[D+1]; for(j=0; j<D; j++) q[j]=(*this->q)[j]; q[D]=1.;
         VERTEX<D> *v=c;
@@ -249,9 +249,9 @@ template <int D> void VORONOI<D>::find() {
 
 template <int D> void VORONOI<D>::search() {
         VERTEX<D> *vstart=ld->first(), *v=vstart; v->b=-1;
-        register int back=0;
+        int back=0;
         for(;;) {
-                register int go=0, i; VERTEX<D> *n;
+                int go=0, i; VERTEX<D> *n;
                 do {
                         if(back) {                      // STEP BACKWARDS
                                 *ld+=v; 
@@ -279,14 +279,14 @@ template <int D> void VORONOI<D>::create() {
         VERTEX<D> *v;
         ln=new list<VERTEX<D>*>;
         for(v=ld->first(); v; v=ld->next()) {               // TAKE VERTICES
-                for(register int i=0; i<D+1; i++) {         // TAKE NEIGHBORS
+                for(int i=0; i<D+1; i++) {         // TAKE NEIGHBORS
                         VERTEX<D> *n=v->v[i];
                         if((*ld)[n]) continue;              // ALSO DELETED
                         VERTEX<D> *m=new VERTEX<D>(q,v,i);  // POINT q + RING i
                         if(m->rr<0.) 
                                 {delete m;*ld+=n;continue;} // DEGENERACY
                         *ln+=m;                             // STORE
-                        register int j;
+                        int j;
                         for(j=0; j<D+1; j++) 
                                 if(m->p[j]==q) m->v[j]=n;   // OUTER LINK
                         if(n==(VERTEX<D>*)0) continue;      // NO REAL NEIGHBOR
@@ -295,7 +295,7 @@ template <int D> void VORONOI<D>::create() {
                 }
         }
         if((*ld)[c]) {                                      // NEW c NEEDED
-                double d, ddmin; register int first=1;
+                double d, ddmin; int first=1;
                 for(v=ln->first(); v; v=ln->next()) {
                         d=dd(v->c,C);
                         if(first || d<ddmin) {c=v; ddmin=d;}
@@ -337,10 +337,10 @@ template <int D> void VORONOI<D>::operator()(void (*f)(VERTEX<D>* v)) {
                 traverse=0L;
         } 
         VERTEX<D> *v=c; v->b=D+1;                       // PARTICULAR CASE
-        register int back=0;
+        int back=0;
         for(;;) {                                       // ITERATIVE TRAVERSE
                 v->t=traverse;                          // MARK AS TRAVERSED
-                register int go=0;                      // DON'T GO YET
+                int go=0;                      // DON'T GO YET
                 VERTEX<D> *n;                           // ACTUAL NEIGHBOR
                 do {                                    // ACTION ON ACTUAL v
                         if(back) {                      // STEP BACKWARDS
@@ -357,7 +357,7 @@ template <int D> void VORONOI<D>::operator()(void (*f)(VERTEX<D>* v)) {
                         go=1; break;                    // GO ON
                 } while((v->i=(v->i+1)%(D+1))!=0);      // UNTIL NOT ALL DONE
                 if(go) {                                // STEP FORWARDS
-                        for(register int i=0;i<D+1;i++) // FIND BACK LINK
+                        for(int i=0;i<D+1;i++) // FIND BACK LINK
                                 if(v==n->v[i])
                                         {n->b=i;break;} // BOOK
                         v=n; continue;                  // LET'S GO

@@ -23,7 +23,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <assert.h>
-#define ALLOC(ptr, type, n)  assert(ptr = (type *)malloc((n)*sizeof(type)))
+#define ALLOC(ptr, type, n)  assert((ptr = (type *)malloc((n)*sizeof(type))))
 
 typedef struct {
 	int dummy;

@@ -19,7 +19,7 @@ Exit:
 
 int bitCount(int i);
 
-void sym_subsimplex(register float* dst_vtx,
+void sym_subsimplex(float* dst_vtx,
                     const float* const src_vtx,
                     int n,
                     int s,

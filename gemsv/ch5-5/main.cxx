@@ -38,7 +38,7 @@ void randomobjects(const char* filename) {                // GENERATE RANDOM SPH
         o<<"background {color BLACK}\n";
         o<<"\n";
         double h=pow(nrandom/rho, 1./3.)/2.;        // HALF WIDTH OF SCENE CUBE
-        for(register int i=0; i<nrandom; i++) {
+        for(int i=0; i<nrandom; i++) {
                 o<<"object{S "<<"translate<";
                 o<<random(-h,h)<<","<<random(-h,h)<<","<<random(0.,2*h);
                 o<<">}\n";
@@ -189,8 +189,8 @@ int main(int argc, char** argv) {
         fprintf(stderr, "\n");
         query->preprocess(&objects);                    // PREPROCESS OBJECTS
         outinit(xres, yres);                            // INITIALIZE OUTPUT
-        for(register int i=0; i<yres; i++) {            // TRACE
-                for(register int j=0; j<xres; j++) {
+        for(int i=0; i<yres; i++) {            // TRACE
+                for(int j=0; j<xres; j++) {
                         double x=(2*j-xres+0.5)/xres;
                         double y=(yres-2*i-0.5)/yres;
                         intensity I=trace(actcamera.getray(x,y));

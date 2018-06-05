@@ -34,9 +34,9 @@ struct cell : public VECTOR<3> {                // 3-DIMENSIONAL VORONOI-CELL
 //      GLOBAL METHODS (NOT REALLY AN OBJECT ORIENTED APPROACH!)
 
 static void initcells(VERTEX<3>*v) {        // VORONOI-CELLS FROM VORONOI<3>
-        for(register int i=0; i<3; i++) {
+        for(int i=0; i<3; i++) {
                 cell *ci=(cell*)(v->p[i]);
-                for(register int j=i+1; j<4; j++) {
+                for(int j=i+1; j<4; j++) {
                         cell *cj=(cell*)(v->p[j]);
                         if(!ci->ln[cj]) ci->ln+=cj;
                         if(!cj->ln[ci]) cj->ln+=ci;
@@ -47,7 +47,7 @@ static void initcells(VERTEX<3>*v) {        // VORONOI-CELLS FROM VORONOI<3>
 static int lexcmp(const void *v1, const void *v2) {
         cell *c1=*(cell**)v1; cell *c2=*(cell**)v2;
         const double EPS=1e-6;
-        for(register int i=0; i<3; i++) {
+        for(int i=0; i<3; i++) {
                 double d=(*c1)[i]-(*c2)[i];
                 if(d<-EPS) return -1;
                 if(d>EPS) return 1;
@@ -65,10 +65,10 @@ void voronoi::disperse(object *o, cell *C) {
         } 
         cell *c=C; c->b=(cell*)0;                       // PARTICULAR CASE
         cell *n=c->ln.first();                          // ACTUAL NEIGHBOR
-        register int back=0;                            // DON'T STEP BACK YET
+        int back=0;                            // DON'T STEP BACK YET
         for(;;) {                                       // ITERATIVE TRAVERSE
                 c->t=traverse;                          // MARK AS TRAVERSED
-                register int go=0;                      // DON'T GO YET
+                int go=0;                      // DON'T GO YET
                 do {                                    // ACTION ON ACTUAL c
                         if(back) {                      // STEP BACKWARDS
                                 cell *b=c->b;           // FROM WHERE WE CAME
@@ -92,7 +92,7 @@ void voronoi::disperse(object *o, cell *C) {
 
 void voronoi::preprocess(list<object*> *lo) {           // PREPROCESSING
         list<cell*> *lc=new list<cell*>;
-        register int n=0;
+        int n=0;
         for(object* o=lo->first(); o; o=lo->next()) {           // OBJECTS
                 list<vector*> *lp=o->particles();
                 for(vector* p=lp->first(); p; p=lp->next()) 
@@ -114,7 +114,7 @@ void voronoi::preprocess(list<object*> *lo) {           // PREPROCESSING
         list<VECTOR<3>*> *lv=new list<VECTOR<3>*>;
         (*lv)+=C[0]; cell* p=C[0];
         vector cm=C[0]->p;                              // CENTER OF MASS
-        for(register int i=1; i<n; i++) {
+        for(int i=1; i<n; i++) {
                 cm=cm+C[i]->p;
                 if(lexcmp((const void**)&C[i],          // MULTIPLE PARTICLE
                           (const void**)&p)==0) {
@@ -133,7 +133,7 @@ void voronoi::preprocess(list<object*> *lo) {           // PREPROCESSING
         }
         V(initcells);                                   // 3D VORONOI-CELLS
         traverse=0L;                                    // INITIALIZE disperse
-        double ddmin; register int first=1;             // INITIALIZE SEARCH
+        double ddmin; int first=1;             // INITIALIZE SEARCH
         for(auto c=(cell*)lv->first();c;c=(cell*)lv->next()) {
                 for(auto o=c->lh.first();o;o=c->lh.next())   // BUILD OBJECT LISTS
                         disperse(o,c);                  // PARTIAL TRAVERSE
@@ -166,7 +166,7 @@ void voronoi::step() {                                  // ONE STEP ALONG RAY r
 }
 
 list<object*>* voronoi::firstlist(const ray& r) {
-        register int i=r.c>=0?r.c:(1<<(lmax+1))-1;      // INDEX INTO s
+        int i=r.c>=0?r.c:(1<<(lmax+1))-1;      // INDEX INTO s
         a=s[i];                                         // INITIALIZE step()
         if(!((*a)&r.o)) {                               // COHERENCE FAILED
                 ray R(a->p,norm(r.o-a->p),0,0);         // PATH OF WALK
