@@ -12,9 +12,9 @@
 #endif
 #define log2(x) (log(x)/log(2.))
 
-extern "C" void qsort( char *base, int nel, size_t width, int (*compar)(void *, void *));
+//extern "C" void qsort( char *base, int nel, size_t width, int (*compar)(void *, void *));
 
-int compare_doubles( void *a, void *b )
+int compare_doubles( const void *a, const void *b )
     {
     register double *A = (double *)a, *B = (double *)b;
     return( *A > *B )?1:(*A < *B ? -1 : 0 );

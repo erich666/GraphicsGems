@@ -12,6 +12,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <float.h>
 #include <math.h>
 #include "poly.h"
 
@@ -60,6 +61,9 @@ void poly_scan(Poly* p, Window* win, void (*pixelproc)())
 	exit(1);
     }
 
+#ifndef HUGE
+#define HUGE FLT_MAX
+#endif
     ymin = HUGE;
     for (i=0; i<p->n; i++)		/* find top vertex (y points down) */
 	if (p->vert[i].sy < ymin) {
