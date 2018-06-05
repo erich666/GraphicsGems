@@ -11,6 +11,10 @@ if(MSVC)
 	add_definitions(-D_CRT_SECURE_NO_WARNINGS=1)
 endif()
 
+if(APPLE)
+    add_definitions(-DAPPLE)
+endif()
+
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 include_directories(.)

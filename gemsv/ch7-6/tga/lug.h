@@ -66,8 +66,10 @@
 #endif  /* USE_STRINGS */
 
 #ifndef BSD
+#ifndef APPLE
 #       define bzero(s, n)             memset((s), 0, (n))
 #       define bcopy(f, t, c)          memcpy((t), (f), (c))
+#endif
 #       define index(s, c)             strchr((s), (c))
 #endif /* BSD */
 
