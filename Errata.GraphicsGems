@@ -177,10 +177,9 @@ p. 656, line 25: change
     (thanks to Ben Dawson)
 
 p. 662, line 10:  add "#include <math.h>"
-p. 665, line 1:  change "FLOOR(...)" to "(floor((double)(...))".
-
 p. 663, line 45:  change first "+" to "="; should read
               "VnextLeft = (Vleft=VnextLeft) + 1;"
+p. 665, line 1:  change "FLOOR(...)" to "(floor((double)(...))".
 
 p. 667, line 6:  change "POLY_NMAX 8" to "POLY_NMAX 10" (for triangles and
     quadrilaterals).  Six clipping planes used on convex polygons gives
