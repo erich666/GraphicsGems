@@ -58,9 +58,9 @@ p. 382 on: Daniel Green is now Melinda Green, melinda@superliminal.com; Don
 -----
 
 The following are errors in the book's code listings (corrected in the online
-code at http://www.graphicsgems.org/).  Note that some of the
-code listings online are different in minor and major ways from the code in
-the book.
+code at http://www.graphicsgems.org/). This list is not complete, as changes
+from 2013 on are tracked on Github; see the online code for the most current
+and correct version.
 
 
 Serious errors (ones your compiler cannot or may not catch):

@@ -134,8 +134,11 @@ p. 820, 9th line from bottom:  "D.P. Greenburg" should be "D.P. Greenberg".
 
 -----
 
-The following are errors in the code listings (corrected in the online code at
-http://www.graphicsgems.org/).
+The following are errors in the book's code listings (corrected in the online
+code at http://www.graphicsgems.org/). This list is not complete, as changes
+from 2013 on are tracked on Github; see the online code for the most current
+and correct version.
+
 
 Serious errors (ones your compiler cannot or may not catch):
 
@@ -180,6 +183,8 @@ p. 662, line 10:  add "#include <math.h>"
 p. 663, line 45:  change first "+" to "="; should read
               "VnextLeft = (Vleft=VnextLeft) + 1;"
 p. 665, line 1:  change "FLOOR(...)" to "(floor((double)(...))".
+p. 665, line 20, and again 43 lines later:  change "x<xRmin" to "xr<xRmin"
+	to make right edges antialias properly (thanks to Andrew Bainbridge).
 
 p. 667, line 6:  change "POLY_NMAX 8" to "POLY_NMAX 10" (for triangles and
     quadrilaterals).  Six clipping planes used on convex polygons gives
