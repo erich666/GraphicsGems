@@ -193,7 +193,7 @@ int Coverage(x)
 	int y;
 
 	/* shortcut for common case of fully covered pixel */
-	if (x>xLmax && x<xRmin)
+	if (x>xLmax && xr<xRmin)
 		return MAX_AREA;
 	
 	for (area=y=0; y<SUBYRES; y++) {
@@ -226,7 +226,7 @@ void computePixelMask(x, mask)
 	int y;
 
 /* shortcut for common case of fully covered pixel */
-	if (x>xLmax && x<xRmin) 	{
+	if (x>xLmax && xr<xRmin) 	{
 		for (y=0; y<SUBYRES; y++)
 			mask[y] = 0xFFFF;
 	} else 	{
