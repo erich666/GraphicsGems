@@ -110,7 +110,7 @@ static void FitCubic(d, first, last, tHat1, tHat2, error)
     Vector2	tHatCenter;   	/* Unit tangent vector at splitPoint */
     int		i;		
 
-    iterationError = error * error;
+    iterationError = error * 4.0;	/* fixed issue 23 */
     nPts = last - first + 1;
 
     /*  Use heuristic if region only has two points in it */
