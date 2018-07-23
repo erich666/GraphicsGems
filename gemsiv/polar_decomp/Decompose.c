@@ -300,14 +300,14 @@ float polar_decomp(HMatrix M, HMatrix Q, HMatrix S)
  * matrix of the scale factors, then S = U K (U transpose). Uses Jacobi method.
  * See Gene H. Golub and Charles F. Van Loan. Matrix Computations. Hopkins 1983.
  */
-HVect spect_decomp(HMatrix S, HMatrix U)
+HVect spect_decomp(HMatrix S, HMatrix* U)
 {
     HVect kv;
     float Diag[3],OffD[3]; /* OffD is off-diag (by omitted index) */
     float g,h,fabsh,fabsOffDi,t,theta,c,s,tau,ta,OffDq,a,b;
     static char nxt[] = {Y,Z,X};
     int sweep, i, j;
-    mat_copy(U,=,mat_id,4);
+    mat_copy((*U),=,mat_id,4);
     Diag[X] = S[X][X]; Diag[Y] = S[Y][Y]; Diag[Z] = S[Z][Z];
     OffD[X] = S[Y][Z]; OffD[Y] = S[Z][X]; OffD[Z] = S[X][Y];
     for (sweep=20; sweep>0; sweep--) {
@@ -335,9 +335,9 @@ HVect spect_decomp(HMatrix S, HMatrix U)
 		OffD[q] -= s*(OffD[p] + tau*OffD[q]);
 		OffD[p] += s*(OffDq   - tau*OffD[p]);
 		for (j=Z; j>=X; j--) {
-		    a = U[j][p]; b = U[j][q];
-		    U[j][p] -= s*(b + tau*a);
-		    U[j][q] += s*(a - tau*b);
+		    a = (*U)[j][p]; b = (*U)[j][q];
+		    (*U)[j][p] -= s*(b + tau*a);
+		    (*U)[j][q] += s*(a - tau*b);
 		}
 	    }
 	}
@@ -475,7 +475,7 @@ void decomp_affine(HMatrix A, AffineParts *parts)
 	parts->f = -1;
     } else parts->f = 1;
     parts->q = Qt_FromMatrix(Q);
-    parts->k = spect_decomp(S, U);
+    parts->k = spect_decomp(S, &U);
     parts->u = Qt_FromMatrix(U);
     p = snuggle(parts->u, &parts->k);
     parts->u = Qt_Mul(parts->u, p);
