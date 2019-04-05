@@ -108,6 +108,22 @@ p. 516, last paragraph:  a reader notes an additional reference which
     Technical Memo. no. 84, Alvy Ray Smith, Computer Graphics Project,
     Lucasfilm, June 24, 1983 (rev. May 4, 1984).
 
+p. 576: (from Mika Haarahiltunen, approved by Andrew Glassner, 576-578, issue #24)
+    The equation g'(0) = mL*(dx/dy) = m0 should be g'(0) = mL*dx = m0
+    The equation g'(1) = mH*(dx/dy) = m1 should be g'(1) = mH*dx = m1
+    After the dy has been removed from the g'(0) and g'(1) equations, dy is no longer referenced anywhere in the article and its definition dy = yH - yL can be removed.
+p. 577:
+    In the first group of equations, the equation d = m1 should be d = y0 like it was written on page 576.
+    In the second group of equations, the equation d = y0 should be d = 0 since y0 was defined to be 0 in the preceding paragraph.
+p. 578:
+	There is this equation:
+
+        f(x) = g(clamp(xL, xH, (x - xL)/(xH - xL)))
+
+    Since the (x - xL)/(xH - xL) part is remapping x from [xL, xH] to [0, 1], and g(x) seems to be expecting input values between [0, 1], why is the remapped value clamped between [xL, xH]? Shouldn't the remapped value be clamped between [0, 1] instead? I believe that would match the situation in Figure 4, and the equation would be:
+
+        f(x) = g(clamp(0, 1, (x - xL)/(xH - xL)))
+
 p. 602, second paragraph:  the matrix Tij should be:
     [ 1  0  0  0  ]
     [ 0 1/2 0  0  ]
@@ -134,8 +150,11 @@ p. 820, 9th line from bottom:  "D.P. Greenburg" should be "D.P. Greenberg".
 
 -----
 
-The following are errors in the code listings (corrected in the online code at
-http://www.graphicsgems.org/).
+The following are errors in the book's code listings (corrected in the online
+code at http://www.graphicsgems.org/). This list is not complete, as changes
+from 2013 on are tracked on Github; see the online code for the most current
+and correct version.
+
 
 Serious errors (ones your compiler cannot or may not catch):
 
@@ -177,10 +196,11 @@ p. 656, line 25: change
     (thanks to Ben Dawson)
 
 p. 662, line 10:  add "#include <math.h>"
-p. 665, line 1:  change "FLOOR(...)" to "(floor((double)(...))".
-
 p. 663, line 45:  change first "+" to "="; should read
               "VnextLeft = (Vleft=VnextLeft) + 1;"
+p. 665, line 1:  change "FLOOR(...)" to "(floor((double)(...))".
+p. 665, line 20, and again 43 lines later:  change "x<xRmin" to "xr<xRmin"
+	to make right edges antialias properly (thanks to Andrew Bainbridge).
 
 p. 667, line 6:  change "POLY_NMAX 8" to "POLY_NMAX 10" (for triangles and
     quadrilaterals).  Six clipping planes used on convex polygons gives
