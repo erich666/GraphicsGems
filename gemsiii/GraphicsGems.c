@@ -6,6 +6,7 @@ from "Graphics Gems", Academic Press, 1990
 */
 
 #include <math.h>
+#include <stdlib.h>
 #include "GraphicsGems.h"
 
 /******************/
@@ -389,10 +390,9 @@ int i, j, k;
 
 /* binary greatest common divisor by Silver and Terzian.  See Knuth */
 /* both inputs must be >= 0 */
-gcd(u, v)
-int u, v;
+int gcd(int u, int v)
 {
-int t, f;
+        int t, f;
         if ((u<0) || (v<0)) return(1); /* error if u<0 or v<0 */
         f = 1;
         while ((0 == (u%2)) && (0 == (v%2))) {
