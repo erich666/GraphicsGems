@@ -4,8 +4,8 @@ http://www.graphicsgems.org/
 
 compiled by Eric Haines (erich@acm.org) from author and reader contributions
 
-version 1.13
-date:  9/11/2009
+version 1.14
+date:  3/14/2020
 
 -----
 
@@ -43,6 +43,18 @@ p. 153: formulas (ix) a and b are correct, but they would be better if they
 
     (b) Similarly, replace Binomial(n,i,j) Binomial(n-i-j, k-i, l-j) by
         Binomial(k,i) Binomial(l,j) Binomial(n,k,l)
+
+p. 259: Eq. 3 says:
+
+    ||c(t) - a||^2 - 2*lambda*c(t).d + lambda^2 - r(t)^2 = 0
+
+    it should be:
+
+    ||c(t) - a||^2 - 2*lambda*(c(t)-a).d + lambda^2 - r(t)^2 = 0
+
+    Eq. 4 should then also have: p(t)=(c(t)-a).d
+
+    [thanks to David Hart]
 
 p. 323: no cedilla in "Francois" in author's name (cp. p 405, bottom)
 
