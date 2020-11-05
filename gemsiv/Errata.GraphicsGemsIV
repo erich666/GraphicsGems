@@ -3,8 +3,8 @@ Academic Press 1994.  Code available online at http://www.graphicsgems.org
 
 compiled by Eric Haines (erich@acm.org) from author and reader contributions
 
-version 1.5
-date:  9/10/2008
+version 1.6
+date:  11/5/2020
 
 -----
 
@@ -66,5 +66,8 @@ This CrossingsMultiply test avoids using division.
 A potential divide by zero error has been removed from
 ptpoly_haines/ptinpoly.c; line 1286 had "inv_y = tmax / ydiff;", which is
 now deleted.
+
+This whole project has been updated to C++ and a Visual Studio build file
+provided. Various small cleanups have been made.
 
 END

@@ -193,8 +193,10 @@ int Coverage(x)
 	int y;
 
 	/* shortcut for common case of fully covered pixel */
-	if (x>xLmax && xr<xRmin)
-		return MAX_AREA;
+	// Commented out, as this quick out can fail when the top edge
+	// is horizontal. See https://github.com/erich666/GraphicsGems/issues/32
+	//if (x>xLmax && xr<xRmin)
+	//	return MAX_AREA;
 	
 	for (area=y=0; y<SUBYRES; y++) {
 		partialArea = MIN(sp[y].xRight, xr)

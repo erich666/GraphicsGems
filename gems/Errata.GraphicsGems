@@ -3,8 +3,8 @@ Academic Press 1990.  Code available online at http://www.graphicsgems.org/
 
 compiled by Eric Haines (erich@acm.org) from author and reader contributions
 
-version 1.32
-date:  9/11/2008
+version 1.33
+date:  11/5/2020
 
 -----
 
@@ -177,10 +177,15 @@ p. 656, line 25: change
     (thanks to Ben Dawson)
 
 p. 662, line 10:  add "#include <math.h>"
-p. 665, line 1:  change "FLOOR(...)" to "(floor((double)(...))".
-
 p. 663, line 45:  change first "+" to "="; should read
               "VnextLeft = (Vleft=VnextLeft) + 1;"
+
+p. 665, line 1:  change "FLOOR(...)" to "(floor((double)(...))".
+
+p. 666:  Comment out lines "if (x>xLmax && xr<xRmin)" and
+    "return MAX_AREA;". This quick test can fail when the top edge
+    of the polygon is horizontal. See the description at:
+    https://github.com/erich666/GraphicsGems/issues/32
 
 p. 667, line 6:  change "POLY_NMAX 8" to "POLY_NMAX 10" (for triangles and
     quadrilaterals).  Six clipping planes used on convex polygons gives
