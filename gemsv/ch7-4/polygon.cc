@@ -166,6 +166,9 @@ void Polygon::complexCut( const Plane& cut,
     DEdge* srcD = NULL;
     while( (srcD = getSrcD( onDs, startOnD, nOnDs )) ) {
         DEdge* const dstD = getDstD( onDs, startOnD, nOnDs );
+        // Note: there appears to be a bug in this code. This assertion
+        // can pop up with valid input. See the description here:
+        // https://github.com/erich666/GraphicsGems/issues/27
         assert( dstD != NULL );
         addBridge( srcD, dstD );
         if( srcD->prev()->prev()->srcWhere() == ABOVE )
