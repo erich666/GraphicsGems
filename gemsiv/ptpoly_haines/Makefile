@@ -11,8 +11,8 @@ CCFLAGS=-O
 # and do:
 # export LDOPTS="-a shared"
 
-p_test:		ptinpoly.o ptinpoly.h p_test.c
-		cc -o p_test p_test.c $(CCFLAGS) $(MAKEOPTS) ptinpoly.o -lm
+p_test:		ptinpoly.o ptinpoly.h p_test.cpp
+		cc -o p_test p_test.cpp $(CCFLAGS) $(MAKEOPTS) ptinpoly.o -lm
 # include these lines for linking in HP Starbase, for display version
 #			-L /usr/lib/X11R4 \
 #			-lXwindow \
@@ -20,7 +20,7 @@ p_test:		ptinpoly.o ptinpoly.h p_test.c
 #			-lXhp11 -lX11 -ldld \
 #			-lm
 
-ptinpoly.o:	ptinpoly.c ptinpoly.h
+ptinpoly.o:	ptinpoly.cpp ptinpoly.h
 		cc -o ptinpoly.o -c ptinpoly.c $(CCFLAGS) $(MAKEOPTS)
 
 clean:
