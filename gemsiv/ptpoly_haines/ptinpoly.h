@@ -46,7 +46,7 @@
 /* SRAN initializes random number generator, if needed */
 #define SRAN()        ;
 /* RAN01 returns a double from [0..1) */
-#define RAN01()        (double)rand() / (RAND_MAX + 1)
+#define RAN01()        (double)rand() / (RAND_MAX)
 
 /* =========== Grid stuff ================================================= */
 
