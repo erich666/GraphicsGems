@@ -31,6 +31,11 @@
 
   /* =========== that's all the easy stuff than can be changed  ============ */
 
+#ifdef __GNUC__
+#define sscanf_s sscanf
+#define sprintf_s(buffer, size, ...) sprintf(buffer, __VA_ARGS__)
+#endif
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
