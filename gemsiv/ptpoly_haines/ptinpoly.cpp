@@ -123,10 +123,13 @@ int CrossingsTest(double pgon[][2], int numverts, double point[2])
             /* note that one edge has been hit by the ray's line */
             line_flag = TRUE;
 #endif
+            /* small improvement over original code: update yflag0 only when
+             * we know it differs from yflag1.
+             */
+            yflag0 = yflag1;
         }
 
         /* move to next pair of vertices, retaining info as possible */
-        yflag0 = yflag1;
         vtx0 = vtx1;
         vtx1 += 2;
     }
