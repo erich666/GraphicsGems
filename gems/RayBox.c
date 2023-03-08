@@ -6,15 +6,17 @@ from "Graphics Gems", Academic Press, 1990
 
 #include "GraphicsGems.h"
 
-#define NUMDIM	3
-#define RIGHT	0
-#define LEFT	1
-#define MIDDLE	2
+enum {
+NUMDIM =	3,
+RIGHT =	0,
+LEFT =	1,
+MIDDLE =	2
+};
 
-char HitBoundingBox(minB,maxB, origin, dir,coord)
-double minB[NUMDIM], maxB[NUMDIM];		/*box */
-double origin[NUMDIM], dir[NUMDIM];		/*ray */
-double coord[NUMDIM];				/* hit point */
+char HitBoundingBox(double minB[NUMDIM], double maxB[NUMDIM], double origin[NUMDIM], double dir[NUMDIM], double coord[NUMDIM])
+/* double minB[NUMDIM], maxB[NUMDIM];		box */
+/* double origin[NUMDIM], dir[NUMDIM];		ray */
+/* double coord[NUMDIM];			hit point */
 {
 	char inside = TRUE;
 	char quadrant[NUMDIM];

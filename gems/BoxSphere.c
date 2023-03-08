@@ -20,14 +20,14 @@ from "Graphics Gems", Academic Press, 1990
  *       3   Solid  Box, Solid  Sphere                                     
  *                                                                         
 */
-int Box_Sphere_Intersect( n, Bmin, Bmax, C, r, mode )
-int    n;       /* The dimension of the space.           */
-float  Bmin[];  /* The minimum of the box for each axis.  */
-float  Bmax[];  /* The maximum of the box for each axis. */
-float  C[];     /* The sphere center in n-space.         */
-float  r;       /* The radius of the sphere.             */
-int    mode;    /* Selects hollow or solid.              */
-    {
+int Box_Sphere_Intersect( int n, float Bmin[], float Bmax[], float C[], float r, int mode )
+/* int    n;        The dimension of the space.           */
+/* float  Bmin[];   The minimum of the box for each axis.  */
+/* float  Bmax[];   The maximum of the box for each axis. */
+/* float  C[];      The sphere center in n-space.         */
+/* float  r;        The radius of the sphere.             */
+/* int    mode;     Selects hollow or solid.              */
+{
     float  a, b;
     float  dmin, dmax;
     float  r2 = (float)SQR( r );

@@ -6,9 +6,8 @@ from "Graphics Gems", Academic Press, 1990
 
 #include "GraphicsGems.h"
 
-int PntOnLine(px,py,qx,qy,tx,ty)
-   int px, py, qx, qy, tx, ty;
-   {
+int PntOnLine(int px, int py, int qx, int qy, int tx, int ty)
+{
 /*
  * given a line through P:(px,py) Q:(qx,qy) and T:(tx,ty)
  * return 0 if T is not on the line through      <--P--Q-->

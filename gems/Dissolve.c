@@ -22,8 +22,7 @@ void copy(unsigned long int i, unsigned long int j) {
 int randmasks[32];	/* Gotta fill this in yourself. */
 
 
-int bitwidth (N)	/* find "bit-width" needed to represent N */
-	unsigned int N;	/* number to compute the width of */
+int bitwidth (unsigned int N)	/* find "bit-width" needed to represent N */
 {
 	int width = 0;	/* initially, no bits needed to represent N */
 	while (N != 0) {	/* loop 'til N has been whittled down to 0 */
@@ -112,9 +111,9 @@ void dissolve2 (unsigned long int height, unsigned long int width)	/* fast versi
 		copy (row, column); /* in bounds: copy the (r,c)'th pixel */
 
 	    /* Compute the next sequence element */
-		if (element & 1)		/* is the low bit set? */
+	if (element & 1)		/* is the low bit set? */
 		element = (element >>1)^mask; /* yes: shift value, XOR in mask */
-		else element = (element >>1); /* no: just shift the value */
+	else element = (element >>1); /* no: just shift the value */
 	} while (element != 1); 	/* loop until we return to */
 					/*  original element */
 
