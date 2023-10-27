@@ -4,9 +4,8 @@ by Alan Paeth
 from "Graphics Gems", Academic Press, 1990
 */
 
-int idist(x1, y1, x2, y2)
- 	int x1, y1, x2, y2;
-	{
+int idist(int x1, int y1, int x2, int y2)
+{
 /*
  * gives approximate distance from (x1,y1) to (x2,y2)
  * with only overestimations, and then never by more
@@ -17,9 +16,8 @@ int idist(x1, y1, x2, y2)
 	return (x2 + y2 - (((x2>y2) ? y2 : x2) >> 1) );
 	}
 
-int PntOnCirc(xp, yp, xc, yc, r)
-    int xp, yp, xc, yc, r;
-    {
+int PntOnCirc(int xp, int yp, int xc, int yc, int r)
+{
 /* returns true IFF a test point (xp, yp) is to within a
  * pixel of the circle of center (xc, yc) and radius r.
  * "d" is an approximate length to circle's center, with

@@ -16,7 +16,9 @@
  *	    JitterInit	Initialize look-up tables.
  * */
 
-#define			NRAN	1024	/* Random number table length	*/
+enum {
+NRAN =	1024	/* Random number table length	*/
+};
 
 static	double	URANX[NRAN],		/* Random number tables		*/
 				URANY[NRAN];
@@ -27,10 +29,10 @@ extern	double	xranf();		/* Random number generator pro- */
 
 /*  	Jitter1 - Generate random jitter. 	*/
 
-void	Jitter1	(x,y,s,xj,yj)
-		int	x, y;		/* Pixel location	 */
-		int	s;		/* Sample number for the pixel */
-		double	*xj, *yj;	/* Jitter (x,y)	*/
+void	Jitter1	(int x, int y, int s, double *xj, double *yj)
+/* int	x, y;		Pixel location	 */
+/* int	s;		Sample number for the pixel */
+/* double	*xj, *yj;	Jitter (x,y)	*/
 {
 		*xj = URANX[ (x + (y<<2) + IRAND[(x+s)&MASK]) & MASK ];
 		*yj = URANY[ (y + (x<<2) + IRAND[(y+s)&MASK]) & MASK ];
@@ -40,10 +42,10 @@ void	Jitter1	(x,y,s,xj,yj)
 
 /*  	Jitter2 - Generate random jitter.  	*/
 
-void	Jitter2	(x,y,s,xj,yj)
-		int	x, y;		/* Pixel location  */
-		int	s;		/* Sample number for the pixel */
-		double	*xj, *yj;	/* Jitter (x,y)	*/
+void	Jitter2	(int x, int y, int s, double *xj, double *yj)
+/* int	x, y;			Pixel location  */
+/* int	s;			Sample number for the pixel */
+/* double	*xj, *yj;	Jitter (x,y)	*/
 {
 		*xj = URANX[ ((x | (y<<2)) + IRAND[(x+s)&MASK]) & MASK ];
 		*yj = URANY[ ((y | (x<<2)) + IRAND[(y+s)&MASK]) & MASK ];

@@ -14,9 +14,7 @@
 
 #include "GraphicsGems.h"
 
-void digline(x1, y1, x2, y2, dotproc)
-int x1, y1, x2, y2;
-void (*dotproc)();
+void digline(int x1, int y1, int x2, int y2, void (*dotproc)(int, int))
 {
     int d, x, y, ax, ay, sx, sy, dx, dy;
 
@@ -28,7 +26,7 @@ void (*dotproc)();
     if (ax>ay) {		/* x dominant */
 	d = ay-(ax>>1);
 	for (;;) {
-	    (*dotproc)(x, y);
+	    dotproc(x, y);
 	    if (x==x2) return;
 	    if (d>=0) {
 		y += sy;
