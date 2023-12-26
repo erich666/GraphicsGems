@@ -53,8 +53,10 @@ Pixel nv;	/* new pixel value */
     Pixel ov;	/* old pixel value */
     Segment stack[MAX], *sp = stack;	/* stack of filled segments */
 
+    if (x<win->x0 || x>win->x1 || y<win->y0 || y>win->y1) return;
+
     ov = pixelread(x, y);		/* read pv at seed point */
-    if (ov==nv || x<win->x0 || x>win->x1 || y<win->y0 || y>win->y1) return;
+    if (ov==nv) return;
     PUSH(y, x, x, 1);			/* needed in some cases */
     PUSH(y+1, x, x, -1);		/* seed segment (popped 1st) */
 
