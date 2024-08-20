@@ -33,7 +33,9 @@ private:
   //void    complexCut    ( const Plane&, const Counter, DEdge* const [], List<Polygon>&, List<Polygon>& );
   void    complexCut    ( const Plane&, const Counter, std::vector<DEdge*>, List<Polygon>&, List<Polygon>& );
   //static void sortDEdges( const Counter, DEdge* const [], const Vector& );
-  static void sortDEdges( const Counter, std::vector<DEdge*>, const Vector& );
+  // incorrect: static void sortDEdges( const Counter, std::vector<DEdge*>, const Vector& );
+  // fixed in https://github.com/erich666/GraphicsGems/issues/27
+  static void sortDEdges( const Counter, std::vector<DEdge*> &, const Vector& );
   void    maximize      ( DEdge* const );
   void    split         ( const Plane&, DEdge* const );
 

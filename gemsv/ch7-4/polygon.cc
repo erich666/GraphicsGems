@@ -96,7 +96,9 @@ void Polygon::addBridge( DEdge* const leftBelow,
 // Sort directed edges that have srcPoints ON the cut plane
 // left to right (in direction of cutDir) by their source points.
 //void Polygon::sortDEdges( const Counter nOnDs, DEdge* const onDs[], const Vector& cutDir )
-void Polygon::sortDEdges( const Counter nOnDs, std::vector<DEdge*> onDs, const Vector& cutDir )
+// incorrect: void Polygon::sortDEdges( const Counter nOnDs, std::vector<DEdge*> onDs, const Vector& cutDir )
+// fixed in https://github.com/erich666/GraphicsGems/issues/27
+void Polygon::sortDEdges( const Counter nOnDs, std::vector<DEdge*> & onDs, const Vector& cutDir )
 {
     assert( nOnDs >= 2 );
     const Point& refP = onDs[0]->srcPoint();
