@@ -3,8 +3,8 @@ Academic Press 1990.  Code available online at http://www.graphicsgems.org/
 
 compiled by Eric Haines (erich@acm.org) from author and reader contributions
 
-version 1.32
-date:  9/11/2008
+version 1.33
+date:  12/21/2024
 
 -----
 
@@ -93,6 +93,9 @@ p. 448, last sentence of second paragraph:  change "and now nearly as simple"
 p. 463, second to last line:  change "then alpha <- alpha + pi/2" to "then
     alpha <- pi - alpha".
 
+p. 471:  change "1/det(M)" to "det(M)" in four places, e.g., multiply the inverse by the matrix's determinant instead
+   of its reciprocal to obtain the adjoint. Similarly, change "ad_{ij} = inv_{ij}/det" to "ad_{ij} = inv_{ij} * det".
+
 p. 479, Table 1: the number of Multiplies for rotation should be 16, not 12.
 
 p. 495, equation 5:  this should have an equal sign (=) before the
@@ -166,7 +169,7 @@ p. 630: Delete FLOOR and CEILING macros (they're more like truncations).
 
 p. 632:  procedure declarations for routines in the "2D and 2D Vector C
      Library" (next pages) are missing from "GraphicsGems.h", e.g.
-        
+
         double V2SquaredLength() ;
         double V2Length() ;
         Vector2 *V2Negate() ;
@@ -190,7 +193,7 @@ p. 655, top:  add the code:
 
 p. 656, line 23: change "return ((R->min.x * R->min.x) < Rad2);" to
     "return ((R->min.x * R->min.x + R->max.y * R->max.y) < Rad2);"
-p. 656, line 25: change 
+p. 656, line 25: change
     "return ((R->min.x * R->min.x + R->min.y + R->min.y) < Rad2);" to
     "return ((R->min.x * R->min.x + R->min.y * R->min.y) < Rad2);"
     (thanks to Ben Dawson)
@@ -320,7 +323,7 @@ pp. 793-794:
     can verify by sketching a graph. The original code computes
     left_intercept = 0.0 and right_intercept = 0.9. (from James Walker,
     jw@jwwalker.com, 9/10/2008)
-    
+
     Revised code:
     static int ControlPolygonFlatEnough(V, degree)
         Point2    *V;        /* Control points    */
@@ -347,11 +350,11 @@ pp. 793-794:
         c = V[0].x * V[degree].y - V[degree].x * V[0].y;
 
         max_distance_above = max_distance_below = 0.0;
-        
+
         for (i = 1; i < degree; i++)
         {
             value = a * V[i].x + b * V[i].y + c;
-           
+
             if (value > max_distance_above)
             {
                 max_distance_above = value;
