@@ -3,7 +3,7 @@ Academic Press 1990.  Code available online at http://www.graphicsgems.org/
 
 compiled by Eric Haines (erich@acm.org) from author and reader contributions
 
-version 1.33
+version 1.34
 date:  12/21/2024
 
 -----
@@ -115,9 +115,11 @@ p. 576: (from Mika Haarahiltunen, approved by Andrew Glassner, 576-578, issue #2
     The equation g'(0) = mL*(dx/dy) = m0 should be g'(0) = mL*dx = m0
     The equation g'(1) = mH*(dx/dy) = m1 should be g'(1) = mH*dx = m1
     After the dy has been removed from the g'(0) and g'(1) equations, dy is no longer referenced anywhere in the article and its definition dy = yH - yL can be removed.
+
 p. 577:
     In the first group of equations, the equation d = m1 should be d = y0 like it was written on page 576.
     In the second group of equations, the equation d = y0 should be d = 0 since y0 was defined to be 0 in the preceding paragraph.
+
 p. 578:
 	There is this equation:
 
@@ -193,15 +195,19 @@ p. 655, top:  add the code:
 
 p. 656, line 23: change "return ((R->min.x * R->min.x) < Rad2);" to
     "return ((R->min.x * R->min.x + R->max.y * R->max.y) < Rad2);"
+
 p. 656, line 25: change
     "return ((R->min.x * R->min.x + R->min.y + R->min.y) < Rad2);" to
     "return ((R->min.x * R->min.x + R->min.y * R->min.y) < Rad2);"
     (thanks to Ben Dawson)
 
 p. 662, line 10:  add "#include <math.h>"
+
 p. 663, line 45:  change first "+" to "="; should read
               "VnextLeft = (Vleft=VnextLeft) + 1;"
+
 p. 665, line 1:  change "FLOOR(...)" to "(floor((double)(...))".
+
 p. 665, line 20, and again 43 lines later:  change "x<xRmin" to "xr<xRmin"
 	to make right edges antialias properly (thanks to Andrew Bainbridge).
 

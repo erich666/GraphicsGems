@@ -3,8 +3,8 @@ Academic Press 1994.  Code available online at http://www.graphicsgems.org
 
 compiled by Eric Haines (erich@acm.org) from author and reader contributions
 
-version 1.5
-date:  9/10/2008
+version 1.6
+date:  11/5/2020
 
 -----
 
@@ -28,10 +28,10 @@ p. 349, for (Moore 1992):  change "Rice University, Houston, TX" to "Cornell
 
 -----
 
-The following are errors in the book's code listings (corrected in the online
-code at http://www.graphicsgems.org/). This list is not complete, as changes
-from 2013 on are tracked on Github; see the online code for the most current
-and correct version.
+The following are errors in the code listings (corrected in the online code at
+princeton.edu:pub/Graphics/GraphicsGems/GemsIV).  Note that many of the code
+listings online are different in minor and major ways from the code in the
+book.
 
 
 Serious errors (ones your compiler cannot or may not catch):
@@ -66,5 +66,8 @@ This CrossingsMultiply test avoids using division.
 A potential divide by zero error has been removed from
 ptpoly_haines/ptinpoly.c; line 1286 had "inv_y = tmax / ydiff;", which is
 now deleted.
+
+This whole project has been updated to C++ and a Visual Studio build file
+provided. Various small cleanups have been made.
 
 END

@@ -4,8 +4,8 @@ http://www.graphicsgems.org/
 
 compiled by Eric Haines (erich@acm.org) from author and reader contributions
 
-version 1.13
-date:  9/11/2009
+version 1.14
+date:  3/14/2020
 
 -----
 
@@ -44,6 +44,18 @@ p. 153: formulas (ix) a and b are correct, but they would be better if they
     (b) Similarly, replace Binomial(n,i,j) Binomial(n-i-j, k-i, l-j) by
         Binomial(k,i) Binomial(l,j) Binomial(n,k,l)
 
+p. 259: Eq. 3 says:
+
+    ||c(t) - a||^2 - 2*lambda*c(t).d + lambda^2 - r(t)^2 = 0
+
+    it should be:
+
+    ||c(t) - a||^2 - 2*lambda*(c(t)-a).d + lambda^2 - r(t)^2 = 0
+
+    Eq. 4 should then also have: p(t)=(c(t)-a).d
+
+    [thanks to David Hart]
+
 p. 323: no cedilla in "Francois" in author's name (cp. p 405, bottom)
 
 p. 327: Figure 5b has an expansion of 3 vertical lines. In 5a these are 5
@@ -58,9 +70,9 @@ p. 382 on: Daniel Green is now Melinda Green, melinda@superliminal.com; Don
 -----
 
 The following are errors in the book's code listings (corrected in the online
-code at http://www.graphicsgems.org/). This list is not complete, as changes
-from 2013 on are tracked on Github; see the online code for the most current
-and correct version.
+code at http://www.graphicsgems.org/).  Note that some of the
+code listings online are different in minor and major ways from the code in
+the book.
 
 
 Serious errors (ones your compiler cannot or may not catch):

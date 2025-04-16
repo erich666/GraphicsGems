@@ -65,10 +65,10 @@ p. 450, second line of equation set (3): the "floor" operator should be a
 
 -----
 
-The following are errors in the book's code listings (corrected in the online
-code at http://www.graphicsgems.org/). This list is not complete, as changes
-from 2013 on are tracked on Github; see the online code for the most current
-and correct version.
+The following are errors in the code listings (corrected in the online code at
+http://www.graphicsgems.org/).  Note that many of the code listings online are
+different in minor and major ways from the code in the book (see Addenda, at
+the end, for new code not in the book).
 
 
 Serious errors (ones your compiler cannot or may not catch):

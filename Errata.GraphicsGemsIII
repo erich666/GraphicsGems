@@ -4,14 +4,17 @@ http://www.graphicsgems.org/
 
 compiled by Eric Haines (erich@acm.org) from author and reader contributions
 
-version 1.23
-date:  9/11/2009
+version 1.24
+date:  4/16/2025
 
 -----
 
 Errors in the text:
 
 p. 67, equation 2.2 at bottom: should read "a := c - a;"
+
+p. 200, third line after Figure 1 at top: "resulting a and b" should be
+		"resulting alpha and beta".
 
 p. 201, just before "Timing Measurements" section: "corresponds to collinear
         line segments" should read "corresponds to parallel or collinear line
@@ -41,10 +44,10 @@ p. 285, third paragraph, first sentence:  change "with the complement of the
 
 -----
 
-The following are errors in the book's code listings (corrected in the online
-code at http://www.graphicsgems.org/). This list is not complete, as changes
-from 2013 on are tracked on Github; see the online code for the most current
-and correct version.
+The following are errors in the code listings (corrected in the online code at
+http://www.graphicsgems.org).  Note that many of the code
+listings online are different in minor and major ways from the code in the
+book (see Addenda, at the end, for new code not in the book).
 
 
 Serious errors (ones your compiler cannot or may not catch):
