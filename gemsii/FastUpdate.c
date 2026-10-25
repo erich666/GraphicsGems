@@ -11,7 +11,7 @@
     vertexIsBehindPlane returns TRUE if point P is behind the
     plane of normal N and coefficient d, FALSE otherwise.
 */
-int vertexIsBehindPlane(float P[3], float N[3], int d)
+int vertexIsBehindPlane(float P[3], float N[3], float d)
 {
     return(DOT(N, P) + d <= 0. ? TRUE : FALSE);
 }
@@ -21,7 +21,7 @@ int vertexIsBehindPlane(float P[3], float N[3], int d)
     minimum corner Cmin and maximum corner Cmax is behind the
     plane of normal N and coefficient d, FALSE otherwise.
 */
-int boxIsBehindPlane(float Cmin[3], float Cmax[3], float N[3], int d)
+int boxIsBehindPlane(float Cmin[3], float Cmax[3], float N[3], float d)
 {
     register int i;
     float P[3];
