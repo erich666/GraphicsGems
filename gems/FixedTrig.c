@@ -8,8 +8,11 @@ provided by user:
 */
 
 long frmul(long a, long b) {
-	return 0;
+	return (long)(((long long)a * b) >> 31);
 }
+
+/* i == -1 means a left shift by one; a negative shift count is undefined in C */
+#define SHR(v, i) ((i) < 0 ? (v) * 2 : (v) >> (i))
 
 #define COSCALE 0x22c2dd1c /* 0.271572 */
 #define QUARTER ((int)(3.141592654 / 2.0 * (1 << 28)))
@@ -31,13 +34,13 @@ register long theta;	/* Assume that abs(theta) <= pi */
 	/* The -1 may need to be pulled out and done as a left shift */
 	for (i = -1; i <= 28; i++) {
 		if (theta < 0) {
-			xtemp = x + (y >> i);
-			y     = y - (x >> i);
+			xtemp = x + SHR(y, i);
+			y     = y - SHR(x, i);
 			x = xtemp;
 			theta += *arctanptr++;
 		} else {
-			xtemp = x - (y >> i);	
-			y     = y + (x >> i);
+			xtemp = x - SHR(y, i);	
+			y     = y + SHR(x, i);
 			x = xtemp;	
 			theta -= *arctanptr++;
 		}
@@ -60,13 +63,13 @@ long *argx, *argy;	/* We assume these are already in the */
 	register long *arctanptr = arctantab;
 	for (i = -1; i <= 28; i++) {
 		if (y < 0) {		/* Rotate positive */
-			yi = y + (x >> i);
-			x  = x - (y >> i);
+			yi = y + SHR(x, i);
+			x  = x - SHR(y, i);
 			y  = yi;
 			theta -= *arctanptr++;
 		} else { 		/* Rotate negative */
-			yi = y - (x >> i);
-			x  = x + (y >> i);
+			yi = y - SHR(x, i);
+			x  = x + SHR(y, i);
 			y  = yi;
 			theta += *arctanptr++;
 		}
