@@ -330,7 +330,7 @@ boolean RayTreeIntersect(ray, BSPTree, obj, distance)
 
             dist = currentNode->DistanceToDivisionPlane(
                              currentNode->child[0]->max, ray);
-            currentNode->GetChildren(currentNode, ray.origin, nearChild, farChild);
+            currentNode->GetChildren(currentNode, ray.origin, &nearChild, &farChild);
 
             if ( (dist>max) || (dist<0) ) {
                 currentNode = nearChild;
@@ -345,11 +345,14 @@ boolean RayTreeIntersect(ray, BSPTree, obj, distance)
 
         if ( RayObjIntersect(ray, currentNode->members, obj, distance) ) {
             PointAtDistance(ray, *distance, &p);
-            if (PointInNode(currentNode, p))
+            if (PointInNode(currentNode, p)) {
+                free(stack);
                 return TRUE;
+            }
         }
         pop(stack, &currentNode, &min, &max);
     }
+    free(stack);
     return FALSE;
 }
 
