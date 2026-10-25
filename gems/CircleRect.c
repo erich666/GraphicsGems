@@ -12,7 +12,10 @@ boolean Check_Intersect(Box2 *R, Point2 *C, double Rad)
 	   radius Rad. */
 {
 	double Rad2;
+	Box2 Rlocal;
 
+	Rlocal = *R;	/* work on a copy so the caller's rectangle is unchanged */
+	R = &Rlocal;
 	Rad2 = Rad * Rad;
 	/* Translate coordinates, placing C at the origin. */
 	R->max.x -= C->x;  R->max.y -= C->y;
