@@ -3,10 +3,13 @@
 #define ITERS    (15 + (FRACBITS >> 1))
 typedef long TFract;
 
+#include <stdint.h>
+
 TFract
 FFracSqrt(TFract x)
 {
-    register unsigned long root, remHi, remLo, testDiv, count;
+    /* must be exactly 32 bits: remLo >> 30 relies on bits shifting out the top */
+    register uint32_t root, remHi, remLo, testDiv, count;
 
     root = 0;         /* Clear root */
     remHi = 0;        /* Clear high part of partial remainder */
