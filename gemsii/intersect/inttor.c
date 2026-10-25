@@ -112,8 +112,9 @@ extern	int	SolveQuartic ();	/* Solve quartic equation	*/
 	*nhits = SolveQuartic (C,rhits);
 
 /*	SolveQuartic returns root pairs in reversed order.		*/
-	m = rhits[0]; u = rhits[1]; rhits[0] = u; rhits[1] = m;
-	m = rhits[2]; u = rhits[3]; rhits[2] = u; rhits[3] = m;
+/*	Only swap entries that were filled in.				*/
+	if (*nhits >= 2) { m = rhits[0]; u = rhits[1]; rhits[0] = u; rhits[1] = m; }
+	if (*nhits >= 4) { m = rhits[2]; u = rhits[3]; rhits[2] = u; rhits[3] = m; }
 
 	return (*nhits != 0);
 }
