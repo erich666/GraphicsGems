@@ -42,7 +42,8 @@ char HitBoundingBox(double minB[NUMDIM], double maxB[NUMDIM], double origin[NUMD
 
 	/* Ray origin inside bounding box */
 	if(inside)	{
-		coord = origin;
+		for (i = 0; i < NUMDIM; i++)	/* copy; assigning the pointer */
+			coord[i] = origin[i];	/* would not reach the caller */
 		return (TRUE);
 	}
 
