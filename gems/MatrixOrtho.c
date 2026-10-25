@@ -41,7 +41,7 @@ void MATRIX_reorthogonalize (Matrix4 R, int limit)
 
   int power;
 
-  limit = MAX(limit, 10);
+  limit = MIN(limit, 10);	/* coef[] has only 10 terms */
 
   MATRIX_transpose (R, Temp);		/* Rt */
   MATRIX_multiply (Temp, R, Temp);	/* RtR */
