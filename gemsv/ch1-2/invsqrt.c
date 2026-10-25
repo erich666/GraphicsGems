@@ -31,11 +31,12 @@
 
 #include <stdlib.h>
 #include <math.h>
+#include <stdint.h>
 
 static unsigned char *iSqrt = NULL;
 
 union _flint {
-    unsigned long    i;
+    uint32_t         i;    /* same size as float; unsigned long is 64 bits on LP64 */
     float            f;
 } _fi, _fo;
 
@@ -60,7 +61,7 @@ MakeInverseSqrtLookupTable(void)
 FLOAT
 InvSqrt(float x)
 {
-    register unsigned long a = ((union _flint*)(&x))->i;
+    register uint32_t a = ((union _flint*)(&x))->i;
     register float arg = x;
     union _flint seed;
     register FLOAT r;
