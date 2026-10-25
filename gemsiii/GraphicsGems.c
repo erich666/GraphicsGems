@@ -394,6 +394,8 @@ int gcd(int u, int v)
 {
         int t, f;
         if ((u<0) || (v<0)) return(1); /* error if u<0 or v<0 */
+        if (u == 0) return(v);  /* binary method never terminates on 0 */
+        if (v == 0) return(u);
         f = 1;
         while ((0 == (u%2)) && (0 == (v%2))) {
                 u>>=1;  v>>=1,  f*=2;
