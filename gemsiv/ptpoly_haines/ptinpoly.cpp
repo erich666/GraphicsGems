@@ -860,7 +860,8 @@ void TrapezoidSetup(double pgon[][2], int numverts, int bins, pTrapezoidSet p_tr
     int i, j, bin_tot[TOT_BINS], ba, bb, id, full_cross, count;
     double fba, fbb, vx0, vx1, dy, vy0;
 
-    p_trap_set->bins = bins;
+    /* bin_tot[] is sized for at most TOT_BINS bins */
+    p_trap_set->bins = (bins > TOT_BINS) ? TOT_BINS : bins;
     p_trap_set->trapz = (pTrapezoid)malloc(p_trap_set->bins *
         sizeof(Trapezoid));
     MALLOC_CHECK(p_trap_set->trapz);
