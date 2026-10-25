@@ -32,6 +32,7 @@ double *h, *s, *l;
     m = MIN(r,g);
     m = MIN(m,b);
 
+    *h = *s = 0.0;	/* achromatic results leave hue (and saturation) at 0 */
     if ((*l = (m + v) / 2.0) <= 0.0) return;
     if ((*s = vm = v - m) > 0.0) {
 		*s /= (*l <= 0.5) ? (v + m ) :
@@ -77,7 +78,11 @@ double 	*r, *g, *b;
 		m = l + l - v;
 		sv = (v - m ) / v;
 		h *= 6.0;
-		sextant = (int)h;	
+		sextant = (int)h;
+		if (sextant >= 6) {	/* h == 1.0 is the same hue as h == 0.0 */
+			sextant = 0;
+			h = 0.0;
+		}
 		fract = h - sextant;
 		vsf = v * sv * fract;
 		mid1 = m + vsf;
