@@ -12,34 +12,33 @@ boolean Check_Intersect(Box2 *R, Point2 *C, double Rad)
 	   radius Rad. */
 {
 	double Rad2;
-	Box2 Rlocal;
+	double xmin, xmax, ymin, ymax;
 
-	Rlocal = *R;	/* work on a copy so the caller's rectangle is unchanged */
-	R = &Rlocal;
 	Rad2 = Rad * Rad;
 	/* Translate coordinates, placing C at the origin. */
-	R->max.x -= C->x;  R->max.y -= C->y;
-	R->min.x -= C->x;  R->min.y -= C->y;
+	/* (Use locals so the caller's rectangle is not modified.) */
+	xmax = R->max.x - C->x;  ymax = R->max.y - C->y;
+	xmin = R->min.x - C->x;  ymin = R->min.y - C->y;
 
-	if (R->max.x < 0) 			/* R to left of circle center */
-		if (R->max.y < 0) 		/* R in lower left corner */
-			return ((R->max.x * R->max.x + R->max.y * R->max.y) < Rad2);
-		else if (R->min.y > 0) 	/* R in upper left corner */
-			return ((R->max.x * R->max.x + R->min.y * R->min.y) < Rad2);
+	if (xmax < 0) 			/* R to left of circle center */
+		if (ymax < 0) 		/* R in lower left corner */
+			return ((xmax * xmax + ymax * ymax) < Rad2);
+		else if (ymin > 0) 	/* R in upper left corner */
+			return ((xmax * xmax + ymin * ymin) < Rad2);
 		else 					/* R due West of circle */
-			return(ABS(R->max.x) < Rad);
-	else if (R->min.x > 0)  	/* R to right of circle center */
-		if (R->max.y < 0) 	/* R in lower right corner */
-			return ((R->min.x * R->min.x + R->max.y * R->max.y) < Rad2);
-		else if (R->min.y > 0)  	/* R in upper right corner */
-			return ((R->min.x * R->min.x + R->min.y * R->min.y) < Rad2);
+			return(ABS(xmax) < Rad);
+	else if (xmin > 0)  	/* R to right of circle center */
+		if (ymax < 0) 	/* R in lower right corner */
+			return ((xmin * xmin + ymax * ymax) < Rad2);
+		else if (ymin > 0)  	/* R in upper right corner */
+			return ((xmin * xmin + ymin * ymin) < Rad2);
 		else 				/* R due East of circle */
-			return (R->min.x < Rad);
+			return (xmin < Rad);
 	else				/* R on circle vertical centerline */
-		if (R->max.y < 0) 	/* R due South of circle */
-			return (ABS(R->max.y) < Rad);
-		else if (R->min.y > 0)  	/* R due North of circle */
-			return (R->min.y < Rad);
+		if (ymax < 0) 	/* R due South of circle */
+			return (ABS(ymax) < Rad);
+		else if (ymin > 0)  	/* R due North of circle */
+			return (ymin < Rad);
 		else 				/* R contains circle centerpoint */
 			return(TRUE);
 } 	
