@@ -857,14 +857,18 @@ void SpackmanCleanup(pSpackmanSet p_spackman_set)
 void TrapezoidSetup(double pgon[][2], int numverts, int bins, pTrapezoidSet p_trap_set)
 {
     double* vtx0, *vtx1, *vtxa, *vtxb, slope;
-    int i, j, bin_tot[TOT_BINS], ba, bb, id, full_cross, count;
+    int i, j, *bin_tot, ba, bb, id, full_cross, count;
     double fba, fbb, vx0, vx1, dy, vy0;
 
-    /* bin_tot[] is sized for at most TOT_BINS bins */
-    p_trap_set->bins = (bins > TOT_BINS) ? TOT_BINS : bins;
+    p_trap_set->bins = bins;
     p_trap_set->trapz = (pTrapezoid)malloc(p_trap_set->bins *
         sizeof(Trapezoid));
     MALLOC_CHECK(p_trap_set->trapz);
+
+    /* per-bin edge counts; sized to the bins requested (was a fixed
+     * TOT_BINS stack array, which overflowed for larger bin counts) */
+    bin_tot = (int*)malloc(p_trap_set->bins * sizeof(int));
+    MALLOC_CHECK(bin_tot);
 
     p_trap_set->minx =
         p_trap_set->maxx = pgon[0][X];
@@ -1012,6 +1016,8 @@ void TrapezoidSetup(double pgon[][2], int numverts, int bins, pTrapezoidSet p_tr
         qsort(p_trap_set->trapz[i].edge_set, p_trap_set->trapz[i].count,
             sizeof(pEdge), CompareEdges);
     }
+
+    free(bin_tot);
 }
 
 void TrapBound(int j, int count, double vx0, double vx1, pTrapezoidSet p_trap_set)
