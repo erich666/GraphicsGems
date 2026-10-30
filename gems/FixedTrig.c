@@ -11,9 +11,6 @@ long frmul(long a, long b) {
 	return (long)(((long long)a * b) >> 31);
 }
 
-/* i == -1 means a left shift by one; a negative shift count is undefined in C */
-#define SHR(v, i) ((i) < 0 ? (v) * 2 : (v) >> (i))
-
 #define COSCALE 0x22c2dd1c /* 0.271572 */
 #define QUARTER ((int)(3.141592654 / 2.0 * (1 << 28)))
 static long arctantab[32] = {  /* MS 4 integral bits for radians */
@@ -31,17 +28,31 @@ register long theta;	/* Assume that abs(theta) <= pi */
 	register long x = *px, y = *py, xtemp;
 	register long *arctanptr = arctantab;
 
-	/* The -1 may need to be pulled out and done as a left shift */
-	for (i = -1; i <= 28; i++) {
+	/* Initial pseudorotation (i = -1), done as a left shift, since */
+	/* a negative shift count is undefined in C */
+	if (theta < 0) {
+		xtemp = x + y * 2;
+		y     = y - x * 2;
+		x = xtemp;
+		theta += *arctanptr++;
+	} else {
+		xtemp = x - y * 2;
+		y     = y + x * 2;
+		x = xtemp;
+		theta -= *arctanptr++;
+	}
+
+	/* Subsequent pseudorotations, with right shifts */
+	for (i = 0; i <= 28; i++) {
 		if (theta < 0) {
-			xtemp = x + SHR(y, i);
-			y     = y - SHR(x, i);
+			xtemp = x + (y >> i);
+			y     = y - (x >> i);
 			x = xtemp;
 			theta += *arctanptr++;
 		} else {
-			xtemp = x - SHR(y, i);	
-			y     = y + SHR(x, i);
-			x = xtemp;	
+			xtemp = x - (y >> i);
+			y     = y + (x >> i);
+			x = xtemp;
 			theta -= *arctanptr++;
 		}
 	}
@@ -61,15 +72,30 @@ long *argx, *argy;	/* We assume these are already in the */
 	register long theta = 0, yi, i;
 	register long x = *argx, y = *argy;
 	register long *arctanptr = arctantab;
-	for (i = -1; i <= 28; i++) {
+
+	/* Initial pseudorotation (i = -1), done as a left shift */
+	if (y < 0) {		/* Rotate positive */
+		yi = y + x * 2;
+		x  = x - y * 2;
+		y  = yi;
+		theta -= *arctanptr++;
+	} else { 		/* Rotate negative */
+		yi = y - x * 2;
+		x  = x + y * 2;
+		y  = yi;
+		theta += *arctanptr++;
+	}
+
+	/* Subsequent pseudorotations, with right shifts */
+	for (i = 0; i <= 28; i++) {
 		if (y < 0) {		/* Rotate positive */
-			yi = y + SHR(x, i);
-			x  = x - SHR(y, i);
+			yi = y + (x >> i);
+			x  = x - (y >> i);
 			y  = yi;
 			theta -= *arctanptr++;
 		} else { 		/* Rotate negative */
-			yi = y - SHR(x, i);
-			x  = x + SHR(y, i);
+			yi = y - (x >> i);
+			x  = x + (y >> i);
 			y  = yi;
 			theta += *arctanptr++;
 		}
