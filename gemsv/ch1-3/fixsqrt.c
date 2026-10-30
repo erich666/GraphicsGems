@@ -5,6 +5,7 @@ typedef long TFract;
 
 #include <stdint.h>
 
+/* The result is only defined for non-negative x */
 TFract
 FFracSqrt(TFract x)
 {
