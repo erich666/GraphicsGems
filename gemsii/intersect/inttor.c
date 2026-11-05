@@ -45,6 +45,7 @@ int	inttor	(raybase,raycos,center,radius,rplane,rnorm,tran,nhits,rhits)
 
 {
 	int	hit;			/* True if ray intersects torus	*/
+	int	i, j;			/* Root sorting indices		*/
 	double	rsphere;		/* Bounding sphere radius	*/
 	Vector3	Base, Dcos;		/* Transformed intersection ray	*/
 	double	rmin, rmax;		/* Root bounds			*/
@@ -111,10 +112,14 @@ extern	int	SolveQuartic ();	/* Solve quartic equation	*/
 
 	*nhits = SolveQuartic (C,rhits);
 
-/*	SolveQuartic returns root pairs in reversed order.		*/
-/*	Only swap entries that were filled in.				*/
-	if (*nhits >= 2) { m = rhits[0]; u = rhits[1]; rhits[0] = u; rhits[1] = m; }
-	if (*nhits >= 4) { m = rhits[2]; u = rhits[3]; rhits[2] = u; rhits[3] = m; }
+/*	Sort the roots into ascending order.  SolveQuartic's roots	*/
+/*	are not ordered, and near tangency it may return 1 or 3.	*/
+	for (i = 1; i < *nhits; i++) {
+	    m = rhits[i];
+	    for (j = i; j > 0 && rhits[j-1] > m; j--)
+		rhits[j] = rhits[j-1];
+	    rhits[j] = m;
+	}
 
 	return (*nhits != 0);
 }
