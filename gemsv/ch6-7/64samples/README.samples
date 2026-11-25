@@ -1,0 +1,40 @@
+Regarding the sample sets data files:
+
+The directories 4samples, 16samples and 64samples hold sampling
+patterns of N samples per pixel (N = 4, 16, 64).  The data has been
+culled into the best 10, 100 and 1000 performers in each population
+(best10.data, best100.data, best1000.data), although the latest
+version of the population is also included in each group
+(populationN.data).
+
+In the data files, the first four lines indicate the generation number
+of this file (0 for the "best" files), the size of the population, the
+number of samples per pixel and the total fitness of this population
+(equal to the size of the population for the "best" files).  On each
+of the following lines, the first number indicates the fitness of this
+sampling pattern, followed by the samples as x-y pairs.
+
+The populationN.data files are included in the event that users choose
+to breed these sample sets further.  Note that methods other than
+genetic algorithms might be of more use to these populations as
+further generations may introduce inbreeding and bais in the samples.
+
+Bob Cross
+12/24/94
+
+-- best4.data --
+0
+10
+4
+10
+1 0.274942 0.884325 0.797099 0.207128 0.765063 0.715779 0.122774 0.282758 
+1 0.793053 0.232638 0.740495 0.784982 0.147168 0.219692 0.328328 0.690349 
+1 0.274942 0.884325 0.797099 0.207128 0.765063 0.715779 0.228821 0.197386 
+1 0.274942 0.884325 0.797099 0.207128 0.786895 0.72768 0.228821 0.197386 
+1 0.802091 0.805281 0.166966 0.208596 0.337303 0.690845 0.799112 0.221134 
+1 0.152302 0.657716 0.649413 0.907929 0.305133 0.221223 0.784722 0.280605 
+1 0.307413 0.737397 0.799112 0.221134 0.758012 0.7087 0.103837 0.284981 
+1 0.233366 0.781917 0.799112 0.221134 0.785584 0.69242 0.103837 0.284981 
+1 0.307413 0.737397 0.799112 0.221134 0.765063 0.715779 0.103837 0.284981 
+1 0.775219 0.152203 0.846312 0.737633 0.247618 0.777035 0.228821 0.197386 
+
