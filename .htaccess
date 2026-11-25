@@ -1,0 +1,18 @@
+# Apache redirects for www.graphicsgems.org.
+# The code now lives only on GitHub; send old links to the same path there.
+# GitHub's blob URLs also work for directories (it redirects to tree).
+
+RewriteEngine On
+
+# Book code directories and files
+RewriteRule ^((gems|gemsii|gemsiii|gemsiv|gemsv)(/.*)?)$ https://github.com/erich666/GraphicsGems/blob/master/$1 [R=301,L]
+
+# Sampling pattern data, now in gemsv/ch6-7
+RewriteRule ^gemsvsmp(/(.*))?$ https://github.com/erich666/GraphicsGems/blob/master/gemsv/ch6-7/$2 [R=301,L]
+
+# Top-level files that moved to GitHub
+RewriteRule ^(Errata\.GraphicsGems(II|III|IV|V)?|AllGems\.TOC|GraphicsGems\.[ch]|fakeirisgl\.[ch])$ https://github.com/erich666/GraphicsGems/blob/master/$1 [R=301,L]
+
+# Old code archives: the whole repository as one zip (allgemspdf.zip stays here)
+RewriteRule ^(allgems|gems|gemsii|gemsiii|gemsiv|gemsv|gemsvsmp)\.zip$ https://github.com/erich666/GraphicsGems/archive/master.zip [R=301,L]
+RewriteRule ^(bak)?(AllGems|GGems\w*)\.tar\.(gz|Z)$ https://github.com/erich666/GraphicsGems/archive/master.zip [R=301,L]
