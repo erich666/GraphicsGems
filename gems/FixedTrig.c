@@ -8,7 +8,7 @@ provided by user:
 */
 
 long frmul(long a, long b) {
-	return 0;
+	return (long)(((long long)a * b) >> 31);
 }
 
 #define COSCALE 0x22c2dd1c /* 0.271572 */
@@ -20,25 +20,57 @@ static long arctantab[32] = {  /* MS 4 integral bits for radians */
 	32, 16, 8, 4, 2, 1, 0, 0,
 };
 
+/*
+ * Accuracy is proportional to the length of the vector, so precision
+ * can be maximized by normalizing (x, y) before the CORDIC rotations,
+ * and denormalizing afterward, if needed.
+ */
+
 void CordicRotate(px, py, theta)
 long *px, *py;
-register long theta;	/* Assume that abs(theta) <= pi */
+register long theta;	/* The iterations converge for abs(theta) <= pi/2 */
 {
 	register int i;
 	register long x = *px, y = *py, xtemp;
 	register long *arctanptr = arctantab;
 
-	/* The -1 may need to be pulled out and done as a left shift */
-	for (i = -1; i <= 28; i++) {
+	/* Get angle between -pi/2 and pi/2 by rotating the vector by pi */
+	while (theta < -QUARTER) {
+		x = -x;
+		y = -y;
+		theta += 2 * QUARTER;
+	}
+	while (theta > QUARTER) {
+		x = -x;
+		y = -y;
+		theta -= 2 * QUARTER;
+	}
+
+	/* Initial pseudorotation (i = -1), done as a left shift, since */
+	/* a negative shift count is undefined in C */
+	if (theta < 0) {
+		xtemp = x + y * 2;
+		y     = y - x * 2;
+		x = xtemp;
+		theta += *arctanptr++;
+	} else {
+		xtemp = x - y * 2;
+		y     = y + x * 2;
+		x = xtemp;
+		theta -= *arctanptr++;
+	}
+
+	/* Subsequent pseudorotations, with right shifts */
+	for (i = 0; i <= 28; i++) {
 		if (theta < 0) {
 			xtemp = x + (y >> i);
 			y     = y - (x >> i);
 			x = xtemp;
 			theta += *arctanptr++;
 		} else {
-			xtemp = x - (y >> i);	
+			xtemp = x - (y >> i);
 			y     = y + (x >> i);
-			x = xtemp;	
+			x = xtemp;
 			theta -= *arctanptr++;
 		}
 	}
@@ -58,7 +90,22 @@ long *argx, *argy;	/* We assume these are already in the */
 	register long theta = 0, yi, i;
 	register long x = *argx, y = *argy;
 	register long *arctanptr = arctantab;
-	for (i = -1; i <= 28; i++) {
+
+	/* Initial pseudorotation (i = -1), done as a left shift */
+	if (y < 0) {		/* Rotate positive */
+		yi = y + x * 2;
+		x  = x - y * 2;
+		y  = yi;
+		theta -= *arctanptr++;
+	} else { 		/* Rotate negative */
+		yi = y - x * 2;
+		x  = x + y * 2;
+		y  = yi;
+		theta += *arctanptr++;
+	}
+
+	/* Subsequent pseudorotations, with right shifts */
+	for (i = 0; i <= 28; i++) {
 		if (y < 0) {		/* Rotate positive */
 			yi = y + (x >> i);
 			x  = x - (y >> i);

@@ -1,16 +1,18 @@
 /* Direct calculation of 4D outcodes, C code fragment */
 
-/* number of bits in a word */
-#define NUMBITS	   sizeof(long)*8
+#include <stdint.h>
+
+/* number of bits in a float; was sizeof(long)*8, wrong where long is 64 bits */
+#define NUMBITS	   32
 
 /* get the integral form of a floating point number */
-#define v(x)	   *(long *) &(x)
+#define v(x)	   (*(int32_t *) &(x))
 
 /* get the sign bit of an integer as a value 0 or 1 */
-#define s(x)	   (((unsigned long)(x)) >> (NUMBITS-1))
+#define s(x)	   (((uint32_t)(x)) >> (NUMBITS-1))
 
 /* get the absolute value of a floating point number in integral form */
-#define a(x)	   ((x) & ~((long)1 << (NUMBITS-1)))
+#define a(x)	   ((x) & 0x7fffffff)
 
 void test4() {
 

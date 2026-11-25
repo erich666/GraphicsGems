@@ -371,6 +371,38 @@ double w;
         return(pout);
         }
 
+/* multiply a point by an affine matrix in place (row vector times matrix) */
+Point3 *V3MulPointByMatrix4(p, m)
+Point3 *p;
+Matrix4 *m;
+{
+Point3 ptmp;
+        ptmp.x = (p->x * m->element[0][0]) + (p->y * m->element[1][0]) +
+                 (p->z * m->element[2][0]) + m->element[3][0];
+        ptmp.y = (p->x * m->element[0][1]) + (p->y * m->element[1][1]) +
+                 (p->z * m->element[2][1]) + m->element[3][1];
+        ptmp.z = (p->x * m->element[0][2]) + (p->y * m->element[1][2]) +
+                 (p->z * m->element[2][2]) + m->element[3][2];
+        *p = ptmp;
+        return(p);
+        }
+
+/* multiply a vector by an affine matrix in place, ignoring translation */
+Vector3 *V3MulVectorByMatrix4(v, m)
+Vector3 *v;
+Matrix4 *m;
+{
+Vector3 vtmp;
+        vtmp.x = (v->x * m->element[0][0]) + (v->y * m->element[1][0]) +
+                 (v->z * m->element[2][0]);
+        vtmp.y = (v->x * m->element[0][1]) + (v->y * m->element[1][1]) +
+                 (v->z * m->element[2][1]);
+        vtmp.z = (v->x * m->element[0][2]) + (v->y * m->element[1][2]) +
+                 (v->z * m->element[2][2]);
+        *v = vtmp;
+        return(v);
+        }
+
 /* multiply together matrices c = ab */
 /* note that c must not point to either of the input matrices */
 Matrix4 *V3MatMul(a, b, c)
@@ -393,6 +425,8 @@ int gcd(int u, int v)
 {
 int t, f;
         if ((u<0) || (v<0)) return(1); /* error if u<0 or v<0 */
+        if (u == 0) return(v);  /* binary method never terminates on 0 */
+        if (v == 0) return(u);
         f = 1;
         while ((0 == (u%2)) && (0 == (v%2))) {
                 u>>=1;  v>>=1,  f*=2;

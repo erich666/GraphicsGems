@@ -119,6 +119,9 @@ void (*spanproc)();		/* called for each span of pixels */
 	    active[j+1].x += active[j+1].dx;
 	}
     }
+    free(ind);
+    free(active);
+    active = NULL;
 }
 
 static void cdelete(i)		/* remove edge i from active list */
@@ -129,7 +132,7 @@ int i;
     for (j=0; j<nact && active[j].i!=i; j++);
     if (j>=nact) return;	/* edge not in active list; happens at win->y0*/
     nact--;
-    memcpy(&active[j], &active[j+1], (nact-j)*sizeof active[0]);
+    memmove(&active[j], &active[j+1], (nact-j)*sizeof active[0]);	/* regions overlap */
 }
 
 static void cinsert(i, y)		/* append edge i to end of active list */

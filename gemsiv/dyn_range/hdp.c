@@ -81,7 +81,7 @@ int init_HDP_decode (real LoVal, real HiVal, real Bright)
 /* Bias factor = ratio of incoming and outcoming range * brightness factor */
   r = Bright * HiVal / LoVal / 256.f;
 
-  for (n = 0; n <= 256; n++) {
+  for (n = 0; n < 256; n++) {
     t = (float) n / 255.f;
     DecodeLut[n] = t / (t-t*r+r) * HiVal;
   }

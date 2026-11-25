@@ -18,7 +18,7 @@ static int newnode()
     else
     {
         fprintf(stderr, "newnode: Query-table overflow\n");
-        return -1;
+        exit(1);	/* callers index qs[] with the result; -1 would corrupt memory */
     }
 }
 
@@ -35,7 +35,7 @@ static int newtrap()
     else
     {
         fprintf(stderr, "newtrap: Trapezoid-table overflow\n");
-        return -1;
+        exit(1);	/* callers index tr[] with the result; -1 would corrupt memory */
     }
 }
 

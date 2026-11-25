@@ -184,7 +184,7 @@ static BezierCurve  GenerateBezier(d, first, last, uPrime, tHat1, tHat2)
     Vector2	tHat1, tHat2;	/*  Unit tangents at endpoints	*/
 {
     int 	i;
-    Vector2 	A[MAXPOINTS][2];	/* Precomputed rhs for eqn	*/
+    Vector2 	(*A)[2];		/* Precomputed rhs for eqn	*/
     int 	nPts;			/* Number of pts in sub-curve */
     double 	C[2][2];			/* Matrix C		*/
     double 	X[2];			/* Matrix X			*/
@@ -200,6 +200,7 @@ static BezierCurve  GenerateBezier(d, first, last, uPrime, tHat1, tHat2)
 
     bezCurve = (Point2 *)malloc(4 * sizeof(Point2));
     nPts = last - first + 1;
+    A = (Vector2 (*)[2])malloc(nPts * sizeof(*A));	/* was a fixed MAXPOINTS array */
 
  
     /* Compute the A's	*/
@@ -241,6 +242,7 @@ static BezierCurve  GenerateBezier(d, first, last, uPrime, tHat1, tHat2)
 	X[0] += V2Dot(&A[i][0], &tmp);
 	X[1] += V2Dot(&A[i][1], &tmp);
     }
+    free((void *)A);
 
     /* Compute the determinants of C and X	*/
     det_C0_C1 = C[0][0] * C[1][1] - C[1][0] * C[0][1];

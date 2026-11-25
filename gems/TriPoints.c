@@ -84,6 +84,9 @@ void square_to_polygon (vertices, vcount, areas, s, t, p)
     	if (area_sum >= s)
       		break;
   }
+  if (i > vcount - 3) {		/* roundoff: s beyond the summed areas */
+	i = vcount - 3;		/* use the last sub-triangle */
+  }
 
   /* map 's' into the interval [0,1] */
 
